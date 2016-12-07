@@ -4,6 +4,7 @@
     <df root="." name="0">
       <df name="Fread">
         <df name="src">
+          <in>Reader_MainTrace.cpp</in>
           <in>main.cpp</in>
         </df>
       </df>
@@ -40,12 +41,21 @@
           <buildCommand>${MAKE} -f makefile</buildCommand>
           <cleanCommand>${MAKE} -f makefile clean</cleanCommand>
           <executablePath>Fread/src/Fread</executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>Fread/include</pElem>
+            </incDir>
+          </ccTool>
         </makeTool>
         <preBuild>
           <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
+      <item path="Fread/src/Reader_MainTrace.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="Fread/src/main.cpp" ex="false" tool="1" flavor2="0">
         <ccTool flags="0">
         </ccTool>
