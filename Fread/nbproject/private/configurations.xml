@@ -4,8 +4,10 @@
     <df root="." name="0">
       <df name="Fread">
         <df name="include">
+          <in>Reader_MainTrace.hpp</in>
         </df>
         <df name="src">
+          <in>Reader_MainTrace.cpp</in>
           <in>main.cpp</in>
         </df>
       </df>

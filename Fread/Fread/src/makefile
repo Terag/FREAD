@@ -16,7 +16,7 @@ INSTALL_DIR = ../..
 
 ##Files
 INCLUDEDIRS = -I../include
-HEADER =
+HEADER = Reader_MainTrace.hpp
 SRC = $(HEADER:.hpp=.cpp) main.cpp
 OBJ = $(SRC:.cpp=.o)
 
@@ -26,14 +26,18 @@ LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 all : $(EXEC)
 	
 main.o : main.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ -c $<
+	$(CXX) $(CXXFLAGS) $(INCLUDEDIRS) -o $@ -c $<
+	
+Reader_MainTrace.o : Reader_MainTrace.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDEDIRS) -o $@ -c $<
 	
 $(EXEC) : $(OBJ)
 	$(CXX) -o $(EXEC) $(OBJ) $(LIBS)
 	rm $(OBJ)
 
 clean :
-	rm $(OBJ) $(EXEC)	
+	rm $(EXEC)
+	rm $(OBJ)
 
 install :
 	cp $(EXEC) $(INSTALL_DIR)/$(EXEC)
