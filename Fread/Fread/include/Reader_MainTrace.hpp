@@ -14,14 +14,30 @@
 #ifndef READER_MAINTRACE_HPP
 #define READER_MAINTRACE_HPP
 
-typedef enum FieldType {
-    INT
+#include <string>
+#include <vector>
+#include <iostream>
+#include <fstream>
+
+typedef enum {
+    INT,
+    FLOAT,
+    DOUBLE,
+    STRING,
+    COLOR,
+    DATE
 } FieldType;
 
-struct field {
+typedef struct {
     std::string name;
-    FieldType value;
-};
+    std::string type;
+} FieldDef;
+
+typedef struct {
+    unsigned char id;
+    std::string name;
+    std::vector<FieldDef> fieldDefs;
+} EventDef;
 
 class Reader_MainTrace {
 public:
@@ -30,9 +46,13 @@ public:
     virtual ~Reader_MainTrace();
 private:
 
+    std::string mainTrace_Path;
     std::ifstream mainTrace_Stream;
+    std::vector<EventDef> eventDefs;
     
-    std::vector<std::vector<field>> Events;
+    void parseHeader();
+    void eventDef();
+    void fieldDef(int eventID);
     
 };
 

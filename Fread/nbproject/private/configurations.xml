@@ -4,9 +4,11 @@
     <df root="." name="0">
       <df name="Fread">
         <df name="include">
+          <in>FColor.hpp</in>
           <in>Reader_MainTrace.hpp</in>
         </df>
         <df name="src">
+          <in>FColor.cpp</in>
           <in>Reader_MainTrace.cpp</in>
           <in>main.cpp</in>
         </df>

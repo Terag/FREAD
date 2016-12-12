@@ -3,7 +3,11 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
       <df name="Fread">
+        <df name="include">
+          <in>FColor.hpp</in>
+        </df>
         <df name="src">
+          <in>FColor.cpp</in>
           <in>Reader_MainTrace.cpp</in>
           <in>main.cpp</in>
         </df>
@@ -52,6 +56,10 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
+      <item path="Fread/include/FColor.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Fread/src/FColor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="Fread/src/Reader_MainTrace.cpp" ex="false" tool="1" flavor2="0">
         <ccTool flags="0">
         </ccTool>
