@@ -16,7 +16,7 @@ INSTALL_DIR = ../..
 
 ##Files
 INCLUDEDIRS = -I../include
-HEADER = Reader_MainTrace.hpp
+HEADER = Reader_MainTrace.hpp FColor.hpp
 SRC = $(HEADER:.hpp=.cpp) main.cpp
 OBJ = $(SRC:.cpp=.o)
 
@@ -29,6 +29,9 @@ main.o : main.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDEDIRS) -o $@ -c $<
 	
 Reader_MainTrace.o : Reader_MainTrace.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDEDIRS) -o $@ -c $<
+	
+FColor.o : FColor.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDEDIRS) -o $@ -c $<
 	
 $(EXEC) : $(OBJ)
