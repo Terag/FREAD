@@ -2,10 +2,12 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
-
+	sf::RenderWindow window(sf::VideoMode(1280,1024), "SFML works!");
+	sf::RectangleShape shape(sf::Vector2f(100,20));
+	shape.setFillColor(sf::Color(120,140,0));
+        sf::ContextSettings settings;
+        settings.antialiasingLevel = 8;
+        
 	while (window.isOpen())
 	{
 		sf::Event event;
