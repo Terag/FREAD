@@ -4,17 +4,36 @@
     <df root="." name="0">
       <df name="Fread">
         <df name="include">
+          <df name="Core">
+          </df>
+          <df name="Parser">
+            <df name="PAJE">
+              <in>Reader_MainTrace.hpp</in>
+            </df>
+          </df>
+          <df name="Render">
+          </df>
           <in>FColor.hpp</in>
-          <in>Reader_MainTrace.hpp</in>
+        </df>
+        <df name="obj">
         </df>
         <df name="src">
+          <df name="Core">
+          </df>
+          <df name="Parser">
+            <df name="PAJE">
+              <in>Reader_MainTrace.cpp</in>
+            </df>
+          </df>
+          <df name="Render">
+          </df>
           <in>FColor.cpp</in>
           <in>Reader_MainTrace.cpp</in>
           <in>main.cpp</in>
         </df>
       </df>
     </df>
-    <itemPath>makefile</itemPath>
+    <itemPath>main_makefile</itemPath>
   </logicalFolder>
   <projectmakefile>makefile</projectmakefile>
   <confs>

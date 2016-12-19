@@ -13,7 +13,7 @@
 
 using namespace std;
 
-#include "Reader_MainTrace.hpp"
+#include "Parser/PAJE/Reader_MainTrace.hpp"
 
 Reader_MainTrace::Reader_MainTrace(string path) :
     mainTrace_Path(path)
@@ -58,11 +58,11 @@ void Reader_MainTrace::parseHeader()
     }
     mainTrace_Stream.close();
     
-    for(auto it : eventDefs){
+    /*for(auto it : eventDefs){
         if(it.name != ""){
             cout << it.name << " " << (int)it.id << " et " << it.fieldDefs.size() << " fields" << endl;
         }
-    }
+    }*/
 }
 
 void Reader_MainTrace::eventDef()
@@ -73,7 +73,7 @@ void Reader_MainTrace::eventDef()
     mainTrace_Stream >> in;
     mainTrace_Stream >> id;
     eventDefs[id].id = id;
-    eventDefs[id].name = in;
+    eventDefs[id].name = PEF_IncludeFile;
     
     mainTrace_Stream >> in;
     while(in != "%EndEventDef"){
@@ -87,8 +87,41 @@ void Reader_MainTrace::eventDef()
 void Reader_MainTrace::fieldDef(int eventID)
 {
     FieldDef newField;
-    mainTrace_Stream >> newField.name;
-    mainTrace_Stream >> newField.type;
+    string name;
+    mainTrace_Stream >> name;
+    if(name == "Name"){
+        cout << "name" << endl;
+    }
+    else if(name == "Type"){
+        cout << "type" << endl;
+    }
+    else if(name == "Alias"){
+        cout << "alias" << endl;
+    }
+    
+    string type;
+    mainTrace_Stream >> type;
+    if(type == "string"){
+        newField.type = FT_STRING;
+    }
+    else if(type == "int"){
+        newField.type = FT_INT;
+    }
+    else if(type == "color"){
+        newField.type = FT_COLOR;
+    }
+    else if(type == "date"){
+        newField.type = FT_DATE;
+    }
+    else if(type == "double"){
+        newField.type = FT_DOUBLE;
+    }
+    else if(type == "hex"){
+        newField.type = FT_HEX;
+    } 
+    else {
+        cout << "error, unknow fieldType" << endl;
+    }
     eventDefs[eventID].fieldDefs.push_back(newField);
 }
 

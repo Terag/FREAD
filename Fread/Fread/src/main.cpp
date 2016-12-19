@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
-#include "Reader_MainTrace.hpp"
+#include "Parser/PAJE/Reader_MainTrace.hpp"
 #include "FColor.hpp"
 
 int main(int argc, char* argv[])
@@ -35,13 +35,7 @@ int main(int argc, char* argv[])
         return -1;
     }
     
-    //Reader_MainTrace mainTrace(path);
+    Reader_MainTrace mainTrace(path);
     
-    FColor color(16,50,88,120);
-    std::cout << color.g << std::endl;
-    FColor Ocolor(45, 220, 90, 150);
-    std::cout << Ocolor.g << std::endl;
-    color += Ocolor;
-    std::cout << color.g << std::endl;
     return 0;
 }
