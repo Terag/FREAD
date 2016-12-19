@@ -4,6 +4,13 @@
     <df root="." name="0">
       <df name="Fread">
         <df name="src">
+          <df name="Parser">
+            <df name="PAJE">
+              <in>Reader_MainTrace.cpp</in>
+            </df>
+          </df>
+          <in>FColor.cpp</in>
+          <in>Reader_MainTrace.cpp</in>
           <in>main.cpp</in>
         </df>
       </df>
@@ -15,7 +22,7 @@
       <itemPath>nbproject/private/launcher.properties</itemPath>
       <itemPath>makefile</itemPath>
     </logicalFolder>
-    <itemPath>makefile</itemPath>
+    <itemPath>main_makefile</itemPath>
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
@@ -36,16 +43,36 @@
       </codeAssistance>
       <makefileType>
         <makeTool>
-          <buildCommandWorkingDir>Fread/src</buildCommandWorkingDir>
+          <buildCommandWorkingDir>Fread</buildCommandWorkingDir>
           <buildCommand>${MAKE} -f makefile</buildCommand>
           <cleanCommand>${MAKE} -f makefile clean</cleanCommand>
-          <executablePath>Fread/src/Fread</executablePath>
+          <executablePath>Fread/src/</executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>Fread/include</pElem>
+            </incDir>
+          </ccTool>
         </makeTool>
         <preBuild>
           <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
+      <item path="Fread/src/FColor.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="Fread/src/Parser/PAJE/Reader_MainTrace.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="Fread/src/Reader_MainTrace.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="Fread/src/main.cpp" ex="false" tool="1" flavor2="0">
         <ccTool flags="0">
         </ccTool>
