@@ -11,6 +11,14 @@ Reader_MainTrace.o: Reader_MainTrace.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"
 
+Container_Reader.o: Container_Reader.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
+	@echo "    	CXX        $@"
+
+paje_namespace.o: paje_namespace.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
+	@echo "    	CXX        $@"
+
 ## Quand vous rajoutez un fichier, suivre le même format que ci dessous pour chaque fichier :
 ##Cible: dépendances
 ##	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^

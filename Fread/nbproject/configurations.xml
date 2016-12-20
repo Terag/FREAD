@@ -3,10 +3,20 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
       <df name="Fread">
+        <df name="include">
+          <df name="Parser">
+            <df name="PAJE">
+              <in>Container_Reader.hpp</in>
+              <in>paje_namespace.hpp</in>
+            </df>
+          </df>
+        </df>
         <df name="src">
           <df name="Parser">
             <df name="PAJE">
+              <in>Container_Reader.cpp</in>
               <in>Reader_MainTrace.cpp</in>
+              <in>paje_namepsace.cpp</in>
             </df>
           </df>
           <in>FColor.cpp</in>
@@ -58,9 +68,24 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
+      <item path="Fread/include/Parser/PAJE/Container_Reader.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="Fread/include/Parser/PAJE/paje_namespace.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="Fread/src/FColor.cpp" ex="false" tool="1" flavor2="0">
         <ccTool flags="0">
         </ccTool>
+      </item>
+      <item path="Fread/src/Parser/PAJE/Container_Reader.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
       </item>
       <item path="Fread/src/Parser/PAJE/Reader_MainTrace.cpp"
             ex="false"
@@ -68,6 +93,11 @@
             flavor2="0">
         <ccTool flags="0">
         </ccTool>
+      </item>
+      <item path="Fread/src/Parser/PAJE/paje_namepsace.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
       </item>
       <item path="Fread/src/Reader_MainTrace.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
