@@ -23,17 +23,6 @@
 
 namespace paje
 {
-    typedef struct {
-        std::string name;
-        paje::FieldType type;
-    } FieldDef;
-
-    typedef struct {
-        unsigned char id;
-        paje::PajeEventFunction name;
-        std::vector<FieldDef> fieldDefs;
-    } EventDef;
-
     class Reader_MainTrace {
     public:
         Reader_MainTrace(std::string mainTrace_Path);
