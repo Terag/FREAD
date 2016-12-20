@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
         return -1;
     }
     
-    Reader_MainTrace mainTrace(path);
+    paje::Reader_MainTrace mainTrace(path);
     
     return 0;
 }

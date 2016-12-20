@@ -1,5 +1,5 @@
 MAKEFILE_PATH = $(abspath $(lastword $(MAKEFILE_LIST)))
-MAKE_DIR = $(MAKEFILE_PATH:/makefile=)
+MAKE_DIR = $(MAKEFILE_PATH:/makefile=)git p
 
 ROOT_DIR    := $(MAKE_DIR) 
 RENDER_DIR  := $(MAKE_DIR)/src/Render

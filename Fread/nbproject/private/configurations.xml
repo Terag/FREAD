@@ -8,7 +8,9 @@
           </df>
           <df name="Parser">
             <df name="PAJE">
+              <in>Container_Reader.hpp</in>
               <in>Reader_MainTrace.hpp</in>
+              <in>paje_namespace.hpp</in>
             </df>
           </df>
           <df name="Render">
@@ -22,7 +24,9 @@
           </df>
           <df name="Parser">
             <df name="PAJE">
+              <in>Container_Reader.cpp</in>
               <in>Reader_MainTrace.cpp</in>
+              <in>paje_namepsace.cpp</in>
             </df>
           </df>
           <df name="Render">

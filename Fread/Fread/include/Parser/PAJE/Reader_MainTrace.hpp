@@ -19,93 +19,38 @@
 #include <iostream>
 #include <fstream>
 
-typedef enum {
-    FT_INT,
-    FT_STRING,
-    FT_COLOR,
-    FT_DATE,
-    FT_DOUBLE,
-    FT_HEX,
-} FieldType;
+#include "Parser/PAJE/paje_namespace.hpp"
 
-typedef enum {
-    FN_NAME,
-    FN_TYPE,
-    FN_ALIAS,
-    FN_COLOR,
-    FN_TIME,
-    FN_CONTAINER,
-    FN_VALUE,
-    FN_STARTCONTAINER,
-    FN_ENDCONTAINER,
-    FN_KEY,
-    FN_FILE,
-} FieldName;
+namespace paje
+{
+    typedef struct {
+        std::string name;
+        paje::FieldType type;
+    } FieldDef;
 
-typedef enum {
-    //PajeTypeDef events
-    PEF_PajeDefineContainerType,
-    PEF_PajeDefineStateType,
-    PEF_PajeDefineEventType,
-    PEF_PajeDefineVariableType,
-    PEF_PajeDefineLinkType,
-    PEF_PajeDefineEntityValue,
-    PEF_PajeStartDefinePattern,
-    PEF_PajeEndDefinePattern,
-    //Container events
-    PEF_PajeCreateContainer,
-    PEF_PajeDestroyContainer,
-    //State events
-    PEF_PajeSetState,
-    PEF_PajePushState,
-    PEF_PajePopState,
-    PEF_PajeResetState,
-    //Event events
-    PEF_PajeNewEvent,
-    //Variable events
-    PEF_PajeSetVariable,
-    PEF_PajeAddVariable,
-    PEF_PajeSubVariable,
-    //Link events
-    PEF_PajeStartLink,
-    PEF_PajeEndLink,
-    //Include events
-    PEF_IncludeFile,
-    //Pattern events
-    PEF_PajeStartPattern,
-    PEF_PajeEndPattern,
-} PajeEventFunction;
+    typedef struct {
+        unsigned char id;
+        paje::PajeEventFunction name;
+        std::vector<FieldDef> fieldDefs;
+    } EventDef;
 
+    class Reader_MainTrace {
+    public:
+        Reader_MainTrace(std::string mainTrace_Path);
 
+        //Read Line
 
-typedef struct {
-    std::string name;
-    FieldType type;
-} FieldDef;
+        virtual ~Reader_MainTrace();
+    private:
 
-typedef struct {
-    unsigned char id;
-    PajeEventFunction name;
-    std::vector<FieldDef> fieldDefs;
-} EventDef;
+        std::string mainTrace_Path;
+        std::ifstream mainTrace_Stream;
 
-class Reader_MainTrace {
-public:
-    Reader_MainTrace(std::string mainTrace_Path);
-    
-    //Read Line
-    
-    virtual ~Reader_MainTrace();
-private:
-
-    std::string mainTrace_Path;
-    std::ifstream mainTrace_Stream;
-    std::vector<EventDef> eventDefs;
-    
-    void parseHeader();
-    void eventDef();
-    void fieldDef(int eventID);
-};
+        void parseHeader();
+        void eventDef();
+        void fieldDef(int eventID);
+    };
+}
 
 #endif /* READER_MAINTRACE_HPP */
 
