@@ -8,5 +8,13 @@
 
 namespace paje
 {
-    
+    eventFunctions = {  DefineContainerType,    //PEF_PajeDefineContainerType
+                        DefineStateType,        //PEF_PajeDefineStateType
+                        DefineEventType,        //PEF_PajeDefineEventType
+                        DefineVariableType,     //PEF_PajeDefineVariableType
+                        DefineLinkType,         //PEF_PajeDefineLinkType
+                        DefineEntityValue,      //PEF_PajeDefineLinkType
+                        StartDefinePattern,     //PEF_PajeStartDefinePattern
+                        EndDefinePattern        //PEF_PajeEndDefinePattern
+                     };
 }

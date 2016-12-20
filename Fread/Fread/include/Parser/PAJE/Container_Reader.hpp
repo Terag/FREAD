@@ -14,6 +14,10 @@
 #ifndef CONTAINER_READER_HPP
 #define CONTAINER_READER_HPP
 
+#include <string>
+#include <iostream>
+#include <fstream>
+
 namespace paje
 {
     class Container_Reader {
