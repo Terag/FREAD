@@ -99,7 +99,6 @@ namespace paje
     PAJE_EventFunc eventFunctions[8];
 
     std::vector<EventDef> eventDefs;
-
 }
 
 
