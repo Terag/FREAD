@@ -10,16 +10,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Parser/PAJE/paje_namepsace.cpp</file>
             <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/include/Parser/PAJE/paje_namespace.hpp</file>
-            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/FColor.cpp</file>
             <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/include/Parser/PAJE/Container_Reader.hpp</file>
             <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Parser/PAJE/Container_Reader.cpp</file>
-            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/include/FColor.hpp</file>
+            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Parser/PAJE/paje_namespace.cpp</file>
             <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/include/Parser/PAJE/Reader_MainTrace.hpp</file>
             <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/main.cpp</file>
-            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/makefile</file>
-            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Parser/PAJE/PAJE.mk</file>
             <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Parser/PAJE/Reader_MainTrace.cpp</file>
         </group>
     </open-files>

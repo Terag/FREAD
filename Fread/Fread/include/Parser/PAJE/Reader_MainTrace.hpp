@@ -27,17 +27,22 @@ namespace paje
     public:
         Reader_MainTrace(std::string mainTrace_Path);
 
-        //Read Line
-
         virtual ~Reader_MainTrace();
+        
+        static std::vector<PajeTypeDef> typesDef;
+        
     private:
+        
+        std::vector<EventDef> eventDefs;
 
         std::string mainTrace_Path;
         std::ifstream mainTrace_Stream;
+        
 
         void parseHeader();
-        void eventDef();
-        void fieldDef(int eventID);
+        void createHierarchie();
+        void eventDef(std::string &in);
+        void fieldDef(int eventID, std::string &in);
     };
 }
 

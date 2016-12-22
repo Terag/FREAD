@@ -8,17 +8,14 @@ PAJE.a: $(OBJ)
 	@echo "    	PAJE.a move to $(OBJ_DIR)"
 
 paje_namespace.o: paje_namespace.cpp
-	@echo "$(INCLUDE_DIR)"
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"
 	
 Reader_MainTrace.o: Reader_MainTrace.cpp
-	@echo "$(INCLUDE_DIR) et $(OBJ)"
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"
 
 Container_Reader.o: Container_Reader.cpp
-	@echo "$(INCLUDE_DIR)"
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"
 

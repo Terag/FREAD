@@ -14,6 +14,9 @@
 #ifndef PAJE_NAMESPACE_HPP
 #define PAJE_NAMESPACE_HPP
 
+#include <string>
+#include <vector>
+
 namespace paje
 {
     typedef enum {
@@ -35,6 +38,8 @@ namespace paje
         FN_VALUE,
         FN_STARTCONTAINER,
         FN_ENDCONTAINER,
+        FN_STARTCONTAINERTYPE,
+        FN_ENDCONTAINERTYPE,
         FN_KEY,
         FN_FILE,
     } FieldName;
@@ -72,33 +77,163 @@ namespace paje
         PEF_PajeStartPattern,           //21
         PEF_PajeEndPattern,             //22
     } PajeEventFunction;
+    
+    typedef enum {
+        PT_CONTAINER,
+        PT_STATE,
+        PT_EVENT,
+        PT_VARIABLE,
+        PT_LINK,
+        PT_VALUE,
+    } PajeType;
+    
+    typedef struct {
+        FieldType nameType;
+        union {
+            std::string name_str;
+            int name_int;
+        };
+        FieldType typeType;
+        union {
+            std::string type_dtr;
+            int type_int;
+        };
+        FieldType aliasType;
+        union {
+            std::string alias_str;
+            int alias_int;
+        };
+    } PajeContainerType;
+    
+    typedef struct {
+        FieldType nameType;
+        union {
+            std::string name_str;
+            int name_int;
+        };
+        FieldType typeType;
+        union {
+            std::string type_dtr;
+            int type_int;
+        };
+        FieldType aliasType;
+        union {
+            std::string alias_str;
+            int alias_int;
+        };
+    } PajeStateType;
+    
+    typedef struct {
+        FieldType nameType;
+        union {
+            std::string name_str;
+            int name_int;
+        };
+        FieldType typeType;
+        union {
+            std::string type_dtr;
+            int type_int;
+        };
+        FieldType aliasType;
+        union {
+            std::string alias_str;
+            int alias_int;
+        };  
+    } PajeEventType;
 
+    typedef struct {        
+        FieldType nameType;
+        union {
+            std::string name_str;
+            int name_int;
+        };
+        FieldType typeType;
+        union {
+            std::string type_dtr;
+            int type_int;
+        };
+        FColor color;
+        FieldType aliasType;
+        union {
+            std::string alias_str;
+            int alias_int;
+        };
+    } PajeVariableType;
+    
+    typedef struct {
+        FieldType nameType;
+        union {
+            std::string name_str;
+            int name_int;
+        };
+        FieldType typeType;
+        union {
+            std::string type_dtr;
+            int type_int;
+        };
+        FieldType StartContainerTypeType;
+        union {
+            std::string StartContainerType_str;
+            int StartContainerType_int;
+        };
+        FieldType EndContainerTypeType;
+        union {
+            std::string EndContainerType_str;
+            int EndContainerType_int;
+        };
+        FieldType aliasType;
+        union {
+            std::string alias_str;
+            int alias_int;
+        };        
+    } PajeLinkType;
+        
+    typedef struct {
+        FieldType nameType;
+        union {
+            std::string name_str;
+            int name_int;
+        };
+        FieldType typeType;
+        union {
+            std::string type_dtr;
+            int type_int;
+        };
+        FColor color;
+        FieldType aliasType;
+        union {
+            std::string alias_str;
+            int alias_int;
+        };
+    } PajeValueType;
+    
+    typedef struct {
+        PajeType type;
+        union {
+            PajeContainerType container;
+            PajeStateType state;
+            PajeEventType event;
+            PajeVariableType variable;
+            PajeLinkType link;
+            PajeValueType value;
+        };
+    } PajeTypeDef;
 
     typedef struct {
-        std::string name;
-        paje::FieldType type;
+        FieldName name;
+        FieldType type;
     } FieldDef;
 
     typedef struct {
-        unsigned char id;
-        paje::PajeEventFunction name;
+        int id;
+        string name_str;
+        PajeEventFunction name;
         std::vector<FieldDef> fieldDefs;
     } EventDef;
-
+    
     typedef void (*PAJE_EventFunc)(std::string, EventDef);
 
-    void DefineContainerType(std::string line, EventDef event);
-    void DefineStateType(std::string line, EventDef event);
-    void DefineEventType(std::string line, EventDef event);
-    void DefineVariableType(std::string line, EventDef event);
-    void DefineLinkType(std::string line, EventDef event);
-    void DefineEntityValue(std::string line, EventDef event);
-    void StartDefinePattern(std::string line, EventDef event);
-    void EndDefinePattern(std::string line, EventDef event);
-
-    PAJE_EventFunc eventFunctions[8];
-
-    std::vector<EventDef> eventDefs;
+    void PajeEventCall(std::string line, EventDef event);
 }
 
 
