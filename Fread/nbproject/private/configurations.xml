@@ -27,6 +27,7 @@
               <in>Container_Reader.cpp</in>
               <in>Reader_MainTrace.cpp</in>
               <in>paje_namepsace.cpp</in>
+              <in>paje_namespace.cpp</in>
             </df>
           </df>
           <df name="Render">
