@@ -27,5 +27,13 @@ struct s_parser2core{
     message_type type;
 };
 
+struct s_occurrences{
+    
+};
+
+struct s_threads{
+    
+};
+
 #endif /* STRUCTURES_H */
 

@@ -38,9 +38,10 @@ OBJECTFILES= \
 	${OBJECTDIR}/Core.o \
 	${OBJECTDIR}/list_wrapper_fullProtection.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/message_sender.o \
 	${OBJECTDIR}/structures.o \
 	${OBJECTDIR}/thread_guard.o \
-	${OBJECTDIR}/threadsafe_vector.o
+	${OBJECTDIR}/threadsafe_list.o
 
 
 # C Compiler Flags
@@ -82,6 +83,11 @@ ${OBJECTDIR}/main.o: main.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
+${OBJECTDIR}/message_sender.o: message_sender.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/message_sender.o message_sender.cpp
+
 ${OBJECTDIR}/structures.o: structures.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -92,10 +98,10 @@ ${OBJECTDIR}/thread_guard.o: thread_guard.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/thread_guard.o thread_guard.cpp
 
-${OBJECTDIR}/threadsafe_vector.o: threadsafe_vector.cpp 
+${OBJECTDIR}/threadsafe_list.o: threadsafe_list.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/threadsafe_vector.o threadsafe_vector.cpp
+	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/threadsafe_list.o threadsafe_list.cpp
 
 # Subprojects
 .build-subprojects:
