@@ -12,5 +12,3 @@
  */
 
 #include "threadsafe_list.h"
-
-

@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>Core.h</itemPath>
       <itemPath>list_wrapper_fullProtection.h</itemPath>
+      <itemPath>message_sender.h</itemPath>
       <itemPath>structures.h</itemPath>
       <itemPath>thread_guard.h</itemPath>
       <itemPath>threadsafe_list.h</itemPath>
@@ -20,9 +21,10 @@
       <itemPath>Core.cpp</itemPath>
       <itemPath>list_wrapper_fullProtection.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>message_sender.cpp</itemPath>
       <itemPath>structures.cpp</itemPath>
       <itemPath>thread_guard.cpp</itemPath>
-      <itemPath>threadsafe_vector.cpp</itemPath>
+      <itemPath>threadsafe_list.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -59,6 +61,10 @@
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="message_sender.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="message_sender.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="structures.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="structures.h" ex="false" tool="3" flavor2="0">
@@ -67,9 +73,9 @@
       </item>
       <item path="thread_guard.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="threadsafe_list.h" ex="false" tool="3" flavor2="0">
+      <item path="threadsafe_list.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="threadsafe_vector.cpp" ex="false" tool="1" flavor2="0">
+      <item path="threadsafe_list.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -102,6 +108,10 @@
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="message_sender.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="message_sender.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="structures.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="structures.h" ex="false" tool="3" flavor2="0">
@@ -110,9 +120,9 @@
       </item>
       <item path="thread_guard.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="threadsafe_list.h" ex="false" tool="3" flavor2="0">
+      <item path="threadsafe_list.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="threadsafe_vector.cpp" ex="false" tool="1" flavor2="0">
+      <item path="threadsafe_list.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
