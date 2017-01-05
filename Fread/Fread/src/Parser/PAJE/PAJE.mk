@@ -7,7 +7,11 @@ PAJE.a: $(OBJ)
 	@mv PAJE.a $(OBJ_DIR)/
 	@echo "    	PAJE.a move to $(OBJ_DIR)"
 
-paje_namespace.o: paje_namespace.cpp
+paje_typedefs.o: paje_typedefs.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
+	@echo "    	CXX        $@"
+
+paje_interface.o: paje_interface.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"
 	
