@@ -70,9 +70,9 @@ void Core::route_parser_messages(){
     s_parser2core message = m_parser2core.pop_front(); 
     if( message != NULL ){
         if(message.type == OCCURRENCE){
-            m_core2occurrences.push_back(message);
+            m_parser2occurrences.push_back(message);
         }else if(message.type == THREAD){
-            m_core2threads.push_back(message);
+            m_parser2threads.push_back(message);
         }
     }
 }
