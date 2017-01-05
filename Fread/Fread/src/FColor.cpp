@@ -13,8 +13,10 @@
 
 #include "FColor.hpp"
 
+using namespace std;
+
 FColor::FColor(int R, int G, int B, int A) :
-r(R), g(G), b(B), a(A)
+    r(R), g(G), b(B), a(A)
 {
     checkRange(r);
     checkRange(g);
@@ -31,7 +33,9 @@ void FColor::checkRange(int & value){
     }
 }
 
-FColor::FColor(const FColor& orig) {
+FColor::FColor(const FColor& orig) :
+    r(orig.r), g(orig.g), b(orig.b), a(orig.a)
+{
 }
 
 FColor::~FColor() {

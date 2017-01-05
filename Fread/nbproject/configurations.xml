@@ -8,11 +8,11 @@
             <df name="PAJE">
               <in>Container_Reader.cpp</in>
               <in>Reader_MainTrace.cpp</in>
-              <in>paje_namepsace.cpp</in>
+              <in>paje_interface.cpp</in>
+              <in>paje_typedefs.cpp</in>
             </df>
           </df>
           <in>FColor.cpp</in>
-          <in>Reader_MainTrace.cpp</in>
           <in>main.cpp</in>
         </df>
       </df>
@@ -24,7 +24,6 @@
       <itemPath>nbproject/private/launcher.properties</itemPath>
       <itemPath>makefile</itemPath>
     </logicalFolder>
-    <itemPath>main_makefile</itemPath>
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
@@ -50,6 +49,11 @@
           <buildCommand>${MAKE} -f makefile</buildCommand>
           <cleanCommand>${MAKE} -f makefile clean</cleanCommand>
           <executablePath>Fread/src/</executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>Fread/include</pElem>
+            </incDir>
+          </ccTool>
         </makeTool>
         <preBuild>
           <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
@@ -58,9 +62,6 @@
       </makefileType>
       <item path="Fread/src/FColor.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
-          <incDir>
-            <pElem>Fread/include</pElem>
-          </incDir>
         </ccTool>
       </item>
       <item path="Fread/src/Parser/PAJE/Container_Reader.cpp"
@@ -68,9 +69,6 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
-          <incDir>
-            <pElem>Fread/include</pElem>
-          </incDir>
         </ccTool>
       </item>
       <item path="Fread/src/Parser/PAJE/Reader_MainTrace.cpp"
@@ -78,30 +76,24 @@
             tool="1"
             flavor2="11">
         <ccTool flags="0">
-          <incDir>
-            <pElem>Fread/include</pElem>
-          </incDir>
         </ccTool>
       </item>
-      <item path="Fread/src/Parser/PAJE/paje_namepsace.cpp"
+      <item path="Fread/src/Parser/PAJE/paje_interface.cpp"
             ex="false"
             tool="1"
             flavor2="0">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="Fread/src/Reader_MainTrace.cpp" ex="false" tool="1" flavor2="11">
+      <item path="Fread/src/Parser/PAJE/paje_typedefs.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
         <ccTool flags="0">
-          <incDir>
-            <pElem>Fread/include</pElem>
-          </incDir>
         </ccTool>
       </item>
       <item path="Fread/src/main.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
-          <incDir>
-            <pElem>Fread/include</pElem>
-          </incDir>
         </ccTool>
       </item>
     </conf>

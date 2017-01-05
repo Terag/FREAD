@@ -11,20 +11,22 @@
  * Created on December 7, 2016, 3:00 PM
  */
 
-using namespace std;
-
 #include "Parser/PAJE/Reader_MainTrace.hpp"
+
+using namespace std;
 
 namespace paje
 {
-    Reader_MainTrace::Reader_MainTrace(string path) :
-        mainTrace_Path(path)
+    Reader_MainTrace::Reader_MainTrace()
     {
-        this->parseHeader();
-        this->createHierarchie();
+        
+    }
+    
+    void Reader_MainTrace::init(std::string const& path){
+        mainTrace_Path = path;
     }
 
-    void Reader_MainTrace::parseHeader()
+    void Reader_MainTrace::parseHeader(std::vector<EventDef>& eventDefs)
     {
         string in;
         int size = -1;
@@ -55,25 +57,24 @@ namespace paje
         do {
             getline(mainTrace_Stream, in);
             if(in.substr(0, 9) == "%EventDef"){
-                eventDef(in);
+                eventDef(eventDefs, in);
             }
         } while(!mainTrace_Stream.eof());
         mainTrace_Stream.close();
         
-        /*for(auto it : eventDefs){
+        for(auto it : eventDefs){
             if(it.id != -1){
                 cout << it.id << " Event : " << it.name_str << " " << it.name << endl;
                 for(auto itf : it.fieldDefs){
                     cout << "   " << itf.name << " and type " << itf.type << endl;
                 }
             }
-        }*/
+        }
     }
 
-    void Reader_MainTrace::eventDef(string &in)
+    void Reader_MainTrace::eventDef(std::vector<EventDef>& eventDefs, string &in)
     {
         int fpos, spos; //use to make substr
-        PajeEventFunction name;
         int id = 1;
         string str;
         
@@ -168,7 +169,7 @@ namespace paje
         while(!mainTrace_Stream.eof()){
             
             if(field_str.substr(0, field_str.find(' ')) == "%"){
-                fieldDef(id, field_str);
+                eventDefs[id].fieldDefs.push_back(fieldDef(field_str));
             }
             
             getline(mainTrace_Stream, field_str);
@@ -178,7 +179,7 @@ namespace paje
         }
     }
 
-    void Reader_MainTrace::fieldDef(int eventID, string &in)
+    FieldDef Reader_MainTrace::fieldDef(string &in)
     {
         FieldDef newField;
         int fpos, spos;
@@ -197,34 +198,34 @@ namespace paje
             newField.name = FN_ALIAS;
         }
         else if(name == "Color"){
-            newField.name == FN_COLOR;
+            newField.name = FN_COLOR;
         }
         else if(name == "Time"){
-            newField.name == FN_TIME;
+            newField.name = FN_TIME;
         }
         else if(name == "Container"){
-            newField.name == FN_CONTAINER;
+            newField.name = FN_CONTAINER;
         }
         else if(name == "Value"){
-            newField.name == FN_VALUE;
+            newField.name = FN_VALUE;
         }
         else if(name == "StartContainer"){
-            newField.name == FN_STARTCONTAINER;
+            newField.name = FN_STARTCONTAINER;
         }
         else if(name == "EndContainer"){
-            newField.name == FN_ENDCONTAINER;
+            newField.name = FN_ENDCONTAINER;
         }
         else if(name == "StartContainerType"){
-            newField.name == FN_STARTCONTAINERTYPE;
+            newField.name = FN_STARTCONTAINERTYPE;
         }
         else if(name == "EndContainerType"){
-            newField.name == FN_ENDCONTAINERTYPE;
+            newField.name = FN_ENDCONTAINERTYPE;
         }
         else if(name == "Key"){
-            newField.name == FN_KEY;
+            newField.name = FN_KEY;
         }
         else if(name == "File"){
-            newField.name == FN_FILE;
+            newField.name = FN_FILE;
         }
         else{
             cout << "error, unknow FieldName : " << name << endl;
@@ -255,23 +256,33 @@ namespace paje
         else {
             cout << "error, unknow fieldType : " << type << endl;
         }
-        eventDefs[eventID].fieldDefs.push_back(newField);
+        
+        return newField;
     }
 
-    void Reader_MainTrace::createHierarchie(){
-        string in;
-        int IDcall;
-        int fpos;
-        
+    void Reader_MainTrace::openStream(){
         mainTrace_Stream.open(mainTrace_Path);
-        do{
-            getline(mainTrace_Stream, in);
-            if(in.substr(0,1) != '%'){
-                fpos = in.find(' ');
-                IDcall = stoi(in.substr(0, fpos));
-                PajeEventCall(in, eventDefs[IDcall]);
+    }
+    
+    void Reader_MainTrace::closeStream(){
+        mainTrace_Stream.open(mainTrace_Path);
+    }
+    
+    string Reader_MainTrace::getLine(){
+        string in;
+        
+        getline(mainTrace_Stream, in);
+        while (!mainTrace_Stream.eof()) {
+            if(in.substr(0,1) != "%"){
+                return in;
             }
-        } while (!mainTrace_Stream.eof());
+            getline(mainTrace_Stream, in);
+        };
+        return "!";
+    }
+    
+    bool Reader_MainTrace::end(){
+        return mainTrace_Stream.eof();
     }
     
     Reader_MainTrace::~Reader_MainTrace() {

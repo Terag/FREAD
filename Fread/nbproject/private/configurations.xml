@@ -10,7 +10,8 @@
             <df name="PAJE">
               <in>Container_Reader.hpp</in>
               <in>Reader_MainTrace.hpp</in>
-              <in>paje_namespace.hpp</in>
+              <in>paje_interface.hpp</in>
+              <in>paje_typedefs.hpp</in>
             </df>
           </df>
           <df name="Render">
@@ -26,19 +27,17 @@
             <df name="PAJE">
               <in>Container_Reader.cpp</in>
               <in>Reader_MainTrace.cpp</in>
-              <in>paje_namepsace.cpp</in>
-              <in>paje_namespace.cpp</in>
+              <in>paje_interface.cpp</in>
+              <in>paje_typedefs.cpp</in>
             </df>
           </df>
           <df name="Render">
           </df>
           <in>FColor.cpp</in>
-          <in>Reader_MainTrace.cpp</in>
           <in>main.cpp</in>
         </df>
       </df>
     </df>
-    <itemPath>main_makefile</itemPath>
   </logicalFolder>
   <projectmakefile>makefile</projectmakefile>
   <confs>

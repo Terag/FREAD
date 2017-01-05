@@ -19,30 +19,32 @@
 #include <iostream>
 #include <fstream>
 
-#include "Parser/PAJE/paje_namespace.hpp"
+#include "Parser/PAJE/paje_interface.hpp"
+#include "Parser/PAJE/paje_typedefs.hpp"
 
 namespace paje
 {
     class Reader_MainTrace {
     public:
-        Reader_MainTrace(std::string mainTrace_Path);
+        Reader_MainTrace();
+        void init(std::string const& path);
 
         virtual ~Reader_MainTrace();
+
+        void parseHeader(std::vector<EventDef>& eventDefs);
         
-        static std::vector<PajeTypeDef> typesDef;
+        void openStream();
+        void closeStream();
+        std::string getLine();
+        bool end();
         
     private:
-        
-        std::vector<EventDef> eventDefs;
 
         std::string mainTrace_Path;
         std::ifstream mainTrace_Stream;
-        
 
-        void parseHeader();
-        void createHierarchie();
-        void eventDef(std::string &in);
-        void fieldDef(int eventID, std::string &in);
+        void eventDef(std::vector<EventDef>& eventDefs, std::string &in);
+        FieldDef fieldDef(std::string &in);
     };
 }
 
