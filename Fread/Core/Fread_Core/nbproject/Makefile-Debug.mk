@@ -41,6 +41,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/message_sender.o \
 	${OBJECTDIR}/structures.o \
 	${OBJECTDIR}/thread_guard.o \
+	${OBJECTDIR}/threadsafe_hashmap.o \
 	${OBJECTDIR}/threadsafe_list.o
 
 
@@ -97,6 +98,11 @@ ${OBJECTDIR}/thread_guard.o: thread_guard.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/thread_guard.o thread_guard.cpp
+
+${OBJECTDIR}/threadsafe_hashmap.o: threadsafe_hashmap.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/threadsafe_hashmap.o threadsafe_hashmap.cpp
 
 ${OBJECTDIR}/threadsafe_list.o: threadsafe_list.cpp 
 	${MKDIR} -p ${OBJECTDIR}

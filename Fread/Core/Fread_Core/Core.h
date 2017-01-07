@@ -27,22 +27,18 @@ public:
     virtual ~Core();
     
     void thr_core();
-
+    
     
 private:
-    threadsafe_list m_display2core;
-    threadsafe_list m_core2display;
-    threadsafe_list m_parser2core;
-    threadsafe_list m_core2parser;
+    threadsafe_list<s_display2occurrences> m_display2occurrences;
+    threadsafe_list<s_display2threads> m_display2threads;
+    threadsafe_list<s_parser2occurrences> m_parser2occurrences;
+    threadsafe_list<s_parser2threads> m_parser2threads;
+    threadsafe_list<s_core2display> m_core2display;
+    threadsafe_list<s_core2parser> m_core2parser;
     
-    //those lists acts as FIFO stacks
-    threadsafe_list<s_display2core> m_display2occurrences;
-    threadsafe_list<s_display2core> m_display2threads;
-    threadsafe_list<s_parser2core> m_parser2occurrences;
-    threadsafe_list<s_parser2core> m_parser2threads;
-    
-    std::vector<s_occurrences> m_occurrences_vector;
-    std::vector<s_threads> m_threads_vector;
+    threadsafe_hashmap<s_occurrences> m_occurrences;
+    threadsafe_hashmap<s_threads> m_threads;
     
     void thr_threads_manager();
     void thr_occurrences_manager();
