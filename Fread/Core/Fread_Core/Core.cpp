@@ -14,10 +14,12 @@
 #include "Core.h"
 #include "structures.h"
 
-Core::Core(threadsafe_list display2core, threadsafe_list core2display, threadsafe_list parser2core, threadsafe_list core2parser):
-        m_display2core(display2core),
+Core::Core(threadsafe_list display2occurrences, threadsafe_list display2threads, threadsafe_list core2display, threadsafe_list parser2occurrences, threadsafe_list parser2threads, threadsafe_list core2parser):
+        m_display2occurrences(display2occurrences),
+        m_display2threads(display2threads),
         m_core2display(core2display),
-        m_parser2core(parser2core),
+        m_parser2occurrences(parser2occurrences),
+        m_parser2threads(parser2threads),
         m_core2parser(core2parser)
 {
 }
@@ -44,35 +46,36 @@ void Core::thr_core(){
 }
 
 void Core::thr_occurrences_manager(){
-    s_display2core message_received;
+    s_display2occurrences display_message_received;
+    s_parser2occurrences parser_message_received;
     while(1){
-        //get messages from display
+        //gets messages from display and parser
+        if(!m_display2occurrences.empty()){
+            display_message_received = m_display2occurrences.pop_back();
+        }
+        
+        //checks if in memory
+        if(display_message_received != NULL){
+            
+        }
+        
+        //if not in memory, sends to parser
+        
+        //puts message got from parser in memory and sends it
         
     }
 }
 
 void Core::thr_threads_manager(){
-    
-}
-
-void Core::route_display_messages(){
-    s_display2core message = m_display2core.pop_front();
-    if(message != NULL){
-        if(message.type == OCCURRENCE){
-            m_display2occurrences.push_back(message);
-        }else if(message.type == THREAD){
-            m_display2threads.push_back(message);
-        }
-    }
-}
-
-void Core::route_parser_messages(){
-    s_parser2core message = m_parser2core.pop_front(); 
-    if( message != NULL ){
-        if(message.type == OCCURRENCE){
-            m_parser2occurrences.push_back(message);
-        }else if(message.type == THREAD){
-            m_parser2threads.push_back(message);
-        }
+    s_display2threads display_message_received;
+    s_parser2threads parser_message_received;
+    while(1){
+        //gets messages from dispay and parser
+        
+        //checks if in memory
+        
+        //if not in memory, sends to parser
+        
+        // puts messahe got from parser in memory and sends it
     }
 }

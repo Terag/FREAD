@@ -19,12 +19,20 @@ enum message_type{
     THREAD
 };
 
-struct s_display2core{
-    message_type type;
+struct s_display2occurrences{
+
 };
 
-struct s_parser2core{
-    message_type type;
+struct s_display2threads{
+    
+};
+
+struct s_parser2occurrences{
+
+};
+
+struct s_parser2threads{
+    
 };
 
 struct s_occurrences{
@@ -32,6 +40,14 @@ struct s_occurrences{
 };
 
 struct s_threads{
+    
+};
+
+struct s_core2display{
+    
+};
+
+struct s_core2parser{
     
 };
 
