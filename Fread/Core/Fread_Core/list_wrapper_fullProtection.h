@@ -25,9 +25,9 @@ public:
     list_wrapper(const list_wrapper_fullProtection& orig);
     virtual ~list_wrapper_fullProtection();
     
-    std::shared_ptr<T> pop_back();
+    T pop_back();
     void push_back(T element);
-    std::shared_ptr<T> pop_front();
+    T pop_front();
     void push_front(T element);
     
     unsigned int size() const;

@@ -49,6 +49,7 @@ private:
     
     threadsafe_hashmap<int, s_occurrences> m_occurrences;
     threadsafe_hashmap<int, s_threads> m_threads;
+    threadsafe_hashmap<int, s_patterns> m_patterns;
     
     void thr_threads_manager();
     void thr_occurrences_manager();

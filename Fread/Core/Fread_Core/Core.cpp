@@ -36,18 +36,6 @@ Core::~Core() {
     
 }
 
-void Core::thr_core(){
-    std::thread threads_manager_( thr_threads_manager() );
-    thread_guard tm_g(threads_manager_);
-    std::thread occurrences_manager_( thr_occurrences_manager() );
-    thread_guard om_g(occurrences_manager_);
-    
-    while(1){
-        check_memory();
-    }
-    
-}
-
 void Core::thr_occurrences_manager(){
     s_display2occurrences display_message_received;
     s_parser2occurrences parser_message_received;
@@ -130,4 +118,15 @@ void  Core::check_memory(){
         m_threads.erase( m_threads.begin() );
         
     }
+}
+
+void Core::thr_core(){
+    std::thread threads_manager_( thr_threads_manager() );
+    thread_guard tm_g(threads_manager_);
+    std::thread occurrences_manager_( thr_occurrences_manager() );
+    thread_guard om_g(occurrences_manager_);
+    
+    while(1){
+        check_memory();
+    }  
 }

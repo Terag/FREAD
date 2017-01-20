@@ -19,9 +19,9 @@
 template <typename T>
 class threadsafe_list {
 public:
-    virtual std::shared_ptr<T> pop_back();
+    virtual T pop_back();
     virtual void push_back(T element);
-    virtual std::shared_ptr<T> pop_front();
+    virtual T pop_front();
     virtual void push_front(T element);
     threadsafe_list& operator=(const threadsafe_list&) = delete;
     

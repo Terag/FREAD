@@ -26,13 +26,14 @@ list_wrapper_fullProtection::~list_wrapper_fullProtection() {
 }
 
 template<typename T>
-std::shared_ptr<T> list_wrapper_fullProtection::pop_back(){
+T list_wrapper_fullProtection::pop_back(){
     std::lock_guard<std::mutex> lock(m_mutex);
-    if( !m_list.empty())
-        return std::shared_ptr<T> std::make_shared<T>(NULL);
-    std::shared_ptr<T> const _element( std::make_shared<T>(m_list.back) );
-    m_list.pop_back();
-    return _element;
+    if( !m_list.empty()){
+        T const element = m_list.back ;
+        m_list.pop_back();
+        return element;
+    }
+
 }
 
 template<typename T>
@@ -42,13 +43,14 @@ void list_wrapper_fullProtection::push_back(T element){
 }
 
 template<typename T>
-std::shared_ptr<T> list_wrapper_fullProtection::pop_front(){
+T list_wrapper_fullProtection::pop_front(){
     std::lock_guard<std::mutex> lock(m_mutex);
-    if(!m_list.empty())
-        return std::shared_ptr<T> std::make_shared<T>(NULL);
-    std::shared_ptr<T> const _element(std::make_shared<T>(m_list[0]));
-    m_list.erase( m_list.begin() );
-    return _element;
+    if(!m_list.empty()){
+        T const element = m_list.front;
+        m_list.erase( m_list.begin() );
+        return element; 
+    }
+
 }
 
 template<typename T>
