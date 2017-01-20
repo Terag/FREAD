@@ -25,7 +25,7 @@ public:
     virtual void push_front(T element);
     threadsafe_list& operator=(const threadsafe_list&) = delete;
     
-    virtual unsigned int size() const = 0;
+    virtual unsigned int size() const;
     virtual bool empty();
     
 private:

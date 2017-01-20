@@ -16,20 +16,24 @@
 
 #include <unordered_map>
 
-template<typename T>
+template<typename Key, typename T>
 class threadsafe_hashmap {
 public:
-    virtual std::shared_ptr<T> at();
-    virtual void insert(T element);
-    virtual void erase();
+    virtual std::shared_ptr<T> at(const Key& k);
+    virtual void insert(Key key, T element);
+    //virtual void erase(Key k);
+    //virtual void erase(T element);
+    virtual void erase(std::unordered_map<Key, T>::iterator it);
+    virtual bool contains(T element);
     virtual std::shared_ptr<T> operator[](const T);
-    threadsafe_list& operator=(const threadsafe_list&) = delete;
     
-    virtual unsigned int size() const = 0;
+    typedef typename std::unordered_map<Key, T>::iterator begin();
+    
+    virtual unsigned int size() const;
     virtual bool empty();
     
 private:
-    std::unordered_map<T> m_unordered_map;
+    std::unordered_map<Key, T> m_unordered_map;
     std::mutex m_mutex; 
 };
 

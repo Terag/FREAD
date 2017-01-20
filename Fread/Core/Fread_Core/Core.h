@@ -14,14 +14,24 @@
 #ifndef CORE_H
 #define CORE_H
 
+#define MAX_SIZE 200
+
 #include <vector>
 
 #include "thread_guard.h"
 #include "threadsafe_list.h"
+#include "threadsafe_hashmap.h"
+#include "structures.h"
 
 class Core {
 public:
-    Core(threadsafe_list display2core, threadsafe_list parser2core);
+    Core(  std::shared_ptr< threadsafe_list<s_display2occurrences> > display2occurrences,
+           std::shared_ptr< threadsafe_list<s_display2threads> > display2threads, 
+           std::shared_ptr< threadsafe_list<s_core2display> > core2display, 
+           std::shared_ptr< threadsafe_list<s_parser2occurrences> > parser2occurrences,
+           std::shared_ptr< threadsafe_list<s_parser2threads> > parser2threads, 
+           std::shared_ptr< threadsafe_list<s_core2parser> > core2parser);
+    
     Core(const Core& orig);
     
     virtual ~Core();
@@ -30,22 +40,21 @@ public:
     
     
 private:
-    threadsafe_list<s_display2occurrences> m_display2occurrences;
-    threadsafe_list<s_display2threads> m_display2threads;
-    threadsafe_list<s_parser2occurrences> m_parser2occurrences;
-    threadsafe_list<s_parser2threads> m_parser2threads;
-    threadsafe_list<s_core2display> m_core2display;
-    threadsafe_list<s_core2parser> m_core2parser;
+    std::shared_ptr< threadsafe_list<s_display2occurrences> > m_display2occurrences;
+    std::shared_ptr< threadsafe_list<s_display2threads> > m_display2threads;
+    std::shared_ptr< threadsafe_list<s_parser2occurrences> > m_parser2occurrences;
+    std::shared_ptr< threadsafe_list<s_parser2threads> > m_parser2threads;
+    std::shared_ptr< threadsafe_list<s_core2display> > m_core2display;
+    std::shared_ptr< threadsafe_list<s_core2parser> > m_core2parser;
     
-    threadsafe_hashmap<s_occurrences> m_occurrences;
-    threadsafe_hashmap<s_threads> m_threads;
+    threadsafe_hashmap<int, s_occurrences> m_occurrences;
+    threadsafe_hashmap<int, s_threads> m_threads;
     
     void thr_threads_manager();
     void thr_occurrences_manager();
     
-    //the router takes messages from the parser or the displayer and gives it to the corresponding thread
-    void route_parser_messages();
-    void route_display_messages();
+    //check_memory ensure that the two map are not too big
+    void check_memory();
 };
 
 #endif /* CORE_H */
