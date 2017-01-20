@@ -36,6 +36,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Core.o \
+	${OBJECTDIR}/Test_Display.o \
+	${OBJECTDIR}/Test_Parser.o \
+	${OBJECTDIR}/hashmap_wrapper_fullProtection.o \
 	${OBJECTDIR}/list_wrapper_fullProtection.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/message_sender.o \
@@ -73,6 +76,21 @@ ${OBJECTDIR}/Core.o: Core.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Core.o Core.cpp
+
+${OBJECTDIR}/Test_Display.o: Test_Display.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Test_Display.o Test_Display.cpp
+
+${OBJECTDIR}/Test_Parser.o: Test_Parser.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Test_Parser.o Test_Parser.cpp
+
+${OBJECTDIR}/hashmap_wrapper_fullProtection.o: hashmap_wrapper_fullProtection.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/hashmap_wrapper_fullProtection.o hashmap_wrapper_fullProtection.cpp
 
 ${OBJECTDIR}/list_wrapper_fullProtection.o: list_wrapper_fullProtection.cpp 
 	${MKDIR} -p ${OBJECTDIR}

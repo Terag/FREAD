@@ -5,6 +5,9 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Core.h</itemPath>
+      <itemPath>Test_Display.h</itemPath>
+      <itemPath>Test_Parser.h</itemPath>
+      <itemPath>hashmap_wrapper_fullProtection.h</itemPath>
       <itemPath>list_wrapper_fullProtection.h</itemPath>
       <itemPath>message_sender.h</itemPath>
       <itemPath>structures.h</itemPath>
@@ -20,6 +23,9 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>Core.cpp</itemPath>
+      <itemPath>Test_Display.cpp</itemPath>
+      <itemPath>Test_Parser.cpp</itemPath>
+      <itemPath>hashmap_wrapper_fullProtection.cpp</itemPath>
       <itemPath>list_wrapper_fullProtection.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>message_sender.cpp</itemPath>
@@ -56,6 +62,18 @@
       <item path="Core.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Core.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Test_Display.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Test_Display.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Test_Parser.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Test_Parser.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="hashmap_wrapper_fullProtection.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="hashmap_wrapper_fullProtection.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="list_wrapper_fullProtection.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -107,6 +125,18 @@
       <item path="Core.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Core.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Test_Display.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Test_Display.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Test_Parser.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Test_Parser.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="hashmap_wrapper_fullProtection.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="hashmap_wrapper_fullProtection.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="list_wrapper_fullProtection.cpp" ex="false" tool="1" flavor2="0">
       </item>

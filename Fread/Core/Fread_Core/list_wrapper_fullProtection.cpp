@@ -13,9 +13,7 @@
 
 #include "list_wrapper_fullProtection.h"
 
-list_wrapper_fullProtection::list_wrapper_fullProtection(std::list<T> my_list, std::mutex my_mutex):
-    m_list(my_list),
-    m_mutex(my_mutex)
+list_wrapper_fullProtection::list_wrapper_fullProtection()
 {
 }
 
