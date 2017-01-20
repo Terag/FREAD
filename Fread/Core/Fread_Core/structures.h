@@ -14,6 +14,22 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
+struct s_patterns{
+    int id;
+    
+    void operator=(s_patterns other){
+        id = other.id;
+    }
+    
+    bool operator==(s_patterns other){
+        return (id == other.id);
+    }
+    
+    bool operator!=(s_patterns other){
+        return ( id!=other.id );
+    }
+};
+
 struct s_occurrences{
     int id;
     
