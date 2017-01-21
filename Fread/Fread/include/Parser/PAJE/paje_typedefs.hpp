@@ -45,6 +45,7 @@ namespace paje
         FN_ENDCONTAINERTYPE,
         FN_KEY,
         FN_FILE,
+        FN_UNDEFINED
     } FieldName;
 
     typedef enum {
@@ -77,9 +78,13 @@ namespace paje
         PEF_PajeEndLink,                //19
         //Include events
         PEF_IncludeFile,                //20
+        PEF_IncludeContainerFile,       //21
+        PEF_IncludePatternFile,         //22
         //Pattern events
-        PEF_PajeStartPattern,           //21
-        PEF_PajeEndPattern,             //22
+        PEF_PajeStartPattern,           //23
+        PEF_PajeEndPattern,             //24
+        //Error case
+        PEF_Undefined                   //25
     } PajeEventFunction;
     
     typedef enum {

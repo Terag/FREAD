@@ -24,6 +24,8 @@ namespace paje
     public:
 
         Container_Reader();
+        void init(std::string const& path);
+        
         Container_Reader(const Container_Reader& orig);
 
         virtual ~Container_Reader();

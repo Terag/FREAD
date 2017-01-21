@@ -85,7 +85,7 @@ namespace paje
         fpos = spos;
         spos = in.find(' ', fpos + 1);
         id = stoi(in.substr(fpos + 1, spos-fpos-1));
-        if(id < 0 || id > eventDefs.size()){
+        if(id < 0 || id > (int)eventDefs.size()){
             cout << "error, id is out of range : " << id << endl;
         }
         eventDefs[id].id = id;
@@ -154,6 +154,12 @@ namespace paje
         else if(str == "IncludeFile"){
             eventDefs[id].name = PEF_IncludeFile;
         }
+        else if(str == "IncludeContainerFile"){
+            eventDefs[id].name = PEF_IncludeContainerFile;
+        }
+        else if(str == "IncludePatternFile"){
+            eventDefs[id].name = PEF_IncludePatternFile;
+        }
         else if(str == "PajeStartPattern"){
             eventDefs[id].name = PEF_PajeStartPattern;
         }
@@ -162,6 +168,7 @@ namespace paje
         }
         else {
             cout << "error, unknow PajeEventFunction : " << str << endl;
+            eventDefs[id].name = PEF_Undefined;
         }
         
         string field_str;
