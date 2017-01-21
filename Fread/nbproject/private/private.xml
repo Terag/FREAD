@@ -11,6 +11,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
 <<<<<<< HEAD
+            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/include/Parser/PAJE/Reader_MainTrace.hpp</file>
+            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Parser/PAJE/Reader_MainTrace.cpp</file>
+            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Parser/PAJE/paje_interface.cpp</file>
+=======
+<<<<<<< HEAD
             <file>file:/home/emma/Bureau/FREAD/Fread/Fread/src/main.cpp</file>
             <file>file:/home/emma/Bureau/FREAD/Fread/Fread/packages.config</file>
             <file>file:/home/emma/Bureau/FREAD/Fread/makefile</file>
@@ -24,6 +29,7 @@
             <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/main.cpp</file>
             <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Parser/PAJE/Reader_MainTrace.cpp</file>
 >>>>>>> f788e0dd0ceab51bcc091d556ff203fb87f17d5b
+>>>>>>> master
         </group>
     </open-files>
 </project-private>

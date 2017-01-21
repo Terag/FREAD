@@ -1,8 +1,6 @@
-#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
-#include "Parser/PAJE/Reader_MainTrace.hpp"
-#include "FColor.hpp"
+#include "Parser/PAJE/paje_interface.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -35,7 +33,8 @@ int main(int argc, char* argv[])
         return -1;
     }
     
-    Reader_MainTrace mainTrace(path);
+    paje::awake(path);
+    paje::start();
     
     return 0;
 }
