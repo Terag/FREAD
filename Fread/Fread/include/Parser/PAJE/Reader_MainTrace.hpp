@@ -40,6 +40,9 @@ namespace paje
         
     private:
 
+        std::string name;
+        std::string parent;
+        
         std::string mainTrace_Path;
         std::ifstream mainTrace_Stream;
 

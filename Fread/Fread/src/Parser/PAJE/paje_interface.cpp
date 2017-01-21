@@ -26,6 +26,8 @@ namespace paje
     void DefineEntityValue(std::string line, EventDef const& event);
     void StartDefinePattern(std::string line, EventDef const& event);
     void EndDefinePattern(std::string line, EventDef const& event);
+    void IncludeContainerFile(std::string line, EventDef const& event);
+    void IncludePatternFile(std::string line, EventDef const& event);
     
     void setName(PajeTypeDef& newPJT, string str, FieldType const& type);
     void setType(PajeTypeDef& newPJT, string str, FieldType const& type);
