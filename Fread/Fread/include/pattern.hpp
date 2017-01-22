@@ -2,6 +2,7 @@
 #include<vector>
 #include<string>	
 #include "occurrence.h"
+
 struct event
 {
 	EventType type;
@@ -26,7 +27,7 @@ struct event
 	coord start;
 	coord end;
 };
-class pattern
+class Pattern
 {
 private :
 	int id;
@@ -37,8 +38,8 @@ private :
 	
 
 public:
-	pattern();
-	~pattern();
+	Pattern();
+	~Pattern();
 };
 bool operator==(pattern A,pattern B);
 bool operator!=(pattern A, pattern B);

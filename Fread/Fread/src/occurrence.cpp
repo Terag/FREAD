@@ -1,21 +1,21 @@
-/*#include "occurrence.h"
+/*#include "Occurrence.hpp"
 
 
 
-occurrence::occurrence()
+Occurrence::Occurrence()
 {
 }
 
 
-occurrence::~occurrence()
+Occurrence::~Occurrence()
 {
 }
-bool operator==(occurrence A, occurrence B)
+bool operator==(Occurrence A, Occurrence B)
 {
 	return false;
 }
 
-bool operator!=(occurrence A, occurrence B)
+bool operator!=(Occurrence A, Occurrence B)
 {
 	return false;
 }*/
