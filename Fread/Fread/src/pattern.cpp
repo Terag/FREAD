@@ -1,4 +1,4 @@
-#include "pattern.h"
+/*#include "pattern.h"
 
 
 
@@ -20,3 +20,4 @@ bool operator!=(pattern A, pattern B)
 {
 	return false;
 }
+*/

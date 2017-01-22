@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 class Container
 {
 private :
@@ -6,5 +6,5 @@ private :
 public:
 	Container();
 	~Container();
-};
+};*/
 

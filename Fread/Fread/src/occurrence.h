@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #include<vector>
 
 class occurrence
@@ -20,3 +20,5 @@ public:
 
 bool operator==(occurrence A, occurrence B);
 bool operator!=(occurrence A, occurrence B);
+
+*/
