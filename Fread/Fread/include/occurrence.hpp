@@ -1,7 +1,7 @@
 /*#pragma once
 #include<vector>
 
-class occurrence
+class Occurrence
 {
 private :
 	//float tStart;
@@ -14,8 +14,8 @@ private :
 
 
 public:
-	occurrence();
-	~occurrence();
+	Occurrence();
+	~Occurrence();
 };
 
 bool operator==(occurrence A, occurrence B);
