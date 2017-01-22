@@ -1,0 +1,218 @@
+Trace (PAJE) = 3 Parts : 
+	EventDef (IDs can change)
+	HierarchyDef (containers, variable, event, link, states)
+	Recorded Events
+
+Parseur (se base sur le fonctionnement d'un reader XML)
+
+5 éléments principaux dans les traces :
+	- Container : Objet monitoré dans la trace, exemple Thread ici
+	- State : A un temps de début et de fin. Le container reste dans cet état durant cette durée
+	- Event : One timestamp
+	- Variable : Représente l'évolution de la valeur d'une variable au court du temps
+	- Link : représente une relation directe entre deux containers. A un temps de début et de fin représentant la durée de la relation
+	- Pattern :
+	- Include :
+
+Les éléments abstraits sont des classes avec des std::variant. L'objet défini à partir de la classe permet de définir un type qui découle de l'élément abstrait. 
+Ainsi l'objet contiendra des fonctions adaptés à ses besoins en fonction des type avec lesquels il est défini.
+Les objets générés représentent les neouds et les feuilles qui définissent ensemble la hierarchi de la trace.
+
+--- Fichiers parsés, trace commpressée ---
+
+-main.trace comprend les entêtes (% en début de ligne) et les définition de la hierarchie
+
+-container (contient les pattern records d'un container)
+
+-pattern (définition d'un pattern avec toutes ses occurences)
+
+--- Découpage : 3readers ---
+
+-MainTrace_Reader
+	-static (Lors de l'instantiation)
+		Parse le main.trace
+		Retient les entêtes en mémoire afin de lier les id aux fonction de définitions de la hierarchie
+		Défini la Hierarchi à partir du main.trace et garde en mémoire
+	-dynamique
+		Renvoi vers les reader des différents fichiers
+
+-Container_Reader
+	-dynamique
+		Parse le container dynamiquement
+		Peut renvoyer les patternID contenues entre deux times stamps
+
+-Pattern_Reader
+	-static (Lors de l'instantiation)
+		Parse la structure d'un pattern.
+		Garde en mémoire la forme du pattern moyen.
+	-dynamique
+		Parse dynamiquement les occurences du pattern.
+		Peut renvoyer une occurence précise du pattern.
+		Peut renvoyer le nombre d'occurence pour une durée donnée du pattern.
+
+-ParserManager
+	-Instancie le MainTrace_Reader qui initialisera le parseur et les différents readers à partir du fichier main.trace
+	-Gere les communications/requêtes avec le thread du data manager
+
+--- PAJE events définition functions (Définition de la hierarchie à partir de ces fonctions) ---
+
+-PajeDefineContainerType
+	Définie un noeud de la hierarchi
+	Definie un nouveau container NAME. Compris dans le container TYPE, 0 étant la racine.
+	- INPUT
+		NAME - string or int
+		TYPE - string or int
+		ALIAS - string or int (optional)
+
+	- Cas d'erreur
+		NAME déjà défini
+		TYPE non défini
+		TYPE n'est pas un container
+		ALIAS déjà défini
+
+	- Timestamp Paje Event liés :
+		-PajeCreateContainer
+		-PajeDestroyContainer
+
+-PajeDefineStateType
+	Definie une feuille de la hierarchie
+	Definie un nouveau state NAME. Compris dans le container TYPE
+	- INPUT
+		NAME - string or int
+		TYPE - string or int
+		ALIAS - string or int (optional)
+
+	- Cas d'erreur
+		NAME déjà défini
+		TYPE non défini
+		TYPE n'est pas un container
+		ALIAS déjà défini
+
+	- Timestamp Paje Event liés :
+		-PajeSetState
+		-PajePushState
+		-PajePopState
+		-PajeResetState
+
+	- Paje Event liés
+		-PajeCreateContainer
+		-PajeDestroyContainer
+
+-PajeDefineEventType
+	Definie une feuille de la hierarchie
+	Definie un nouvel event NAME. Compris dans le container TYPE
+	-INPUT
+		NAME - string or int
+		TYPE - string or int
+		ALIAS - string or int (optional)
+
+	- Cas d'erreur
+		NAME déjà défini
+		TYPE non défini
+		TYPE n'est pas un container
+		ALIAS déjà défini
+
+	- TimeStamp Paje Event liés :
+		-PajeNewEvent
+
+	- Paje Event liés
+		-PajeCreateContainer
+		-PajeDefineEntityValue
+
+-PajeDefineVariableType
+	Définie une feuille de la hierarchie
+	Définie une nouvelle variable NAME. Comprise dans le container TYPE. Elle décrit l'évolution d'une valeur
+	-INPUT
+		NAME - string or int
+		TYPE - string or int
+		COLOR - color (RGBA classe à coder)
+		ALIAS - string or int (optional)
+
+	- Cas d'erreur
+		NAME déjà défini
+		TYPE non défini
+		TYPE n'est pas un container
+		ALIAS déjà défini
+
+	- TimeStamp Paje Event liés :
+		-PajeSetVariable
+		-PajeAddVariable
+		-PajeSubVariable
+
+-PajeDefineLinkType
+	Définie une feuille de la hierarchie
+	Définie un nouveau link NAME. Compris dans TYPE, container commun au STARTCONTAINERTYPE et ENDCONTAINERTYPE
+	-INPUT
+		NAME - string or int
+		TYPE - string or int
+		STARTCONTAINERTYPE - string or int
+		ENDCONTAINERTYPE - string or int
+		ALIAS - string or int (optional)
+
+	- Cas d'erreur
+		NAME déjà défini
+		TYPE non défini
+		TYPE n'est pas un ancêtre commun à STARTCONTAINERTYPE et ENDCONTAINERTYPE
+		STARTCONTAINERTYPE non défini
+		ENDCONTAINERTYPE non défini
+		ALIAS déjà défini
+
+	- TimeStamp Paje Event liés :
+		-PajeStartLink
+		-PajeEndLink
+
+	- Paje Event lié :
+		-PajeDefineContainerType
+		-PajeDefineEntityValue
+
+-PajeDefineEntityValue
+	Définie les valeurs possibles d'un EventPaje. Permet d'hard-coder la couleur de l'event
+	Définie une nouvelle value NAME. Comprise dans TYPE. Et de couleur COLOR
+	-INPUT
+		TYPE - string or int
+		NAME - string or int
+		COLOR - color
+		ALIAS - string or int (optional)
+
+	- Cas d'erreur
+		NAME déjà défini
+		TYPE non défini
+		TYPE n'est pas un container
+		COLOR non valide
+		ALIAS déjà défini
+
+	- Paje Event lié :
+		-PajeDefineStateType
+		-PajeDefineEventType
+		-PajeDefineLinkType
+
+--- Container functions ---
+
+-PajeCreateContainer
+	Crée un container dans le timestamp TIME
+	Il est défini par son NAME et son TYPE. Il a un CONTAINER parent
+	-INPUT
+		TIME - date
+		NAME - string or int
+		TYPE - string or int
+		CONTAINER - string or int
+		ALIAS - string or int (optional)
+
+	- Cas d'erreur
+		TIME n'est pas un temps valable (cf section temps)
+		NAME déjà défini
+		TYPE n'est pas défini
+		TYPE n'est pas un enfant de CONTAINER.TYPE
+		CONTAINER n'a pas été précédemment crée
+		ALIAS déjà défini
+
+	-Paje TypeDef lié :
+		-PajeDefineContainerType
+
+-PajeDestroyContainer
+	détruit un container dans le timestamp TIME
+	Le container détruit est défini de maniere unique par son NOM et son TYPE
+	-INPUT
+		TIME -  
+		NAME -
+		TYPE -
