@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #include<vector>
 #include<string>	
 #include "occurrence.h"
@@ -43,4 +43,4 @@ public:
 bool operator==(pattern A,pattern B);
 bool operator!=(pattern A, pattern B);
 
-
+*/

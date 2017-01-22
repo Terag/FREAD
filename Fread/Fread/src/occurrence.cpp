@@ -1,4 +1,4 @@
-#include "occurrence.h"
+/*#include "occurrence.h"
 
 
 
@@ -18,4 +18,4 @@ bool operator==(occurrence A, occurrence B)
 bool operator!=(occurrence A, occurrence B)
 {
 	return false;
-}
+}*/
