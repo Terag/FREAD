@@ -41,14 +41,14 @@ For Parser tests you have to use this command :
 ## Contributors
 
 ### Code
-  Jérôme Berthelin
-  Emma Goldblum
-  Maxime Guillem
-  Victor Rouquette
+  * Jérôme Berthelin
+  * Emma Goldblum
+  * Maxime Guillem
+  * Victor Rouquette
 ### Design
-  Céline Mast
+   * Céline Mast
 ### Other
-  Based on François Trahay algorithme
+   * Based on François Trahay algorithme
 
 ## License
 
