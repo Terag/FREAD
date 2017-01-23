@@ -20,7 +20,7 @@ else
     CXXFLAGS = -std=c++11 -W -Wall -pedantic
 endif
 
-LIBS := -lsfml-graphics -lsfml-window -lsfml-system
+LIBS := -lsfml-graphics -lsfml-window -lsfml-system -pthread
 
 
 export MAKE_DIR CXX CXXFLAGS LIBS INCLUDE_DIR EXEC OBJ_DIR EXEC PARSER

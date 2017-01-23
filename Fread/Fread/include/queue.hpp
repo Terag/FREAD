@@ -28,6 +28,7 @@ DEALINGS IN THE SOFTWARE.
 #define QUEUE_HPP
 
 #include <memory>
+#include <iostream>
 
 template<typename T>
 class Queue
