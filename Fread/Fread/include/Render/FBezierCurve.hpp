@@ -28,7 +28,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <SFML/Graphics.hpp>
 
-/* Uses to draw a line between two points with a bezier équation
+/* Uses to draw a line between two points with a Bezier equation
 Bezier curve is based on 4 control points, second and third points are calculated
 from the first and fourth control points
 It's a drawable object for SFML render window
@@ -65,7 +65,7 @@ public:
 	FBezierCurve();
 	FBezierCurve(sf::Vector2f firstPoint, sf::Vector2f lastPoint, int const& nb_subdiv = 100, sf::Color color = sf::Color::Magenta);
 
-	//Set control point on id rank, curbe needs to be recalculate
+	//Set control point on id rank, curve needs to be recalculate
 	void setControlPoint(int const& id, sf::Vector2f newPoint);
 	sf::Vector2f getControlPoint(int const& id);
 
