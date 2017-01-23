@@ -20,7 +20,7 @@ using namespace std;
 /*
  * Parser main function test
  */
-int main(int argc, char* argv[])
+/*int main(int argc, char* argv[])
 {
     if(argc != 2){
         std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
     paje::start();
     
     return 0;
-}
+}*/
 
 /*
  * Render main function test
@@ -74,12 +74,19 @@ int main(int argc, char* argv[])
 /*
  * Queue main function test
  */
-/*
+
 void push_thread(Queue<string>* queue) {
-    for(int i=0; i<10; i++){
+    for(int i=0; i<5; i++){
         string msg = "msg " + to_string(i);
         queue->push(msg);
         cout << msg << " just pushed" << endl;
+    }
+    sleep(5);
+    for(int i=5; i<10; i++){
+        string msg = "msg " + to_string(i);
+        queue->push(msg);
+        cout << msg << " just pushed" << endl;
+        sleep(1);
     }
     string endMsg = "End";
     queue->push(endMsg);
@@ -87,16 +94,12 @@ void push_thread(Queue<string>* queue) {
 }
 
 void pop_thread(Queue<string>* queue) {
+    sleep(3);
     while(1) {
-        shared_ptr<string> string_ptr(queue->try_pop());
-        if(string_ptr.use_count() != 0) {
-            cout << *(string_ptr.get()) << " found" << endl;
-            if(*(string_ptr.get()) == "End"){
-                break;
-            }
-        } else {
-            cout << "Msg" << " didn't find" << endl;
-            sleep(1);
+        shared_ptr<string> string_ptr(queue->wait_and_pop());
+        cout << *(string_ptr.get()) << " found" << endl;
+        if(*(string_ptr.get()) == "End"){
+            break;
         }
     }
 }
@@ -111,4 +114,4 @@ int main(void){
     
     pusher.join();
     poper.join();
-}*/
+}
