@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Terag/FREAD/master/Doc/logo%20FREAD.png" alt="Fread Logo" height="42" width="42">
+  <img src="https://raw.githubusercontent.com/Terag/FREAD/master/Doc/logo%20FREAD.png" alt="Fread Logo" height="100" width="100">
 </p>
 
 ## Synopsis
@@ -9,7 +9,7 @@ Is it to difficult for you to read multithreaded programs traces ? They are to b
 For the moment the software is in developpement process. You can contact us for more informations.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Terag/FREAD/master/Doc/visuel%20couv.png" alt="Fread Visual" height="42" width="42">
+  <img src="https://raw.githubusercontent.com/Terag/FREAD/master/Doc/visuel%20couv.png" alt="Fread Visual" height="200" width="200">
 </p>
 
 ## Motivation
