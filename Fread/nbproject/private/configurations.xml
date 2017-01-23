@@ -3,23 +3,14 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
       <df name="Fread">
-<<<<<<< HEAD
-=======
         <df name="include">
-          <df name="Core">
-          </df>
           <df name="Parser">
             <df name="PAJE">
               <in>Reader_MainTrace.hpp</in>
             </df>
           </df>
-          <df name="Render">
-          </df>
           <in>FColor.hpp</in>
         </df>
-        <df name="obj">
-        </df>
->>>>>>> f788e0dd0ceab51bcc091d556ff203fb87f17d5b
         <df name="src">
           <df name="Core">
           </df>
@@ -63,8 +54,6 @@
         <gdb_interceptlist>
           <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
         </gdb_interceptlist>
-        <gdb_signals>
-        </gdb_signals>
         <gdb_options>
           <DebugOptions>
           </DebugOptions>
