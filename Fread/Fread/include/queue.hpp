@@ -1,5 +1,6 @@
 /*
 Boost Software License - Version 1.0 - August 17th, 2003
+ * Modified by Victor Rouquette - January 2017
 
 Permission is hereby granted, free of charge, to any person or organization
 obtaining a copy of the software and accompanying documentation covered by
@@ -28,7 +29,11 @@ DEALINGS IN THE SOFTWARE.
 #define QUEUE_HPP
 
 #include <memory>
+#include <mutex>
 #include <iostream>
+#include <thread>
+#include <chrono>
+#include <condition_variable>
 
 template<typename T>
 class Queue
@@ -43,6 +48,9 @@ private:
     std::unique_ptr<node> head;
     node* tail;
     
+    std::mutex mut;
+    std::condition_variable data_cond;
+    
 public:
     Queue():
         head(new node),tail(head.get())
@@ -53,7 +61,11 @@ public:
 
     std::shared_ptr<T> try_pop();
     
+    std::shared_ptr<T> wait_and_pop();
+    
     void push(T new_value);
+    
+    bool empty();
 };
 
 template <typename T>
@@ -78,6 +90,22 @@ void Queue<T>::push(T new_value)
     node* const new_tail=p.get();
     tail->next=std::move(p);
     tail=new_tail;
+    
+    data_cond.notify_one();
+}
+
+template<typename T>
+std::shared_ptr<T> Queue<T>::wait_and_pop(){
+    std::unique_lock<std::mutex> lk(mut);
+    data_cond.wait(lk, [this](){ return !empty();});
+    lk.unlock();
+    return try_pop();
+}
+
+template<typename T>
+bool Queue<T>::empty()
+{
+    return (head.get() == tail);
 }
 
 #endif /* QUEUE_HPP */
