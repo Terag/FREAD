@@ -45,8 +45,10 @@ For Parser tests you have to use this command :
   * Emma Goldblum
   * Maxime Guillem
   * Victor Rouquette
+  
 ### Design
    * Céline Mast
+   
 ### Other
    * Based on François Trahay algorithme
 
