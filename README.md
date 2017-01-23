@@ -40,6 +40,7 @@ For Parser tests you have to use this command :
 
 ~~~ sh
   Fread <main.trace_path>
+~~~
 
 ## Contributors
 
