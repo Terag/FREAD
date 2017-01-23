@@ -15,9 +15,9 @@ EXEC = Fread
 DEBUG = yes
 PARSER = PAJE
 ifeq ($(DEBUG),yes)
-    CXXFLAGS = -W -Wall -pedantic -g
+    CXXFLAGS = -std=c++11 -W -Wall -pedantic -g
 else
-    CXXFLAGS = -W -Wall -pedantic
+    CXXFLAGS = -std=c++11 -W -Wall -pedantic
 endif
 
 LIBS := -lsfml-graphics -lsfml-window -lsfml-system
