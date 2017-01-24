@@ -35,8 +35,24 @@ DEALINGS IN THE SOFTWARE.
 #ifndef FCORE_HPP
 #define FCORE_HPP
 
-#ifndef CORE_H
-#define CORE_H
+enum HEADER{
+    START,
+    INITDONE,
+    TIMESTAMP,
+    INITDONE,
+    CONTAINER,
+    PATTERN
+};
+
+struct parser_msg{
+    HEADER header;
+    std::shared_ptr<> content;
+};
+
+struct renderer_msg{
+    HEADER header;
+    std::shared_ptr<> content;
+};
 
 #define MAX_SIZE 200
 
@@ -46,13 +62,14 @@ DEALINGS IN THE SOFTWARE.
 #include "threadsafe_list.h"
 #include "threadsafe_hashmap.h"
 #include "structures.h"
+#include "Core.h"
 
 class FCore {
 public:
-    FCore( std::shared_ptr<FQueue> _pop_queue_parser, 
-           std::shared_ptr<FQueue> _push_queue_parser,
-           std::shared_ptr<FQueue> _pop_queue_renderer,
-           std::shared_ptr<FQueue> _push_queue_renderer
+    FCore( std::shared_ptr<FQueue<parser_msg> > _pop_queue_parser, 
+           std::shared_ptr<FQueue<parser_msg> > _push_queue_parser,
+           std::shared_ptr<FQueue<renderer_msg> > _pop_queue_renderer,
+           std::shared_ptr<FQueue<renderer_msg> > _push_queue_renderer
            );
     
     FCore(const Core& orig);
@@ -113,8 +130,6 @@ private:
 
     void FCore::thr_FCore(){
         
-        while(awake){
-        
         std::thread message_handler_parser_( thr_message_handler_parser() );
         FThread_guard mhp_g( message_handler_parser_ );
         
@@ -124,7 +139,9 @@ private:
         std::thread occurrences_manager_( thr_occurrences_manager() );
         FThread_guard om_g(occurrences_manager_);
         
+        while(awake){    
         }
+        
         
         std::thread message_handler_renderer_( thr_message_handler_renderer() );
         FThread_guard mhp_g( message_handler_renderer_ );
@@ -132,6 +149,12 @@ private:
         while(1){
             check_memory();
         } 
+    }
+    
+    void FCore::thr_message_handler_parser(){
+        
+        switch()
+        
     }
 
 #endif /* FCORE_HPP */
