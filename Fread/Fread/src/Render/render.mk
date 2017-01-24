@@ -11,18 +11,19 @@ render.a: $(OBJ)
 FBezierCurve.o: FBezierCurve.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"
-	
+
+occurrence_render.o: occurrence_render.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
+	@echo "    	CXX        $@"
+
 container_render.o: container_render.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"
 
-occurrence_render.o: ocurrence_render.cpp
-	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
-	@echo "    	CXX        $@"
-	
 event_render.o: event_render.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"
+
 ## Quand vous rajoutez un fichier, suivre le même format que ci dessous pour chaque fichier :
 ##Cible: dépendances
 ##	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^

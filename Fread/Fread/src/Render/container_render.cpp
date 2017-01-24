@@ -32,7 +32,8 @@ using namespace sf;
 
 container_render::container_render() :
 id(0), name(""), absoluteTime(1)
-{}
+{
+}
 
 container_render::container_render(int id, std::string name, float absoluteTime) : 
 id(id), name(name), absoluteTime(absoluteTime)
@@ -42,32 +43,32 @@ container_render::container_render(int id, std::string name, float absoluteTime,
 id(id), name(name), absoluteTime(absoluteTime), offsetX(offsetX), offsetY(offsetY)
 {}
 
-container_render::calculateScale(float absoluteTime) 
+void container_render::calculateScale(float absoluteTime) 
 {
     container_render.scale = container_render.sizeContainer/(absoluteTime);
 }
 
-container_render::addOccurrence(occurrence_render occ) 
+void container_render::addOccurrence(occurrence_render occ) 
 {
    container_render.occurrences.push_back(occ); 
 }
 
-container_render::getScale() 
+float container_render::getScale() 
 {
     return scale;
 }
 
-container_render::getOffsetX()
+int container_render::getOffsetX()
 {
     return offsetX;
 }
 
-container_render::getOffsetY()
+int container_render::getOffsetY()
 {
     return offsetY;
 }
 
-container_render::getId()
+int container_render::getId()
 {
     return id;
 }

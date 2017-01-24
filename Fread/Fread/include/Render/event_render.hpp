@@ -30,6 +30,7 @@
  *
  * Created on 24 janvier 2017, 12:07
  */
+#pragma once
 
 #ifndef EVENT_RENDER_HPP
 #define EVENT_RENDER_HPP
@@ -42,14 +43,13 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
-
-#include "container_render.hpp"
+#include "Render/container_render.hpp"
 
 enum eventType {
     WAIT, COMPUTE, SEND
 };
 
-class event_render {
+class event_render : public sf::Drawable {
 private:
     sf::Color eventColor(255,255,255);
     int  tStart, tEnd = 0;

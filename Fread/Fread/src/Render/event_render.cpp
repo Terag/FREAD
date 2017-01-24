@@ -30,7 +30,6 @@
  * 
  * Created on 24 janvier 2017, 15:47
  */
-
 #include "Render/event_render.hpp"
 #include <cmath>
 #include <stdio.h>

@@ -30,6 +30,7 @@
  *
  * Created on 24 janvier 2017, 10:44
  */
+#pragma once
 
 #ifndef OCCURRENCE_RENDER_HPP
 #define OCCURRENCE_RENDER_HPP
@@ -42,7 +43,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "event_render.hpp"
+#include "Render/event_render.hpp"
 
 
 class occurrence_render : public sf::Drawable {
