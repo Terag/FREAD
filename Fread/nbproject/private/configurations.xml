@@ -29,6 +29,8 @@
       </df>
       <df name="Fread">
         <df name="include">
+          <df name="Core">
+          </df>
           <df name="Parser">
             <df name="PAJE">
               <in>Container_Reader.hpp</in>
@@ -36,15 +38,17 @@
               <in>paje_interface.hpp</in>
               <in>paje_typedefs.hpp</in>
             </df>
+            <in>parser.hpp</in>
+            <in>parser_specifications.hpp</in>
           </df>
           <df name="Render">
             <in>FBezierCurve.hpp</in>
           </df>
           <in>FColor.hpp</in>
+          <in>FQueue.hpp</in>
           <in>container.hpp</in>
           <in>occurrence.hpp</in>
           <in>pattern.hpp</in>
-          <in>queue.hpp</in>
         </df>
         <df name="obj">
         </df>
@@ -58,6 +62,7 @@
               <in>paje_interface.cpp</in>
               <in>paje_typedefs.cpp</in>
             </df>
+            <in>parser.cpp</in>
           </df>
           <df name="Render">
             <in>FBezierCurve.cpp</in>
