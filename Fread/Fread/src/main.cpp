@@ -9,8 +9,8 @@
 #include <SFML/Graphics.hpp>
 #include "Render/FBezierCurve.hpp"
 
-//Includes for queue tests
-#include "queue.hpp"
+//Includes for Fqueue tests
+#include "FQueue.hpp"
 #include <thread>
 #include <memory>
 #include <unistd.h>
@@ -73,31 +73,31 @@ int main(int argc, char* argv[])
 }*/
 
 /*
- * Queue main function test
+ * FQueue main function test
  */
 
-/*void push_thread(Queue<string>* queue) {
+/*void push_thread(FQueue<string>* Fqueue) {
     for(int i=0; i<5; i++){
         string msg = "msg " + to_string(i);
-        queue->push(msg);
+        Fqueue->push(msg);
         cout << msg << " just pushed" << endl;
     }
     sleep(5);
     for(int i=5; i<10; i++){
         string msg = "msg " + to_string(i);
-        queue->push(msg);
+        Fqueue->push(msg);
         cout << msg << " just pushed" << endl;
         sleep(1);
     }
     string endMsg = "End";
-    queue->push(endMsg);
+    Fqueue->push(endMsg);
     cout << endMsg << " just pushed" << endl;
 }
 
-void pop_thread(Queue<string>* queue) {
+void pop_thread(FQueue<string>* Fqueue) {
     sleep(3);
     while(1) {
-        shared_ptr<string> string_ptr(queue->wait_and_pop());
+        shared_ptr<string> string_ptr(Fqueue->wait_and_pop());
         cout << *(string_ptr.get()) << " found" << endl;
         if(*(string_ptr.get()) == "End"){
             break;
@@ -107,11 +107,11 @@ void pop_thread(Queue<string>* queue) {
 
 int main(void){
     
-    Queue<string> testQueue;
-    cout << "queue has been created" << endl;
+    FQueue<string> testFQueue;
+    cout << "Fqueue has been created" << endl;
     
-    thread pusher(push_thread, &testQueue);
-    thread poper(pop_thread, &testQueue);
+    thread pusher(push_thread, &testFQueue);
+    thread poper(pop_thread, &testFQueue);
     
     pusher.join();
     poper.join();

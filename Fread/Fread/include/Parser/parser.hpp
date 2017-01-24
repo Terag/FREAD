@@ -28,7 +28,7 @@
 #define PARSER_HPP
 
 #include "Parser/parser_specifications.hpp"
-#include "queue.hpp"
+#include "FQueue.hpp"
 
 #include <string>
 #include <memory>
@@ -36,6 +36,7 @@
 class Parser {
 public:
     Parser();
+    Parser(std::shared_ptr<FQueue<std::string>> popQueue, std::shared_ptr<FQueue<std::string>> pushQueue);
     Parser(const Parser& orig);
     
     void awake(std::string const& path);
@@ -47,8 +48,8 @@ private:
     bool initDone;
     std::string trace_path;
     
-    std::shared_ptr<Queue<std::string>> push_queue;
-    std::shared_ptr<Queue<std::string>> pop_queue;
+    std::shared_ptr<FQueue<std::string>> push_queue;
+    std::shared_ptr<FQueue<std::string>> pop_queue;
 };
 
 #endif /* PARSER_HPP */
