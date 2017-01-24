@@ -1,22 +1,23 @@
-#include "pattern.h"
+/*#include "Pattern.hpp"
 
 
 
-pattern::pattern()
+Pattern::Pattern()
 {
 }
 
 
-pattern::~pattern()
+Pattern::~Pattern()
 {
 }
 
-bool operator==(pattern A, pattern B)
-{
-	return false;
-}
-
-bool operator!=(pattern A, pattern B)
+bool operator==(Pattern A, Pattern B)
 {
 	return false;
 }
+
+bool operator!=(Pattern A, Pattern B)
+{
+	return false;
+}
+*/

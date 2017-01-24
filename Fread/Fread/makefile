@@ -3,9 +3,9 @@ MAKE_DIR = $(MAKEFILE_PATH:/makefile=)
 
 ROOT_DIR    := $(MAKE_DIR) 
 RENDER_DIR  := $(MAKE_DIR)/src/Render
-CORE_DIR 	:= $(MAKE_DIR)/src/Core
+CORE_DIR    := $(MAKE_DIR)/src/Core
 PARSER_DIR  := $(MAKE_DIR)/src/Parser
-OBJ_DIR 	:= $(MAKE_DIR)/obj
+OBJ_DIR	    := $(MAKE_DIR)/obj
 
 INCLUDE_DIR := -I$(MAKE_DIR)/include
 
@@ -15,12 +15,12 @@ EXEC = Fread
 DEBUG = yes
 PARSER = PAJE
 ifeq ($(DEBUG),yes)
-    CXXFLAGS = -W -Wall -pedantic -g
+    CXXFLAGS = -std=c++11 -W -Wall -pedantic -g
 else
-    CXXFLAGS = -W -Wall -pedantic
+    CXXFLAGS = -std=c++11 -W -Wall -pedantic
 endif
 
-LIBS := -lsfml-graphics -lsfml-window -lsfml-system
+LIBS := -lsfml-graphics -lsfml-window -lsfml-system -pthread
 
 
 export MAKE_DIR CXX CXXFLAGS LIBS INCLUDE_DIR EXEC OBJ_DIR EXEC PARSER

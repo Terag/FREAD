@@ -21,48 +21,35 @@ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef READER_MAINTRACE_HPP
-#define READER_MAINTRACE_HPP
+#ifndef CONTAINER_READER_HPP
+#define CONTAINER_READER_HPP
 
 #include <string>
-#include <vector>
 #include <iostream>
 #include <fstream>
 
-#include "Parser/PAJE/paje_interface.hpp"
-#include "Parser/PAJE/paje_typedefs.hpp"
-
 namespace paje
 {
-    class Reader_MainTrace {
+    class Container_Reader {
     public:
-        Reader_MainTrace();
+
+        Container_Reader();
         void init(std::string const& path);
-
-        virtual ~Reader_MainTrace();
-
-        void parseHeader(std::vector<EventDef>& eventDefs);
         
-        void openStream();
-        void closeStream();
-        std::string getLine();
-        bool end();
-        
+        Container_Reader(const Container_Reader& orig);
+
+        virtual ~Container_Reader();
+
     private:
-
-        std::string name;
-        std::string parent;
         
-        std::string mainTrace_Path;
-        std::ifstream mainTrace_Stream;
+        std::string container_Path;
+        std::ifstream container_Stream;
 
-        void eventDef(std::vector<EventDef>& eventDefs, std::string &in);
-        FieldDef fieldDef(std::string &in);
     };
 }
 
-#endif /* READER_MAINTRACE_HPP */
+#endif /* CONTAINER_READER_HPP */
 

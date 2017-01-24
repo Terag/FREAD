@@ -24,45 +24,27 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#ifndef READER_MAINTRACE_HPP
-#define READER_MAINTRACE_HPP
+/*#pragma once
+#include<vector>
 
-#include <string>
-#include <vector>
-#include <iostream>
-#include <fstream>
-
-#include "Parser/PAJE/paje_interface.hpp"
-#include "Parser/PAJE/paje_typedefs.hpp"
-
-namespace paje
+class Occurrence
 {
-    class Reader_MainTrace {
-    public:
-        Reader_MainTrace();
-        void init(std::string const& path);
+private :
+	//float tStart;
+	//float tEnd;
+	int id;
+	std::vector<float> timeStamps;
+	//std::vector<event> events;
+	bool isLoaded;
+	int patternId;
 
-        virtual ~Reader_MainTrace();
 
-        void parseHeader(std::vector<EventDef>& eventDefs);
-        
-        void openStream();
-        void closeStream();
-        std::string getLine();
-        bool end();
-        
-    private:
+public:
+	Occurrence();
+	~Occurrence();
+};
 
-        std::string name;
-        std::string parent;
-        
-        std::string mainTrace_Path;
-        std::ifstream mainTrace_Stream;
+bool operator==(occurrence A, occurrence B);
+bool operator!=(occurrence A, occurrence B);
 
-        void eventDef(std::vector<EventDef>& eventDefs, std::string &in);
-        FieldDef fieldDef(std::string &in);
-    };
-}
-
-#endif /* READER_MAINTRACE_HPP */
-
+*/
