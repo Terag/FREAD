@@ -30,6 +30,7 @@
  *
  * Created on 24 janvier 2017, 10:25
  */
+#pragma once
 
 #ifndef CONTAINER_RENDER_HPP
 #define CONTAINER_RENDER_HPP
@@ -42,8 +43,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-
-#include "occurrence_render.hpp"
+#include "Render/occurrence_render.hpp"
+#include "Render/event_render.hpp"
 
 class container_render : public sf::Drawable
 {
@@ -72,7 +73,7 @@ public :
     int getId();
     void addOccurrence(occurrence_render occ);
     void calculateScale(float absoluteTime);
-    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
+   virtual void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const  override;
     ~container_render();
             
 };
