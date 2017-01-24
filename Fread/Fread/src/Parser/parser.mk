@@ -7,6 +7,10 @@ parser.a: $(OBJ)
 	@mv parser.a $(OBJ_DIR)/
 	@echo "    	parser.a move to $(OBJ_DIR)"
 
+statesConfig.o: statesConfig.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
+	@echo "    	CXX        $@"
+
 parser.o: parser.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"

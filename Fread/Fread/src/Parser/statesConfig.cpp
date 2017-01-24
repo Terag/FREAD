@@ -24,38 +24,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PARSER_HPP
-#define PARSER_HPP
 
-#include "Parser/parser_specifications.hpp"
-#include "FQueue.hpp"
-#include "FMessages_structure.hpp"
+#include "Parser/statesConfig.hpp"
 
-#include <string>
-#include <memory>
+statesConfig::statesConfig(std::string const& path = "./states.conf") {
+}
 
-class Parser {
-public:
-    Parser();
-    Parser(std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue);
-    Parser(const Parser& orig);
-    
-    void awake(std::string const& path);
-    void start();
-    void listenAndProcess();
-    
-    virtual ~Parser();
-private:
+statesConfig::statesConfig(const statesConfig& orig) {
+}
 
-    bool initDone;
-    std::string trace_path;
-    
-    std::shared_ptr<FQueue<msg_parserToCore>> push_queue;
-    std::shared_ptr<FQueue<msg_coreToParser>> pop_queue;
-};
-
-//Function uses to launch parser thread
-void parser_thread(std::string path, std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue);
-
-#endif /* PARSER_HPP */
+statesConfig::~statesConfig() {
+}
 

@@ -1,9 +1,12 @@
 //Generic Includes
 #include <iostream>
 #include <string>
+#include <memory>
+#include <thread>
 
 //Includes for parser tests
 #include "Parser/parser.hpp"
+#include "FMessages_structure.hpp"
 
 //Includes for graphics tests
 #include <SFML/Graphics.hpp>
@@ -11,10 +14,7 @@
 
 //Includes for Fqueue tests
 //#include "FQueue.hpp"
-#include <thread>
-#include <memory>
 #include <unistd.h>
-#include <queue>
 
 using namespace std;
 
@@ -35,17 +35,19 @@ int main(int argc, char* argv[])
         return -1;
     }
     
-    auto poQueue = make_shared<FQueue<string>>();
-    auto puQueue = make_shared<FQueue<string>>();
+    auto coreToParserQueue = make_shared<FQueue<msg_coreToParser>>();
+    auto parserToCoreQueue = make_shared<FQueue<msg_parserToCore>>();
     
-    thread parserThread(parser_thread, path, poQueue, puQueue);
+    thread parserThread(parser_thread, path, coreToParserQueue, parserToCoreQueue);
     
     sleep(5);
-    string msg = "Start";
-    poQueue->push(msg);
+    msg_coreToParser msg;
+    msg.header = H_START;
+    msg.content = make_shared<string>("Start");
+    coreToParserQueue->push(msg);
     
-    shared_ptr<string> str_msg = puQueue->wait_and_pop();
-    cout << *str_msg << endl;
+    shared_ptr<msg_parserToCore> str_msg = parserToCoreQueue->wait_and_pop();
+    cout << *(str_msg->content) << endl;
     
     parserThread.join();
     
@@ -55,7 +57,7 @@ int main(int argc, char* argv[])
 /*
  * Render main function test
  */
-int main(void)
+/*int main(void)
 {
 
     sf::RenderWindow window(sf::VideoMode(500, 500), "BezierCurve test");
@@ -81,7 +83,7 @@ int main(void)
     }
     
     return 0;
-}
+}*/
 
 /*
  * FQueue main function test

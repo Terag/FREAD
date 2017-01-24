@@ -17,30 +17,29 @@
 #include <string>
 #include <memory>
 
-typedef enum HEADER {
-     START,
-     INITDONE,
-     TIMESTAMP,
-     INITDONE,
-     CONTAINER,
-     PATTERN,
-     OCCURRENCE
-};
+typedef enum {
+     H_START,
+     H_INITDONE,
+     H_TIMESTAMP,
+     H_CONTAINER,
+     H_PATTERN,
+     H_OCCURRENCE
+} HEADER;
 
-typedef struct msg_parserToCore {
+typedef struct {
     HEADER header;
     std::shared_ptr<std::string> content;
-};
+} msg_parserToCore;
 
-typedef struct msg_rendererToCore {
+typedef struct {
     HEADER header;
     std::shared_ptr<std::string> content;
-};
+} msg_rendererToCore;
 
-typedef struct msg_parserToCore {
+typedef struct {
     HEADER header;
     std::shared_ptr<std::string> content;
-};
+} msg_coreToParser;
 
 #endif /* FMESSAGES_STRUCTURE_HPP */
 
