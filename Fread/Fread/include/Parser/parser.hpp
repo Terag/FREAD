@@ -41,6 +41,7 @@ public:
     
     void awake(std::string const& path);
     void start();
+    void listenAndProcess();
     
     virtual ~Parser();
 private:
@@ -51,6 +52,9 @@ private:
     std::shared_ptr<FQueue<std::string>> push_queue;
     std::shared_ptr<FQueue<std::string>> pop_queue;
 };
+
+//Function uses to launch parser thread
+void parser_thread(std::string path, std::shared_ptr<FQueue<std::string>> popQueue, std::shared_ptr<FQueue<std::string>> pushQueue);
 
 #endif /* PARSER_HPP */
 
