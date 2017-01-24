@@ -27,12 +27,95 @@
 
 #include "Parser/statesConfig.hpp"
 
-statesConfig::statesConfig(std::string const& path = "./states.conf") {
+using namespace std;
+
+StatesConfig::StatesConfig(std::string const& path) :
+    conf_path(path)
+{
 }
 
-statesConfig::statesConfig(const statesConfig& orig) {
+StateType StatesConfig::getState(std::string const& name, std::string const& alias) {
+    for(auto it : events){
+        if(it.name == name && it.alias == alias) {
+            return it.state;
+        }
+    }
+    return STATE_UNKNOW;
 }
 
-statesConfig::~statesConfig() {
+void StatesConfig::initEvents() {
+    string in;
+    StateType currentState = STATE_UNKNOW;
+    events.clear();
+    
+    cout << "Opening : " << conf_path << endl;
+    conf_stream.open(conf_path);
+    if(conf_stream.is_open()) {
+        do {
+            getline(conf_stream, in);
+            cout << " ----- Get line : " << in << endl;
+            if(in[0] == '#'){
+                currentState = stringToState(in.substr(1));
+            } else {
+                events.push_back(defineEvent(in, currentState));
+            }
+        } while(!conf_stream.eof());
+    conf_stream.close();
+    } else {
+        cout << "file is not open" << endl;
+    }
+    
+    for(auto it : events) {
+        cout << "State : " << it.state << " Name : " << it.name << " Alias : " << it.alias << endl; 
+    }
+}
+
+StateType StatesConfig::stringToState(std::string const& str) {
+    if(str == "Wait_states") {
+        return STATE_WAIT;
+    }
+    else if (str == "Compute_states") {
+        return STATE_COMPUTE;
+    }
+    else if (str == "Send_states") {
+        return STATE_SEND;
+    }
+    else {
+        return STATE_UNKNOW;
+    }
+}
+
+Conf_EventType StatesConfig::defineEvent(std::string const& line, StateType current) {
+    pair<string, string> params = getParamInLine(line);
+    
+    Conf_EventType newEventType;
+    newEventType.name = params.first;
+    newEventType.alias = params.second;
+    newEventType.state = current;
+    
+    return newEventType;
+}
+
+std::pair<std::string,std::string> StatesConfig::getParamInLine(string const& line) {
+    std::pair<std::string, std::string> params;
+    string str = line;
+    
+    auto fpos = str.find('\"');
+    auto spos = str.find('\"', fpos+1);
+    params.first = str.substr(fpos+1, spos-1);
+    
+    fpos = str.find('\"', spos+1);
+    spos = str.find('\"', fpos+1);
+    cout << "f=" << fpos << " s=" << spos << endl;
+    //params.second = str.substr(fpos+1, spos-1);
+    params.second = "";
+    for(auto i=fpos+1; i<spos; i++) {
+        params.second.push_back(line[i]);
+    }
+    
+    return params;
+}
+
+StatesConfig::~StatesConfig() {
 }
 

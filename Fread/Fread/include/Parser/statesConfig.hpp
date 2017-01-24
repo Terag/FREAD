@@ -28,16 +28,43 @@
 #define STATESCONFIG_HPP
 
 #include <string>
+#include <fstream>
+#include <iostream>
+#include <vector>
 
-class statesConfig {
+typedef enum {
+    STATE_WAIT,
+    STATE_COMPUTE,
+    STATE_SEND,
+    STATE_UNKNOW
+} StateType;
+
+typedef struct {
+    std::string name;
+    std::string alias;
+    StateType state;
+} Conf_EventType;
+
+class StatesConfig {
 public:
-    statesConfig(std::string const& path = "./states.conf");
-    statesConfig(const statesConfig& orig);
+    StatesConfig(std::string const& path = "./states.conf");
     
+    void initEvents();
     
-    virtual ~statesConfig();
+    StateType getState(std::string const& name, std::string const& alias);
+    
+    static StateType stringToState(std::string const& str);
+    
+    virtual ~StatesConfig();
 private:
 
+    std::string conf_path;
+    std::ifstream conf_stream;
+    
+    std::vector<Conf_EventType> events;
+    
+    Conf_EventType defineEvent(std::string const& line, StateType current);
+    std::pair<std::string,std::string> getParamInLine(std::string const& line) ;
 };
 
 #endif /* STATESCONFIG_HPP */
