@@ -41,13 +41,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-<<<<<<< HEAD
 #include "Render/occurrence_render.hpp"
 #include "Render/event_render.hpp"
-=======
-
-#include "occurrence_render.hpp"
->>>>>>> render
 
 class container_render : public sf::Drawable
 {
