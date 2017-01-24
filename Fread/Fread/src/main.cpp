@@ -10,10 +10,11 @@
 #include "Render/FBezierCurve.hpp"
 
 //Includes for Fqueue tests
-#include "FQueue.hpp"
+//#include "FQueue.hpp"
 #include <thread>
 #include <memory>
 #include <unistd.h>
+#include <queue>
 
 using namespace std;
 
@@ -34,9 +35,19 @@ int main(int argc, char* argv[])
         return -1;
     }
     
-    Parser parser;
-    parser.awake(path);
-    parser.start();
+    auto poQueue = make_shared<FQueue<string>>();
+    auto puQueue = make_shared<FQueue<string>>();
+    
+    thread parserThread(parser_thread, path, poQueue, puQueue);
+    
+    sleep(5);
+    string msg = "Start";
+    poQueue->push(msg);
+    
+    shared_ptr<string> str_msg = puQueue->wait_and_pop();
+    cout << *str_msg << endl;
+    
+    parserThread.join();
     
     return 0;
 }
