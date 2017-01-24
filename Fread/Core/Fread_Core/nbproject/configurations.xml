@@ -6,7 +6,9 @@
                    projectFiles="true">
       <itemPath>Core.h</itemPath>
       <itemPath>FCore.hpp</itemPath>
+      <itemPath>FMessages_structure.hpp</itemPath>
       <itemPath>FQueue.hpp</itemPath>
+      <itemPath>FThread_guard.hpp</itemPath>
       <itemPath>Test_Display.h</itemPath>
       <itemPath>Test_Parser.h</itemPath>
       <itemPath>hashmap_wrapper_fullProtection.h</itemPath>
@@ -69,7 +71,11 @@
       </item>
       <item path="FCore.hpp" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="FMessages_structure.hpp" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="FQueue.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FThread_guard.hpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Test_Display.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -140,7 +146,11 @@
       </item>
       <item path="FCore.hpp" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="FMessages_structure.hpp" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="FQueue.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FThread_guard.hpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Test_Display.cpp" ex="false" tool="1" flavor2="0">
       </item>
