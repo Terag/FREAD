@@ -47,7 +47,6 @@ type(type)
 {
     tStart = (int)(container_render.getScale()*tSStart);
     tEnd = (int)(container_render.getScale()*tSEnd);
-
 }
 
 event_render::setColor() {
