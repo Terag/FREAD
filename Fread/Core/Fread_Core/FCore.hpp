@@ -49,10 +49,10 @@ DEALINGS IN THE SOFTWARE.
 
 class FCore {
 public:
-    FCore(  std::shared_ptr<FQueue> _pop_queue_parser, 
+    FCore( std::shared_ptr<FQueue> _pop_queue_parser, 
            std::shared_ptr<FQueue> _push_queue_parser,
            std::shared_ptr<FQueue> _pop_queue_renderer,
-           std::shared_ptr<FQueue> _push_queue_rederer
+           std::shared_ptr<FQueue> _push_queue_renderer
            );
     
     FCore(const Core& orig);
@@ -63,6 +63,11 @@ public:
     
     
 private:
+    std::shared_ptr<FQueue> _m_pop_queue_parser;
+    std::shared_ptr<FQueue> _m_push_queue_parser;
+    std::shared_ptr<FQueue> _m_pop_queue_renderer;
+    std::shared_ptr<FQueue> _m_push_queue_renderer;
+     
     /*
      TODO
      */
@@ -86,9 +91,25 @@ private:
     void thr_threads_manager();
     void thr_occurrences_manager();
     
+    void thr_message_handler_parser();
+    void thr_message_handler_renderer();
+    
     //check_memory ensure that the two map are not too big
     void check_memory();
 };
+
+    FCore::FCore( std::shared_ptr<FQueue> _pop_queue_parser, 
+                  std::shared_ptr<FQueue> _push_queue_parser,
+                  std::shared_ptr<FQueue> _pop_queue_renderer,
+                  std::shared_ptr<FQueue> _push_queue_renderer):
+                  _m_pop_queue_parser(_pop_queue_parser),
+                  _m_pop_queue_parser(_push_queue_parser),
+                  _m_pop_queue_parser(_pop_queue_parser),
+                  _m_pop_queue_parser(_push_queue_parser)      
+    {
+        
+    }
+
 
 #endif /* FCORE_HPP */
 

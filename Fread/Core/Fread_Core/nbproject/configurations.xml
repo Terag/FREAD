@@ -5,9 +5,10 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Core.h</itemPath>
+      <itemPath>FCore.hpp</itemPath>
+      <itemPath>FQueue.hpp</itemPath>
       <itemPath>Test_Display.h</itemPath>
       <itemPath>Test_Parser.h</itemPath>
-      <itemPath>fqueue.hpp</itemPath>
       <itemPath>hashmap_wrapper_fullProtection.h</itemPath>
       <itemPath>list_wrapper_fullProtection.h</itemPath>
       <itemPath>message_handler.h</itemPath>
@@ -66,6 +67,10 @@
       </item>
       <item path="Core.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="FCore.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FQueue.hpp" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Test_Display.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Test_Display.h" ex="false" tool="3" flavor2="0">
@@ -73,8 +78,6 @@
       <item path="Test_Parser.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Test_Parser.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="fqueue.hpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="hashmap_wrapper_fullProtection.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -135,6 +138,10 @@
       </item>
       <item path="Core.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="FCore.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FQueue.hpp" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Test_Display.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Test_Display.h" ex="false" tool="3" flavor2="0">
@@ -142,8 +149,6 @@
       <item path="Test_Parser.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Test_Parser.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="fqueue.hpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="hashmap_wrapper_fullProtection.cpp" ex="false" tool="1" flavor2="0">
       </item>
