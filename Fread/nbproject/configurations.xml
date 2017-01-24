@@ -6,11 +6,13 @@
         <df name="src">
           <df name="Parser">
             <df name="PAJE">
+              <in>Container_Reader.cpp</in>
               <in>Reader_MainTrace.cpp</in>
+              <in>paje_interface.cpp</in>
+              <in>paje_typedefs.cpp</in>
             </df>
           </df>
           <in>FColor.cpp</in>
-          <in>Reader_MainTrace.cpp</in>
           <in>main.cpp</in>
         </df>
       </df>
@@ -22,7 +24,6 @@
       <itemPath>nbproject/private/launcher.properties</itemPath>
       <itemPath>makefile</itemPath>
     </logicalFolder>
-    <itemPath>main_makefile</itemPath>
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
@@ -38,6 +39,7 @@
       </toolsSet>
       <flagsDictionary>
         <element flagsID="0" commonFlags="-pedantic"/>
+        <element flagsID="1" commonFlags="-std=c++14"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
@@ -58,22 +60,39 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
-      <item path="Fread/src/FColor.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Fread/src/FColor.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="Fread/src/Parser/PAJE/Container_Reader.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
       <item path="Fread/src/Parser/PAJE/Reader_MainTrace.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="Fread/src/Parser/PAJE/paje_interface.cpp"
             ex="false"
             tool="1"
             flavor2="0">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="Fread/src/Reader_MainTrace.cpp" ex="false" tool="1" flavor2="11">
+      <item path="Fread/src/Parser/PAJE/paje_typedefs.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="Fread/src/main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Fread/src/main.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>
