@@ -3,14 +3,6 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
       <df name="Fread">
-        <df name="include">
-          <df name="Render">
-            <in>container_render.hpp</in>
-            <in>event_render.hpp</in>
-            <in>occurrence_render.hpp</in>
-            <in>pattern_render.hpp</in>
-          </df>
-        </df>
         <df name="src">
           <df name="Parser">
             <df name="PAJE">
@@ -23,6 +15,8 @@
           <df name="Render">
             <in>FBezierCurve.cpp</in>
             <in>container_render.cpp</in>
+            <in>event_render.cpp</in>
+            <in>occurrence_render.cpp</in>
           </df>
           <in>FColor.cpp</in>
           <in>container.cpp</in>
@@ -54,6 +48,7 @@
       </toolsSet>
       <flagsDictionary>
         <element flagsID="0" commonFlags="-std=c++11 -pedantic"/>
+        <element flagsID="1" commonFlags="-std=c++14"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
@@ -69,26 +64,6 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
-      <item path="Fread/include/Render/container_render.hpp"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="Fread/include/Render/event_render.hpp"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="Fread/include/Render/occurrence_render.hpp"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="Fread/include/Render/pattern_render.hpp"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
       <item path="Fread/src/FColor.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
           <incDir>
@@ -126,12 +101,34 @@
       </item>
       <item path="Fread/src/Render/FBezierCurve.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
+          <incDir>
+            <pElem>Fread/include</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="Fread/src/Render/container_render.cpp"
             ex="false"
             tool="1"
-            flavor2="0">
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>Fread/include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="Fread/src/Render/event_render.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>Fread/include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="Fread/src/Render/occurrence_render.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
       </item>
       <item path="Fread/src/container.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
@@ -153,13 +150,6 @@
         </ccTool>
       </item>
       <folder path="0/Fread/src/Parser">
-        <ccTool>
-          <incDir>
-            <pElem>Fread/include</pElem>
-          </incDir>
-        </ccTool>
-      </folder>
-      <folder path="0/Fread/src/Render">
         <ccTool>
           <incDir>
             <pElem>Fread/include</pElem>

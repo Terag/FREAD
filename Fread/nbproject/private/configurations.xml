@@ -40,6 +40,7 @@
           <df name="Render">
             <in>FBezierCurve.hpp</in>
             <in>container_render.hpp</in>
+            <in>event_render.h</in>
             <in>event_render.hpp</in>
             <in>occurrence_render.hpp</in>
             <in>pattern_render.hpp</in>
@@ -66,6 +67,8 @@
           <df name="Render">
             <in>FBezierCurve.cpp</in>
             <in>container_render.cpp</in>
+            <in>event_render.cpp</in>
+            <in>occurrence_render.cpp</in>
           </df>
           <in>FColor.cpp</in>
           <in>container.cpp</in>
