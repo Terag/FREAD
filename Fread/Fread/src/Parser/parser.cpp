@@ -29,19 +29,10 @@
 
 using namespace std;
 
-Parser::Parser() :
-    initDone(false)
-{
-}
-
 Parser::Parser(std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue) :
     initDone(false), pop_queue(popQueue), push_queue(pushQueue)
 {
 }
-
-Parser::Parser(const Parser& orig) {
-}
-
 
 void Parser::awake(const std::string& path) {
     trace_path = path;
