@@ -42,7 +42,7 @@ DEALINGS IN THE SOFTWARE.
 
 #include <vector>
 
-#include "thread_guard.h"
+#include "FThread_guard.hpp"
 #include "threadsafe_list.h"
 #include "threadsafe_hashmap.h"
 #include "structures.h"
@@ -63,6 +63,8 @@ public:
     
     
 private:
+    bool awake; //is in awake phase
+    
     std::shared_ptr<FQueue> _m_pop_queue_parser;
     std::shared_ptr<FQueue> _m_push_queue_parser;
     std::shared_ptr<FQueue> _m_pop_queue_renderer;
@@ -88,7 +90,7 @@ private:
     threadsafe_hashmap<int, std::shared_ptr<> > m_container;
     threadsafe_hashmap<int, std::shared_ptr<> > m_patterns;
     
-    void thr_threads_manager();
+    void thr_container_manager();
     void thr_occurrences_manager();
     
     void thr_message_handler_parser();
@@ -110,14 +112,26 @@ private:
     }
 
     void FCore::thr_FCore(){
-        std::thread threads_manager_( thr_threads_manager() );
-        thread_guard tm_g(threads_manager_);
+        
+        while(awake){
+        
+        std::thread message_handler_parser_( thr_message_handler_parser() );
+        FThread_guard mhp_g( message_handler_parser_ );
+        
+        std::thread container_manager_( thr_container_manager() );
+        FThread_guard cm_g(container_manager_);
+        
         std::thread occurrences_manager_( thr_occurrences_manager() );
-        thread_guard om_g(occurrences_manager_);
+        FThread_guard om_g(occurrences_manager_);
+        
+        }
+        
+        std::thread message_handler_renderer_( thr_message_handler_renderer() );
+        FThread_guard mhp_g( message_handler_renderer_ );
     
-    while(1){
-        check_memory();
-    } 
+        while(1){
+            check_memory();
+        } 
     }
 
 #endif /* FCORE_HPP */
