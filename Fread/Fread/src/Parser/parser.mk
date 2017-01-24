@@ -7,6 +7,10 @@ parser.a: $(OBJ)
 	@mv parser.a $(OBJ_DIR)/
 	@echo "    	parser.a move to $(OBJ_DIR)"
 
+parser.o: parser.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
+	@echo "    	CXX        $@"
+
 ## Quand vous rajoutez un fichier, suivre le même format que ci dessous pour chaque fichier :
 ##Cible: dépendances
 ##	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^

@@ -62,7 +62,7 @@ namespace paje
         mainTrace.parseHeader(eventDefs);
     }
     
-    void start() {
+    bool start() {
         parseMainTrace();
         for (auto it : typeDefs) {
             switch (it.nameType){
@@ -101,6 +101,8 @@ namespace paje
                     cout << "error, unexpected type : " << it.typeType;
             }
         }
+        
+        return true;
     }
     
     void parseMainTrace(){

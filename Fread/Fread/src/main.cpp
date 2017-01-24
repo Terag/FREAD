@@ -3,7 +3,7 @@
 #include <string>
 
 //Includes for parser tests
-#include "Parser/PAJE/paje_interface.hpp"
+#include "Parser/parser.hpp"
 
 //Includes for graphics tests
 #include <SFML/Graphics.hpp>
@@ -20,7 +20,7 @@ using namespace std;
 /*
  * Parser main function test
  */
-/*int main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
     if(argc != 2){
         std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
@@ -34,11 +34,12 @@ using namespace std;
         return -1;
     }
     
-    paje::awake(path);
-    paje::start();
+    Parser parser;
+    parser.awake(path);
+    parser.start();
     
     return 0;
-}*/
+}
 
 /*
  * Render main function test
@@ -75,7 +76,7 @@ using namespace std;
  * Queue main function test
  */
 
-void push_thread(Queue<string>* queue) {
+/*void push_thread(Queue<string>* queue) {
     for(int i=0; i<5; i++){
         string msg = "msg " + to_string(i);
         queue->push(msg);
@@ -114,4 +115,4 @@ int main(void){
     
     pusher.join();
     poper.join();
-}
+}*/
