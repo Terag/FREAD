@@ -38,7 +38,11 @@
 
 #endif /* EVENT_RENDER_HPP */
 
+#pragma once 
+
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Color.hpp>
+
 #include "container_render.hpp"
 
 enum eventType {
@@ -47,7 +51,7 @@ enum eventType {
 
 class event_render {
 private:
-    sf::Color eventColor(0,0,0);
+    sf::Color eventColor(255,255,255);
     int  tStart, tEnd = 0;
     eventType type;
     

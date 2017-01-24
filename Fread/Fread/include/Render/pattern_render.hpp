@@ -38,6 +38,8 @@
 
 #endif /* PATTERN_RENDER_HPP */
 
+#pragma once 
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "occurrence_render.hpp"
