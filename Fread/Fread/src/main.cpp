@@ -43,7 +43,7 @@ using namespace std;
 /*
  * Render main function test
  */
-/*int main(void)
+int main(void)
 {
 
     sf::RenderWindow window(sf::VideoMode(500, 500), "BezierCurve test");
@@ -69,13 +69,13 @@ using namespace std;
     }
     
     return 0;
-}*/
+}
 
 /*
  * Queue main function test
  */
 
-void push_thread(Queue<string>* queue) {
+/* void push_thread(Queue<string>* queue) {
     for(int i=0; i<5; i++){
         string msg = "msg " + to_string(i);
         queue->push(msg);
@@ -114,4 +114,4 @@ int main(void){
     
     pusher.join();
     poper.join();
-}
+} */
