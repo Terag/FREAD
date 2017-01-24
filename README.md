@@ -4,7 +4,7 @@
 
 ## Synopsis
 
-Is it to difficult for you to read multithreaded programs traces ? They are to big or softwares give you to much informations and you can't read its ? Fread wants simplify and making it more ergonomic to use.
+Is it too difficult for you to read multithreaded programs execution traces ? They are to big, or softwares that generate them give you too much informations, making them even harder to understand ? Fread wants to simplify your life by making those traces easier to visualize.
 
 For the moment the software is in developpement process. You can contact us for more informations.
 
@@ -14,15 +14,15 @@ For the moment the software is in developpement process. You can contact us for 
 
 ## Motivation
 
-This software is developped to simplify and accelerate big traces reading of multithreaded programs.
+This software is developped to simplify and accelerate considerable execution traces reading of multithreaded programs.
 
-It is based on factorisation of traces with EZtrace algorithme. 
-That permits to use culling to accelerate rendering and display trace in the form of patterns to simplify the traces understanding.
+It is based on the factorisation of execution traces with the EZtrace algorithm. 
+That permits to use culling to accelerate rendering and display a trace in the form of patterns to simplify its understanding.
 
 ## Installation
 
-For the moment the makefile is a prototype, CMake will come in futur.
-Download it and in the makefile directory use bash command :
+For the moment the makefile is a prototype, CMake will come later.
+Download it and in the makefile directory use the bash command :
 
 ~~~ sh
   make
@@ -50,7 +50,7 @@ For Parser tests you have to use this command :
    * Céline Mast
    
 ### Other
-   * Based on François Trahay algorithme
+   * Based on François Trahay algorithm
 
 ## License
 
