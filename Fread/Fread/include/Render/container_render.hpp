@@ -38,6 +38,8 @@
 
 #endif /* CONTAINER_RENDER_HPP */
 
+#pragma once 
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 
@@ -48,7 +50,7 @@ class container_render : public sf::Drawable
 private : 
     int id; 
     std::string name;
-    float scale = 1;
+    float scale = 1.f;
     int offsetX = 10;
     int offsetY = 20;
     int sizeContainer = 500;
