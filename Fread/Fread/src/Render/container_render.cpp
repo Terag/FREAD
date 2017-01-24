@@ -24,49 +24,42 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* 
- * File:   container_render.hpp
- * Author: emma
- *
- * Created on 24 janvier 2017, 10:25
- */
-
-#ifndef CONTAINER_RENDER_HPP
-#define CONTAINER_RENDER_HPP
-
-
-
-#endif /* CONTAINER_RENDER_HPP */
-
+#include "Render/container_render.hpp"
 #include <SFML/Graphics.hpp>
-#include <vector>
 
-#include "event_render.hpp"
+using namespace std;
+using namespace sf;
 
-class container_render : public sf::Drawable
+container_render::container_render() :
+id(0), name(""), absoluteTime(1)
+{}
+
+container_render::container_render(int id, std::string name, float absoluteTime) : 
+id(id), name(name), absoluteTime(absoluteTime)
+{}
+
+container_render::container_render(int id, std::string name, float absoluteTime, int offsetX, int offsetY) : 
+id(id), name(name), absoluteTime(absoluteTime), offsetX(offsetX), offsetY(offsetY)
+{}
+
+container_render::calculateScale(float absoluteTime) 
 {
-private : 
-    int id; 
-    std::string name;
-    float scale = 1;
-    int offsetX = 10;
-    int offsetY = 20;
-    int sizeContainer = 500;
-    sf::Vertex line[] = 
+    container_render.scale = container_render.sizeContainer/(absoluteTime);
+}
+
+container_render::addOccurrence(occurrence_render occ) 
+{
+   container_render.occurrences.push_back(occ); 
+}
+
+container_render::draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const 
+{
+    target.draw(line, states );
+    for (int i = 0; i < occurrences.size; i++) 
     {
-        sf::Vertex(sf::Vector2f(offsetX, offsetY*id)), 
-        sf::Vertex(sf::Vector2f((scale*absoluteTime) + offsetX, offsetY*id))
-    }; 
-    static float absoluteTime;
-    std::vector<occurrence_render> occurrences;
-        
-public : 
-    container_render();
-    container_render(int id, std::string name, float absoluteTime);
-    container_render(int id, std::string name, float absoluteTime, int offsetX, int offsetY);
-    void addOccurrence(occurrence_render occ);
-    void calculateScale(float absoluteTime);
-    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
-    ~container_render();
-            
-};
+        target.draw(occurrences[i], states);
+    }        
+}
+
+
+    
