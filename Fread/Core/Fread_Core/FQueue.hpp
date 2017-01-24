@@ -25,8 +25,8 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef FQUEUE_HPP
-#define FQUEUE_HPP
+#ifndef QUEUE_HPP
+#define QUEUE_HPP
 
 #include <memory>
 #include <mutex>
@@ -108,5 +108,5 @@ bool FQueue<T>::empty()
     return (head.get() == tail);
 }
 
-#endif /* FQUEUE_HPP */
+#endif /* QUEUE_HPP */
 
