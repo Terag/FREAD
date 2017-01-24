@@ -36,9 +36,7 @@
 
 class Parser {
 public:
-    Parser();
     Parser(std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue);
-    Parser(const Parser& orig);
     
     void awake(std::string const& path);
     void start();
