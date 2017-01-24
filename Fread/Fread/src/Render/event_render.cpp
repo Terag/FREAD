@@ -36,7 +36,7 @@
 event_render::event_render() {
 }
 
-event_render::event_render(const event_render& orig) {
+event_render::event_render(float tSStart, float tSEnd, eventType type) {
 }
 
 event_render::~event_render() {
