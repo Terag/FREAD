@@ -7,10 +7,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/guillem/Cours/3A/PFE/FREAD/Fread/Core/Fread_Core/message_sender.h</file>
-            <file>file:/home/guillem/Cours/3A/PFE/FREAD/Fread/Core/Fread_Core/Core.h</file>
+            <file>file:/home/guillem/Cours/3A/PFE/FREAD/Fread/Core/Fread_Core/message_handler.h</file>
+            <file>file:/home/guillem/Cours/3A/PFE/FREAD/Fread/Core/Fread_Core/fqueue.hpp</file>
+            <file>file:/home/guillem/Cours/3A/PFE/FREAD/Fread/Core/Fread_Core/message_handler.cpp</file>
             <file>file:/home/guillem/Cours/3A/PFE/FREAD/Fread/Core/Fread_Core/Core.cpp</file>
-            <file>file:/home/guillem/Cours/3A/PFE/FREAD/Fread/Core/Fread_Core/threadsafe_list.cpp</file>
         </group>
     </open-files>
 </project-private>
