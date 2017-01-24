@@ -34,7 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace paje
 {
     void awake(std::string const& path);
-    void start();
+    bool start();
     
     void PajeEventCall(std::string line, EventDef &event);
 }
