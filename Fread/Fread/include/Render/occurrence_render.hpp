@@ -42,6 +42,7 @@
 #include <vector>
 #include "event_render.hpp"
 
+
 class occurrence_render : public sf::Drawable {
  
 private : 
@@ -53,7 +54,7 @@ std::vector<event_render> events;
 
 public : 
 occurrence_render();
-occurrence_render(int id, std::vector<float> timeStamps, std::vector<eventType> );
+occurrence_render(int id, std::vector<float> timeStamps, std::vector<eventType> event);
 void addEvent(event_render event);  
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 ~occurrence_render();
