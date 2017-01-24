@@ -16,7 +16,6 @@
             <in>FBezierCurve.cpp</in>
             <in>container_render.cpp</in>
             <in>event_render.cpp</in>
-            <in>occurrence_render.cpp</in>
           </df>
           <in>FColor.cpp</in>
           <in>container.cpp</in>
@@ -109,11 +108,8 @@
       <item path="Fread/src/Render/container_render.cpp"
             ex="false"
             tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-          <incDir>
-            <pElem>Fread/include</pElem>
-          </incDir>
+            flavor2="8">
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="Fread/src/Render/event_render.cpp" ex="false" tool="1" flavor2="11">
@@ -121,13 +117,6 @@
           <incDir>
             <pElem>Fread/include</pElem>
           </incDir>
-        </ccTool>
-      </item>
-      <item path="Fread/src/Render/occurrence_render.cpp"
-            ex="false"
-            tool="1"
-            flavor2="8">
-        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="Fread/src/container.cpp" ex="false" tool="1" flavor2="8">

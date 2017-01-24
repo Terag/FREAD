@@ -41,7 +41,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-#include "event_render.hpp"
+#include "occurrence_render.hpp"
 
 class container_render : public sf::Drawable
 {
@@ -66,6 +66,8 @@ public :
     container_render(int id, std::string name, float absoluteTime, int offsetX, int offsetY);
     float getScale();
     int getOffsetX();
+    int getOffsetY();
+    int getId();
     void addOccurrence(occurrence_render occ);
     void calculateScale(float absoluteTime);
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
