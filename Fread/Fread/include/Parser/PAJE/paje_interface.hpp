@@ -24,45 +24,21 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#ifndef READER_MAINTRACE_HPP
-#define READER_MAINTRACE_HPP
+#ifndef PAJE_NAMESPACE_HPP
+#define PAJE_NAMESPACE_HPP
 
 #include <string>
-#include <vector>
-#include <iostream>
-#include <fstream>
 
-#include "Parser/PAJE/paje_interface.hpp"
 #include "Parser/PAJE/paje_typedefs.hpp"
 
 namespace paje
 {
-    class Reader_MainTrace {
-    public:
-        Reader_MainTrace();
-        void init(std::string const& path);
-
-        virtual ~Reader_MainTrace();
-
-        void parseHeader(std::vector<EventDef>& eventDefs);
-        
-        void openStream();
-        void closeStream();
-        std::string getLine();
-        bool end();
-        
-    private:
-
-        std::string name;
-        std::string parent;
-        
-        std::string mainTrace_Path;
-        std::ifstream mainTrace_Stream;
-
-        void eventDef(std::vector<EventDef>& eventDefs, std::string &in);
-        FieldDef fieldDef(std::string &in);
-    };
+    void awake(std::string const& path);
+    void start();
+    
+    void PajeEventCall(std::string line, EventDef &event);
 }
 
-#endif /* READER_MAINTRACE_HPP */
+
+#endif /* PAJE_NAMESPACE_HPP */
 

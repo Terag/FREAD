@@ -24,45 +24,50 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#ifndef READER_MAINTRACE_HPP
-#define READER_MAINTRACE_HPP
+/*#pragma once
+#include<vector>
+#include<string>	
+#include "occurrence.h"
 
-#include <string>
-#include <vector>
-#include <iostream>
-#include <fstream>
-
-#include "Parser/PAJE/paje_interface.hpp"
-#include "Parser/PAJE/paje_typedefs.hpp"
-
-namespace paje
+struct event
 {
-    class Reader_MainTrace {
-    public:
-        Reader_MainTrace();
-        void init(std::string const& path);
+	EventType type;
+	Color color;
+	std::string Alias;
 
-        virtual ~Reader_MainTrace();
+};
+enum EventType
+{
+	Wait,
+	Compute,
+	Send
+};
+struct event
+{
+	int id;
+	struct coord
+	{
+		float t;
+		int id;
+	};
+	coord start;
+	coord end;
+};
+class Pattern
+{
+private :
+	int id;
+	std::vector<event> events;
+	std::vector<float> meanTimeStamps;
+	std::vector<occurrence> occurrences;
+	
+	
 
-        void parseHeader(std::vector<EventDef>& eventDefs);
-        
-        void openStream();
-        void closeStream();
-        std::string getLine();
-        bool end();
-        
-    private:
+public:
+	Pattern();
+	~Pattern();
+};
+bool operator==(pattern A,pattern B);
+bool operator!=(pattern A, pattern B);
 
-        std::string name;
-        std::string parent;
-        
-        std::string mainTrace_Path;
-        std::ifstream mainTrace_Stream;
-
-        void eventDef(std::vector<EventDef>& eventDefs, std::string &in);
-        FieldDef fieldDef(std::string &in);
-    };
-}
-
-#endif /* READER_MAINTRACE_HPP */
-
+*/

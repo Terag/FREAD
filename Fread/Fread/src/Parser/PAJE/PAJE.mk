@@ -7,7 +7,19 @@ PAJE.a: $(OBJ)
 	@mv PAJE.a $(OBJ_DIR)/
 	@echo "    	PAJE.a move to $(OBJ_DIR)"
 
+paje_typedefs.o: paje_typedefs.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
+	@echo "    	CXX        $@"
+
+paje_interface.o: paje_interface.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
+	@echo "    	CXX        $@"
+	
 Reader_MainTrace.o: Reader_MainTrace.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
+	@echo "    	CXX        $@"
+
+Container_Reader.o: Container_Reader.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"
 
