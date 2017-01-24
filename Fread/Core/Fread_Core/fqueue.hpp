@@ -25,8 +25,8 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef QUEUE_HPP
-#define QUEUE_HPP
+#ifndef FQUEUE_HPP
+#define FQUEUE_HPP
 
 #include <memory>
 #include <mutex>
@@ -36,7 +36,7 @@ DEALINGS IN THE SOFTWARE.
 #include <condition_variable>
 
 template<typename T>
-class Queue
+class FQueue
 {
 private:
     struct node
@@ -52,12 +52,12 @@ private:
     std::condition_variable data_cond;
     
 public:
-    Queue():
+    FQueue():
         head(new node),tail(head.get())
     {}
 
-    Queue(const Queue& other)=delete;
-    Queue& operator=(const Queue& other)=delete;
+    FQueue(const FQueue& other)=delete;
+    FQueue& operator=(const FQueue& other)=delete;
 
     std::shared_ptr<T> try_pop();
     
@@ -69,7 +69,7 @@ public:
 };
 
 template <typename T>
-std::shared_ptr<T> Queue<T>::try_pop()
+std::shared_ptr<T> FQueue<T>::try_pop()
 {
     if(head.get()==tail)
     {
@@ -82,7 +82,7 @@ std::shared_ptr<T> Queue<T>::try_pop()
 }
 
 template<typename T>
-void Queue<T>::push(T new_value)
+void FQueue<T>::push(T new_value)
 {
     std::shared_ptr<T> new_data = std::make_shared<T>(std::move(new_value));
     std::unique_ptr<node> p(new node);
@@ -95,7 +95,7 @@ void Queue<T>::push(T new_value)
 }
 
 template<typename T>
-std::shared_ptr<T> Queue<T>::wait_and_pop(){
+std::shared_ptr<T> FQueue<T>::wait_and_pop(){
     std::unique_lock<std::mutex> lk(mut);
     data_cond.wait(lk, [this](){ return !empty();});
     lk.unlock();
@@ -103,10 +103,10 @@ std::shared_ptr<T> Queue<T>::wait_and_pop(){
 }
 
 template<typename T>
-bool Queue<T>::empty()
+bool FQueue<T>::empty()
 {
     return (head.get() == tail);
 }
 
-#endif /* QUEUE_HPP */
+#endif /* FQUEUE_HPP */
 

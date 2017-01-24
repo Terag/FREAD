@@ -20,6 +20,7 @@ public:
     message_handler(const message_handler& orig);
     virtual ~message_handler();
 private:
+    
 
 };
 
