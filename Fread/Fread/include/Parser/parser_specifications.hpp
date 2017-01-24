@@ -24,13 +24,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* 
- * File:   parser_specifications.hpp
- * Author: terag
- *
- * Created on January 24, 2017, 10:46 AM
- */
-
 #ifndef PARSER_SPECIFICATIONS_HPP
 #define PARSER_SPECIFICATIONS_HPP
 

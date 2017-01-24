@@ -27,13 +27,21 @@
 #include "Parser/parser_specifications.hpp"
 #include "Parser/parser.hpp"
 
+using namespace std;
+
 Parser::Parser() :
     initDone(false)
 {
 }
 
+Parser::Parser(shared_ptr<FQueue<string>> popQueue, shared_ptr<FQueue<string>> pushQueue) :
+    initDone(false), pop_queue(popQueue), push_queue(pushQueue)
+{
+}
+
 Parser::Parser(const Parser& orig) {
 }
+
 
 void Parser::awake(const std::string& path) {
     trace_path = path;
