@@ -4,6 +4,9 @@
 #include <memory>
 #include <thread>
 
+//Includes for other tests
+#include "Parser/statesConfig.hpp"
+
 //Includes for parser tests
 #include "Parser/parser.hpp"
 #include "FMessages_structure.hpp"
@@ -19,9 +22,17 @@
 using namespace std;
 
 /*
+ * Other tests
+ */
+int main(void) {
+    StatesConfig conf("./states.conf");
+    conf.initEvents();
+}
+
+/*
  * Parser main function test
  */
-int main(int argc, char* argv[])
+/*int main(int argc, char* argv[])
 {
     if(argc != 2){
         std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
@@ -52,7 +63,7 @@ int main(int argc, char* argv[])
     parserThread.join();
     
     return 0;
-}
+}*/
 
 /*
  * Render main function test
