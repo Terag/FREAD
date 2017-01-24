@@ -59,7 +59,7 @@ public:
     
     virtual ~FCore();
     
-    void thr_fread_core();
+    void thr_FCore();
     
     
 private:
@@ -106,10 +106,19 @@ private:
                   _m_pop_queue_parser(_push_queue_parser),
                   _m_pop_queue_parser(_pop_queue_parser),
                   _m_pop_queue_parser(_push_queue_parser)      
-    {
-        
+    {  
     }
 
+    void FCore::thr_FCore(){
+        std::thread threads_manager_( thr_threads_manager() );
+        thread_guard tm_g(threads_manager_);
+        std::thread occurrences_manager_( thr_occurrences_manager() );
+        thread_guard om_g(occurrences_manager_);
+    
+    while(1){
+        check_memory();
+    } 
+    }
 
 #endif /* FCORE_HPP */
 
