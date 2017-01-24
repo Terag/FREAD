@@ -2,6 +2,31 @@
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
+      <df name="Core">
+        <df name="Fread_Core">
+          <in>Core.cpp</in>
+          <in>Core.h</in>
+          <in>Test_Display.cpp</in>
+          <in>Test_Display.h</in>
+          <in>Test_Parser.cpp</in>
+          <in>Test_Parser.h</in>
+          <in>hashmap_wrapper_fullProtection.cpp</in>
+          <in>hashmap_wrapper_fullProtection.h</in>
+          <in>list_wrapper_fullProtection.cpp</in>
+          <in>list_wrapper_fullProtection.h</in>
+          <in>main.cpp</in>
+          <in>message_sender.cpp</in>
+          <in>message_sender.h</in>
+          <in>structures.cpp</in>
+          <in>structures.h</in>
+          <in>thread_guard.cpp</in>
+          <in>thread_guard.h</in>
+          <in>threadsafe_hashmap.cpp</in>
+          <in>threadsafe_hashmap.h</in>
+          <in>threadsafe_list.cpp</in>
+          <in>threadsafe_list.h</in>
+        </df>
+      </df>
       <df name="Fread">
         <df name="include">
           <df name="Parser">
@@ -12,7 +37,16 @@
               <in>paje_typedefs.hpp</in>
             </df>
           </df>
+          <df name="Render">
+            <in>FBezierCurve.hpp</in>
+          </df>
           <in>FColor.hpp</in>
+          <in>container.hpp</in>
+          <in>occurrence.hpp</in>
+          <in>pattern.hpp</in>
+          <in>queue.hpp</in>
+        </df>
+        <df name="obj">
         </df>
         <df name="src">
           <df name="Core">
@@ -26,9 +60,23 @@
             </df>
           </df>
           <df name="Render">
+            <in>FBezierCurve.cpp</in>
           </df>
           <in>FColor.cpp</in>
+          <in>container.cpp</in>
           <in>main.cpp</in>
+          <in>occurrence.cpp</in>
+          <in>pattern.cpp</in>
+        </df>
+      </df>
+      <df name="traces">
+        <df name="mpi_barrier_4p_compressed">
+        </df>
+        <df name="mpi_ping_compressed">
+        </df>
+        <df name="mpi_ring_2p_compressed">
+        </df>
+        <df name="mpi_ring_4p_compressed">
         </df>
       </df>
     </df>
