@@ -39,7 +39,7 @@
 #endif /* EVENT_RENDER_HPP */
 
 #include <SFML/Graphics.hpp>
-
+#include "container_render.hpp"
 
 enum eventType {
     WAIT, COMPUTE, SEND
@@ -48,33 +48,13 @@ enum eventType {
 class event_render {
 private:
     sf::Color eventColor(0,0,0);
-    int tStart, tEnd;
+    int  tStart, tEnd = 0;
     eventType type;
     
 public:
     event_render();
     event_render(float tSStart, float tSEnd, eventType type);
-    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
-
     ~event_render();
-    void setColor() {
-        switch(type) {
-            
-            case(WAIT): 
-            {
-                eventColor = sf::Color(246,56,58);
-                break;
-            }
-            case(COMPUTE): 
-            {
-                eventColor = sf::Color(0,200,225);
-                break;
-            }
-            case(SEND):
-            {
-                eventColor = sf::Color(132,0,166);
-                break;
-            }
-        }
-    }
+    void setColor();
+    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 };

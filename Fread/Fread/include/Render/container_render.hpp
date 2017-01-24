@@ -64,6 +64,8 @@ public :
     container_render();
     container_render(int id, std::string name, float absoluteTime);
     container_render(int id, std::string name, float absoluteTime, int offsetX, int offsetY);
+    float getScale();
+    int getOffsetX();
     void addOccurrence(occurrence_render occ);
     void calculateScale(float absoluteTime);
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;

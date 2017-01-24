@@ -52,6 +52,26 @@ container_render::addOccurrence(occurrence_render occ)
    container_render.occurrences.push_back(occ); 
 }
 
+container_render::getScale() 
+{
+    return scale;
+}
+
+container_render::getOffsetX()
+{
+    return offsetX;
+}
+
+container_render::getOffsetY()
+{
+    return offsetY;
+}
+
+container_render::getId()
+{
+    return id;
+}
+
 container_render::draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const 
 {
     target.draw(line, states );
