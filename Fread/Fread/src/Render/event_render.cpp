@@ -31,14 +31,52 @@
  * Created on 24 janvier 2017, 15:47
  */
 
-#include "event_render.hpp"
+#include "Render/event_render.hpp"
+#include <cmath>
+#include <stdio.h>
 
-event_render::event_render() {
+using namespace std;
+using namespace sf;
+
+event_render::event_render() :
+type(NULL)
+{}
+
+event_render::event_render(float tSStart, float tSEnd, eventType type) :
+type(type)
+{
+    tStart = (int)(container_render.getScale()*tSStart);
+    tEnd = (int)(container_render.getScale()*tSEnd);
+
 }
 
-event_render::event_render(const event_render& orig) {
-}
+event_render::setColor() {
+        switch(type) {
+            
+            case(WAIT): 
+            {
+                eventColor = sf::Color(246,56,58);
+                break;
+            }
+            case(COMPUTE): 
+            {
+                eventColor = sf::Color(0,200,225);
+                break;
+            }
+            case(SEND):
+            {
+                eventColor = sf::Color(132,0,166);
+                break;
+            }
+        }
+    }   
 
-event_render::~event_render() {
+event_render::draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const 
+{
+    int size = (tEnd - tStart);
+    RectangleShape rectangle(Vector2f(size, 10));
+    rectangle.setFillColor(eventColor);
+    rectangle.setPosition(tStart,container_render.getId()*container_render.getOffsetY());
+    target.draw(rectangle, states);
 }
-
+    
