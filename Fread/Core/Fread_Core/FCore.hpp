@@ -41,15 +41,16 @@ enum HEADER{
     TIMESTAMP,
     INITDONE,
     CONTAINER,
-    PATTERN
+    PATTERN,
+    OCCURRENCE
 };
 
-struct parser_msg{
+struct msg_parser{
     HEADER header;
     std::shared_ptr<> content;
 };
 
-struct renderer_msg{
+struct msg_renderer{
     HEADER header;
     std::shared_ptr<> content;
 };
@@ -58,18 +59,18 @@ struct renderer_msg{
 
 #include <vector>
 
+#include "FQueue.hpp"
 #include "FThread_guard.hpp"
 #include "threadsafe_list.h"
 #include "threadsafe_hashmap.h"
 #include "structures.h"
-#include "Core.h"
 
 class FCore {
 public:
-    FCore( std::shared_ptr<FQueue<parser_msg> > _pop_queue_parser, 
-           std::shared_ptr<FQueue<parser_msg> > _push_queue_parser,
-           std::shared_ptr<FQueue<renderer_msg> > _pop_queue_renderer,
-           std::shared_ptr<FQueue<renderer_msg> > _push_queue_renderer
+    FCore( std::shared_ptr<FQueue<msg_parser> > _pop_queue_parser, 
+           std::shared_ptr<FQueue<msg_parser> > _push_queue_parser,
+           std::shared_ptr<FQueue<msg_renderer> > _pop_queue_renderer,
+           std::shared_ptr<FQueue<msg_renderer> > _push_queue_renderer
            );
     
     FCore(const Core& orig);
@@ -82,10 +83,10 @@ public:
 private:
     bool awake; //is in awake phase
     
-    std::shared_ptr<FQueue> _m_pop_queue_parser;
-    std::shared_ptr<FQueue> _m_push_queue_parser;
-    std::shared_ptr<FQueue> _m_pop_queue_renderer;
-    std::shared_ptr<FQueue> _m_push_queue_renderer;
+    std::shared_ptr<FQueue<msg_parser> > _m_pop_queue_parser;
+    std::shared_ptr<FQueue<msg_parser> > _m_push_queue_parser;
+    std::shared_ptr<FQueue<msg_renderer> > _m_pop_queue_renderer;
+    std::shared_ptr<FQueue<msg_renderer> > _m_push_queue_renderer;
      
     /*
      TODO
@@ -117,10 +118,10 @@ private:
     void check_memory();
 };
 
-    FCore::FCore( std::shared_ptr<FQueue> _pop_queue_parser, 
-                  std::shared_ptr<FQueue> _push_queue_parser,
-                  std::shared_ptr<FQueue> _pop_queue_renderer,
-                  std::shared_ptr<FQueue> _push_queue_renderer):
+    FCore::FCore( std::shared_ptr<FQueue<msg_parser> > _pop_queue_parser, 
+                  std::shared_ptr<FQueue<msg_parser> > _push_queue_parser,
+                  std::shared_ptr<FQueue<msg_renderer> > _pop_queue_renderer,
+                  std::shared_ptr<FQueue<msg_renderer> > _push_queue_renderer):
                   _m_pop_queue_parser(_pop_queue_parser),
                   _m_pop_queue_parser(_push_queue_parser),
                   _m_pop_queue_parser(_pop_queue_parser),
@@ -153,7 +154,27 @@ private:
     
     void FCore::thr_message_handler_parser(){
         
-        switch()
+        std::shared_ptr<msg_parser> msg = _m_pop_queue_parser->try_pop();
+        if(msg != NULL){
+            
+            switch(msg->header){
+                case(INITDONE):
+                    awake = false;
+                break;
+                case(CONTAINER):
+                    m_parser_container.push_back(msg->content);
+                break;
+                case(PATTERN):
+                    //insert the pattern
+                break;
+                case(OCCURRENCE):
+                    m_parser_container.push_back(msg->content);
+                break;
+            } 
+            
+        }
+
+        
         
     }
 
