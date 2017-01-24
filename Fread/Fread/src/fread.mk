@@ -1,6 +1,6 @@
 SRC = $(wildcard *.cpp)
 OBJ = $(SRC:.cpp=.o)
-FREAD_LIB = $(OBJ_DIR)/$(PARSER).a $(OBJ_DIR)/render.a $(OBJ_DIR)/core.a	 $(OBJ_DIR)/parser.a
+FREAD_LIB = $(OBJ_DIR)/$(PARSER).a $(OBJ_DIR)/render.a $(OBJ_DIR)/core.a $(OBJ_DIR)/parser.a
  
 $(EXEC): $(OBJ) $(FREAD_LIB)
 	@$(CXX) -o $(EXEC) $(OBJ) $(FREAD_LIB) $(LIBS)

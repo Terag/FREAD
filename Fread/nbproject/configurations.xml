@@ -6,12 +6,20 @@
         <df name="src">
           <df name="Parser">
             <df name="PAJE">
+              <in>Container_Reader.cpp</in>
               <in>Reader_MainTrace.cpp</in>
+              <in>paje_interface.cpp</in>
+              <in>paje_typedefs.cpp</in>
             </df>
           </df>
+          <df name="Render">
+            <in>FBezierCurve.cpp</in>
+          </df>
           <in>FColor.cpp</in>
-          <in>Reader_MainTrace.cpp</in>
+          <in>container.cpp</in>
           <in>main.cpp</in>
+          <in>occurrence.cpp</in>
+          <in>pattern.cpp</in>
         </df>
       </df>
     </df>
@@ -22,7 +30,6 @@
       <itemPath>nbproject/private/launcher.properties</itemPath>
       <itemPath>makefile</itemPath>
     </logicalFolder>
-    <itemPath>main_makefile</itemPath>
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
@@ -37,7 +44,7 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <flagsDictionary>
-        <element flagsID="0" commonFlags="-pedantic"/>
+        <element flagsID="0" commonFlags="-std=c++11 -pedantic"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
@@ -47,36 +54,84 @@
           <buildCommand>${MAKE} -f makefile</buildCommand>
           <cleanCommand>${MAKE} -f makefile clean</cleanCommand>
           <executablePath>Fread/src/</executablePath>
-          <ccTool>
-            <incDir>
-              <pElem>Fread/include</pElem>
-            </incDir>
-          </ccTool>
         </makeTool>
         <preBuild>
           <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
-      <item path="Fread/src/FColor.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Fread/src/FColor.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>Fread/include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="Fread/src/Parser/PAJE/Container_Reader.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>
       <item path="Fread/src/Parser/PAJE/Reader_MainTrace.cpp"
             ex="false"
             tool="1"
-            flavor2="0">
+            flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="Fread/src/Reader_MainTrace.cpp" ex="false" tool="1" flavor2="11">
+      <item path="Fread/src/Parser/PAJE/paje_interface.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="Fread/src/main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Fread/src/Parser/PAJE/paje_typedefs.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="Fread/src/Render/FBezierCurve.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="Fread/src/container.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="Fread/src/main.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>Fread/include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="Fread/src/occurrence.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="Fread/src/pattern.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <folder path="0/Fread/src/Parser">
+        <ccTool>
+          <incDir>
+            <pElem>Fread/include</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/Fread/src/Render">
+        <ccTool>
+          <incDir>
+            <pElem>Fread/include</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
     </conf>
   </confs>
 </configurationDescriptor>
