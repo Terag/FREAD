@@ -15,10 +15,9 @@
 #include <thread>
 #include <mutex>
 
-#include "list_wrapper_fullProtection.h"
-#include "Core.h"
-#include "structures.h"
-#include "thread_guard.h"
+#include "FMessages_structure.hpp"
+#include "FCore.hpp"
+#include "FThread_guard.hpp"
 #include "Test_Parser.h"
 #include "Test_Display.h"
 
@@ -29,14 +28,10 @@ using namespace std;
  */
 int main(int argc, char** argv) {
     
-    list_wrapper_fullProtection<s_core2display> p_core2display();
-    list_wrapper_fullProtection<s_core2parser> p_core2parser();
-    
-    list_wrapper_fullProtection<s_display2occurrences> p_display2occurrences();
-    list_wrapper_fullProtection<s_display2threads> p_display2threads();
-    
-    list_wrapper_fullProtection<s_parser2occurrences> p_parser2occurrences();
-    list_wrapper_fullProtection<s_parser2threads> p_parser2threads();
+    std::shared_ptr<FQueue<msg_parser> > _pop_queue_parser = std::make_shared< FQueue<msg_parser> >();
+    std::shared_ptr<FQueue<msg_parser> > _push_queue_parser = std::make_shared< FQueue<msg_parser> >();
+    std::shared_ptr<FQueue<msg_renderer> > _pop_queue_renderer = std::make_shared< FQueue<msg_renderer> >();
+    std::shared_ptr<FQueue<msg_renderer> > _push_queue_renderer = std::make_shared< FQueue<msg_renderer> >();
     
     Core fread_core(std::make_shared(p_display2occurrences),
                     std::make_shared(p_display2threads),
