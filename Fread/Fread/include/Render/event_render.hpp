@@ -30,6 +30,7 @@
  *
  * Created on 24 janvier 2017, 12:07
  */
+#pragma once
 
 #ifndef EVENT_RENDER_HPP
 #define EVENT_RENDER_HPP
@@ -39,7 +40,7 @@
 #endif /* EVENT_RENDER_HPP */
 
 #include <SFML/Graphics.hpp>
-#include "container_render.hpp"
+#include "Render/container_render.hpp"
 
 enum eventType {
     WAIT, COMPUTE, SEND
