@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
 /*
  * Render main function test
  */
-/*int main(void)
+int main(void)
 {
 
     sf::RenderWindow window(sf::VideoMode(500, 500), "BezierCurve test");
@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
     }
     
     return 0;
-}*/
+}
 
 /*
  * FQueue main function test
@@ -115,4 +115,5 @@ int main(void){
     
     pusher.join();
     poper.join();
+<<<<<<< HEAD
 }*/
