@@ -14,7 +14,10 @@
 #ifndef FMESSAGES_STRUCTURE_HPP
 #define FMESSAGES_STRUCTURE_HPP
 
-enum HEADER{
+#include <string>
+#include <memory>
+
+typedef enum HEADER {
      START,
      INITDONE,
      TIMESTAMP,
@@ -24,14 +27,19 @@ enum HEADER{
      OCCURRENCE
 };
 
-struct msg_parser{
+typedef struct msg_parserToCore {
     HEADER header;
-    std::shared_ptr<> content;
+    std::shared_ptr<std::string> content;
 };
 
-struct msg_renderer{
+typedef struct msg_rendererToCore {
     HEADER header;
-    std::shared_ptr<> content;
+    std::shared_ptr<std::string> content;
+};
+
+typedef struct msg_parserToCore {
+    HEADER header;
+    std::shared_ptr<std::string> content;
 };
 
 #endif /* FMESSAGES_STRUCTURE_HPP */
