@@ -35,26 +35,6 @@ DEALINGS IN THE SOFTWARE.
 #ifndef FCORE_HPP
 #define FCORE_HPP
 
-enum HEADER{
-    START,
-    INITDONE,
-    TIMESTAMP,
-    INITDONE,
-    CONTAINER,
-    PATTERN,
-    OCCURRENCE
-};
-
-struct msg_parser{
-    HEADER header;
-    std::shared_ptr<> content;
-};
-
-struct msg_renderer{
-    HEADER header;
-    std::shared_ptr<> content;
-};
-
 #define MAX_SIZE 200
 
 #include <vector>
@@ -63,7 +43,7 @@ struct msg_renderer{
 #include "FThread_guard.hpp"
 #include "threadsafe_list.h"
 #include "threadsafe_hashmap.h"
-#include "structures.h"
+#include "FMessages_structure.hpp"
 
 class FCore {
 public:
@@ -92,20 +72,20 @@ private:
      TODO
      */
     threadsafe_list<> m_renderer_occurrences;
-    threadsafe_list<> m_renderer_container;
+    threadsafe_list<> m_renderer_containers;
     threadsafe_list<> m_occurrences_renderer;
-    threadsafe_list<> m_container_renderer;
+    threadsafe_list<> m_containers_renderer;
     
     threadsafe_list<> m_parser_occurrences;
-    threadsafe_list<> m_parser_container;
+    threadsafe_list<> m_parser_containers;
     threadsafe_list<> m_occurrences_parser;
-    threadsafe_list<> m_container_parser;
+    threadsafe_list<> m_containers_parser;
     
     /*
      TODO
      */
     threadsafe_hashmap<std::pair<int, int>, std::shared_ptr<> > m_occurrences;
-    threadsafe_hashmap<int, std::shared_ptr<> > m_container;
+    threadsafe_hashmap<int, std::shared_ptr<> > m_containers;
     threadsafe_hashmap<int, std::shared_ptr<> > m_patterns;
     
     void thr_container_manager();
@@ -129,54 +109,104 @@ private:
     {  
     }
 
-    void FCore::thr_FCore(){
+    void FCore::thr_container_manager(){
+    msg_renderer renderer_message_received;
+    msg_parser parser_message_received;
+    while(1){
+        //gets messages from display and parser
+        if(!m_renderer_containers.empty()){
+            renderer_message_received = m_renderer_containers->pop_back();
+        }
+        if( !m_parser_containers->empty() ){
+            parser_message_received = m_parser_containers->pop_back();
+        }
         
-        std::thread message_handler_parser_( thr_message_handler_parser() );
-        FThread_guard mhp_g( message_handler_parser_ );
-        
-        std::thread container_manager_( thr_container_manager() );
-        FThread_guard cm_g(container_manager_);
-        
-        std::thread occurrences_manager_( thr_occurrences_manager() );
-        FThread_guard om_g(occurrences_manager_);
-        
-        while(awake){    
+        //checks if in memory
+        /*
+         TODO add a cast
+         */
+        //if in memory, get it and sends it to the container
+        if(m_containers.contains(renderer_message_received.content)){
+            s_threads result = m_containers.at(renderer_message_received.content); //here it is a get by id
+            msg_renderer message = {CONTAINER, std::make_shared<result>()};
+            m_containers_renderer.push_back(message);
+        //if not in memory, sends to the parser    
+        }else{
+            s_threads result = m_containers.at(renderer_message_received.content);
+            msg_parser message = {result};
+            m_containers_parser.push_back(message);
         }
         
         
-        std::thread message_handler_renderer_( thr_message_handler_renderer() );
-        FThread_guard mhp_g( message_handler_renderer_ );
+        //sends the message got from parser and puts it in memory
+        s_threads result = parser_message_received.content;
+        msg_renderer message = {CONTAINER, std::make_shared<result>()};
+        m_containers_renderer.push_back(message);
+            
+        m_containers.insert(result.id, result); //get an id here
+        
+    }
+}
     
-        while(1){
-            check_memory();
+    
+void FCore::thr_message_handler_parser(){
+        
+    //Messages received from parser
+    std::shared_ptr<msg_parser> msg = _m_pop_queue_parser->try_pop();
+    if(msg != NULL){
+            
+        switch(msg->header){
+            case(INITDONE):
+                awake = false;
+            break;
+            case(CONTAINER):
+                m_parser_containers.push_back(msg->content);
+            break;
+            case(PATTERN):
+                //insert the pattern in m_patterns
+            break;
+            case(OCCURRENCE):
+                m_parser_containers.push_back(msg->content);
+            break;
         } 
+            
     }
+        
+}
     
-    void FCore::thr_message_handler_parser(){
-        
-        std::shared_ptr<msg_parser> msg = _m_pop_queue_parser->try_pop();
-        if(msg != NULL){
-            
-            switch(msg->header){
-                case(INITDONE):
-                    awake = false;
-                break;
-                case(CONTAINER):
-                    m_parser_container.push_back(msg->content);
-                break;
-                case(PATTERN):
-                    //insert the pattern
-                break;
-                case(OCCURRENCE):
-                    m_parser_container.push_back(msg->content);
-                break;
-            } 
-            
-        }
-
-        
-        
+void  FCore::check_memory(){
+    if(m_occurrences.size() > MAX_SIZE){
+        m_occurrences.erase( m_occurrences.begin() );
     }
+   
+    if(m_container.size() > MAX_SIZE){
+        m_container.erase( m_container.begin() );   
+    }
+}
 
+    
+void FCore::thr_FCore(){
+        
+    std::thread message_handler_parser_( thr_message_handler_parser() );
+    FThread_guard mhp_g( message_handler_parser_ );
+        
+    std::thread container_manager_( thr_container_manager() );
+    FThread_guard cm_g(container_manager_);
+        
+    std::thread occurrences_manager_( thr_occurrences_manager() );
+    FThread_guard om_g(occurrences_manager_);
+        
+    while(awake){
+            
+    }
+        
+        
+    std::thread message_handler_renderer_( thr_message_handler_renderer() );
+    FThread_guard mhp_g( message_handler_renderer_ );
+    
+    while(1){
+        check_memory();
+    } 
+}
 #endif /* FCORE_HPP */
 

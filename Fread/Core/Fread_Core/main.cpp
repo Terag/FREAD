@@ -33,13 +33,12 @@ int main(int argc, char** argv) {
     std::shared_ptr<FQueue<msg_renderer> > _pop_queue_renderer = std::make_shared< FQueue<msg_renderer> >();
     std::shared_ptr<FQueue<msg_renderer> > _push_queue_renderer = std::make_shared< FQueue<msg_renderer> >();
     
-    Core fread_core(std::make_shared(p_display2occurrences),
-                    std::make_shared(p_display2threads),
-                    std::make_shared(p_core2display),
-                    std::make_shared(p_parser2occurrences),
-                    std::make_shared(p_parser2threads),
-                    std::make_shared(p_core2parser) );
-    
+    Core fread_core(_pop_queue_parser,
+                    _push_queue_parser,
+                    _pop_queue_renderer,
+                    _push_queue_renderer
+                   );
+    /*
     Test_Parser test_parser(std::make_shared(p_parser2occurrences),
                 std::make_shared(p_parser2threads),
                 std::make_shared(p_core2parser) );
@@ -47,10 +46,12 @@ int main(int argc, char** argv) {
     Test_Display test_display(std::make_shared(p_display2occurrences),
                  std::make_shared(p_display2threads),
                  std::make_shared(p_core2display));
+    */
     
     std::thread core_( fread_core.thr_core() );
-    thread_guard gc(core_);
+    FThread_guard gc(core_);
     
+    /*
     std::thread parser_( test_parser.thr_test_parser() );
     thread_guard gp(parser_);
     
@@ -59,7 +60,8 @@ int main(int argc, char** argv) {
     
     std::thread display_send_( test_display.thr_test_display_send() );
     thread_guard gds(display_send_);    
-    
+    */
+      
     return 0;
 }
 
