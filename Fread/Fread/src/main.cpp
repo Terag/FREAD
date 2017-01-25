@@ -67,6 +67,8 @@ int main(void)
     
     container1.addOccurrence(occurrence1);
     
+    container1.getOccId();
+    
     while (window.isOpen())
     {
             sf::Event event;

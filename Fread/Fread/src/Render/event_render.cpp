@@ -72,11 +72,21 @@ void event_render::setColor() {
 
 void event_render::draw(sf::RenderTarget& target, sf::RenderStates states) const 
 {
-    int size = (tEnd - tStart);
+    /* int size = (tEnd - tStart);
     RectangleShape rectangle(Vector2f(size, 50));
-    rectangle.setFillColor(eventColor);
-    rectangle.setPosition(tStart,containerID*height);
+    rectangle.setFillColor(sf::Color::Red);
+    rectangle.setPosition(400,400);
+    target.draw(rectangle); */
+    VertexArray rectangle = VertexArray(sf::Quads, 4);
+    rectangle[0].position = sf::Vector2f(tStart, (containerID+1)*height);
+    rectangle[1].position = sf::Vector2f(tStart, containerID*height);
+    rectangle[2].position = sf::Vector2f(tEnd, containerID*height);
+    rectangle[3].position = sf::Vector2f(tEnd, (containerID+1)*height);
+    for (int i = 0; i < 4; i++) {
+        rectangle[i].color = eventColor;
+    }
     target.draw(rectangle, states);
+    
 }
 
 event_render::~event_render() 

@@ -25,6 +25,7 @@
  */
 
 #include "Render/container_render.hpp"
+#include <iostream>
 
 using namespace std;
 using namespace sf;
@@ -73,6 +74,14 @@ int container_render::getOffsetY()
 int container_render::getId()
 {
     return id;
+}
+
+void container_render::getOccId() 
+{
+    for (int i = 0; i < occurrences.size(); i++) 
+    {
+        cout << occurrences[i].getId() << std::endl;
+    }
 }
 
 void container_render::draw(sf::RenderTarget& target, sf::RenderStates states) const
