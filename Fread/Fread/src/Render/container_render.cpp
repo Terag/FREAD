@@ -37,20 +37,28 @@ id(0), name(""), absoluteTime(1)
 
 container_render::container_render(int id, std::string name, float absoluteTime) : 
 id(id), name(name), absoluteTime(absoluteTime)
-{}
+{
+    line = VertexArray(sf::Lines, 2);
+    line[0].position = sf::Vector2f(offsetX, offsetY*id); 
+    line[1].position = sf::Vector2f((scale*absoluteTime) + offsetX, offsetY*id);
+}
 
 container_render::container_render(int id, std::string name, float absoluteTime, int offsetX, int offsetY) : 
 id(id), name(name), absoluteTime(absoluteTime), offsetX(offsetX), offsetY(offsetY)
-{}
+{
+    line = VertexArray(sf::Lines, 2);
+    line[0].position = sf::Vector2f(offsetX, offsetY*id); 
+    line[1].position = sf::Vector2f((scale*absoluteTime) + offsetX, offsetY*id);
+}
 
 void container_render::calculateScale(float absoluteTime) 
 {
-    container_render.scale = container_render.sizeContainer/(absoluteTime);
+    scale = sizeContainer/(absoluteTime);
 }
 
 void container_render::addOccurrence(occurrence_render occ) 
 {
-   container_render.occurrences.push_back(occ); 
+   occurrences.push_back(occ); 
 }
 
 float container_render::getScale() 
@@ -73,14 +81,21 @@ int container_render::getId()
     return id;
 }
 
-container_render::draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const 
+void container_render::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    target.draw(line, states );
-    for (int i = 0; i < occurrences.size; i++) 
+    target.draw(line);
+    
+    for (int i = 0; i < occurrences.size(); i++) 
     {
         target.draw(occurrences[i], states);
     }        
 }
+
+container_render::~container_render() 
+{
+        
+}
+
 
 
     

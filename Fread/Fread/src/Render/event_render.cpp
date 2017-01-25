@@ -78,4 +78,8 @@ event_render::draw(sf::RenderTarget& target, sf::RenderStates states = sf::Rende
     rectangle.setPosition(tStart,container_render.getId()*container_render.getOffsetY());
     target.draw(rectangle, states);
 }
+
+event_render::~event_render() 
+{
+}
     

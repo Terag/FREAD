@@ -30,16 +30,8 @@
  *
  * Created on 24 janvier 2017, 10:44
  */
+
 #pragma once
-
-#ifndef OCCURRENCE_RENDER_HPP
-#define OCCURRENCE_RENDER_HPP
-
-
-
-#endif /* OCCURRENCE_RENDER_HPP */
-
-#pragma once 
 
 #include <SFML/Graphics.hpp>
 #include <vector>
