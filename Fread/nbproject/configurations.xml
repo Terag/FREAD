@@ -60,11 +60,6 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
-      <item path="Fread/include/Parser/statesConfig.cpp"
-            ex="false"
-            tool="1"
-            flavor2="0">
-      </item>
       <item path="Fread/src/FColor.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
           <incDir>
@@ -100,7 +95,7 @@
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="Fread/src/Parser/statesConfig.hpp" ex="false" tool="3" flavor2="0">
+      <item path="Fread/src/Parser/statesConfig.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Fread/src/Render/FBezierCurve.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
