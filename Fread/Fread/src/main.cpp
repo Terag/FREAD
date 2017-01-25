@@ -69,6 +69,10 @@ int main(void)
     
     container1.getOccId();
     
+    for (int i = 0; i < occurrence1.getEvents().size(); i++) 
+    {
+        cout << occurrence1.getEvents()[i].getType() << std::endl;
+    }
     while (window.isOpen())
     {
             sf::Event event;

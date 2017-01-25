@@ -64,6 +64,7 @@ public:
     event_render(float tSStart, float tSEnd, float scale, eventType type, int containerID, int height);
     ~event_render();
     void setColor();
+    eventType getType();
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 };
 
@@ -80,6 +81,7 @@ public :
 occurrence_render();
 occurrence_render(int id, int containerID, int height, float scale, std::vector<float> timeStamps, std::vector<eventType> event);
 void addEvent(event_render event); 
+std::vector<event_render> getEvents();
 int getId();
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 ~occurrence_render();

@@ -63,6 +63,10 @@ int occurrence_render::getId()
 {
     return id;
 }
+std::vector<event_render> occurrence_render::getEvents() 
+{
+    return events;
+}
 
 void occurrence_render::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {

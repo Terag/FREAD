@@ -49,7 +49,8 @@ type(type), containerID(containerID), height(height)
     setColor();
 }
 
-void event_render::setColor() {
+void event_render::setColor() 
+{
         switch(type) {
             
             case(WAIT): 
@@ -69,6 +70,11 @@ void event_render::setColor() {
             }
         }
     }   
+
+eventType event_render::getType() 
+{
+    return type;
+}
 
 void event_render::draw(sf::RenderTarget& target, sf::RenderStates states) const 
 {
