@@ -23,7 +23,7 @@ public:
     virtual void push_back(T element);
     virtual T pop_front();
     virtual void push_front(T element);
-    threadsafe_list& operator=(const threadsafe_list&) = delete;
+    threadsafe_list& operator=(const threadsafe_list& other) = delete;
     
     virtual unsigned int size() const;
     virtual bool empty();
