@@ -34,35 +34,78 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Main.hpp>
 #include <vector>
-#include "Render/occurrence_render.hpp"
-#include "Render/event_render.hpp"
+
+enum eventType {
+    WAIT, COMPUTE, SEND
+};
+
+class scale {
+private : 
+    float constScale = 1.f;
+    float absoluteTime = 1.f;
+    int containerSize = 500;
+    
+public : 
+    scale();
+    scale(float absoluteTime, int containerSize);
+    float getScale();
+    int getContainerSize();
+};
+
+class event_render : public sf::Drawable {
+private:
+    sf::Color eventColor = sf::Color(255,255,255);
+    int  tStart, tEnd, height, containerID = 0;
+    eventType type;
+    
+public:
+    event_render();
+    event_render(float tSStart, float tSEnd, float scale, eventType type, int containerID, int height);
+    ~event_render();
+    void setColor();
+    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
+};
+
+class occurrence_render : public sf::Drawable {
+ 
+private : 
+int id;
+// std::vector<float> timeStamps;
+std::vector<event_render> events; 
+// int id_pattern;   
+// bool isLoaded = false;
+
+public : 
+occurrence_render();
+occurrence_render(int id, int containerID, int height, float scale, std::vector<float> timeStamps, std::vector<eventType> event);
+void addEvent(event_render event);  
+void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
+~occurrence_render();
+// int getIdPattern();  
+// bool getIsLoaded();
+
+};
 
 class container_render : public sf::Drawable
 {
 private : 
     int id; 
     std::string name;
-    float scale = 1.f;
     int offsetX = 10;
     int offsetY = 20;
-    int sizeContainer = 500;
-    float absoluteTime = 1.f;
     std::vector<occurrence_render> occurrences;
     sf::VertexArray line;
 
         
 public : 
     container_render();
-    container_render(int id, std::string name, float absoluteTime);
-    container_render(int id, std::string name, float absoluteTime, int offsetX, int offsetY);
-    float getScale();
+    container_render(int id, std::string name, int containerSize);
+    container_render(int id, std::string name, int containerSize, int offsetX, int offsetY);
     int getOffsetX();
     int getOffsetY();
     int getId();
     void addOccurrence(occurrence_render occ);
-    void calculateScale(float absoluteTime);
    virtual void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const  override;
     ~container_render();
             

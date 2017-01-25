@@ -24,36 +24,24 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* 
- * File:   occurrence_render.hpp
- * Author: emma
- *
- * Created on 24 janvier 2017, 10:44
- */
+#include "Render/container_render.hpp"
 
-#pragma once
+scale::scale()
+{
+}
 
-#include <SFML/Graphics.hpp>
-#include <vector>
-#include "Render/event_render.hpp"
+scale::scale(float absoluteTime, int containerSize) : 
+absoluteTime(absoluteTime), containerSize(containerSize)
+{
+    constScale = containerSize/absoluteTime;
+}
 
+int scale::getContainerSize()
+{
+    return containerSize;
+}
 
-class occurrence_render : public sf::Drawable {
- 
-private : 
-int id;
-// std::vector<float> timeStamps;
-std::vector<event_render> events; 
-// int id_pattern;   
-// bool isLoaded = false;
-
-public : 
-occurrence_render();
-occurrence_render(int id, std::vector<float> timeStamps, std::vector<eventType> event);
-void addEvent(event_render event);  
-void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
-~occurrence_render();
-// int getIdPattern();  
-// bool getIsLoaded();
-
-};
+float scale::getScale() 
+{
+    return constScale;
+}

@@ -20,6 +20,10 @@ container_render.o: container_render.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"
 
+scale.o: scale.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
+	@echo "    	CXX        $@"
+
 event_render.o: event_render.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"

@@ -31,14 +31,14 @@
  * Created on 24 janvier 2017, 15:35
  */
 
-#include "Render/occurrence_render.hpp"
+#include "Render/container_render.hpp"
 
 occurrence_render::occurrence_render() :
 id(0)
 {
 }
 
-occurrence_render::occurrence_render(int id, std::vector<float> timeStamps, std::vector<eventType> eventTypes ):
+occurrence_render::occurrence_render(int id, int containerID, int height, float scale, std::vector<float> timeStamps, std::vector<eventType> eventTypes ):
 id(id)
 {
     for (int i = 0; i < eventTypes.size() ; i++)
@@ -48,7 +48,7 @@ id(id)
         interST.erase(interST.begin());
         float t2 = interST.front();
         interST.erase(interST.begin());
-        event_render nouvelEvent = event_render(t1,t2,eventTypes[i]);
+        event_render nouvelEvent = event_render(t1,t2, scale, eventTypes[i], containerID, height);
         addEvent(nouvelEvent);
     }
 }
