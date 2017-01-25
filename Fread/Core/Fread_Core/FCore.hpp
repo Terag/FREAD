@@ -81,10 +81,10 @@ private:
     FQueue< FMessages<> > m_occurrences_renderer;
     FQueue< FMessages<> > m_containers_renderer;
     
-    FQueue<> m_parser_occurrences;
-    FQueue<> m_parser_containers;
-    FQueue<> m_occurrences_parser;
-    FQueue<> m_containers_parser;
+    FQueue< FMessages<> > m_parser_occurrences;
+    FQueue< FMessages<> > m_parser_containers;
+    FQueue< FMessages<> > m_occurrences_parser;
+    FQueue< FMessages<> > m_containers_parser;
     
     /*
      TODO
@@ -118,28 +118,51 @@ private:
                   std::shared_ptr<FQueue<FMessages> > _pop_queue_renderer,
                   std::shared_ptr<FQueue<FMessages> > _push_queue_renderer):
                   _m_pop_queue_parser(_pop_queue_parser),
-                  _m_pop_queue_parser(_push_queue_parser),
-                  _m_pop_queue_parser(_pop_queue_parser),
-                  _m_pop_queue_parser(_push_queue_parser)      
-    {  
+                  _m_push_queue_parser(_push_queue_parser),
+                  _m_pop_queue_renderer(_pop_queue_renderer),
+                  _m_push_queue_renderer(_push_queue_renderer)      
+    { 
+        _m_pop_queue_parser->setOtherCondition( std::shared_ptr<std::mutex>(message_parser_mutex),
+                                                std::make_shared<std::condition_variable>(message_parser_cond) );
+        m_containers_parser.setOtherCondition( std::shared_ptr<std::mutex>(message_parser_mutex),
+                                               std::make_shared<std::condition_variable>(message_parser_cond) );
+        m_occurrences_parser.setOtherCondition( std::shared_ptr<std::mutex>(message_parser_mutex),
+                                                std::make_shared<std::condition_variable>(message_parser_cond) );
+        
+        _m_pop_queue_renderer->setOtherCondition( std::shared_ptr<std::mutex>(message_renderer_mutex),
+                                                  std::make_shared<std::condition_variable>(message_renderer_cond) );
+        m_containers_renderer.setOtherCondition( std::shared_ptr<std::mutex>(message_renderer_mutex),
+                                                 std::make_shared<std::condition_variable>(message_renderer_cond) );
+        m_occurrences_renderer.setOtherCondition( std::shared_ptr<std::mutex>(message_renderer_mutex),
+                                                  std::make_shared<std::condition_variable>(message_renderer_cond) );
+        
+        m_renderer_containers.setOtherCondition( std::shared_ptr<std::mutex>(containers_manager_mutex), 
+                                                 std::shared_ptr<std::condition_variable>(containers_manager_cond) );
+        m_parser_containers.setOtherCondition( std::shared_ptr<std::mutex>(containers_manager_mutex), 
+                                               std::shared_ptr<std::condition_variable>(containers_manager_cond) );
+        
+        m_renderer_occurrences.setOtherCondition( std::shared_ptr<std::mutex>(occurrences_manager_mutex), 
+                                                  std::shared_ptr<std::condition_variable>(occurrences_manager_cond) );
+        m_parser_containers.setOtherCondition( std::shared_ptr<std::mutex>(occurrences_manager_mutex), 
+                                               std::shared_ptr<std::condition_variable>(occurrences_manager_cond) );
+    
     }
 
     void FCore::thr_container_manager(){
     msg_renderer renderer_message_received;
     msg_parser parser_message_received;
+    /*
     while(1){
         //gets messages from display and parser
         if(!m_renderer_containers.empty()){
-            renderer_message_received = m_renderer_containers->pop_back();
+            renderer_message_received = m_renderer_containers.pop_back();
         }
         if( !m_parser_containers->empty() ){
             parser_message_received = m_parser_containers->pop_back();
         }
         
         //checks if in memory
-        /*
-         TODO add a cast
-         */
+
         //if in memory, get it and sends it to the container
         if(m_containers.contains(renderer_message_received.content)){
             s_threads result = m_containers.at(renderer_message_received.content); //here it is a get by id
@@ -161,6 +184,7 @@ private:
         m_containers.insert(result.id, result); //get an id here
         
     }
+    */
 }
     
     
@@ -169,8 +193,11 @@ void FCore::thr_message_handler_parser(){
     //The message handler wait for messages from the parser, the occurrences thread or the containers thread
     std::unique_lock<std::mutex> lock(message_parser_mutex);
     message_parser_cond.wait(lock, [this](){ 
-                                            return !(_m_pop_queue_parser->empty() || m_parser_occurrences.empty() || m_parser_containers.empty());
-                                           } );
+                                            return !(_m_pop_queue_parser->empty() 
+                                                     || m_parser_occurrences.empty() 
+                                                     || m_parser_containers.empty());
+                                           } 
+                            );
     lock.unlock();
 
     
