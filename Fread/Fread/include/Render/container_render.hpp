@@ -55,7 +55,7 @@ public :
 
 class event_render : public sf::Drawable {
 private:
-    sf::Color eventColor = sf::Color(255,255,255);
+    sf::Color eventColor = sf::Color(60,60,60);
     int  tStart, tEnd, height, containerID = 0;
     eventType type;
     
@@ -79,7 +79,8 @@ std::vector<event_render> events;
 public : 
 occurrence_render();
 occurrence_render(int id, int containerID, int height, float scale, std::vector<float> timeStamps, std::vector<eventType> event);
-void addEvent(event_render event);  
+void addEvent(event_render event); 
+int getId();
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 ~occurrence_render();
 // int getIdPattern();  
@@ -105,6 +106,7 @@ public :
     int getOffsetX();
     int getOffsetY();
     int getId();
+    void getOccId();
     void addOccurrence(occurrence_render occ);
    virtual void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const  override;
     ~container_render();

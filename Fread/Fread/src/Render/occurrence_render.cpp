@@ -43,11 +43,13 @@ id(id)
 {
     for (int i = 0; i < eventTypes.size() ; i++)
     {
-        std::vector<float>  interST(timeStamps);
+      /*  std::vector<float>  interST(timeStamps);
         float t1 = interST.front();
         interST.erase(interST.begin());
         float t2 = interST.front();
-        interST.erase(interST.begin());
+        interST.erase(interST.begin()); */
+        float t1 = timeStamps[i];
+        float t2 = timeStamps[i+1];
         event_render nouvelEvent = event_render(t1,t2, scale, eventTypes[i], containerID, height);
         addEvent(nouvelEvent);
     }
@@ -57,11 +59,16 @@ void occurrence_render::addEvent(event_render event)
  events.push_back(event); 
 }
 
+int occurrence_render::getId() 
+{
+    return id;
+}
+
 void occurrence_render::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     for (int i = 0; i < events.size(); i++) 
     {
-        target.draw(events[i], states);
+       target.draw(events[i], states);
     }           
 }
 
