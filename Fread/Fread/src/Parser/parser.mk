@@ -1,11 +1,11 @@
 SRC = $(wildcard *.cpp)
 OBJ = $(SRC:.cpp=.o)
 
-parser.a: $(OBJ)
-	@ar rcs $@ $(OBJ)
-	@echo "    	generated	parser.a 	File"
-	@mv parser.a $(OBJ_DIR)/
-	@echo "    	parser.a move to $(OBJ_DIR)"
+parser.so: $(OBJ)
+	@g++ -o $@ -shared -fPIC $(OBJ)
+	@echo "    	generated	parser.so 	File"
+	@mv parser.so $(OBJ_DIR)/
+	@echo "    	parser.so move to $(OBJ_DIR)"
 
 statesConfig.o: statesConfig.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
