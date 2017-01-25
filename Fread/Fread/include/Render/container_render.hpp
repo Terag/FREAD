@@ -30,18 +30,11 @@
  *
  * Created on 24 janvier 2017, 10:25
  */
+
 #pragma once
 
-#ifndef CONTAINER_RENDER_HPP
-#define CONTAINER_RENDER_HPP
-
-
-
-#endif /* CONTAINER_RENDER_HPP */
-
-#pragma once 
-
 #include <SFML/Graphics.hpp>
+#include <SFML/Main.hpp>
 #include <vector>
 #include "Render/occurrence_render.hpp"
 #include "Render/event_render.hpp"
@@ -55,13 +48,10 @@ private :
     int offsetX = 10;
     int offsetY = 20;
     int sizeContainer = 500;
-    sf::Vertex line[] = 
-    {
-        sf::Vertex(sf::Vector2f(offsetX, offsetY*id)), 
-        sf::Vertex(sf::Vector2f((scale*absoluteTime) + offsetX, offsetY*id))
-    }; 
-    static float absoluteTime;
+    float absoluteTime = 1.f;
     std::vector<occurrence_render> occurrences;
+    sf::VertexArray line;
+
         
 public : 
     container_render();

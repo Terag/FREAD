@@ -34,34 +34,37 @@
 #include "Render/occurrence_render.hpp"
 
 occurrence_render::occurrence_render() :
-id(0), events(std::vector<event_render>())
+id(0)
 {
-  
-    
 }
-occurrence_render::occurrence_render(int id, std::vector<float> timeStamps, std::vector<eventType> event ):
+
+occurrence_render::occurrence_render(int id, std::vector<float> timeStamps, std::vector<eventType> eventTypes ):
 id(id)
 {
-    for (int i = 0; i <event.size() ; i++)
+    for (int i = 0; i < eventTypes.size() ; i++)
     {
         std::vector<float>  interST(timeStamps);
         float t1 = interST.front();
         interST.erase(interST.begin());
         float t2 = interST.front();
         interST.erase(interST.begin());
-        events.insert(i,new event_render(t1,t2,event.at(i)));
+        event_render nouvelEvent = event_render(t1,t2,eventTypes[i]);
+        addEvent(nouvelEvent);
     }
 }
 void occurrence_render::addEvent(event_render event)
 {
- events.push_back( event); 
+ events.push_back(event); 
 }
 
-void occurrence_render::draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const
+void occurrence_render::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
- target.draw(states);
-    for (int i = 0; i < events.size; i++) 
+    for (int i = 0; i < events.size(); i++) 
     {
         target.draw(events[i], states);
     }           
+}
+
+occurrence_render::~occurrence_render()
+{    
 }

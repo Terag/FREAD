@@ -7,12 +7,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/emma/Bureau/FREAD/Fread/Fread/src/Parser/PAJE/Reader_MainTrace.cpp</file>
-            <file>file:/home/emma/Bureau/FREAD/Fread/Fread/Fread.vcxproj</file>
-            <file>file:/home/emma/Bureau/FREAD/Fread/Fread/packages.config</file>
-            <file>file:/home/emma/Bureau/FREAD/Fread/Fread.sln</file>
             <file>file:/home/emma/Bureau/FREAD/Fread/Fread/src/main.cpp</file>
-            <file>file:/home/emma/Bureau/FREAD/Fread/Fread/Fread.vcxproj.filters</file>
+            <file>file:/home/emma/Bureau/FREAD/Fread/Fread/include/Render/occurrence_render.hpp</file>
+            <file>file:/home/emma/Bureau/FREAD/Fread/Fread/src/Render/event_render.cpp</file>
+            <file>file:/home/emma/Bureau/FREAD/Fread/Fread/src/Render/render.mk</file>
+            <file>file:/home/emma/Bureau/FREAD/Fread/Fread/include/Render/container_render.hpp</file>
+            <file>file:/home/emma/Bureau/FREAD/Fread/Fread/src/Render/container_render.cpp</file>
+            <file>file:/home/emma/Bureau/FREAD/Fread/Fread/include/Render/pattern_render.hpp</file>
+            <file>file:/home/emma/Bureau/FREAD/Fread/Fread/src/Render/occurrence_render.cpp</file>
+            <file>file:/home/emma/Bureau/FREAD/Fread/Fread/src/Render/FBezierCurve.cpp</file>
+            <file>file:/home/emma/Bureau/FREAD/Fread/Fread/include/Render/event_render.hpp</file>
         </group>
     </open-files>
 </project-private>
