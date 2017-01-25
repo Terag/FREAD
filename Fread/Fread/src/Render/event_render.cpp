@@ -73,7 +73,7 @@ void event_render::setColor() {
 void event_render::draw(sf::RenderTarget& target, sf::RenderStates states) const 
 {
     int size = (tEnd - tStart);
-    RectangleShape rectangle(Vector2f(size, 10));
+    RectangleShape rectangle(Vector2f(size, 50));
     rectangle.setFillColor(eventColor);
     rectangle.setPosition(tStart,containerID*height);
     target.draw(rectangle, states);

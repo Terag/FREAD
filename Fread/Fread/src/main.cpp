@@ -75,7 +75,7 @@ int main(void)
                     if (event.type == sf::Event::Closed)
                             window.close();
             }
-            window.clear();
+            window.clear(sf::Color(255,255,255));
             window.draw(container1);
         //    window.draw(bezierCurve1);
         //    window.draw(bezierCurve2);
