@@ -4,7 +4,7 @@ OBJ = $(SRC:.cpp=.o)
 FREAD_LIB = $(OBJ_DIR)/render.a $(OBJ_DIR)/core.a $(OBJ_DIR)/parser.a $(OBJ_DIR)/$(PARSER).a
  
 $(EXEC): $(OBJ) $(FREAD_LIB)
-	@$(CXX) -o $(EXEC) $(OBJ) $(FREAD_LIB) $(LIBS)
+	@$(CXX) -o $(EXEC) $(OBJ) $(FREAD_LIB) $(LIBS) $(FREAD_LIB)
 	@echo "    Generate Program $(notdir $(PROG)) from $^"
 
 main.o: main.cpp

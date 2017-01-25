@@ -22,17 +22,9 @@
 using namespace std;
 
 /*
- * Other tests
- */
-int main(void) {
-    StatesConfig conf("./states.conf");
-    conf.initEvents();
-}
-
-/*
  * Parser main function test
  */
-/*int main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
     if(argc != 2){
         std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
@@ -63,7 +55,7 @@ int main(void) {
     parserThread.join();
     
     return 0;
-}*/
+}
 
 /*
  * Render main function test

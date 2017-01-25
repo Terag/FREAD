@@ -40,12 +40,12 @@ StateType StatesConfig::getState(std::string const& name, std::string const& ali
             return it.state;
         }
     }
-    return STATE_UNKNOW;
+    return STATE_UNKNOWN;
 }
 
 void StatesConfig::initEvents() {
     string in;
-    StateType currentState = STATE_UNKNOW;
+    StateType currentState = STATE_UNKNOWN;
     events.clear();
     
     cout << "Opening : " << conf_path << endl;
@@ -53,9 +53,8 @@ void StatesConfig::initEvents() {
     if(conf_stream.is_open()) {
         do {
             getline(conf_stream, in);
-            cout << " ----- Get line : " << in << endl;
             if(in[0] == '#'){
-                currentState = stringToState(in.substr(1));
+                currentState = stringToState(in);
             } else {
                 events.push_back(defineEvent(in, currentState));
             }
@@ -71,17 +70,38 @@ void StatesConfig::initEvents() {
 }
 
 StateType StatesConfig::stringToState(std::string const& str) {
-    if(str == "Wait_states") {
+    if(str.substr(0, str.size()-1) == "#Wait_states") {
         return STATE_WAIT;
     }
-    else if (str == "Compute_states") {
+    else if (str.substr(0, str.size()-1) == "#Compute_states") {
         return STATE_COMPUTE;
     }
-    else if (str == "Send_states") {
+    else if (str.substr(0, str.size()-1) == "#Send_states") {
         return STATE_SEND;
     }
     else {
-        return STATE_UNKNOW;
+        return STATE_UNKNOWN;
+    }
+}
+
+string StatesConfig::stateToString(StateType const& state) {
+    switch (state) {
+        case STATE_WAIT : 
+            return "Wait_state";
+            break;
+        case STATE_COMPUTE :
+            return "Compute_state";
+            break;
+        case STATE_SEND :
+            return "Send_state";
+            break;
+        case STATE_UNKNOWN :
+            return "Unknown_state";
+            break;
+        default :
+            cout << "Unrecognized state, Unknown_state is return" << endl;
+            return "Unknown_state";
+            break;
     }
 }
 
@@ -106,7 +126,6 @@ std::pair<std::string,std::string> StatesConfig::getParamInLine(string const& li
     
     fpos = str.find('\"', spos+1);
     spos = str.find('\"', fpos+1);
-    cout << "f=" << fpos << " s=" << spos << endl;
     //params.second = str.substr(fpos+1, spos-1);
     params.second = "";
     for(auto i=fpos+1; i<spos; i++) {
