@@ -6,6 +6,10 @@
         <df name="Fread_Core">
           <in>Core.cpp</in>
           <in>Core.h</in>
+          <in>FCore.hpp</in>
+          <in>FMessages_structure.hpp</in>
+          <in>FQueue.hpp</in>
+          <in>FThread_guard.hpp</in>
           <in>Test_Display.cpp</in>
           <in>Test_Display.h</in>
           <in>Test_Parser.cpp</in>
@@ -15,6 +19,8 @@
           <in>list_wrapper_fullProtection.cpp</in>
           <in>list_wrapper_fullProtection.h</in>
           <in>main.cpp</in>
+          <in>message_handler.cpp</in>
+          <in>message_handler.h</in>
           <in>message_sender.cpp</in>
           <in>message_sender.h</in>
           <in>structures.cpp</in>
@@ -30,6 +36,7 @@
       <df name="Fread">
         <df name="include">
           <df name="Core">
+            <in>FCore.hpp</in>
           </df>
           <df name="Parser">
             <df name="PAJE">
@@ -40,12 +47,15 @@
             </df>
             <in>parser.hpp</in>
             <in>parser_specifications.hpp</in>
+            <in>statesConfig.hpp</in>
           </df>
           <df name="Render">
             <in>FBezierCurve.hpp</in>
           </df>
           <in>FColor.hpp</in>
+          <in>FMessages_structure.hpp</in>
           <in>FQueue.hpp</in>
+          <in>FThread_guard.hpp</in>
           <in>container.hpp</in>
           <in>occurrence.hpp</in>
           <in>pattern.hpp</in>
@@ -63,6 +73,7 @@
               <in>paje_typedefs.cpp</in>
             </df>
             <in>parser.cpp</in>
+            <in>statesConfig.cpp</in>
           </df>
           <df name="Render">
             <in>FBezierCurve.cpp</in>

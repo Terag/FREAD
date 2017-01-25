@@ -1,10 +1,10 @@
 SRC = $(wildcard *.cpp)
 OBJ = $(SRC:.cpp=.o)
 
-FREAD_LIB = $(OBJ_DIR)/render.a $(OBJ_DIR)/core.a $(OBJ_DIR)/parser.a $(OBJ_DIR)/$(PARSER).a
+FREAD_LIB = $(OBJ_DIR)/render.so $(OBJ_DIR)/parser.so $(OBJ_DIR)/$(PARSER).so
  
 $(EXEC): $(OBJ) $(FREAD_LIB)
-	@$(CXX) -o $(EXEC) $(OBJ) $(FREAD_LIB) $(LIBS) $(FREAD_LIB)
+	$(CXX) -o $(EXEC) $(OBJ) $(FREAD_LIB) $(LIBS)
 	@echo "    Generate Program $(notdir $(PROG)) from $^"
 
 main.o: main.cpp
