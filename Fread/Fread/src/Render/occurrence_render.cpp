@@ -48,9 +48,10 @@ id(id)
         interST.erase(interST.begin());
         float t2 = interST.front();
         interST.erase(interST.begin()); */
-        float t1 = timeStamps[2*i];
-        float t2 = timeStamps[2*i+1];
-        event_render nouvelEvent = event_render(t1,t2, scale, eventTypes[i], containerID, height);
+        float tStart = timeStamps[2*i];
+        float tEnd = timeStamps[2*i+1];
+        eventType type = eventTypes[i];
+        event_render nouvelEvent = event_render(tStart,tEnd, scale, type, containerID, height);
         addEvent(nouvelEvent);
     }
 }
