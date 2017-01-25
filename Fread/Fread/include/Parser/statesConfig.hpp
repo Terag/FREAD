@@ -36,7 +36,7 @@ typedef enum {
     STATE_WAIT,
     STATE_COMPUTE,
     STATE_SEND,
-    STATE_UNKNOW
+    STATE_UNKNOWN
 } StateType;
 
 typedef struct {
@@ -54,6 +54,7 @@ public:
     StateType getState(std::string const& name, std::string const& alias);
     
     static StateType stringToState(std::string const& str);
+    static std::string stateToString(StateType const& state);
     
     virtual ~StatesConfig();
 private:

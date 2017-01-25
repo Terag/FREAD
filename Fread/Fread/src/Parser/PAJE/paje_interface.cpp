@@ -11,6 +11,7 @@
 
 #include "Parser/PAJE/paje_interface.hpp"
 #include "Parser/PAJE/Reader_MainTrace.hpp"
+#include "Parser/statesConfig.hpp"
 
 using namespace std;
 
@@ -43,6 +44,9 @@ namespace paje
     
     static Reader_MainTrace mainTrace;
     
+    static StatesConfig stateConf;
+    
+    // Table of functions use when a pajeEvent is read
     static PAJE_EventFunc eventFunctions[8] = { DefineContainerType,    //PEF_PajeDefineContainerType
                                                 DefineStateType,        //PEF_PajeDefineStateType
                                                 DefineEventType,        //PEF_PajeDefineEventType
@@ -60,6 +64,7 @@ namespace paje
     void awake(string const& path){
         mainTrace.init(path);
         mainTrace.parseHeader(eventDefs);
+        stateConf.initEvents();
     }
     
     bool start() {
@@ -92,14 +97,15 @@ namespace paje
             }
             switch (it.aliasType){
                 case FT_STRING :
-                    cout << " - alias : " << it.alias_str << endl;
+                    cout << " - alias : " << it.alias_str;
                     break;
                 case FT_INT :
-                    cout <<" - alias : " << it.alias_int << endl;
+                    cout <<" - alias : " << it.alias_int;
                     break;
                 default :
                     cout << "error, unexpected type : " << it.typeType;
             }
+            cout << " - state : " << it.state << endl;
         }
         
         return true;
@@ -130,7 +136,7 @@ namespace paje
                 cout << "error, eventDef not set : " << eventDefs[id].id << endl;
             }
             else {
-                cout << "error, unknow function : " << eventDefs[id].name << " " << eventDefs[id].name_str << endl;
+                cout << "error, unknown function : " << eventDefs[id].name << " " << eventDefs[id].name_str << endl;
             }
             line = mainTrace.getLine();
         }
@@ -183,6 +189,7 @@ namespace paje
         newPJT.startContainerTypeType = FT_UNDEFINED;
         newPJT.endContainerTypeType = FT_UNDEFINED;
         newPJT.color = FColor();
+        newPJT.state = STATE_UNKNOWN;
     }
     
     void defineType(string const& line, EventDef const& event, PajeType type) {
@@ -221,6 +228,13 @@ namespace paje
                     break;
             }
         }
+        
+        if(newPajeType.nameType == FT_STRING && newPajeType.aliasType == FT_STRING){
+            newPajeType.state = stateConf.getState(newPajeType.name_str, newPajeType.alias_str);
+        } else {
+            newPajeType.state = STATE_UNKNOWN;
+        }
+        
         typeDefs.push_back(newPajeType);
     }
   
