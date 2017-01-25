@@ -40,6 +40,9 @@ id(id), name(name)
     line = VertexArray(sf::Lines, 2);
     line[0].position = sf::Vector2f(offsetX, offsetY*id); 
     line[1].position = sf::Vector2f(containerSize + offsetX, offsetY*id);
+    line[0].color = sf::Color(60,60,60);
+    line[1].color = sf::Color(60,60,60);
+
 }
 
 container_render::container_render(int id, std::string name, int containerSize, int offsetX, int offsetY) : 
@@ -48,6 +51,8 @@ id(id), name(name), offsetX(offsetX), offsetY(offsetY)
     line = VertexArray(sf::Lines, 2);
     line[0].position = sf::Vector2f(offsetX, offsetY*id); 
     line[1].position = sf::Vector2f(containerSize + offsetX, offsetY*id);
+    line[0].color = sf::Color(60,60,60);
+    line[1].color = sf::Color(60,60,60);
 }
 
 void container_render::addOccurrence(occurrence_render occ) 
