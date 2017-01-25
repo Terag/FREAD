@@ -30,7 +30,7 @@
  * 
  * Created on 24 janvier 2017, 15:47
  */
-#include "Render/event_render.hpp"
+#include "Render/container_render.hpp"
 #include <cmath>
 #include <stdio.h>
 
@@ -38,18 +38,18 @@ using namespace std;
 using namespace sf;
 
 event_render::event_render() :
-type(NULL)
+type(WAIT)
 {}
 
-event_render::event_render(float tSStart, float tSEnd, eventType type) :
-type(type)
+event_render::event_render(float tSStart, float tSEnd, float scale, eventType type, int containerID, int height) :
+type(type), containerID(containerID), height(height)
 {
-    tStart = (int)(container_render.getScale()*tSStart);
-    tEnd = (int)(container_render.getScale()*tSEnd);
+    tStart = (int)(scale*tSStart);
+    tEnd = (int)(scale*tSEnd);
     setColor();
 }
 
-event_render::setColor() {
+void event_render::setColor() {
         switch(type) {
             
             case(WAIT): 
@@ -70,12 +70,12 @@ event_render::setColor() {
         }
     }   
 
-event_render::draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const 
+void event_render::draw(sf::RenderTarget& target, sf::RenderStates states) const 
 {
     int size = (tEnd - tStart);
     RectangleShape rectangle(Vector2f(size, 10));
     rectangle.setFillColor(eventColor);
-    rectangle.setPosition(tStart,container_render.getId()*container_render.getOffsetY());
+    rectangle.setPosition(tStart,containerID*height);
     target.draw(rectangle, states);
 }
 

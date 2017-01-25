@@ -17,6 +17,7 @@
             <in>container_render.cpp</in>
             <in>event_render.cpp</in>
             <in>occurrence_render.cpp</in>
+            <in>scale.cpp</in>
           </df>
           <in>FColor.cpp</in>
           <in>container.cpp</in>
@@ -118,6 +119,10 @@
             ex="false"
             tool="1"
             flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="Fread/src/Render/scale.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>

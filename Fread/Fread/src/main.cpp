@@ -9,8 +9,6 @@
 #include <SFML/Graphics.hpp>
 #include "Render/FBezierCurve.hpp"
 #include "Render/container_render.hpp"
-#include "Render/occurrence_render.hpp"
-#include "Render/event_render.hpp"
 
 //Includes for queue tests
 #include "queue.hpp"
@@ -58,9 +56,15 @@ int main(void)
     bezierCurve2.calculate();
     */
     std::vector<float> timeStamps(0.1124, 0.1321);
+    
     std::vector<eventType> eventType(WAIT);
-    container_render container1(1,"coucou",0.1547);
-    occurrence_render occurrence1(1, timeStamps, eventType);
+    
+    scale scale1(0.1547, 500);
+    
+    container_render container1(1,"coucou",scale1.getContainerSize());
+    
+    occurrence_render occurrence1(1, container1.getId(), container1.getOffsetY(), scale1.getScale(), timeStamps, eventType);
+    
     container1.addOccurrence(occurrence1);
     
     while (window.isOpen())

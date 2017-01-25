@@ -24,46 +24,35 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <SFML/Graphics.hpp>
 #include "Render/container_render.hpp"
 
 using namespace std;
 using namespace sf;
 
 container_render::container_render() :
-id(0), name(""), absoluteTime(1)
+id(0), name("")
 {
 }
 
-container_render::container_render(int id, std::string name, float absoluteTime) : 
-id(id), name(name), absoluteTime(absoluteTime)
+container_render::container_render(int id, std::string name, int containerSize) : 
+id(id), name(name)
 {
     line = VertexArray(sf::Lines, 2);
     line[0].position = sf::Vector2f(offsetX, offsetY*id); 
-    line[1].position = sf::Vector2f((scale*absoluteTime) + offsetX, offsetY*id);
+    line[1].position = sf::Vector2f(containerSize + offsetX, offsetY*id);
 }
 
-container_render::container_render(int id, std::string name, float absoluteTime, int offsetX, int offsetY) : 
-id(id), name(name), absoluteTime(absoluteTime), offsetX(offsetX), offsetY(offsetY)
+container_render::container_render(int id, std::string name, int containerSize, int offsetX, int offsetY) : 
+id(id), name(name), offsetX(offsetX), offsetY(offsetY)
 {
     line = VertexArray(sf::Lines, 2);
     line[0].position = sf::Vector2f(offsetX, offsetY*id); 
-    line[1].position = sf::Vector2f((scale*absoluteTime) + offsetX, offsetY*id);
-}
-
-void container_render::calculateScale(float absoluteTime) 
-{
-    scale = sizeContainer/(absoluteTime);
+    line[1].position = sf::Vector2f(containerSize + offsetX, offsetY*id);
 }
 
 void container_render::addOccurrence(occurrence_render occ) 
 {
    occurrences.push_back(occ); 
-}
-
-float container_render::getScale() 
-{
-    return scale;
 }
 
 int container_render::getOffsetX()
