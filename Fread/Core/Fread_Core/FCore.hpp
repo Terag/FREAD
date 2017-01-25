@@ -39,11 +39,16 @@ DEALINGS IN THE SOFTWARE.
 
 #include <vector>
 
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+
 #include "FQueue.hpp"
 #include "FThread_guard.hpp"
 #include "threadsafe_list.h"
 #include "threadsafe_hashmap.h"
-#include "FMessages_structure.hpp"
+#include "FMessages.hpp"
+
 
 class FCore {
 public:
@@ -63,23 +68,23 @@ public:
 private:
     bool awake; //is in awake phase
     
-    std::shared_ptr<FQueue<msg_parser> > _m_pop_queue_parser;
-    std::shared_ptr<FQueue<msg_parser> > _m_push_queue_parser;
-    std::shared_ptr<FQueue<msg_renderer> > _m_pop_queue_renderer;
-    std::shared_ptr<FQueue<msg_renderer> > _m_push_queue_renderer;
+    std::shared_ptr<FQueue< FMessages<> > > _m_pop_queue_parser;
+    std::shared_ptr<FQueue< FMessages<> > > _m_push_queue_parser;
+    std::shared_ptr<FQueue< FMessages<> > > _m_pop_queue_renderer;
+    std::shared_ptr<FQueue< FMessages<> > > _m_push_queue_renderer;
      
     /*
      TODO
      */
-    threadsafe_list<> m_renderer_occurrences;
-    threadsafe_list<> m_renderer_containers;
-    threadsafe_list<> m_occurrences_renderer;
-    threadsafe_list<> m_containers_renderer;
+    FQueue< FMessages<> > m_renderer_occurrences;
+    FQueue< FMessages<> > m_renderer_containers;
+    FQueue< FMessages<> > m_occurrences_renderer;
+    FQueue< FMessages<> > m_containers_renderer;
     
-    threadsafe_list<> m_parser_occurrences;
-    threadsafe_list<> m_parser_containers;
-    threadsafe_list<> m_occurrences_parser;
-    threadsafe_list<> m_containers_parser;
+    FQueue<> m_parser_occurrences;
+    FQueue<> m_parser_containers;
+    FQueue<> m_occurrences_parser;
+    FQueue<> m_containers_parser;
     
     /*
      TODO
@@ -94,14 +99,24 @@ private:
     void thr_message_handler_parser();
     void thr_message_handler_renderer();
     
+    std::mutex containers_manager_mutex;
+    std::condition_variable containers_manager_cond;
+    std::mutex occurrences_manager_mutex;
+    std::condition_variable occurrences_manager_cond;
+    
+    std::mutex message_parser_mutex;
+    std::condition_variable message_parser_cond;
+    std::mutex message_renderer_mutex;
+    std::condition_variable message_renderer_cond;
+    
     //check_memory ensure that the two map are not too big
     void check_memory();
 };
 
-    FCore::FCore( std::shared_ptr<FQueue<msg_parser> > _pop_queue_parser, 
-                  std::shared_ptr<FQueue<msg_parser> > _push_queue_parser,
-                  std::shared_ptr<FQueue<msg_renderer> > _pop_queue_renderer,
-                  std::shared_ptr<FQueue<msg_renderer> > _push_queue_renderer):
+    FCore::FCore( std::shared_ptr<FQueue<FMessages> > _pop_queue_parser, 
+                  std::shared_ptr<FQueue<FMessages> > _push_queue_parser,
+                  std::shared_ptr<FQueue<FMessages> > _pop_queue_renderer,
+                  std::shared_ptr<FQueue<FMessages> > _push_queue_renderer):
                   _m_pop_queue_parser(_pop_queue_parser),
                   _m_pop_queue_parser(_push_queue_parser),
                   _m_pop_queue_parser(_pop_queue_parser),
@@ -151,6 +166,14 @@ private:
     
 void FCore::thr_message_handler_parser(){
         
+    //The message handler wait for messages from the parser, the occurrences thread or the containers thread
+    std::unique_lock<std::mutex> lock(message_parser_mutex);
+    message_parser_cond.wait(lock, [this](){ 
+                                            return !(_m_pop_queue_parser->empty() || m_parser_occurrences.empty() || m_parser_containers.empty());
+                                           } );
+    lock.unlock();
+
+    
     //Messages received from parser
     std::shared_ptr<msg_parser> msg = _m_pop_queue_parser->try_pop();
     if(msg != NULL){
@@ -179,8 +202,8 @@ void  FCore::check_memory(){
         m_occurrences.erase( m_occurrences.begin() );
     }
    
-    if(m_container.size() > MAX_SIZE){
-        m_container.erase( m_container.begin() );   
+    if(m_containers.size() > MAX_SIZE){
+        m_containers.erase( m_containers.begin() );   
     }
 }
 
