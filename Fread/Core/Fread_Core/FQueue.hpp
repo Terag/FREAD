@@ -48,17 +48,24 @@ private:
     std::unique_ptr<node> head;
     node* tail;
     
-    std::mutex mut;
-    std::condition_variable data_cond;
+    std::mutex m_mutex_mine;
+    std::condition_variable m_data_cond_mine;
+    
+    std::shared_ptr< std::mutex > _m_mutex_other;
+    std::shared_ptr< std::condition_variable > _m_data_cond_other;
     
 public:
     FQueue():
-        head(new node),tail(head.get())
-    {}
+            head(new node),
+            tail(head.get())
+    {
+    }
 
     FQueue(const FQueue& other)=delete;
     FQueue& operator=(const FQueue& other)=delete;
 
+    void setOtherCondition(std::shared_ptr<std::mutex> _mutex, std::shared_ptr<std::condition_variable> _condition_variable);
+    
     std::shared_ptr<T> try_pop();
     
     std::shared_ptr<T> wait_and_pop();
@@ -67,6 +74,13 @@ public:
     
     bool empty();
 };
+
+
+void FQueue::setOtherCondition(std::shared_ptr<std::mutex> _mutex, std::shared_ptr<std::condition_variable> _data_cond){
+    _m_mutex_other = _mutex;
+    _m_data_cond_other = _data_cond;
+}
+
 
 template <typename T>
 std::shared_ptr<T> FQueue<T>::try_pop()
@@ -91,13 +105,15 @@ void FQueue<T>::push(T new_value)
     tail->next=std::move(p);
     tail=new_tail;
     
-    data_cond.notify_one();
+    m_data_cond_mine.notify_one();
+    
+    _m_data_cond_other->notify_one();
 }
 
 template<typename T>
 std::shared_ptr<T> FQueue<T>::wait_and_pop(){
-    std::unique_lock<std::mutex> lk(mut);
-    data_cond.wait(lk, [this](){ return !empty();});
+    std::unique_lock<std::mutex> lk(m_mutex_mine);
+    m_data_cond_mine.wait(lk, [this](){ return !empty();});
     lk.unlock();
     return try_pop();
 }
