@@ -1,11 +1,11 @@
 SRC = $(wildcard *.cpp)
 OBJ = $(SRC:.cpp=.o)
 
-PAJE.a: $(OBJ)
-	@ar rcs $@ $(OBJ)
-	@echo "    	generated	PAJE.a 	File"
-	@mv PAJE.a $(OBJ_DIR)/
-	@echo "    	PAJE.a move to $(OBJ_DIR)"
+PAJE.so: $(OBJ)
+	@g++ -o $@ -shared -fPIC $(OBJ)
+	@echo "    	generated	PAJE.so	File"
+	@mv PAJE.so $(OBJ_DIR)/
+	@echo "    	PAJE.so move to $(OBJ_DIR)"
 
 paje_typedefs.o: paje_typedefs.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
