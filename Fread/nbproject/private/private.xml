@@ -7,12 +7,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Parser/statesConfig.cpp</file>
+            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/fread.mk</file>
+            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Render/render.mk</file>
+            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/include/FMessages_structure.hpp</file>
             <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/main.cpp</file>
+            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/makefile</file>
             <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/include/Parser/PAJE/paje_typedefs.hpp</file>
             <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/include/Parser/PAJE/paje_interface.hpp</file>
-            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/include/Parser/statesConfig.hpp</file>
+            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Parser/parser.mk</file>
+            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Parser/PAJE/PAJE.mk</file>
             <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Parser/PAJE/Reader_MainTrace.cpp</file>
+            <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Core/core.mk</file>
             <file>file:/home/terag/Desktop/FREAD/FREAD/Fread/Fread/src/Parser/PAJE/paje_interface.cpp</file>
         </group>
     </open-files>
