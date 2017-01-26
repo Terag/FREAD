@@ -38,6 +38,15 @@ id(0), name("")
 container_render::container_render(int id, std::string name, int containerSize) : 
 id(id), name(name)
 {
+    if (!font.loadFromFile("Arimo-Regular.ttf")) 
+    {
+        cout << "error while loading the font" << endl;
+    }
+    textId.setFont(font);
+    textId.setColor(Color(40,40,40));
+    textId.setCharacterSize(10);
+    textId.setString(to_string(id));
+    textId.setPosition(20, offsetY*id - 5);
     line = VertexArray(sf::Lines, 2);
     line[0].position = sf::Vector2f(offsetX, offsetY*id); 
     line[1].position = sf::Vector2f(containerSize + offsetX, offsetY*id);
@@ -49,6 +58,16 @@ id(id), name(name)
 container_render::container_render(int id, std::string name, int containerSize, int offsetX, int offsetY) : 
 id(id), name(name), offsetX(offsetX), offsetY(offsetY)
 {
+    if (!font.loadFromFile("Arimo-Regular.ttf")) 
+    {
+        cout << "error while loading the font" << endl;
+    }
+    
+    textId.setFont(font);
+    textId.setColor(Color(40,40,40));
+    textId.setCharacterSize(10);
+    textId.setString(to_string(id));
+    textId.setPosition(20, offsetY*id - 5);
     line = VertexArray(sf::Lines, 2);
     line[0].position = sf::Vector2f(offsetX, offsetY*id); 
     line[1].position = sf::Vector2f(containerSize + offsetX, offsetY*id);
@@ -86,6 +105,8 @@ void container_render::getOccId()
 
 void container_render::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    
+    target.draw(textId);
     target.draw(line);
     
     for (int i = 0; i < occurrences.size(); i++) 

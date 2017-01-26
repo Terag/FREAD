@@ -28,6 +28,10 @@
         </df>
       </df>
       <df name="Fread">
+        <df name="font">
+          <df name="arimo">
+          </df>
+        </df>
         <df name="include">
           <df name="Parser">
             <df name="PAJE">

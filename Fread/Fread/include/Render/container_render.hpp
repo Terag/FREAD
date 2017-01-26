@@ -82,7 +82,6 @@ std::vector<event_render> events;
 public : 
 occurrence_render();
 occurrence_render(int id, int containerID, int height, float scale, std::vector<float> timeStamps, std::vector<eventType> event);
-void addEvents(float scale, int containerID, int height); 
 std::vector<event_render> getEvents();
 int getId();
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
@@ -97,9 +96,11 @@ class container_render : public sf::Drawable
 private : 
     int id; 
     std::string name;
-    int offsetX = 10;
+    int offsetX = 30;
     int offsetY = 20;
     std::vector<occurrence_render> occurrences;
+    sf::Font font;
+    sf::Text textId;
     sf::VertexArray line;
       
 public : 
