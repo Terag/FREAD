@@ -65,6 +65,7 @@ public:
     ~event_render();
     void setColor();
     eventType getType();
+    std::string getTypeString();
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 };
 
@@ -72,7 +73,8 @@ class occurrence_render : public sf::Drawable {
  
 private : 
 int id;
-// std::vector<float> timeStamps;
+std::vector<float> timeStamps;
+std::vector<eventType> eventTypes;
 std::vector<event_render> events; 
 // int id_pattern;   
 // bool isLoaded = false;
@@ -80,7 +82,7 @@ std::vector<event_render> events;
 public : 
 occurrence_render();
 occurrence_render(int id, int containerID, int height, float scale, std::vector<float> timeStamps, std::vector<eventType> event);
-void addEvent(event_render event); 
+void addEvents(float scale, int containerID, int height); 
 std::vector<event_render> getEvents();
 int getId();
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
@@ -99,8 +101,7 @@ private :
     int offsetY = 20;
     std::vector<occurrence_render> occurrences;
     sf::VertexArray line;
-
-        
+      
 public : 
     container_render();
     container_render(int id, std::string name, int containerSize);

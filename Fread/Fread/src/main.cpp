@@ -55,9 +55,17 @@ int main(void)
     bezierCurve1.calculate();
     bezierCurve2.calculate();
     */
-    std::vector<float> timeStamps(0.1124, 0.1321);
+    std::vector<float> timeStamps;
+    timeStamps.push_back(0.1124f);
+    timeStamps.push_back(0.1321f);
+    timeStamps.push_back(0.1321f);
+    timeStamps.push_back(0.1398f);
     
-    std::vector<eventType> eventType(WAIT);
+    std::vector<eventType> eventType;
+    eventType.push_back(WAIT);
+    eventType.push_back(COMPUTE);
+    
+    cout << "eventype.size " << eventType.size() << endl;
     
     scale scale1(0.1547, 500);
     
@@ -65,13 +73,19 @@ int main(void)
     
     occurrence_render occurrence1(1, container1.getId(), container1.getOffsetY(), scale1.getScale(), timeStamps, eventType);
     
+    occurrence1.addEvents(scale1.getScale(),container1.getId(),container1.getOffsetY());
+    
     container1.addOccurrence(occurrence1);
     
     container1.getOccId();
     
     for (int i = 0; i < occurrence1.getEvents().size(); i++) 
     {
-        cout << occurrence1.getEvents()[i].getType() << std::endl;
+        cout << "i : " << i << std::endl;
+        if(occurrence1.getEvents().empty()){
+            cout << "c'est nul" << endl;
+        }
+        cout << "type : " << occurrence1.getEvents()[i].getTypeString() << std::endl;
     }
     while (window.isOpen())
     {
