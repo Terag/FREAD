@@ -47,7 +47,7 @@ using namespace std;
 int main(void)
 {
 
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Container and occurrences test");
+    sf::RenderWindow window(sf::VideoMode(1500, 1000), "Container and occurrences test");
 
     /* FBezierCurve bezierCurve1(sf::Vector2f(50,50), sf::Vector2f(350,350), 20, sf::Color::Cyan);
     FBezierCurve bezierCurve2(sf::Vector2f(100,100), sf::Vector2f(300,300), 20, sf::Color::Magenta);
@@ -55,38 +55,60 @@ int main(void)
     bezierCurve1.calculate();
     bezierCurve2.calculate();
     */
-    std::vector<float> timeStamps;
-    timeStamps.push_back(0.1124f);
-    timeStamps.push_back(0.1321f);
-    timeStamps.push_back(0.1321f);
-    timeStamps.push_back(0.1398f);
     
-    std::vector<eventType> eventType;
-    eventType.push_back(WAIT);
-    eventType.push_back(COMPUTE);
+    //timeStamps test vectors implementation
+    std::vector<float> timeStamps1;
+    timeStamps1.push_back(0.1124f);
+    timeStamps1.push_back(0.1321f);
+    timeStamps1.push_back(0.1321f);
+    timeStamps1.push_back(0.1398f);
+
+    std::vector<float> timeStamps2;
+    timeStamps2.push_back(0.0924f);
+    timeStamps2.push_back(0.1021f);
+    timeStamps2.push_back(0.1521f);
+    timeStamps2.push_back(0.1598f);
     
-    cout << "eventype.size " << eventType.size() << endl;
+    std::vector<float> timeStamps3;
+    timeStamps3.push_back(0.1024f);
+    timeStamps3.push_back(0.1090f);
+    timeStamps3.push_back(0.1090f);
+    timeStamps3.push_back(0.1108f);
+    timeStamps3.push_back(0.1108f);
+    timeStamps3.push_back(0.1122f);
+    timeStamps3.push_back(0.1122f);
+    timeStamps3.push_back(0.1187f);
     
-    scale scale1(0.1547, 500);
+    //eventType vectors implementation
+    std::vector<eventType> eventType1;
+    eventType1.push_back(WAIT);
+    eventType1.push_back(COMPUTE);
+    
+    std::vector<eventType> eventType2;
+    eventType2.push_back(SEND);
+    eventType2.push_back(WAIT);
+    
+    std::vector<eventType> eventType3;
+    eventType3.push_back(COMPUTE);
+    eventType3.push_back(WAIT);
+    eventType3.push_back(COMPUTE);
+    eventType3.push_back(SEND);
+
+    //definition of the scalling we want
+    scale scale1(0.1847, 900);
     
     container_render container1(1,"coucou",scale1.getContainerSize());
-    
-    occurrence_render occurrence1(1, container1.getId(), container1.getOffsetY(), scale1.getScale(), timeStamps, eventType);
-    
-    occurrence1.addEvents(scale1.getScale(),container1.getId(),container1.getOffsetY());
-    
+    container_render container2(2,"ça va ?", scale1.getContainerSize());
+    container_render container3(3,"Oui et toi ?", scale1.getContainerSize());
+
+    occurrence_render occurrence1(1, container1.getId(), container1.getOffsetY(), scale1.getScale(), timeStamps1, eventType1);
+    occurrence_render occurrence2(2, container2.getId(), container2.getOffsetY(), scale1.getScale(), timeStamps2, eventType2);
+    occurrence_render occurrence3(3, container3.getId(), container3.getOffsetY(), scale1.getScale(), timeStamps3, eventType3);
+
     container1.addOccurrence(occurrence1);
-    
-    container1.getOccId();
-    
-    for (int i = 0; i < occurrence1.getEvents().size(); i++) 
-    {
-        cout << "i : " << i << std::endl;
-        if(occurrence1.getEvents().empty()){
-            cout << "c'est nul" << endl;
-        }
-        cout << "type : " << occurrence1.getEvents()[i].getTypeString() << std::endl;
-    }
+    container2.addOccurrence(occurrence2);
+    container3.addOccurrence(occurrence3);
+
     while (window.isOpen())
     {
             sf::Event event;
@@ -97,6 +119,8 @@ int main(void)
             }
             window.clear(sf::Color(255,255,255));
             window.draw(container1);
+            window.draw(container2);
+            window.draw(container3);
         //    window.draw(bezierCurve1);
         //    window.draw(bezierCurve2);
             window.display();
