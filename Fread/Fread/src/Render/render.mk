@@ -2,11 +2,11 @@ SRC = $(wildcard *.cpp)
 OBJ = $(SRC:.cpp=.o)
 LIB_NAME = render
 
-render.a: $(OBJ)
-	@ar rcs $@ $(OBJ)
-	@echo "    	generated	render.a 	File"
-	@mv render.a $(OBJ_DIR)/
-	@echo "    	render.a move to $(OBJ_DIR)"
+render.so: $(OBJ)
+	@g++ -o $@ -shared -fPIC $(OBJ)
+	@echo "    	generated	render.so 	File"
+	@mv $@ $(OBJ_DIR)/
+	@echo "    	render.so move to $(OBJ_DIR)"
 	
 FBezierCurve.o: FBezierCurve.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
