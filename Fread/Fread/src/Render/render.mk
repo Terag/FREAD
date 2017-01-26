@@ -19,7 +19,11 @@ occurrence_render.o: occurrence_render.cpp
 container_render.o: container_render.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"
-
+	
+pattern_render.o: pattern_render.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
+	@echo "    	CXX        $@"
+	
 scale.o: scale.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"

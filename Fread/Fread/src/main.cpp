@@ -9,7 +9,7 @@
 #include <SFML/Graphics.hpp>
 #include "Render/FBezierCurve.hpp"
 #include "Render/container_render.hpp"
-
+#include "Render/pattern_render.hpp"
 //Includes for queue tests
 #include "queue.hpp"
 #include <thread>
@@ -46,8 +46,10 @@ using namespace std;
  */
 int main(void)
 {
+sf::ContextSettings settings;
+settings.antialiasingLevel = 8;
 
-    sf::RenderWindow window(sf::VideoMode(1500, 1000), "Container and occurrences test");
+    sf::RenderWindow window(sf::VideoMode(1500, 1000), "Container and occurrences test",sf::Style::Default, settings);
 
     /* FBezierCurve bezierCurve1(sf::Vector2f(50,50), sf::Vector2f(350,350), 20, sf::Color::Cyan);
     FBezierCurve bezierCurve2(sf::Vector2f(100,100), sf::Vector2f(300,300), 20, sf::Color::Magenta);
@@ -55,7 +57,6 @@ int main(void)
     bezierCurve1.calculate();
     bezierCurve2.calculate();
     */
-    
     //timeStamps test vectors implementation
     std::vector<float> timeStamps1;
     timeStamps1.push_back(0.1124f);
@@ -109,6 +110,14 @@ int main(void)
     container2.addOccurrence(occurrence2);
     container3.addOccurrence(occurrence3);
 
+
+ 
+    
+
+   
+
+        pattern_render pattern(1,timeStamps3,occurrence3);
+
     while (window.isOpen())
     {
             sf::Event event;
@@ -121,6 +130,10 @@ int main(void)
             window.draw(container1);
             window.draw(container2);
             window.draw(container3);
+            for (int i=0; i<10;i++){
+            //window.draw(circle[i]);
+            }
+           pattern.draw(window);
         //    window.draw(bezierCurve1);
         //    window.draw(bezierCurve2);
             window.display();
