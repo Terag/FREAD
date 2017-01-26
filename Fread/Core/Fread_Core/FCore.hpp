@@ -68,10 +68,10 @@ public:
 private:
     bool awake; //is in awake phase
     
-    std::shared_ptr<FQueue< FMessages<> > > _m_pop_queue_parser;
-    std::shared_ptr<FQueue< FMessages<> > > _m_push_queue_parser;
-    std::shared_ptr<FQueue< FMessages<> > > _m_pop_queue_renderer;
-    std::shared_ptr<FQueue< FMessages<> > > _m_push_queue_renderer;
+    std::shared_ptr< FQueue< FMessages<> > > _m_pop_queue_parser;
+    std::shared_ptr< FQueue< FMessages<> > > _m_push_queue_parser;
+    std::shared_ptr< FQueue< FMessages<> > > _m_pop_queue_renderer;
+    std::shared_ptr< FQueue< FMessages<> > > _m_push_queue_renderer;
      
     /*
      TODO
@@ -195,31 +195,38 @@ void FCore::thr_message_handler_parser(){
     message_parser_cond.wait(lock, [this](){ 
                                             return !(_m_pop_queue_parser->empty() 
                                                      || m_parser_occurrences.empty() 
-                                                     || m_parser_containers.empty());
+                                                     || m_parser_containers.empty() );
                                            } 
                             );
     lock.unlock();
-
     
-    //Messages received from parser
-    std::shared_ptr<msg_parser> msg = _m_pop_queue_parser->try_pop();
-    if(msg != NULL){
-            
-        switch(msg->header){
+    if(!_m_pop_queue_parser->empty()){ //Messages received from parser
+        std::shared_ptr< FMessages<> > msg = _m_pop_queue_parser->try_pop();
+        if(msg != NULL){
+            switch(msg->getHeader()){
             case(INITDONE):
                 awake = false;
             break;
             case(CONTAINER):
-                m_parser_containers.push_back(msg->content);
+                //FMessages<FContainer> msg_send();
+                //m_parser_containers.push(msg_send);
             break;
             case(PATTERN):
                 //insert the pattern in m_patterns
+                //m_patterns.insert( (FPattern)(msg->content).getId() , (FPattern)msg->getContent() )
             break;
             case(OCCURRENCE):
-                m_parser_containers.push_back(msg->content);
+                /*
+                 TODO
+                 */
             break;
-        } 
-            
+            } 
+        }
+        
+    }else if(!m_parser_occurrences.empty()){
+        std::shared_ptr< FMessages<> >  msg = m_parser_occurrences->try_pop();
+    }else if(!m_parser_containers.empty()){
+        std::shared_ptr< FMessages<> > msg = m_parser_containers->try_pop();
     }
         
 }
