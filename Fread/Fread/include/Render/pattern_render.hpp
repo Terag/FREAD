@@ -26,34 +26,28 @@
 
 /* 
  * File:   pattern_render.hpp
- * Author: emma
+ * Author: emma, Jerome
  *
  * Created on 24 janvier 2017, 11:38
  */
 
-#ifndef PATTERN_RENDER_HPP
-#define PATTERN_RENDER_HPP
-
-
-
-#endif /* PATTERN_RENDER_HPP */
 
 #pragma once 
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "occurrence_render.hpp"
-#include "event_render.hpp"
-
-class occurrence_render : public sf::Drawable {
+#include "Render/container_render.hpp"
+class pattern_render : public sf::Drawable {
 private : 
 int id; 
 std::vector<event_render> events; 
 std::vector<float> meanTimeStamps;
-std::vector<occurrence_render> occurrences;
-    
+occurrence_render occurrences;
+      
 public : 
 pattern_render();
-pattern_render(int id, std::vector<float> meanTimeStamps);
+pattern_render(int id, std::vector<float> meanTimeStamps,occurrence_render occurrence);
+void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
+
 ~pattern_render();
 };
