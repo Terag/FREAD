@@ -26,8 +26,9 @@
 
 #include "Render/container_render.hpp"
 #include <iostream>
+#include <string>
 
-using namespace std;
+//using namespace std;
 using namespace sf;
 
 container_render::container_render() :
@@ -40,12 +41,12 @@ id(id), name(name)
 {
     if (!font.loadFromFile("Arimo-Regular.ttf")) 
     {
-        cout << "error while loading the font" << endl;
+        std::cout << "error while loading the font" << std::endl;
     }
     textId.setFont(font);
     textId.setColor(Color(40,40,40));
     textId.setCharacterSize(10);
-    textId.setString(to_string(id));
+    textId.setString(std::to_string(id));
     textId.setPosition(20, offsetY*id - 5);
     line = VertexArray(sf::Lines, 2);
     line[0].position = sf::Vector2f(offsetX, offsetY*id); 
@@ -60,13 +61,13 @@ id(id), name(name), offsetX(offsetX), offsetY(offsetY)
 {
     if (!font.loadFromFile("Arimo-Regular.ttf")) 
     {
-        cout << "error while loading the font" << endl;
+       std::cout << "error while loading the font" << std::endl;
     }
     
     textId.setFont(font);
     textId.setColor(Color(40,40,40));
     textId.setCharacterSize(10);
-    textId.setString(to_string(id));
+    textId.setString(std::to_string(id));
     textId.setPosition(20, offsetY*id - 5);
     line = VertexArray(sf::Lines, 2);
     line[0].position = sf::Vector2f(offsetX, offsetY*id); 
@@ -99,7 +100,7 @@ void container_render::getOccId()
 {
     for (int i = 0; i < occurrences.size(); i++) 
     {
-        cout << occurrences[i].getId() << std::endl;
+        std::cout << occurrences[i].getId() << std::endl;
     }
 }
 

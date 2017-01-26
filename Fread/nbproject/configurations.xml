@@ -58,7 +58,7 @@
           <buildCommandWorkingDir>Fread</buildCommandWorkingDir>
           <buildCommand>${MAKE} -f makefile</buildCommand>
           <cleanCommand>${MAKE} -f makefile clean</cleanCommand>
-          <executablePath>Fread/src/</executablePath>
+          <executablePath>Fread/src/Fread</executablePath>
         </makeTool>
         <preBuild>
           <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
