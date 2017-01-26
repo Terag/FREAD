@@ -39,25 +39,21 @@ id(0)
 }
 
 occurrence_render::occurrence_render(int id, int containerID, int height, float scale, std::vector<float> timeStamps, std::vector<eventType> eventTypes ):
-id(id)
+id(id), timeStamps(timeStamps), eventTypes(eventTypes)
+{
+    
+}
+
+void occurrence_render::addEvents(float scale, int containerID, int height)
 {
     for (int i = 0; i < eventTypes.size() ; i++)
-    {
-      /*  std::vector<float>  interST(timeStamps);
-        float t1 = interST.front();
-        interST.erase(interST.begin());
-        float t2 = interST.front();
-        interST.erase(interST.begin()); */
-        float tStart = timeStamps[2*i];
-        float tEnd = timeStamps[2*i+1];
-        eventType type = eventTypes[i];
-        event_render nouvelEvent = event_render(tStart,tEnd, scale, type, containerID, height);
-        addEvent(nouvelEvent);
-    }
-}
-void occurrence_render::addEvent(event_render event)
-{
- events.push_back(event); 
+        {
+            float tStart = timeStamps[2*i];
+            float tEnd = timeStamps[2*i+1];
+            eventType type = eventTypes[i];
+            event_render nouvelEvent = event_render(tStart,tEnd, scale, type, containerID, height);
+            events.push_back(nouvelEvent);
+        }    
 }
 
 int occurrence_render::getId() 
