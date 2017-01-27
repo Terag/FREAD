@@ -71,8 +71,38 @@ FCore::FCore( std::shared_ptr< FQueue<FMessages> > _pop_queue_parser,
 }
 
 void FCore::thr_container_manager(){
-    msg_renderer renderer_message_received;
-    msg_parser parser_message_received;
+    //The container manager waits for messages from the parser or the renderer
+    std::unique_lock<std::mutex> lock(containers_manager_mutex);
+    containers_manager_cond.wait(lock, [this](){ 
+                                            return !( m_parser_containers.empty() 
+                                                      || m_renderer_containers.empty() );
+                                           }
+                                );
+    lock.unlock();
+    
+    if( !m_parser_containers.empty() ){
+        FMessages msg = m_parser_containers.try_pop();
+        
+        FMessages msg_send( CONTAINER, msg.getContent() );
+        m_containers_renderer.push( msg_send );
+        
+        //m_containers.insert( ((FContainer)msg.getContent())->getId() , msg.getContent() )
+        
+    }else if( !m_renderer_containers.empty() ){
+        FMessages msg = m_renderer_containers.try_pop();
+        //get the messages
+        
+        // check if is in memory
+        if( m_containers.contains( msg.getContent() ) ){ //if is in memory
+            FMessages msg_send( CONTAINER, msg.getContent() );
+            m_containers_renderer.push( msg_send );
+        }else{ // not in memory
+            //demands it to parser
+            FMessages msg_send( CONTAINER, msg.getContent() );
+            m_containers_parser.push( msg_send );
+        }
+    }
+    
     /*
     while(1){
         //gets messages from display and parser
@@ -112,7 +142,7 @@ void FCore::thr_container_manager(){
     
 void FCore::thr_message_handler_parser(){
         
-    //The message handler wait for messages from the parser, the occurrences thread or the containers thread
+    //The message handler waits for messages from the parser, the occurrences thread or the containers thread
     std::unique_lock<std::mutex> lock(message_parser_mutex);
     message_parser_cond.wait(lock, [this](){ 
                                             return !(_m_pop_queue_parser->empty() 
@@ -179,9 +209,12 @@ void FCore::thr_message_handler_parser(){
         } 
     }
 }
-   
+
+
+
+
 void FCore::thr_message_handler_renderer(){
-    //The message handler wait for messages from the renderer, the occurrences thread or the containers thread
+    //The message handler waits for messages from the renderer, the occurrences thread or the containers thread
     std::unique_lock<std::mutex> lock(message_renderer_mutex);
     message_renderer_cond.wait(lock, [this](){ 
                                             return !(_m_pop_queue_renderer->empty() 
