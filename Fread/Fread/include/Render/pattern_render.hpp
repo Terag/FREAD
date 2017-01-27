@@ -47,7 +47,7 @@ sf::VertexArray patternPoints;
       
 public : 
 pattern_render();
-pattern_render(int id, std::vector<float> meanTimeStamps,occurrence_render occurrence);
+pattern_render(int id, std::vector<float> meanTimeStamps, occurrence_render occurrence);
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 void calculatePoints(float radius);
 ~pattern_render();
