@@ -75,7 +75,10 @@ eventType event_render::getType()
 {
     return type;
 }
-
+sf::Color event_render::getColor() 
+{
+    return eventColor;
+}
 string event_render::getTypeString() {
     switch(type) {
             

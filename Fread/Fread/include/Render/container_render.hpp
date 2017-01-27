@@ -65,6 +65,7 @@ public:
     ~event_render();
     void setColor();
     eventType getType();
+    sf::Color getColor();
     std::string getTypeString();
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 };
