@@ -39,7 +39,7 @@ id(0)
 }
 
 pattern_render::pattern_render(int id, std::vector<float> meanTimeStamps,occurrence_render occurrence) :
-id(id), meanTimeStamps(meanTimeStamps), occurrences(occurrence){
+id(id), meanTimeStamps(meanTimeStamps), occurrences(occurrence),events(occurrences.getEvents()){
     
 }
 
@@ -76,6 +76,15 @@ void pattern_render::draw(sf::RenderTarget& target, sf::RenderStates states) con
 
         target.draw(polygon);
 }
-
+void pattern_render::calculatePoints(float radius){
+    int sub = events.size()/2;
+        for (int i = 0; i < events.size() ; i++)
+        {
+            float tStart = meanTimeStamps[2*i];
+            float tEnd = meanTimeStamps[2*i+1];
+            float tRadius = (tEnd-tStart)/radius;
+           
+        } 
+}
 pattern_render::~pattern_render() {
 }

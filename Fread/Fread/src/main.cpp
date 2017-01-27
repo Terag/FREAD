@@ -130,9 +130,6 @@ settings.antialiasingLevel = 8;
             window.draw(container1);
             window.draw(container2);
             window.draw(container3);
-            for (int i=0; i<10;i++){
-            //window.draw(circle[i]);
-            }
            pattern.draw(window);
         //    window.draw(bezierCurve1);
         //    window.draw(bezierCurve2);
