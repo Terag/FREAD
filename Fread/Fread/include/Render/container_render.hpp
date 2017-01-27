@@ -44,18 +44,24 @@ class scale {
 private : 
     float constScale = 1.f;
     float absoluteTime = 1.f;
+    int spacing = 30;
     int containerSize = 500;
     int containerOffsetX;
     int containerOffsetY;
-    int eventOffsetY;
+    int eventOffsetY;    
+    sf::Font font;
+    std::vector<sf::Text> times;
+    std::vector<sf::VertexArray> timeLines;
 public : 
     scale();
-    scale(float absoluteTime, int containerSize, int containerOffsetX, int containerOffsetY, int eventOffsetY);
+    scale(float absoluteTime, int containerSize, int spacing, int nbContainer, int containerOffsetX, int containerOffsetY, int eventOffsetY);
     float getScale();
     int getContainerSize();
     int getContainerOffsetX();
     int getContainerOffsetY();
     int getEventOffsetY();
+    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
+
 };
 
 class event_render : public sf::Drawable {
@@ -68,7 +74,7 @@ private:
     
 public:
     event_render();
-    event_render(float tSStart, float tSEnd, float scale, eventType type, int containerID, int containerOffset, int offsetX, int offsetY);
+    event_render(float tSStart, float tSEnd, float scale, eventType type, int containerID, int containerOffsetY, int containerOffsetX, int offsetY);
     ~event_render();
     void setColor();
     eventType getType();

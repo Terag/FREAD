@@ -96,7 +96,7 @@ int main(void)
     eventType3.push_back(SEND);
 
     //definition of the scalling we want
-    scale scale1(0.1847, 900, 50, 30, 8);
+    scale scale1(0.1847, 1100, 100, 3, 50, 30, 8);
     
     container_render container1(1,"coucou",scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY());
     container_render container2(2,"ça va ?", scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY());
@@ -117,10 +117,11 @@ int main(void)
             sf::Event event;
             while (window.pollEvent(event))
             {
-                    if (event.type == sf::Event::Closed)
-                            window.close();
+                if (event.type == sf::Event::Closed)
+                    window.close();
             }
             window.clear(sf::Color(255,255,255));
+            scale1.draw(window);
             window.draw(container1);
             window.draw(container2);
             window.draw(container3);
