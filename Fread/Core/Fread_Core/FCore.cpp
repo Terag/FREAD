@@ -33,6 +33,7 @@ DEALINGS IN THE SOFTWARE.
  */
 
 #include "FCore.hpp"
+#include "FMessages_structure.hpp"
 
 FCore::FCore( std::shared_ptr< FQueue<FMessages> > _pop_queue_parser, 
               std::shared_ptr< FQueue<FMessages> > _push_queue_parser,
@@ -115,34 +116,68 @@ void FCore::thr_message_handler_parser(){
     std::unique_lock<std::mutex> lock(message_parser_mutex);
     message_parser_cond.wait(lock, [this](){ 
                                             return !(_m_pop_queue_parser->empty() 
-                                                     || m_parser_occurrences.empty() 
-                                                     || m_parser_containers.empty());
+                                                     || m_occurrences_parser.empty() 
+                                                     || m_containers_parser.empty());
                                            } 
                             );
     lock.unlock();
 
-    
-    //Messages received from parser
-    std::shared_ptr<msg_parser> msg = _m_pop_queue_parser->try_pop();
-    if(msg != NULL){
-            
-        switch(msg->header){
-            case(INITDONE):
-                awake = false;
-            break;
-            case(CONTAINER):
-                m_parser_containers.push_back(msg->content);
-            break;
-            case(PATTERN):
-                //insert the pattern in m_patterns
-            break;
-            case(OCCURRENCE):
-                m_parser_containers.push_back(msg->content);
-            break;
-        } 
-            
-    }
+    if( !_m_pop_queue_parser->empty() ){ //Messages received from parser
+        FMessages msg = _m_pop_queue_parser->try_pop();
+        if(msg != NULL){
+            switch(msg->getHeader){
+                case(INITDONE):
+                    awake = false;
+                break;
+                case(CONTAINER):
+                    //send the container to the containers manager
+                    FMessages msg_send(CONTAINER, msg.getContent() );
+                    m_parser_containers.push(msg_send);
+                break;
+                case(PATTERN):
+                    //insert the pattern in m_patterns
+                break;
+                case(OCCURRENCE):
+                    //send the occurrence to the occurrences manager
+                    FMessages msg_send(OCCURRENCE, msg.getContent() );
+                    m_parser_containers.push(msg_send);
+                break;
+                default:
+                    std::cout << "error : bad header" << std::endl;
+                break;
+            } 
+        }
         
+    }else if( !m_containers_parser.empty() ){ //Messages received from Containers thread
+        FMessages msg = m_containers_parser.try_pop();
+        if(msg != NULL){
+            if(msg.getHeader == CONTAINER){
+                /*
+                 TODO
+                 */
+                    //it might need a conversion
+                    FMessages msg_send( CONTAINER, msg.getContent() );
+                    _m_push_queue_parser->push( msg_send );
+            }else{
+                std::cout << "error : bad header" << std::endl;
+            }
+        }
+        
+    }else if ( !m_occurrences_parser.empty() ){ // Messages received from Occurrences thread
+        FMessages msg = m_containers_parser.try_pop();
+        if(msg != NULL){
+            if(msg.getHeader == OCCURRENCE){
+                /*
+                 TODO
+                 */
+                //it might need a conversion
+                FMessages msg_send( OCCURRENCE, msg.getContent() );
+                _m_push_queue_parser->push( msg_send );
+            }else{
+                std::cout << "error : bad header" << std::endl;
+            }
+        } 
+    }
 }
     
 void  FCore::check_memory(){
