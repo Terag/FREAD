@@ -30,8 +30,8 @@ scale::scale()
 {
 }
 
-scale::scale(float absoluteTime, int containerSize) : 
-absoluteTime(absoluteTime), containerSize(containerSize)
+scale::scale(float absoluteTime, int containerSize, int containerOffsetX, int containerOffsetY, int eventOffsetY) : 
+absoluteTime(absoluteTime), containerSize(containerSize), containerOffsetX(containerOffsetX), containerOffsetY(containerOffsetY), eventOffsetY(eventOffsetY)
 {
     constScale = containerSize/absoluteTime;
 }
@@ -41,6 +41,20 @@ int scale::getContainerSize()
     return containerSize;
 }
 
+int scale::getContainerOffsetX() 
+{
+    return containerOffsetX;
+}
+
+int scale::getContainerOffsetY() 
+{
+    return containerOffsetY;
+}
+
+int scale::getEventOffsetY() 
+{
+    return eventOffsetY;
+}
 float scale::getScale() 
 {
     return constScale;
