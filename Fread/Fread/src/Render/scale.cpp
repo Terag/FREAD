@@ -30,10 +30,32 @@ scale::scale()
 {
 }
 
-scale::scale(float absoluteTime, int containerSize, int containerOffsetX, int containerOffsetY, int eventOffsetY) : 
-absoluteTime(absoluteTime), containerSize(containerSize), containerOffsetX(containerOffsetX), containerOffsetY(containerOffsetY), eventOffsetY(eventOffsetY)
-{
+scale::scale(float absoluteTime, int containerSize, int spacing, int nbContainer, int containerOffsetX, int containerOffsetY, int eventOffsetY) : 
+absoluteTime(absoluteTime), containerSize(containerSize), spacing(spacing), containerOffsetX(containerOffsetX), containerOffsetY(containerOffsetY), eventOffsetY(eventOffsetY)
+{   int subdTimeLine = containerSize/spacing;
     constScale = containerSize/absoluteTime;
+    if (!font.loadFromFile("Arimo-Regular.ttf")) 
+    {
+        // error
+    }
+    for (int i = 0; i < subdTimeLine + 1; i++) 
+    {
+    sf::Text time;
+    time.setFont(font);
+    time.setColor(sf::Color(60,60,60));
+    time.setCharacterSize(10);
+    time.setString(std::to_string(spacing*i));
+    time.setPosition(containerOffsetX + spacing*(i), containerOffsetY - eventOffsetY - 15);
+    times.push_back(time);
+    sf::VertexArray timeLine = sf::VertexArray(sf::Lines, 2);
+    timeLine[0].position = sf::Vector2f(containerOffsetX + spacing*(i), containerOffsetY - eventOffsetY); 
+    timeLine[1].position = sf::Vector2f(containerOffsetX + spacing*(i), containerOffsetY*nbContainer + eventOffsetY);
+    timeLine[0].color = sf::Color(231,231,231);
+    timeLine[1].color = sf::Color(231,231,231); 
+    timeLines.push_back(timeLine);
+    }
+
+
 }
 
 int scale::getContainerSize()
@@ -59,3 +81,14 @@ float scale::getScale()
 {
     return constScale;
 }
+
+ void scale::draw(sf::RenderTarget& target, sf::RenderStates states) const 
+ {
+     for (int i = 0; i < timeLines.size(); i++) 
+     {
+        target.draw(times[i], states);    
+        target.draw(timeLines[i], states);
+ 
+     }
+ }
+
