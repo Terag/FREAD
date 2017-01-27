@@ -45,23 +45,30 @@ private :
     float constScale = 1.f;
     float absoluteTime = 1.f;
     int containerSize = 500;
-    
+    int containerOffsetX;
+    int containerOffsetY;
+    int eventOffsetY;
 public : 
     scale();
-    scale(float absoluteTime, int containerSize);
+    scale(float absoluteTime, int containerSize, int containerOffsetX, int containerOffsetY, int eventOffsetY);
     float getScale();
     int getContainerSize();
+    int getContainerOffsetX();
+    int getContainerOffsetY();
+    int getEventOffsetY();
 };
 
 class event_render : public sf::Drawable {
 private:
     sf::Color eventColor = sf::Color(60,60,60);
-    int  tStart, tEnd, height, containerID = 0;
+    int  tStart, tEnd, containerOffset, containerID = 0;
+    int offsetY = 6;
+    int offsetX = 50;
     eventType type;
     
 public:
     event_render();
-    event_render(float tSStart, float tSEnd, float scale, eventType type, int containerID, int height);
+    event_render(float tSStart, float tSEnd, float scale, eventType type, int containerID, int containerOffset, int offsetX, int offsetY);
     ~event_render();
     void setColor();
     eventType getType();
@@ -82,7 +89,7 @@ std::vector<event_render> events;
 
 public : 
 occurrence_render();
-occurrence_render(int id, int containerID, int height, float scale, std::vector<float> timeStamps, std::vector<eventType> event);
+occurrence_render(int id, int containerID, int containerOffset, int offsetX, int offsetY, float scale, std::vector<float> timeStamps, std::vector<eventType> event);
 std::vector<event_render> getEvents();
 int getId();
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;

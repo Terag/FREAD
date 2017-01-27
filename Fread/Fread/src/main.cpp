@@ -96,27 +96,21 @@ int main(void)
     eventType3.push_back(SEND);
 
     //definition of the scalling we want
-    scale scale1(0.1847, 900);
+    scale scale1(0.1847, 900, 50, 30, 8);
     
-    container_render container1(1,"coucou",scale1.getContainerSize());
-    container_render container2(2,"ça va ?", scale1.getContainerSize());
-    container_render container3(3,"Oui et toi ?", scale1.getContainerSize());
+    container_render container1(1,"coucou",scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY());
+    container_render container2(2,"ça va ?", scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY());
+    container_render container3(3,"Oui et toi ?", scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY());
 
-    occurrence_render occurrence1(1, container1.getId(), container1.getOffsetY(), scale1.getScale(), timeStamps1, eventType1);
-    occurrence_render occurrence2(2, container2.getId(), container2.getOffsetY(), scale1.getScale(), timeStamps2, eventType2);
-    occurrence_render occurrence3(3, container3.getId(), container3.getOffsetY(), scale1.getScale(), timeStamps3, eventType3);
+    occurrence_render occurrence1(1, container1.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(), scale1.getScale(), timeStamps1, eventType1);
+    occurrence_render occurrence2(2, container2.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(), scale1.getScale(), timeStamps2, eventType2);
+    occurrence_render occurrence3(3, container3.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(), scale1.getScale(), timeStamps3, eventType3);
 
     container1.addOccurrence(occurrence1);
     container2.addOccurrence(occurrence2);
     container3.addOccurrence(occurrence3);
 
-
- 
-    
-
-   
-
-        pattern_render pattern(1,timeStamps3,occurrence3);
+    pattern_render pattern(1,timeStamps3,occurrence3);
 
     while (window.isOpen())
     {
