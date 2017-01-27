@@ -39,8 +39,8 @@ id(0)
 }
 
 pattern_render::pattern_render(int id, std::vector<float> meanTimeStamps,occurrence_render occurrence) :
-id(id), meanTimeStamps(meanTimeStamps), occurrences(occurrence),events(occurrences.getEvents()){
-    
+id(id), meanTimeStamps(meanTimeStamps), occurrences(occurrence){
+    //events(occurrences.getEvents());
 }
 
 void pattern_render::draw(sf::RenderTarget& target, sf::RenderStates states) const
