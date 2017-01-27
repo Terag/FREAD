@@ -179,7 +179,71 @@ void FCore::thr_message_handler_parser(){
         } 
     }
 }
-    
+   
+void FCore::thr_message_handler_renderer(){
+    //The message handler wait for messages from the renderer, the occurrences thread or the containers thread
+    std::unique_lock<std::mutex> lock(message_renderer_mutex);
+    message_renderer_cond.wait(lock, [this](){ 
+                                            return !(_m_pop_queue_renderer->empty() 
+                                                     || m_occurrences_renderer.empty() 
+                                                     || m_containers_renderer.empty());
+                                           } 
+                            );
+    lock.unlock();
+
+    if( !_m_pop_queue_renderer->empty() ){ //Messages received from renderer
+        FMessages msg = _m_pop_queue_renderer->try_pop();
+        if(msg != NULL){
+            switch(msg->getHeader){
+                case(CONTAINER):
+                    //send the container to the containers manager
+                    FMessages msg_send(CONTAINER, msg.getContent() );
+                    m_renderer_containers.push(msg_send);
+                break;
+                case(OCCURRENCE):
+                    //send the occurrence to the occurrences manager
+                    FMessages msg_send(OCCURRENCE, msg.getContent() );
+                    m_renderer_containers.push(msg_send);
+                break;
+                default:
+                    std::cout << "error : bad header" << std::endl;
+                break;
+            } 
+        }
+        
+    }else if( !m_containers_renderer.empty() ){ //Messages received from Containers thread
+        FMessages msg = m_containers_renderer.try_pop();
+        if(msg != NULL){
+            if(msg.getHeader == CONTAINER){
+                /*
+                 TODO
+                 */
+                //it might need a conversion
+                FMessages msg_send( CONTAINER, msg.getContent() );
+                _m_push_queue_renderer->push( msg_send );
+            }else{
+                std::cout << "error : bad header" << std::endl;
+            }
+        }
+        
+    }else if ( !m_occurrences_renderer.empty() ){ // Messages received from Occurrences thread
+        FMessages msg = m_containers_renderer.try_pop();
+        if(msg != NULL){
+            if(msg.getHeader == OCCURRENCE){
+                /*
+                 TODO
+                 */
+                //it might need a conversion
+                FMessages msg_send( OCCURRENCE, msg.getContent() );
+                _m_push_queue_renderer->push( msg_send );
+            }else{
+                std::cout << "error : bad header" << std::endl;
+            }
+        } 
+    }
+}
+
+
 void  FCore::check_memory(){
     if(m_occurrences.size() > MAX_SIZE){
         m_occurrences.erase( m_occurrences.begin() );
@@ -204,8 +268,7 @@ void FCore::thr_FCore(){
         
     while(awake){
             
-    }
-        
+    } 
         
     std::thread message_handler_renderer_( thr_message_handler_renderer() );
     FThread_guard mhp_g( message_handler_renderer_ );
