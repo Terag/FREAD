@@ -17,6 +17,7 @@
             <in>container_render.cpp</in>
             <in>event_render.cpp</in>
             <in>occurrence_render.cpp</in>
+            <in>pattern_render.cpp</in>
             <in>scale.cpp</in>
           </df>
           <in>FColor.cpp</in>
@@ -49,7 +50,6 @@
       </toolsSet>
       <flagsDictionary>
         <element flagsID="0" commonFlags="-std=c++11 -pedantic"/>
-        <element flagsID="1" commonFlags="-std=c++14"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
@@ -111,11 +111,18 @@
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="Fread/src/Render/event_render.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="1">
+      <item path="Fread/src/Render/event_render.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="Fread/src/Render/occurrence_render.cpp"
+            ex="false"
+            tool="1"
+            flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="Fread/src/Render/pattern_render.cpp"
             ex="false"
             tool="1"
             flavor2="8">

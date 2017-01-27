@@ -70,6 +70,7 @@
             <in>container_render.cpp</in>
             <in>event_render.cpp</in>
             <in>occurrence_render.cpp</in>
+            <in>pattern_render.cpp</in>
             <in>scale.cpp</in>
           </df>
           <in>FColor.cpp</in>
@@ -130,7 +131,7 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
         </runcommandpicklist>
         <runcommand>"${OUTPUT_PATH}"</runcommand>
-        <rundir>/home/gg/FREAD/Fread/Fread/src</rundir>
+        <rundir>/home/emma/FREAD/Fread/Fread/src</rundir>
         <buildfirst>false</buildfirst>
         <terminal-type>0</terminal-type>
         <remove-instrumentation>0</remove-instrumentation>

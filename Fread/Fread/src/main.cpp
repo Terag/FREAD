@@ -46,8 +46,8 @@ using namespace std;
  */
 int main(void)
 {
-sf::ContextSettings settings;
-settings.antialiasingLevel = 8;
+ sf::ContextSettings settings;
+ settings.antialiasingLevel = 8;
 
     sf::RenderWindow window(sf::VideoMode(1500, 1000), "Container and occurrences test",sf::Style::Default, settings);
 
