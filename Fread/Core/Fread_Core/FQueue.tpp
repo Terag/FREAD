@@ -26,49 +26,56 @@ DEALINGS IN THE SOFTWARE.
  */
 
 /* 
- * File:   FMessages.hpp
+ * File:   FQueue.cpp
  * Author: guillem
  *
- * Created on 25 janvier 2017, 16:05
+ * Created on 27 janvier 2017, 12:19
  */
 
-#ifndef FMESSAGES_HPP
-#define FMESSAGES_HPP
+void FQueue::setOtherCondition(std::shared_ptr<std::mutex> _mutex, std::shared_ptr<std::condition_variable> _data_cond){
+    _m_mutex_other = _mutex;
+    _m_data_cond_other = _data_cond;
+}
 
-#include <memory>
 
-enum HEADER{
-     START,
-     INITDONE,
-     TIMESTAMP,
-     INITDONE,
-     CONTAINER,
-     PATTERN,
-     OCCURRENCE
-};
+template <typename T>
+std::shared_ptr<T> FQueue<T>::try_pop()
+{
+    if(head.get()==tail)
+    {
+        return std::shared_ptr<T>();
+    }
+    const std::shared_ptr<T> res(head->data);
+    const std::unique_ptr<node> old_head=std::move(head);
+    head=std::move(old_head->next);
+    return res;
+}
 
 template<typename T>
-class FMessages{
-public:
+void FQueue<T>::push(T new_value)
+{
+    std::shared_ptr<T> new_data = std::make_shared<T>(std::move(new_value));
+    std::unique_ptr<node> p(new node);
+    tail->data=new_data;
+    node* const new_tail=p.get();
+    tail->next=std::move(p);
+    tail=new_tail;
     
-    //give a content to the constructor it will make a shared_ptr of it
-    FMessages(HEADER header, T content);
-    FMessages(const Core& orig);
+    m_data_cond_mine.notify_one();
     
-    FMessages& operator=(const FMessages&);
-    
-    virtual ~FMessages();
-    
-    HEADER getHeader();
-    void setHeader(HEADER var);
-    
-    std::shared_ptr<T> getContent();
-    void setContent(T var);
-    
-private:
-    HEADER m_header;
-    std::shared_ptr<T> m_content;
-};
+    _m_data_cond_other->notify_one();
+}
 
-#endif //FMESSAGES_HPP
+template<typename T>
+std::shared_ptr<T> FQueue<T>::wait_and_pop(){
+    std::unique_lock<std::mutex> lk(m_mutex_mine);
+    m_data_cond_mine.wait(lk, [this](){ return !empty();});
+    lk.unlock();
+    return try_pop();
+}
 
+template<typename T>
+bool FQueue<T>::empty()
+{
+    return (head.get() == tail);
+}

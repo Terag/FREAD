@@ -49,16 +49,5 @@ private:
 
 };
 
-FThread_guard::FThread_guard(std::thread& t):
-m_thread(t)
-{
-}
-
-FThread_guard::~FThread_guard() {
-    if(m_thread.joinable()){
-        m_thread.join();
-    }
-}
-
 #endif /* FTHREAD_GUARD_HPP */
 
