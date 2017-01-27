@@ -75,54 +75,7 @@ public:
     bool empty();
 };
 
-
-void FQueue::setOtherCondition(std::shared_ptr<std::mutex> _mutex, std::shared_ptr<std::condition_variable> _data_cond){
-    _m_mutex_other = _mutex;
-    _m_data_cond_other = _data_cond;
-}
-
-
-template <typename T>
-std::shared_ptr<T> FQueue<T>::try_pop()
-{
-    if(head.get()==tail)
-    {
-        return std::shared_ptr<T>();
-    }
-    const std::shared_ptr<T> res(head->data);
-    const std::unique_ptr<node> old_head=std::move(head);
-    head=std::move(old_head->next);
-    return res;
-}
-
-template<typename T>
-void FQueue<T>::push(T new_value)
-{
-    std::shared_ptr<T> new_data = std::make_shared<T>(std::move(new_value));
-    std::unique_ptr<node> p(new node);
-    tail->data=new_data;
-    node* const new_tail=p.get();
-    tail->next=std::move(p);
-    tail=new_tail;
-    
-    m_data_cond_mine.notify_one();
-    
-    _m_data_cond_other->notify_one();
-}
-
-template<typename T>
-std::shared_ptr<T> FQueue<T>::wait_and_pop(){
-    std::unique_lock<std::mutex> lk(m_mutex_mine);
-    m_data_cond_mine.wait(lk, [this](){ return !empty();});
-    lk.unlock();
-    return try_pop();
-}
-
-template<typename T>
-bool FQueue<T>::empty()
-{
-    return (head.get() == tail);
-}
+#include "FQueue.tpp"
 
 #endif /* QUEUE_HPP */
 

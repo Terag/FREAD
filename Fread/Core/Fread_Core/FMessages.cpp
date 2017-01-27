@@ -26,49 +26,40 @@ DEALINGS IN THE SOFTWARE.
  */
 
 /* 
- * File:   FMessages.hpp
+ * File:   FMessages.cpp
  * Author: guillem
  *
- * Created on 25 janvier 2017, 16:05
+ * Created on 27 janvier 2017, 11:50
  */
 
-#ifndef FMESSAGES_HPP
-#define FMESSAGES_HPP
+#include "FMessages.hpp"
 
-#include <memory>
+FMessages::FMessages(HEADER header, 
+                     T content):
+                     m_header(header),
+                     m_content(std::make_shared<T>(content))
+{    
+}
 
-enum HEADER{
-     START,
-     INITDONE,
-     TIMESTAMP,
-     INITDONE,
-     CONTAINER,
-     PATTERN,
-     OCCURRENCE
-};
+FMessages& FMessages::operator=(const FMessages& other){
+    m_header = other.getHeader();
+    m_content = other.getContent();  
+}
+
+HEADER FMessages::getHeader(){
+    return m_header;
+}
+
+void FMessages::setHeader(HEADER var){
+    m_header = var;
+}
 
 template<typename T>
-class FMessages{
-public:
-    
-    //give a content to the constructor it will make a shared_ptr of it
-    FMessages(HEADER header, T content);
-    FMessages(const Core& orig);
-    
-    FMessages& operator=(const FMessages&);
-    
-    virtual ~FMessages();
-    
-    HEADER getHeader();
-    void setHeader(HEADER var);
-    
-    std::shared_ptr<T> getContent();
-    void setContent(T var);
-    
-private:
-    HEADER m_header;
-    std::shared_ptr<T> m_content;
-};
+std::shared_ptr<T> FMessages::getContent(){
+    return m_content;
+}
 
-#endif //FMESSAGES_HPP
-
+template<typename T>
+void FMessages::setContent(T var){
+    m_content = var;
+}
