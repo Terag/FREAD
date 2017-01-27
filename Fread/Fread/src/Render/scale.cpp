@@ -32,7 +32,8 @@ scale::scale()
 
 scale::scale(float absoluteTime, int containerSize, int spacing, int nbContainer, int containerOffsetX, int containerOffsetY, int eventOffsetY) : 
 absoluteTime(absoluteTime), containerSize(containerSize), spacing(spacing), containerOffsetX(containerOffsetX), containerOffsetY(containerOffsetY), eventOffsetY(eventOffsetY)
-{   int subdTimeLine = containerSize/spacing;
+{   
+    int subdTimeLine = containerSize/spacing;
     constScale = containerSize/absoluteTime;
     if (!font.loadFromFile("Arimo-Regular.ttf")) 
     {
@@ -44,7 +45,7 @@ absoluteTime(absoluteTime), containerSize(containerSize), spacing(spacing), cont
     time.setFont(font);
     time.setColor(sf::Color(60,60,60));
     time.setCharacterSize(10);
-    time.setString(std::to_string(spacing*i));
+    time.setString(std::to_string(spacing*i/constScale));
     time.setPosition(containerOffsetX + spacing*(i), containerOffsetY - eventOffsetY - 15);
     times.push_back(time);
     sf::VertexArray timeLine = sf::VertexArray(sf::Lines, 2);
