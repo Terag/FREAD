@@ -131,8 +131,6 @@ int main(void)
             window.draw(container2);
             window.draw(container3);
            pattern.draw(window);
-        //    window.draw(bezierCurve1);
-        //    window.draw(bezierCurve2);
             window.display();
     }
     
