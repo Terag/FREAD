@@ -24,36 +24,49 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PARSER_HPP
-#define PARSER_HPP
-
-#include "Parser/parser_specifications.hpp"
-#include "FQueue.hpp"
-#include "FMessages_structure.hpp"
+#ifndef STATESCONFIG_HPP
+#define STATESCONFIG_HPP
 
 #include <string>
-#include <memory>
+#include <fstream>
+#include <iostream>
+#include <vector>
 
-class Parser {
+typedef enum {
+    STATE_WAIT,
+    STATE_COMPUTE,
+    STATE_SEND,
+    STATE_UNKNOWN
+} StateType;
+
+typedef struct {
+    std::string name;
+    std::string alias;
+    StateType state;
+} Conf_EventType;
+
+class StatesConfig {
 public:
-    Parser(std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue);
+    StatesConfig(std::string const& path = "./states.conf");
     
-    void awake(std::string const& path);
-    void start();
-    void listenAndProcess();
+    void initEvents();
     
-    virtual ~Parser();
+    StateType getState(std::string const& name, std::string const& alias);
+    
+    static StateType stringToState(std::string const& str);
+    static std::string stateToString(StateType const& state);
+    
+    virtual ~StatesConfig();
 private:
 
-    bool initDone;
-    std::string trace_path;
+    std::string conf_path;
+    std::ifstream conf_stream;
     
-    std::shared_ptr<FQueue<msg_parserToCore>> push_queue;
-    std::shared_ptr<FQueue<msg_coreToParser>> pop_queue;
+    std::vector<Conf_EventType> events;
+    
+    Conf_EventType defineEvent(std::string const& line, StateType current);
+    std::pair<std::string,std::string> getParamInLine(std::string const& line) ;
 };
 
-//Function uses to launch parser thread
-void parser_thread(std::string path, std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue);
-
-#endif /* PARSER_HPP */
+#endif /* STATESCONFIG_HPP */
 

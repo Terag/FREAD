@@ -27,10 +27,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef PAJE_TYPEDEFS_HPP
 #define PAJE_TYPEDEFS_HPP
 
+#include "Parser/statesConfig.hpp"
+#include "FColor.hpp"
+
 #include <vector>
 #include <string>
-
-#include "FColor.hpp"
 
 namespace paje
 {
@@ -132,6 +133,8 @@ namespace paje
         FieldType endContainerTypeType;
         std::string endContainerType_str;
         int endContainerType_int;
+        
+        StateType state;
 
         FColor color;
     } PajeTypeDef;
