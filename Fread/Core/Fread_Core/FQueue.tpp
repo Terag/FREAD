@@ -32,7 +32,8 @@ DEALINGS IN THE SOFTWARE.
  * Created on 27 janvier 2017, 12:19
  */
 
-void FQueue::setOtherCondition(std::shared_ptr<std::mutex> _mutex, std::shared_ptr<std::condition_variable> _data_cond){
+template <typename T>
+void FQueue<T>::setOtherCondition(std::shared_ptr<std::mutex> _mutex, std::shared_ptr<std::condition_variable> _data_cond){
     _m_mutex_other = _mutex;
     _m_data_cond_other = _data_cond;
 }

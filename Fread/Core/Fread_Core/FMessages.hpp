@@ -41,7 +41,6 @@ enum HEADER{
      START,
      INITDONE,
      TIMESTAMP,
-     INITDONE,
      CONTAINER,
      PATTERN,
      OCCURRENCE
@@ -53,7 +52,7 @@ public:
     
     //give a content to the constructor it will make a shared_ptr of it
     FMessages(HEADER header, T content);
-    FMessages(const Core& orig);
+    FMessages(const FMessages& orig);
     
     FMessages& operator=(const FMessages&);
     

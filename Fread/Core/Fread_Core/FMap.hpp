@@ -43,18 +43,18 @@ class FMap {
 public:
     FMap();
     FMap(const FMap& orig);
-    virtual ~FMap();
+    ~FMap();
     
     std::shared_ptr<T> at(const K& k);
     void insert(K key, T element);
-    void erase(std::unordered_map<K, T>::iterator it);
+    bool erase( std::unordered_map<K, T>::iterator it);
     
     bool contains(T element);
     bool contains(K key);
     
     std::shared_ptr<T> operator[](const K key);
     
-    std::unordered_map<K, T>::iterator hashmap_wrapper_fullProtection::begin();
+    typename std::unordered_map<K, T>::iterator begin();
     
     unsigned int size() const;
     bool empty();
