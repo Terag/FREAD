@@ -37,7 +37,28 @@ DEALINGS IN THE SOFTWARE.
 
 template<typename T>
 class FQueue
-{
+{   
+public:
+    FQueue():
+            head(new node),
+            tail(head.get())
+    {
+    }
+
+    FQueue(const FQueue& other)=delete;
+    FQueue& operator=(const FQueue& other)=delete;
+
+    void setOtherCondition(std::shared_ptr<std::mutex> _mutex, 
+                           std::shared_ptr<std::condition_variable> _condition_variable);
+    
+    std::shared_ptr<T> try_pop();
+    
+    std::shared_ptr<T> wait_and_pop();
+    
+    void push(T new_value);
+    
+    bool empty();
+    
 private:
     struct node
     {
@@ -53,26 +74,6 @@ private:
     
     std::shared_ptr< std::mutex > _m_mutex_other;
     std::shared_ptr< std::condition_variable > _m_data_cond_other;
-    
-public:
-    FQueue():
-            head(new node),
-            tail(head.get())
-    {
-    }
-
-    FQueue(const FQueue& other)=delete;
-    FQueue& operator=(const FQueue& other)=delete;
-
-    void setOtherCondition(std::shared_ptr<std::mutex> _mutex, std::shared_ptr<std::condition_variable> _condition_variable);
-    
-    std::shared_ptr<T> try_pop();
-    
-    std::shared_ptr<T> wait_and_pop();
-    
-    void push(T new_value);
-    
-    bool empty();
 };
 
 #include "FQueue.tpp"

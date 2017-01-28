@@ -57,12 +57,11 @@ public:
            std::shared_ptr<FQueue< FMessages<> > > _push_queue_renderer
            );
     
-    FCore(const Core& orig);
+    FCore(const FCore& orig);
     
     virtual ~FCore();
     
     void thr_FCore();
-    
     
 private:
     bool awake; //is in awake phase
@@ -88,9 +87,9 @@ private:
     /*
      TODO
      */
-    FMap<std::pair<int, int>, std::shared_ptr<> > m_occurrences;
-    FMap<int, std::shared_ptr<> > m_containers;
-    FMap<int, std::shared_ptr<> > m_patterns;
+    FMap<std::pair<int, int>,  > m_occurrences;
+    FMap<int,  > m_containers;
+    FMap<int,  > m_patterns;
     
     void thr_container_manager();
     void thr_occurrences_manager();
@@ -113,3 +112,4 @@ private:
 };
 
 
+#endif

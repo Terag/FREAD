@@ -40,7 +40,7 @@ DEALINGS IN THE SOFTWARE.
 class FThread_guard {
 public:
     explicit FThread_guard(std::thread& t);
-    thread_guard(FThread_guard const&)=delete;
+    FThread_guard(FThread_guard const&)=delete;
     FThread_guard& operator=(FThread_guard const&)=delete;
     virtual ~FThread_guard();
 
