@@ -46,7 +46,7 @@ public:
     ~FMap();
     
     std::shared_ptr<T> at(const K& k);
-    void insert(K key, T element);
+    void insert(K key, std::shared_ptr<T> element);
     bool erase( std::unordered_map<K, T>::iterator it);
     
     bool contains(T element);

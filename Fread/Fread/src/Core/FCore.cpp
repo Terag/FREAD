@@ -34,10 +34,10 @@ DEALINGS IN THE SOFTWARE.
 
 #include "FCore.hpp"
 
-FCore::FCore( std::shared_ptr< FQueue< FMessages<> > > _pop_queue_parser, 
-              std::shared_ptr< FQueue< FMessages<> > > _push_queue_parser,
-              std::shared_ptr< FQueue< FMessages<> > > _pop_queue_renderer,
-              std::shared_ptr< FQueue< FMessages<> > > _push_queue_renderer):
+FCore::FCore( std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_parser, 
+              std::shared_ptr< FQueue< FMessages< FObjet > > > _push_queue_parser,
+              std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_renderer,
+              std::shared_ptr< FQueue< FMessages< FObjet > > > _push_queue_renderer):
               _m_pop_queue_parser(_pop_queue_parser),
               _m_push_queue_parser(_push_queue_parser),
               _m_pop_queue_renderer(_pop_queue_renderer),
@@ -85,17 +85,21 @@ void FCore::thr_container_manager(){
                                 );
     lock.unlock();
     
+    //any message received from the parser is added to the memory then sent to the parser
     if( !m_parser_containers.empty() ){
         FMessages msg = m_parser_containers.try_pop();
         
+        /*
+          The content is a shared_ptr<FContainer>
+        */
+        m_containers.insert( ((FContainer)msg.getContent())->getId() , (Fcontainer)msg.getContent() );
+
         FMessages msg_send( CONTAINER, msg.getContent() );
         m_containers_renderer.push( msg_send );
         
-        //m_containers.insert( ((FContainer)msg.getContent())->getId() , msg.getContent() )
-        
     }else if( !m_renderer_containers.empty() ){
         FMessages msg = m_renderer_containers.try_pop();
-        //get the messages
+        //get the message
         
         // check if is in memory
         if( m_containers.contains( msg.getContent() ) ){ //if is in memory
@@ -124,13 +128,17 @@ void FCore::thr_occurrences_manager(){
                                 );
     lock.unlock();
     
+    //any message received from the parser is added to the memory then sent to the parser
     if( !m_parser_occurrences.empty() ){
         FMessages msg = m_parser_occurrences.try_pop();
-        
+        /*
+          The content is a shared_ptr<FOccurrence>
+        */
+        std::pair<int, int> key = make_pair(((FOccurrence)msg.getContent())->getPatternId(), ((FOccurrence)msg.getContent())->getId());
+        m_occurrences.insert( key, (FOccurrence)msg.getContent() );
+
         FMessages msg_send( OCCURRENCE, msg.getContent() );
         m_occurrences_renderer.push( msg_send );
-        
-        //m_occurrences.insert( ((FOccurrences)msg.getContent())->getId() , msg.getContent() )
         
     }else if( !m_renderer_occurrences.empty() ){
         FMessages msg = m_renderer_occurrences.try_pop();
@@ -179,6 +187,7 @@ void FCore::thr_message_handler_parser(){
                 break;
                 case(PATTERN):
                     //insert the pattern in m_patterns
+                    m_patterns.insert( msg.getContent().getId(), (FPattern)msg.getContent() );
                 break;
                 case(OCCURRENCE):
                     //send the occurrence to the occurrences manager
@@ -198,9 +207,9 @@ void FCore::thr_message_handler_parser(){
                 /*
                  TODO
                  */
-                    //it might need a conversion
-                    FMessages msg_send( CONTAINER, msg.getContent() );
-                    _m_push_queue_parser->push( msg_send );
+                //it might need a conversion
+                FMessages msg_send( CONTAINER, msg.getContent() );
+                _m_push_queue_parser->push( msg_send );
             }else{
                 std::cout << "error : bad header" << std::endl;
             }
