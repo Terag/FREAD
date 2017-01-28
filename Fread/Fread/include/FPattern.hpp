@@ -24,10 +24,11 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-/*#pragma once
+#pragma once
+
 #include<vector>
 #include<string>	
-#include "occurrence.h"
+#include "FOccurrence.h"
 
 struct event
 {
@@ -53,21 +54,23 @@ struct event
 	coord start;
 	coord end;
 };
-class FPattern
-{
-private :
-	int id;
-	std::vector<event> events;
-	std::vector<float> meanTimeStamps;
-	std::vector<FOccurrence> FOccurrences;
-	
-	
 
+class FPattern : FObjet
+{
 public:
 	FPattern();
 	~FPattern();
+
+	int getId();
+	std::vector<event> getEvents();
+	std::vector<float> getMeanTimeStamps();
+	std::vector<FOccurrence> getOccurrences();
+
+private :
+	int id;
+	std::vector<event> m_events;
+	std::vector<float> m_meanTimeStamps;
+	std::vector<FOccurrence> m_occurrences;
 };
 bool operator==(FPattern A, FPattern B);
 bool operator!=(FPattern A, FPattern B);
-
-*/

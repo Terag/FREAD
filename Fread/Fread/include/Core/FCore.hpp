@@ -42,16 +42,17 @@ DEALINGS IN THE SOFTWARE.
 #include "FQueue.hpp"
 #include "FMessages.hpp"
 #include "FThread_guard.hpp"
-#include "occurrences.hpp"
-#include "patterns.hpp"
-#include "containers.hpp"
+#include "FObjet.hpp"
+#include "FOccurrence.hpp"
+#include "FPattern.hpp"
+#include "FContainer.hpp"
 
 class FCore {
 public:
-    FCore( std::shared_ptr<FQueue< FMessages<> > > _pop_queue_parser, 
-           std::shared_ptr<FQueue< FMessages<> > > _push_queue_parser,
-           std::shared_ptr<FQueue< FMessages<> > > _pop_queue_renderer,
-           std::shared_ptr<FQueue< FMessages<> > > _push_queue_renderer
+    FCore( std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_parser, 
+           std::shared_ptr< FQueue< FMessages< FObjet > > > _push_queue_parser,
+           std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_renderer,
+           std::shared_ptr< FQueue< FMessages< FObjet > > > _push_queue_renderer
            );
     
     FCore(const FCore& orig);
@@ -64,30 +65,30 @@ public:
 private:
     bool awake; //is in awake phase
     
-    std::shared_ptr<FQueue< FMessages<> > > _m_pop_queue_parser;
-    std::shared_ptr<FQueue< FMessages<> > > _m_push_queue_parser;
-    std::shared_ptr<FQueue< FMessages<> > > _m_pop_queue_renderer;
-    std::shared_ptr<FQueue< FMessages<> > > _m_push_queue_renderer;
+    std::shared_ptr<FQueue< FMessages< FObjet > > > _m_pop_queue_parser;
+    std::shared_ptr<FQueue< FMessages< FObjet > > > _m_push_queue_parser;
+    std::shared_ptr<FQueue< FMessages< FObjet > > > _m_pop_queue_renderer;
+    std::shared_ptr<FQueue< FMessages< FObjet > > > _m_push_queue_renderer;
      
     /*
      TODO
      */
-    FQueue< FMessages<> > m_renderer_occurrences;
-    FQueue< FMessages<> > m_renderer_container;
-    FQueue< FMessages<> > m_occurrences_renderer;
-    FQueue< FMessages<> > m_container_renderer;
+    FQueue< FMessages< FOccurrence > > m_renderer_occurrences;
+    FQueue< FMessages< FContainer > > m_renderer_container;
+    FQueue< FMessages< FOccurrence > > m_occurrences_renderer;
+    FQueue< FMessages< FContainer > > m_container_renderer;
     
-    FQueue< FMessages<> > m_parser_occurrences;
-    FQueue< FMessages<> > m_parser_container;
-    FQueue< FMessages<> > m_occurrences_parser;
-    FQueue< FMessages<> > m_container_parser;
+    FQueue< FMessages< FOccurrence > > m_parser_occurrences;
+    FQueue< FMessages< FContainer > > m_parser_container;
+    FQueue< FMessages< FOccurrence > > m_occurrences_parser;
+    FQueue< FMessages< FContainer > > m_container_parser;
     
     /*
      TODO
      */
-    FMap< std::pair<int, int>,  > m_occurrences;
-    FMap<int,  > m_container;
-    FMap<int,  > m_patterns;
+    FMap< std::pair<int, int>, FOccurrence > m_occurrences;
+    FMap<int, FContainer > m_container;
+    FMap<int, FPattern > m_patterns;
     
     void thr_container_manager();
     void thr_occurrences_manager();
