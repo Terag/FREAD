@@ -39,20 +39,9 @@ enum HEADER{
     START,
     INITDONE,
     TIMESTAMP,
-    INITDONE,
     CONTAINER,
     PATTERN,
     OCCURRENCE
-};
-
-struct msg_parser{
-    HEADER header;
-    std::shared_ptr<> content;
-};
-
-struct msg_renderer{
-    HEADER header;
-    std::shared_ptr<> content;
 };
 
 #define MAX_SIZE 200
@@ -60,10 +49,10 @@ struct msg_renderer{
 #include <vector>
 
 #include "FQueue.hpp"
+#include "FMessages"
 #include "FThread_guard.hpp"
-#include "threadsafe_list.h"
-#include "threadsafe_hashmap.h"
-#include "structures.h"
+
+#include "FCore.cpp"
 
 class FCore {
 public:
@@ -73,7 +62,7 @@ public:
            std::shared_ptr<FQueue<msg_renderer> > _push_queue_renderer
            );
     
-    FCore(const Core& orig);
+    FCore(const FCore& orig);
     
     virtual ~FCore();
     
@@ -83,30 +72,30 @@ public:
 private:
     bool awake; //is in awake phase
     
-    std::shared_ptr<FQueue<msg_parser> > _m_pop_queue_parser;
-    std::shared_ptr<FQueue<msg_parser> > _m_push_queue_parser;
-    std::shared_ptr<FQueue<msg_renderer> > _m_pop_queue_renderer;
-    std::shared_ptr<FQueue<msg_renderer> > _m_push_queue_renderer;
+    std::shared_ptr<FQueue< FMessages<> > > _m_pop_queue_parser;
+    std::shared_ptr<FQueue< FMessages<> > > _m_push_queue_parser;
+    std::shared_ptr<FQueue< FMessages<> > > _m_pop_queue_renderer;
+    std::shared_ptr<FQueue< FMessages<> > > _m_push_queue_renderer;
      
     /*
      TODO
      */
-    threadsafe_list<> m_renderer_occurrences;
-    threadsafe_list<> m_renderer_container;
-    threadsafe_list<> m_occurrences_renderer;
-    threadsafe_list<> m_container_renderer;
+    FQueue< FMessages<> > m_renderer_occurrences;
+    FQueue< FMessages<> > m_renderer_container;
+    FQueue< FMessages<> > m_occurrences_renderer;
+    FQueue< FMessages<> > m_container_renderer;
     
-    threadsafe_list<> m_parser_occurrences;
-    threadsafe_list<> m_parser_container;
-    threadsafe_list<> m_occurrences_parser;
-    threadsafe_list<> m_container_parser;
+    FQueue< FMessages<> > m_parser_occurrences;
+    FQueue< FMessages<> > m_parser_container;
+    FQueue< FMessages<> > m_occurrences_parser;
+    FQueue< FMessages<> > m_container_parser;
     
     /*
      TODO
      */
-    threadsafe_hashmap<std::pair<int, int>, std::shared_ptr<> > m_occurrences;
-    threadsafe_hashmap<int, std::shared_ptr<> > m_container;
-    threadsafe_hashmap<int, std::shared_ptr<> > m_patterns;
+    FMap<std::pair<int, int>,  > m_occurrences;
+    FMap<int,  > m_container;
+    FMap<int,  > m_patterns;
     
     void thr_container_manager();
     void thr_occurrences_manager();
@@ -114,69 +103,22 @@ private:
     void thr_message_handler_parser();
     void thr_message_handler_renderer();
     
+	std::mutex message_parser_mutex;
+	std::condition_variable message_parser_cond:
+
+	std::mutex message_renderer_mutex;
+	std::condition_variable message_renderer_cond:
+
+	std::mutex containers_manager_mutex;
+	std::condition_variable containers_manager_cond:
+
+	std::mutex occurrences_manager_mutex;
+	std::condition_variable occurrences_manager_cond:
+
+
     //check_memory ensure that the two map are not too big
     void check_memory();
 };
-
-    FCore::FCore( std::shared_ptr<FQueue<msg_parser> > _pop_queue_parser, 
-                  std::shared_ptr<FQueue<msg_parser> > _push_queue_parser,
-                  std::shared_ptr<FQueue<msg_renderer> > _pop_queue_renderer,
-                  std::shared_ptr<FQueue<msg_renderer> > _push_queue_renderer):
-                  _m_pop_queue_parser(_pop_queue_parser),
-                  _m_pop_queue_parser(_push_queue_parser),
-                  _m_pop_queue_parser(_pop_queue_parser),
-                  _m_pop_queue_parser(_push_queue_parser)      
-    {  
-    }
-
-    void FCore::thr_FCore(){
-        
-        std::thread message_handler_parser_( thr_message_handler_parser() );
-        FThread_guard mhp_g( message_handler_parser_ );
-        
-        std::thread container_manager_( thr_container_manager() );
-        FThread_guard cm_g(container_manager_);
-        
-        std::thread occurrences_manager_( thr_occurrences_manager() );
-        FThread_guard om_g(occurrences_manager_);
-        
-        while(awake){    
-        }
-        
-        
-        std::thread message_handler_renderer_( thr_message_handler_renderer() );
-        FThread_guard mhp_g( message_handler_renderer_ );
-    
-        while(1){
-            check_memory();
-        } 
-    }
-    
-    void FCore::thr_message_handler_parser(){
-        
-        std::shared_ptr<msg_parser> msg = _m_pop_queue_parser->try_pop();
-        if(msg != NULL){
-            
-            switch(msg->header){
-                case(INITDONE):
-                    awake = false;
-                break;
-                case(CONTAINER):
-                    m_parser_container.push_back(msg->content);
-                break;
-                case(PATTERN):
-                    //insert the pattern
-                break;
-                case(OCCURRENCE):
-                    m_parser_container.push_back(msg->content);
-                break;
-            } 
-            
-        }
-
-        
-        
-    }
 
 #endif /* FCORE_HPP */
 
