@@ -7,6 +7,10 @@ core.so: $(OBJ)
 	@mv core.so $(OBJ_DIR)/
 	@echo "    	core.so move to $(OBJ_DIR)"
 
+FCore.o: FCore.cpp FMap.hpp FMap.tpp FQueue.hpp FQueue.tpp FMessages.hpp FMessages.tpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
+	@echo "    	CXX        $@"
+
 ## Quand vous rajoutez un fichier, suivre le même format que ci dessous pour chaque fichier :
 ##Cible: dépendances
 ##	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
