@@ -45,7 +45,7 @@ DEALINGS IN THE SOFTWARE.
 
 #include "FQueue.hpp"
 #include "FThread_guard.hpp"
-#include "threadsafe_hashmap.h"
+#include "FMap.hpp"
 #include "FMessages.hpp"
 
 
@@ -88,9 +88,9 @@ private:
     /*
      TODO
      */
-    threadsafe_hashmap<std::pair<int, int>, std::shared_ptr<> > m_occurrences;
-    threadsafe_hashmap<int, std::shared_ptr<> > m_containers;
-    threadsafe_hashmap<int, std::shared_ptr<> > m_patterns;
+    FMap<std::pair<int, int>, std::shared_ptr<> > m_occurrences;
+    FMap<int, std::shared_ptr<> > m_containers;
+    FMap<int, std::shared_ptr<> > m_patterns;
     
     void thr_container_manager();
     void thr_occurrences_manager();
