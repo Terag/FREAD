@@ -34,10 +34,10 @@ DEALINGS IN THE SOFTWARE.
 
 #include "FCore.hpp"
 
-FCore::FCore( std::shared_ptr< FQueue<FMessages> > _pop_queue_parser, 
-              std::shared_ptr< FQueue<FMessages> > _push_queue_parser,
-              std::shared_ptr< FQueue<FMessages> > _pop_queue_renderer,
-              std::shared_ptr< FQueue<FMessages> > _push_queue_renderer):
+FCore::FCore( std::shared_ptr< FQueue< FMessages<> > > _pop_queue_parser, 
+              std::shared_ptr< FQueue< FMessages<> > > _push_queue_parser,
+              std::shared_ptr< FQueue< FMessages<> > > _pop_queue_renderer,
+              std::shared_ptr< FQueue< FMessages<> > > _push_queue_renderer):
               _m_pop_queue_parser(_pop_queue_parser),
               _m_push_queue_parser(_push_queue_parser),
               _m_pop_queue_renderer(_pop_queue_renderer),
@@ -294,11 +294,17 @@ void FCore::thr_message_handler_renderer(){
 
 void  FCore::check_memory(){
     if(m_occurrences.size() > MAX_SIZE){
-        m_occurrences.erase( m_occurrences.begin() );
+        auto it = m_occurrences.begin();
+        while( !m_occurrences.erase( it ) ){
+            ++it;
+        }
     }
    
     if(m_containers.size() > MAX_SIZE){
-        m_containers.erase( m_containers.begin() );   
+        auto it = m_occurrences.begin();
+        while( !m_occurrences.erase( it ) ){
+            ++it;
+        }   
     }
 }
 

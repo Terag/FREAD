@@ -51,10 +51,10 @@ DEALINGS IN THE SOFTWARE.
 
 class FCore {
 public:
-    FCore( std::shared_ptr<FQueue<msg_parser> > _pop_queue_parser, 
-           std::shared_ptr<FQueue<msg_parser> > _push_queue_parser,
-           std::shared_ptr<FQueue<msg_renderer> > _pop_queue_renderer,
-           std::shared_ptr<FQueue<msg_renderer> > _push_queue_renderer
+    FCore( std::shared_ptr<FQueue< FMessages<> > > _pop_queue_parser, 
+           std::shared_ptr<FQueue< FMessages<> > > _push_queue_parser,
+           std::shared_ptr<FQueue< FMessages<> > > _pop_queue_renderer,
+           std::shared_ptr<FQueue< FMessages<> > > _push_queue_renderer
            );
     
     FCore(const Core& orig);
