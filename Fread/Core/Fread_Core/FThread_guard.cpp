@@ -29,25 +29,16 @@ DEALINGS IN THE SOFTWARE.
  * File:   FThread_guard.hpp
  * Author: guillem
  *
- * Created on 24 janvier 2017, 16:05
+ * Created on 27 janvier 2017, 12:21
  */
 
-#ifndef FTHREAD_GUARD_HPP
-#define FTHREAD_GUARD_HPP
+FThread_guard::FThread_guard(std::thread& t):
+m_thread(t)
+{
+}
 
-#include <thread>
-
-class FThread_guard {
-public:
-    explicit FThread_guard(std::thread& t);
-    FThread_guard(FThread_guard const&)=delete;
-    FThread_guard& operator=(FThread_guard const&)=delete;
-    virtual ~FThread_guard();
-
-private:
-    std::thread& m_thread;
-
-};
-
-#endif /* FTHREAD_GUARD_HPP */
-
+FThread_guard::~FThread_guard() {
+    if(m_thread.joinable()){
+        m_thread.join();
+    }
+}
