@@ -67,7 +67,7 @@ private:
     std::mutex m_mutex; 
 };
 
-#include "FMap.tpp"
+#include "../src/FMap.tpp"
 
 #endif /* FMAP_HPP */
 

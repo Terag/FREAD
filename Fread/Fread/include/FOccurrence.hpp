@@ -27,7 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /*#pragma once
 #include<vector>
 
-class Occurrence
+class FOccurrence
 {
 private :
 	//float tStart;
@@ -40,11 +40,11 @@ private :
 
 
 public:
-	Occurrence();
-	~Occurrence();
+	FOccurrence();
+	~FOccurrence();
 };
 
-bool operator==(occurrence A, occurrence B);
-bool operator!=(occurrence A, occurrence B);
+bool operator==(FOccurrence A, FOccurrence B);
+bool operator!=(FOccurrence A, FOccurrence B);
 
 */

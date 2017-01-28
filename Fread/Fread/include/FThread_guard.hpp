@@ -40,7 +40,7 @@ DEALINGS IN THE SOFTWARE.
 class FThread_guard {
 public:
     explicit FThread_guard(std::thread& t);
-    thread_guard(FThread_guard const&)=delete;
+    FThread_guard(FThread_guard const&)=delete;
     FThread_guard& operator=(FThread_guard const&)=delete;
     virtual ~FThread_guard();
 
@@ -48,17 +48,6 @@ private:
     std::thread& m_thread;
 
 };
-
-FThread_guard::FThread_guard(std::thread& t):
-m_thread(t)
-{
-}
-
-FThread_guard::~FThread_guard() {
-    if(m_thread.joinable()){
-        m_thread.join();
-    }
-}
 
 #endif /* FTHREAD_GUARD_HPP */
 
