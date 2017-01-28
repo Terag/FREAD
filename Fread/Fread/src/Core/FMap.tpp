@@ -57,7 +57,7 @@ std::shared_ptr<T> FMap<K, T>::at(const K& key){
 }
 
 template<typename K, typename T>
-void FMap<K, T>::insert(K key, T element){
+void FMap<K, T>::insert(K key, shared_ptr<T> element){
     std::lock_guard<std::mutex> lock(m_mutex);
     m_unordered_map.insert(key, element);
 }

@@ -41,6 +41,5 @@ public:
 	virtual int getId();
 
 private :
-	virtual int m_id;
 
 };
