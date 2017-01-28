@@ -26,28 +26,50 @@ DEALINGS IN THE SOFTWARE.
  */
 
 /* 
- * File:   FThread_guard.hpp
+ * File:   FMessages.hpp
  * Author: guillem
  *
- * Created on 24 janvier 2017, 16:05
+ * Created on 25 janvier 2017, 16:05
  */
 
-#ifndef FTHREAD_GUARD_HPP
-#define FTHREAD_GUARD_HPP
+#ifndef FMESSAGES_HPP
+#define FMESSAGES_HPP
 
-#include <thread>
+#include <memory>
 
-class FThread_guard {
-public:
-    explicit FThread_guard(std::thread& t);
-    FThread_guard(FThread_guard const&)=delete;
-    FThread_guard& operator=(FThread_guard const&)=delete;
-    virtual ~FThread_guard();
-
-private:
-    std::thread& m_thread;
-
+enum HEADER{
+     START,
+     INITDONE,
+     TIMESTAMP,
+     CONTAINER,
+     PATTERN,
+     OCCURRENCE
 };
 
-#endif /* FTHREAD_GUARD_HPP */
+template<typename T>
+class FMessages{
+public:
+    
+    //give a content to the constructor it will make a shared_ptr of it
+    FMessages(HEADER header, T content);
+    FMessages(const FMessages& orig);
+    
+    FMessages& operator=(const FMessages&);
+    
+    virtual ~FMessages();
+    
+    HEADER getHeader();
+    void setHeader(HEADER var);
+    
+    std::shared_ptr<T> getContent();
+    void setContent(T var);
+    
+private:
+    HEADER m_header;
+    std::shared_ptr<T> m_content;
+};
+
+#include "../src/FMessages.tpp"
+
+#endif //FMESSAGES_HPP
 

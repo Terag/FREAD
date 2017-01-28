@@ -25,12 +25,49 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /*#pragma once
-class Container
+#include<vector>
+#include<string>	
+#include "occurrence.h"
+
+struct event
+{
+	EventType type;
+	Color color;
+	std::string Alias;
+
+};
+enum EventType
+{
+	Wait,
+	Compute,
+	Send
+};
+struct event
+{
+	int id;
+	struct coord
+	{
+		float t;
+		int id;
+	};
+	coord start;
+	coord end;
+};
+class FPattern
 {
 private :
 	int id;
-public:
-	Container();
-	~Container();
-};*/
+	std::vector<event> events;
+	std::vector<float> meanTimeStamps;
+	std::vector<FOccurrence> FOccurrences;
+	
+	
 
+public:
+	FPattern();
+	~FPattern();
+};
+bool operator==(FPattern A, FPattern B);
+bool operator!=(FPattern A, FPattern B);
+
+*/
