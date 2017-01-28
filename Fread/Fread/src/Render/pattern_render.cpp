@@ -42,6 +42,7 @@ id(0)
 pattern_render::pattern_render(int id, std::vector<float> meanTimeStamps,occurrence_render occurrence) :
 id(id), meanTimeStamps(meanTimeStamps), occurrences(occurrence),events(occurrence.getEvents()){    //events(occurrence.getEvents());
     patternPoints = sf::VertexArray(sf::Quads, events.size()*8 );
+       subDiv = sf::VertexArray(sf::Lines, events.size()*2 );
     calculatePoints(100.0,200,200);
 
 }
@@ -72,7 +73,8 @@ void pattern_render::draw(sf::RenderTarget& target, sf::RenderStates states) con
         polygon.setOutlineColor(sf::Color(155, 155,155));
         polygon.setOutlineThickness(2);
         polygon.setPosition(100, 100);
-    for (int i=0; i<20;i++)
+        target.draw(subDiv);
+        for (int i=0; i<20;i++)
     {
        target.draw(circle[i],states);
     }
@@ -92,25 +94,18 @@ void pattern_render::calculatePoints(float radius, int x, int y) {
         {
             float tStart = meanTimeStamps[2*i];
             float tEnd = meanTimeStamps[2*i+1];
+           /*
+            Calcul à redéfinir
+            */
             float tRadius = log(tEnd-tStart)/radius +radius;
+            
             float demi =radSub * M_PI / 180.0/2;
             float tAngle = i * radSub * M_PI / 180.0 ;
-           std::cout << tAngle << std::endl;
-          /*
-            sf::VertexArray trait(sf::Quads, 4 );
-            trait[0].position = sf::Vector2f(x + (radius*sin(tAngle)), y + (radius*cos(tAngle)) );
-             std::cout << "x : " << trait[0].position.x << " y : "<< trait[0].position.y  << std::endl;
-            trait[1].position = sf::Vector2f(x + ((radius+4)*sin(tAngle)), y + ((radius+4)*cos(tAngle)));
-             std::cout << "x : " << trait[1].position.x << " y : "<< trait[1].position.y  << std::endl;
-            trait[2].position = sf::Vector2f(x + (tRadius*sin(tAngle+(radSub * M_PI / 180.0)/2)),y + (tRadius*cos(tAngle+(radSub * M_PI / 180.0)/2)));
-             std::cout << "x : " << trait[2].position.x << " y : "<< trait[2].position.y  << std::endl;
-            trait[3].position = sf::Vector2f(x + ((tRadius+4)*sin(tAngle+(radSub * M_PI / 180.0)/2)), y + ((tRadius+4)*cos(tAngle+(radSub * M_PI / 180.0)/2)));
-             std::cout << "x : " << trait[3].position.x << " y : "<< trait[3].position.y  << std::endl;
-            trait[0].color = sf::Color(0,0,0);
-            trait[1].color = sf::Color(0,0,0);
-            trait[2].color = sf::Color(0,0,0);
-            trait[3].color = sf::Color(0,0,0);
-         */
+         
+            subDiv[2*i].position = sf::Vector2f(x,y);
+            subDiv[2*i+1].position = sf::Vector2f(x + radius*sin(tAngle ),y -radius*cos(tAngle ));
+             subDiv[2*i].color = sf::Color(199,199,199);
+              subDiv[2*i+1].color = sf::Color(199,199,199);
             patternPoints[8*i].position = sf::Vector2f(x + radius*sin(tAngle ),y -radius*cos(tAngle ));
             patternPoints[8*i+1].position = sf::Vector2f(x + (radius+4)*sin(tAngle), y-(radius+4)*cos(tAngle));
             patternPoints[8*i+3].position = sf::Vector2f(x + tRadius*sin(tAngle+demi ),y -tRadius*cos(tAngle+demi));
@@ -120,15 +115,10 @@ void pattern_render::calculatePoints(float radius, int x, int y) {
           patternPoints[8*i+6].position = sf::Vector2f(x + radius*sin(tAngle+2*demi ),y -radius*cos(tAngle+2* demi ));
             patternPoints[8*i+7].position = sf::Vector2f(x + (radius+4)*sin(tAngle+2* demi), y -(radius+4)*cos(tAngle+2* demi));
             
-                   //    std::cout <<  trait.getVertexCount() << std::endl;
-
-          // patternPoints.resize(patternPoints.getVertexCount()+4);
-            for (int j =0 ; j< 8;j++ )
+                for (int j =0 ; j< 8;j++ )
             { 
                 patternPoints[8*i+j].color = events[i].getColor();
-                //patternPoints.append(trait[j]); 
-             //   std::cout << "x : " << patternPoints[4*i+j].position.x << " y : "<< patternPoints[4*i+j].position.y  << std::endl;
-            }
+                    }
             
         }
       

@@ -45,6 +45,8 @@ std::vector<event_render> events;
 std::vector<float> meanTimeStamps;
 occurrence_render occurrences;
 sf::VertexArray patternPoints;
+sf::VertexArray subDiv;
+
       
 public : 
 pattern_render();
