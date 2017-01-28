@@ -33,7 +33,6 @@ DEALINGS IN THE SOFTWARE.
  */
 
 #include "FCore.hpp"
-#include "FMessages_structure.hpp"
 
 FCore::FCore( std::shared_ptr< FQueue<FMessages> > _pop_queue_parser, 
               std::shared_ptr< FQueue<FMessages> > _push_queue_parser,
@@ -70,12 +69,18 @@ FCore::FCore( std::shared_ptr< FQueue<FMessages> > _pop_queue_parser,
     
 }
 
+
+/*
+ * Thread that will manage  
+ * the part of the memory 
+ * containing the containers
+ */
 void FCore::thr_container_manager(){
     //The container manager waits for messages from the parser or the renderer
     std::unique_lock<std::mutex> lock(containers_manager_mutex);
     containers_manager_cond.wait(lock, [this](){ 
-                                            return !( m_parser_containers.empty() 
-                                                      || m_renderer_containers.empty() );
+                                                return !( m_parser_containers.empty() 
+                                                          || m_renderer_containers.empty() );
                                            }
                                 );
     lock.unlock();
@@ -102,44 +107,52 @@ void FCore::thr_container_manager(){
             m_containers_parser.push( msg_send );
         }
     }
-    
-    /*
-    while(1){
-        //gets messages from display and parser
-        if(!m_renderer_containers.empty()){
-            renderer_message_received = m_renderer_containers.pop_back();
-        }
-        if( !m_parser_containers->empty() ){
-            parser_message_received = m_parser_containers->pop_back();
-        }
-        
-        //checks if in memory
-
-        //if in memory, get it and sends it to the container
-        if(m_containers.contains(renderer_message_received.content)){
-            s_threads result = m_containers.at(renderer_message_received.content); //here it is a get by id
-            msg_renderer message = {CONTAINER, std::make_shared<result>()};
-            m_containers_renderer.push_back(message);
-        //if not in memory, sends to the parser    
-        }else{
-            s_threads result = m_containers.at(renderer_message_received.content);
-            msg_parser message = {result};
-            m_containers_parser.push_back(message);
-        }
-        
-        
-        //sends the message got from parser and puts it in memory
-        s_threads result = parser_message_received.content;
-        msg_renderer message = {CONTAINER, std::make_shared<result>()};
-        m_containers_renderer.push_back(message);
-            
-        m_containers.insert(result.id, result); //get an id here
-        
-    }
-    */
 }
+
+/*
+ * Thread that will manage  
+ * the part of the memory 
+ * containing the occurrences
+ */
+void FCore::thr_occurrences_manager(){
+    //The occurrences manager waits for messages from the parser or the renderer
+    std::unique_lock<std::mutex> lock(occurrences_manager_mutex);
+    occurrences_manager_cond.wait(lock, [this](){ 
+                                                 return !( m_parser_occurrences.empty() 
+                                                           || m_renderer_occurrences.empty() );
+                                           }
+                                );
+    lock.unlock();
     
-    
+    if( !m_parser_occurrences.empty() ){
+        FMessages msg = m_parser_occurrences.try_pop();
+        
+        FMessages msg_send( OCCURRENCE, msg.getContent() );
+        m_occurrences_renderer.push( msg_send );
+        
+        //m_occurrences.insert( ((FOccurrences)msg.getContent())->getId() , msg.getContent() )
+        
+    }else if( !m_renderer_occurrences.empty() ){
+        FMessages msg = m_renderer_occurrences.try_pop();
+        //get the messages
+        
+        // check if is in memory
+        if( m_occurrences.contains( msg.getContent() ) ){ //if is in memory
+            FMessages msg_send( OCCURRENCE, msg.getContent() );
+            m_occurrences_renderer.push( msg_send );
+        }else{ // not in memory
+            //demands it to parser
+            FMessages msg_send( OCCURRENCE, msg.getContent() );
+            m_occurrences_parser.push( msg_send );
+        }
+    }
+}
+
+/*
+ * Thread that will get messages from parser,
+ * occurrences_manager and containers_manager
+ * and redirect them depending on their header
+ */ 
 void FCore::thr_message_handler_parser(){
         
     //The message handler waits for messages from the parser, the occurrences thread or the containers thread
@@ -210,9 +223,11 @@ void FCore::thr_message_handler_parser(){
     }
 }
 
-
-
-
+/*
+ * Thread which will get messages from renderer,
+ * occurrences_manager and containers_manager
+ * and redirect them depending on their header
+ */
 void FCore::thr_message_handler_renderer(){
     //The message handler waits for messages from the renderer, the occurrences thread or the containers thread
     std::unique_lock<std::mutex> lock(message_renderer_mutex);
