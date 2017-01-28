@@ -37,6 +37,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Render/container_render.hpp"
+#include <SFML/Graphics/VertexArray.hpp>
 class pattern_render : public sf::Drawable {
 private : 
 int id; 
@@ -49,6 +50,6 @@ public :
 pattern_render();
 pattern_render(int id, std::vector<float> meanTimeStamps, occurrence_render occurrence);
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
-void calculatePoints(float radius);
+void calculatePoints(float radius,int x , int y) ;
 ~pattern_render();
 };
