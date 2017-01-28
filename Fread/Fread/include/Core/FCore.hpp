@@ -43,11 +43,10 @@ DEALINGS IN THE SOFTWARE.
 #include <mutex>
 #include <condition_variable>
 
-#include "FQueue.hpp"
-#include "FMessages.hpp"
+#include "FQueue.hpp" //template
+#include "FMessages.hpp" //template
+#include "FMap.hpp" //template
 #include "FThread_guard.hpp"
-#include "FMap.hpp"
-#include "FMessages.hpp"
 #include "FObjet.hpp"
 #include "FOccurrence.hpp"
 #include "FPattern.hpp"
