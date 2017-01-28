@@ -37,7 +37,28 @@ DEALINGS IN THE SOFTWARE.
 
 template<typename T>
 class FQueue
-{
+{   
+public:
+    FQueue():
+            head(new node),
+            tail(head.get())
+    {
+    }
+
+    FQueue(const FQueue& other)=delete;
+    FQueue& operator=(const FQueue& other)=delete;
+
+    void setOtherCondition(std::shared_ptr<std::mutex> _mutex, 
+                           std::shared_ptr<std::condition_variable> _condition_variable);
+    
+    std::shared_ptr<T> try_pop();
+    
+    std::shared_ptr<T> wait_and_pop();
+    
+    void push(T new_value);
+    
+    bool empty();
+    
 private:
     struct node
     {
@@ -48,65 +69,14 @@ private:
     std::unique_ptr<node> head;
     node* tail;
     
-    std::mutex mut;
-    std::condition_variable data_cond;
+    std::mutex m_mutex_mine;
+    std::condition_variable m_data_cond_mine;
     
-public:
-    FQueue():
-        head(new node),tail(head.get())
-    {}
-
-    FQueue(const FQueue& other)=delete;
-    FQueue& operator=(const FQueue& other)=delete;
-
-    std::shared_ptr<T> try_pop();
-    
-    std::shared_ptr<T> wait_and_pop();
-    
-    void push(T new_value);
-    
-    bool empty();
+    std::shared_ptr< std::mutex > _m_mutex_other;
+    std::shared_ptr< std::condition_variable > _m_data_cond_other;
 };
 
-template <typename T>
-std::shared_ptr<T> FQueue<T>::try_pop()
-{
-    if(head.get()==tail)
-    {
-        return std::shared_ptr<T>();
-    }
-    const std::shared_ptr<T> res(head->data);
-    const std::unique_ptr<node> old_head=std::move(head);
-    head=std::move(old_head->next);
-    return res;
-}
-
-template<typename T>
-void FQueue<T>::push(T new_value)
-{
-    std::shared_ptr<T> new_data = std::make_shared<T>(std::move(new_value));
-    std::unique_ptr<node> p(new node);
-    tail->data=new_data;
-    node* const new_tail=p.get();
-    tail->next=std::move(p);
-    tail=new_tail;
-    
-    data_cond.notify_one();
-}
-
-template<typename T>
-std::shared_ptr<T> FQueue<T>::wait_and_pop(){
-    std::unique_lock<std::mutex> lk(mut);
-    data_cond.wait(lk, [this](){ return !empty();});
-    lk.unlock();
-    return try_pop();
-}
-
-template<typename T>
-bool FQueue<T>::empty()
-{
-    return (head.get() == tail);
-}
+#include "../src/FQueue.tpp"
 
 #endif /* QUEUE_HPP */
 

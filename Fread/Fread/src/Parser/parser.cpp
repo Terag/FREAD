@@ -29,19 +29,10 @@
 
 using namespace std;
 
-Parser::Parser() :
-    initDone(false)
-{
-}
-
-Parser::Parser(shared_ptr<FQueue<string>> popQueue, shared_ptr<FQueue<string>> pushQueue) :
+Parser::Parser(std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue) :
     initDone(false), pop_queue(popQueue), push_queue(pushQueue)
 {
 }
-
-Parser::Parser(const Parser& orig) {
-}
-
 
 void Parser::awake(const std::string& path) {
     trace_path = path;
@@ -50,13 +41,15 @@ void Parser::awake(const std::string& path) {
 
 void Parser::start() {
     auto msg = *(pop_queue->wait_and_pop());
-    if(msg == "Start"){
+    if(msg.header == H_START){
         initDone = PARSER::start();
     } else {
-        cout << "wrong start message : " << msg << endl;
+        cout << "wrong start message : " << *msg.content << endl;
     }
-    string send_msg = "done";
-    push_queue->push(send_msg);
+    msg_parserToCore msg_send;
+    msg_send.header = H_INITDONE;
+    msg_send.content = make_shared<string>("Init Done");
+    push_queue->push(msg_send);
 }
 
 void Parser::listenAndProcess() {
@@ -68,7 +61,7 @@ Parser::~Parser() {
 }
 
 //TO DO : ajouter des retoure d'erreurs sur les fonction awake et start
-void parser_thread(std::string path, std::shared_ptr<FQueue<std::string>> popQueue, std::shared_ptr<FQueue<std::string>> pushQueue) {
+void parser_thread(std::string path, std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue) {
     cout << "thread launched" << endl;
     
     Parser parser(popQueue, pushQueue);

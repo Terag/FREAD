@@ -26,28 +26,48 @@ DEALINGS IN THE SOFTWARE.
  */
 
 /* 
- * File:   FThread_guard.hpp
+ * File:   FMap.hpp
  * Author: guillem
  *
- * Created on 24 janvier 2017, 16:05
+ * Created on 28 janvier 2017, 11:42
  */
 
-#ifndef FTHREAD_GUARD_HPP
-#define FTHREAD_GUARD_HPP
+#ifndef FMAP_HPP
+#define FMAP_HPP
 
-#include <thread>
+#include <unordered_map>
+#include <memory>
 
-class FThread_guard {
+template<typename K, typename T>
+class FMap {
 public:
-    explicit FThread_guard(std::thread& t);
-    FThread_guard(FThread_guard const&)=delete;
-    FThread_guard& operator=(FThread_guard const&)=delete;
-    virtual ~FThread_guard();
-
+    FMap();
+    FMap(const FMap& orig);
+    ~FMap();
+    
+    std::shared_ptr<T> at(const K& k);
+    void insert(K key, std::shared_ptr<T> element);
+    bool erase( std::unordered_map<K, T>::iterator it);
+    
+    bool contains(T element);
+    bool contains(K key);
+    
+    std::shared_ptr<T> operator[](const K key);
+    
+    typename std::unordered_map<K, T>::iterator begin();
+    
+    unsigned int size() const;
+    bool empty();
+    
+    std::unordered_map<K, std::shared_ptr<T> > getMap() const;
+    std::mutex getMutex() const;
+    
 private:
-    std::thread& m_thread;
-
+    std::unordered_map<K, std::shared_ptr<T> > m_unordered_map;
+    std::mutex m_mutex; 
 };
 
-#endif /* FTHREAD_GUARD_HPP */
+#include "../src/FMap.tpp"
+
+#endif /* FMAP_HPP */
 

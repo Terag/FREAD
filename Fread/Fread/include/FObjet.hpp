@@ -26,28 +26,20 @@ DEALINGS IN THE SOFTWARE.
  */
 
 /* 
- * File:   FThread_guard.hpp
+ * File:   FCore.hpp
  * Author: guillem
  *
- * Created on 24 janvier 2017, 16:05
+ * Created on 28 janvier 2017, 17:10
  */
 
-#ifndef FTHREAD_GUARD_HPP
-#define FTHREAD_GUARD_HPP
-
-#include <thread>
-
-class FThread_guard {
+class FObjet
+{
 public:
-    explicit FThread_guard(std::thread& t);
-    FThread_guard(FThread_guard const&)=delete;
-    FThread_guard& operator=(FThread_guard const&)=delete;
-    virtual ~FThread_guard();
+	virtual FObjet() = 0;
+	virtual ~FObjet();
 
-private:
-    std::thread& m_thread;
+	virtual int getId();
+
+private :
 
 };
-
-#endif /* FTHREAD_GUARD_HPP */
-

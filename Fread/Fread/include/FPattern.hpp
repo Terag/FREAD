@@ -24,27 +24,53 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-/*#pragma once
+#pragma once
+
 #include<vector>
+#include<string>	
+#include "FOccurrence.h"
 
-class Occurrence
+struct event
 {
-private :
-	//float tStart;
-	//float tEnd;
+	EventType type;
+	Color color;
+	std::string Alias;
+
+};
+enum EventType
+{
+	Wait,
+	Compute,
+	Send
+};
+struct event
+{
 	int id;
-	std::vector<float> timeStamps;
-	//std::vector<event> events;
-	bool isLoaded;
-	int patternId;
-
-
-public:
-	Occurrence();
-	~Occurrence();
+	struct coord
+	{
+		float t;
+		int id;
+	};
+	coord start;
+	coord end;
 };
 
-bool operator==(occurrence A, occurrence B);
-bool operator!=(occurrence A, occurrence B);
+class FPattern : FObjet
+{
+public:
+	FPattern();
+	~FPattern();
 
-*/
+	int getId();
+	std::vector<event> getEvents();
+	std::vector<float> getMeanTimeStamps();
+	std::vector<FOccurrence> getOccurrences();
+
+private :
+	int id;
+	std::vector<event> m_events;
+	std::vector<float> m_meanTimeStamps;
+	std::vector<FOccurrence> m_occurrences;
+};
+bool operator==(FPattern A, FPattern B);
+bool operator!=(FPattern A, FPattern B);
