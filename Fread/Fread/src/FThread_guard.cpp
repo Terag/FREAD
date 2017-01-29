@@ -32,6 +32,8 @@ DEALINGS IN THE SOFTWARE.
  * Created on 27 janvier 2017, 12:21
  */
 
+#include "FThread_guard.hpp"
+
 FThread_guard::FThread_guard(std::thread& t):
 m_thread(t)
 {
