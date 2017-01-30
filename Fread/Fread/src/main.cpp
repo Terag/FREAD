@@ -27,7 +27,7 @@ using namespace std;
 /*
  * Parser main function test
  */
-int main(int argc, char* argv[])
+/*int main(int argc, char* argv[])
 {
     if(argc != 2){
         std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
@@ -58,20 +58,20 @@ int main(int argc, char* argv[])
     parserThread.join();
     
     return 0;
-}
+}*/
 
 /*
  * Render main function test
  */
-/*int main(void)
+int main(void)
 {
  sf::ContextSettings settings;
  settings.antialiasingLevel = 8;
 
     sf::RenderWindow window(sf::VideoMode(1500, 1000), "Container and occurrences test",sf::Style::Default, settings);
 
-    /* FBezierCurve bezierCurve1(sf::Vector2f(50,50), sf::Vector2f(350,350), 20, sf::Color::Cyan);
-    FBezierCurve bezierCurve2(sf::Vector2f(100,100), sf::Vector2f(300,300), 20, sf::Color::Magenta);
+    FBezierCurve bezierCurve1(sf::Vector2f(50,50), sf::Vector2f(350,350), 20, 2.f, sf::Color::Cyan);
+    FBezierCurve bezierCurve2(sf::Vector2f(100,100), sf::Vector2f(300,300), 20, 2.f, sf::Color::Magenta);
 
     bezierCurve1.calculate();
     bezierCurve2.calculate();
@@ -149,7 +149,7 @@ int main(int argc, char* argv[])
     }
     
     return 0;
-}*/
+}
 
 /*
  * FQueue main function test

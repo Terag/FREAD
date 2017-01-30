@@ -12,13 +12,41 @@
  */
 
 #include "Parser/PAJE/Container_Reader.hpp"
+#include "FContainer.hpp"
+#include "Parser/PAJE/paje_interface.hpp"
+
+using namespace std;
 
 namespace paje
 {
-    Container_Reader::Container_Reader() {
+    Container_Reader::Container_Reader(std::string const& c_alias) :
+        timestamps_begin_end(-1.f, -1.f), id(-1), readyToRead(false), alias(c_alias)
+    {
     }
-
-    Container_Reader::Container_Reader(const Container_Reader& orig) {
+    
+    void Container_Reader::init(const std::string& path, int const& c_id) {
+        container_Path = path;
+        id = c_id;
+    }
+    
+    FContainer Container_Reader::start() {
+        
+        readyToRead = true;
+    }    
+    
+    void Container_Reader::checkIfReady() {
+        if(id > -1 ||
+           alias != "" || 
+           timestamps_begin_end.first > -1.f || 
+           timestamps_begin_end.second > -1.f) 
+        {
+            readyToRead = true;
+        }
+    }
+    
+    vector<string> Container_Reader::getLinesBetweenTwoTimes(const float& t1, const float& t2) {
+        vector<string> null;
+        return null;
     }
 
     Container_Reader::~Container_Reader() {

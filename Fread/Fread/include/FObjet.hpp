@@ -35,10 +35,10 @@ DEALINGS IN THE SOFTWARE.
 class FObjet
 {
 public:
-	virtual FObjet() = 0;
-	virtual ~FObjet();
+	FObjet(){}
+	virtual ~FObjet(){}
 
-	virtual int getId();
+	virtual int getId() const = 0;
 
 private :
 
