@@ -7,9 +7,13 @@ $(EXEC): $(OBJ) $(FREAD_LIB)
 	$(CXX) -o $(EXEC) $(OBJ) $(FREAD_LIB) $(LIBS)
 	@echo "    Generate Program $(notdir $(PROG)) from $^"
 
-main.o: main.cpp FQueue.hpp FQueue.tpp
+main.o: main.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
 	@echo "   	CXX      $@"
+
+FThread_guard.o: FThread_guard.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
+	@echo "    	CXX      $@"
 
 FColor.o: FColor.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
@@ -24,10 +28,6 @@ FOccurrence.o: FOccurrence.cpp
 	@echo "    	CXX      $@"
 
 FContainer.o: FContainer.cpp
-	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
-	@echo "    	CXX      $@"
-
-FThread_Guard.o: FThread_guard.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
 	@echo "    	CXX      $@"
 

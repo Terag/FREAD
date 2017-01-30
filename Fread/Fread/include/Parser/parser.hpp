@@ -52,14 +52,6 @@ public:
     void listenAndProcess();
     
     virtual ~Parser();
-
-private:
-
-    bool initDone;
-    std::string trace_path;
-    
-    std::shared_ptr<FQueue<msg_coreToParser>> pop_queue;
-    std::shared_ptr<FQueue<msg_parserToCore>> push_queue;
 };
 
 //Function uses to launch parser thread

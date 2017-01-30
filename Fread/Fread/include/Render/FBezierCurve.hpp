@@ -49,10 +49,10 @@ private:
 	bool calculated;
 	//Number of segments use to draw the curve
 	int nb_subdivision;
-	//Color of the curve
-	sf::Color color;
 	//Thickness
 	float thickness;
+	//Color of the curve
+	sf::Color color;
 	//Points of the curve
 	std::vector<sf::Vector2f> bezierCurve_points;
 	//Vertex of the curve
@@ -65,11 +65,6 @@ private:
 	float lenght(); // distance between first and fourth control points 
 	sf::Vector2f normalize(); // Normalizes first to fourth points vector
 	sf::Vector2f rotate90(sf::Vector2f vector);
-
-	//Thickness
-	float thickness;
-	//Color of the curve
-	sf::Color color;
 
 public:
 	FBezierCurve();

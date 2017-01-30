@@ -28,7 +28,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include<vector>
 #include<string>	
-#include "FOccurrence.h"
+#include "FOccurrence.hpp"
 
 struct event
 {

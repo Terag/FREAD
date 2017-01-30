@@ -32,8 +32,6 @@ DEALINGS IN THE SOFTWARE.
  * Created on 28 janvier 2017, 14:56
  */
 
-#include "FMap.hpp"
-
 template<typename K, typename T>
 FMap<K, T>::FMap(){
     

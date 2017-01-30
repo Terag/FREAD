@@ -7,7 +7,7 @@ core.so: $(OBJ)
 	@mv core.so $(OBJ_DIR)/
 	@echo "    	core.so move to $(OBJ_DIR)"
 
-FCore.o: FCore.cpp FMap.hpp FMap.tpp FQueue.hpp FQueue.tpp FMessages.hpp FMessages.tpp
+FCore.o: FCore.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"
 
