@@ -76,7 +76,7 @@ FCore::FCore( std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_parser
  * the part of the memory 
  * containing the containers
  */
-void FCore::thr_container_manager(){
+void FCore::thr_containers_manager(){
     //The container manager waits for messages from the parser or the renderer
     std::unique_lock<std::mutex> lock(m_containers_manager_mutex);
     m_containers_manager_cond.wait(lock, [this](){ 
@@ -162,7 +162,7 @@ void FCore::thr_occurrences_manager(){
  * occurrences_manager and containers_manager
  * and redirect them depending on their header
  */ 
-void FCore::thr_message_handler_parser(){
+void FCore::thr_messages_handler_parser(){
         
     //The message handler waits for messages from the parser, the occurrences thread or the containers thread
     std::unique_lock<std::mutex> lock(m_message_parser_mutex);
@@ -204,7 +204,7 @@ void FCore::thr_message_handler_parser(){
     }else if( !m_containers_parser.empty() ){ //Messages received from Containers thread
         FMessages<FObjet> msg = m_containers_parser.try_pop();
         if(msg != NULL){
-            if(msg.getHeader == CONTAINER){
+            if(msg.getHeader() == CONTAINER){
                 /*
                  TODO
                  */
@@ -219,7 +219,7 @@ void FCore::thr_message_handler_parser(){
     }else if ( !m_occurrences_parser.empty() ){ // Messages received from Occurrences thread
         FMessages<FObjet> msg = m_containers_parser.try_pop();
         if(msg != NULL){
-            if(msg.getHeader == OCCURRENCE){
+            if(msg.getHeader() == OCCURRENCE){
                 /*
                  TODO
                  */
@@ -238,7 +238,7 @@ void FCore::thr_message_handler_parser(){
  * occurrences_manager and containers_manager
  * and redirect them depending on their header
  */
-void FCore::thr_message_handler_renderer(){
+void FCore::thr_messages_handler_renderer(){
     //The message handler waits for messages from the renderer, the occurrences thread or the containers thread
     std::unique_lock<std::mutex> lock(m_message_renderer_mutex);
     m_message_renderer_cond.wait(lock, [this](){ 
@@ -272,7 +272,7 @@ void FCore::thr_message_handler_renderer(){
     }else if( !m_containers_renderer.empty() ){ //Messages received from Containers thread
         FMessages<FObjet> msg = m_containers_renderer.try_pop();
         if(msg != NULL){
-            if(msg.getHeader == CONTAINER){
+            if(msg.getHeader() == CONTAINER){
                 /*
                  TODO
                  */
@@ -287,7 +287,7 @@ void FCore::thr_message_handler_renderer(){
     }else if ( !m_occurrences_renderer.empty() ){ // Messages received from Occurrences thread
         FMessages<FObjet> msg = m_containers_renderer.try_pop();
         if(msg != NULL){
-            if(msg.getHeader == OCCURRENCE){
+            if(msg.getHeader() == OCCURRENCE){
                 /*
                  TODO
                  */
@@ -321,21 +321,21 @@ void  FCore::check_memory(){
     
 void FCore::thr_FCore(){
         
-    std::thread message_handler_parser_( thr_message_handler_parser() );
-    FThread_guard mhp_g( message_handler_parser_ );
+    std::thread message_handler_parser_( [this]{thr_messages_handler_parser();} );
+    FThread_guard mhpp_g( message_handler_parser_ );
         
-    std::thread container_manager_( thr_container_manager() );
+    std::thread container_manager_( [this]{thr_containers_manager();} );
     FThread_guard cm_g(container_manager_);
         
-    std::thread occurrences_manager_( thr_occurrences_manager() );
+    std::thread occurrences_manager_( [this]{thr_occurrences_manager();} );
     FThread_guard om_g(occurrences_manager_);
         
     while(awake){
             
     } 
         
-    std::thread message_handler_renderer_( thr_message_handler_renderer() );
-    FThread_guard mhp_g( message_handler_renderer_ );
+    std::thread message_handler_renderer_( [this]{thr_messages_handler_renderer();} );
+    FThread_guard mhpr_g( message_handler_renderer_ );
     
     while(1){
         check_memory();

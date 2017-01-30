@@ -93,11 +93,11 @@ private:
     FMap<int, FContainer > m_containers;
     FMap<int, FPattern > m_patterns;
     
-    void thr_container_manager();
+    void thr_containers_manager();
     void thr_occurrences_manager();
     
-    void thr_message_handler_parser();
-    void thr_message_handler_renderer();
+    void thr_messages_handler_parser();
+    void thr_messages_handler_renderer();
 
 	std::mutex m_message_parser_mutex;
 	std::condition_variable m_message_parser_cond;
