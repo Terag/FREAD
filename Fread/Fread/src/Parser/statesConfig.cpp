@@ -70,16 +70,21 @@ void StatesConfig::initEvents() {
 }
 
 StateType StatesConfig::stringToState(std::string const& str) {
-    if(str.substr(0, str.size()-1) == "#Wait_states") {
+    //cout << str << endl;
+    if(str == "#Wait_states") {
+        //cout << STATE_WAIT << endl;
         return STATE_WAIT;
     }
-    else if (str.substr(0, str.size()-1) == "#Compute_states") {
+    else if (str == "#Compute_states") {
+        //cout << STATE_COMPUTE << endl;
         return STATE_COMPUTE;
     }
-    else if (str.substr(0, str.size()-1) == "#Send_states") {
+    else if (str == "#Send_states") {
+        //cout << STATE_SEND << endl;
         return STATE_SEND;
     }
     else {
+        //cout << STATE_UNKNOWN << endl;
         return STATE_UNKNOWN;
     }
 }
