@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-#include <vector>
+/* #include <vector>
 
 #include "Render/FRender.hpp"
 
@@ -66,5 +66,5 @@ void FRender::thr_FRender() {
             window.clear(sf::Color(255,255,255));
             window.display();
     }
-}
+} */
 
