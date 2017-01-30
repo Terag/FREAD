@@ -27,7 +27,7 @@ FContainer.o: FContainer.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
 	@echo "    	CXX      $@"
 
-FThread_Guard.o: FThread_Guard.cpp
+FThread_Guard.o: FThread_guard.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
 	@echo "    	CXX      $@"
 

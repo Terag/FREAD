@@ -85,7 +85,7 @@ float scale::getScale()
 
  void scale::draw(sf::RenderTarget& target, sf::RenderStates states) const 
  {
-     for (int i = 0; i < timeLines.size(); i++) 
+     for (unsigned int i = 0; i < timeLines.size(); i++) 
      {
         target.draw(times[i], states);    
         target.draw(timeLines[i], states);
