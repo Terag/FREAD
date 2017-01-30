@@ -32,14 +32,14 @@ namespace paje
     FContainer Container_Reader::start() {
         
         readyToRead = true;
-        return FContainer(-1, "pouet", pair<float,float>(1.f, 1.f));
+        //vector<int> listeId;
+        //listeId.push_back(1);
+        return FContainer(-1, "pouet");
     }    
     
     void Container_Reader::checkIfReady() {
         if(id > -1 ||
-           alias != "" || 
-           timestamps_begin_end.first > -1.f || 
-           timestamps_begin_end.second > -1.f) 
+           alias != "") 
         {
             readyToRead = true;
         }
