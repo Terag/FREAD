@@ -45,7 +45,7 @@ DEALINGS IN THE SOFTWARE.
 
 #include "FQueue.hpp" //template
 #include "FMessages.hpp" //template
-#include "FMap.hpp" //template
+#include "Core/FMap.hpp" //template
 #include "FThread_guard.hpp"
 #include "FObjet.hpp"
 #include "FOccurrence.hpp"
@@ -100,17 +100,17 @@ private:
     void thr_message_handler_parser();
     void thr_message_handler_renderer();
 
-	std::mutex message_parser_mutex;
-	std::condition_variable message_parser_cond:
+	std::mutex m_message_parser_mutex;
+	std::condition_variable m_message_parser_cond;
 
-	std::mutex message_renderer_mutex;
-	std::condition_variable message_renderer_cond:
+	std::mutex m_message_renderer_mutex;
+	std::condition_variable m_message_renderer_cond;
 
-	std::mutex containers_manager_mutex;
-	std::condition_variable containers_manager_cond:
+	std::mutex m_containers_manager_mutex;
+	std::condition_variable m_containers_manager_cond;
 
-	std::mutex occurrences_manager_mutex;
-	std::condition_variable occurrences_manager_cond:
+	std::mutex m_occurrences_manager_mutex;
+	std::condition_variable m_occurrences_manager_cond;
 
 
     //check_memory ensure that the two map are not too big
