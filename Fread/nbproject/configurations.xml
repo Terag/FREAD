@@ -47,6 +47,7 @@
         <element flagsID="0" commonFlags="-std=c++11 -pedantic"/>
       </flagsDictionary>
       <codeAssistance>
+        <includeAdditional>true</includeAdditional>
       </codeAssistance>
       <makefileType>
         <makeTool>
