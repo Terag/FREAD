@@ -32,7 +32,7 @@ DEALINGS IN THE SOFTWARE.
  * Created on 27 janvier 2017, 11:47
  */
 
-#include "FCore.hpp"
+#include "Core/FCore.hpp"
 
 FCore::FCore( std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_parser, 
               std::shared_ptr< FQueue< FMessages< FObjet > > > _push_queue_parser,
