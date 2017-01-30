@@ -34,11 +34,21 @@ DEALINGS IN THE SOFTWARE.
 
 template<typename T>
 FMessages<T>::FMessages(HEADER header, 
-                     T content):
-                     m_header(header),
-                     m_content(std::make_shared<T>(content))
+                        T content):
+                        m_header(header),
+                        m_content(std::make_shared<T>(content))
 {    
 }
+
+template<typename T>
+FMessages<T>::FMessages(HEADER header, 
+                        std::shared_ptr<T> content):
+                        m_header(header),
+                        m_content(content)
+{
+
+}
+
 
 template<typename T>
 FMessages<T>& FMessages<T>::operator=(const FMessages& other){
