@@ -24,7 +24,9 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#pragma once
+#ifndef FOCCURRENCE_HPP
+#define FOCCURRENCE_HPP
+
 #include<vector>
 #include "FObjet.hpp"
 
@@ -51,3 +53,4 @@ private :
 bool operator==(FOccurrence A, FOccurrence B);
 bool operator!=(FOccurrence A, FOccurrence B);
 
+#endif //FOCCURRENCE_HPP

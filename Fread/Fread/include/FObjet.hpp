@@ -37,6 +37,9 @@ enum eventType {
     WAIT, COMPUTE, SEND
 };
 
+#ifndef FOBJET_HPP
+#define FOBJET_HPP
+
 class FObjet
 {
 public:
@@ -47,3 +50,5 @@ public:
 private :
 
 };
+
+#endif //FOBJET_HPP

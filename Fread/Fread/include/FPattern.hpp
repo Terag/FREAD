@@ -24,10 +24,12 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
+
 #pragma once
 #include<vector>
 #include<string>	
 #include "FOccurrence.hpp"
+
 #include "FObjet.hpp"
 
 class FPattern : FObjet
@@ -36,15 +38,19 @@ public:
 	FPattern();
 	~FPattern();
 	int getId();
+
 	std::vector<eventType> getEventTypes();
 	std::vector<float> getMeanTimeStamps();
-	std::vector<FOccurrence> getOccurrences();
+	//std::vector<FOccurrence> getOccurrences();
 
 private :
 	int m_id;
 	std::vector<eventType> m_eventTypes;
 	std::vector<float> m_meanTimeStamps;
-	std::vector<FOccurrence> m_occurrences;
+	//std::vector<FOccurrence> m_occurrences;
+
 };
 bool operator==(FPattern A, FPattern B);
 bool operator!=(FPattern A, FPattern B);
+
+#endif //FPATTERN_HPP

@@ -24,7 +24,8 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#pragma once
+#ifndef FCONTAINER_HPP
+#define FCONTAINER_HPP
 
 #include <utility>
 #include <string>
@@ -51,3 +52,4 @@ public:
         std::vector<int> getListeIdOccurrences() {return listeIdOccurrences;}
 };
 
+#endif //FCONTAINER_HPP

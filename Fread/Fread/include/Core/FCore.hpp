@@ -45,9 +45,8 @@ DEALINGS IN THE SOFTWARE.
 
 #include "FQueue.hpp" //template
 #include "FMessages.hpp" //template
-#include "FMap.hpp" //template
+#include "Core/FMap.hpp" //template
 #include "FThread_guard.hpp"
-#include "FObjet.hpp"
 #include "FOccurrence.hpp"
 #include "FPattern.hpp"
 #include "FContainer.hpp"
@@ -78,39 +77,40 @@ private:
      TODO
      */
     FQueue< FMessages< FOccurrence > > m_renderer_occurrences;
-    FQueue< FMessages< FContainer > > m_renderer_container;
+    FQueue< FMessages< FContainer > > m_renderer_containers;
     FQueue< FMessages< FOccurrence > > m_occurrences_renderer;
-    FQueue< FMessages< FContainer > > m_container_renderer;
+    FQueue< FMessages< FContainer > > m_containers_renderer;
     
     FQueue< FMessages< FOccurrence > > m_parser_occurrences;
-    FQueue< FMessages< FContainer > > m_parser_container;
+    FQueue< FMessages< FContainer > > m_parser_containers;
     FQueue< FMessages< FOccurrence > > m_occurrences_parser;
-    FQueue< FMessages< FContainer > > m_container_parser;
+    FQueue< FMessages< FContainer > > m_containers_parser;
     
     /*
      TODO
      */
     FMap< std::pair<int, int>, FOccurrence > m_occurrences;
-    FMap<int, FContainer > m_container;
+    FMap<int, FContainer > m_containers;
     FMap<int, FPattern > m_patterns;
     
-    void thr_container_manager();
+    void thr_containers_manager();
     void thr_occurrences_manager();
     
-    void thr_message_handler_parser();
-    void thr_message_handler_renderer();
+    void thr_messages_handler_parser();
+    void thr_messages_handler_renderer();
 
-	std::mutex message_parser_mutex;
-	std::condition_variable message_parser_cond;
 
-	std::mutex message_renderer_mutex;
-	std::condition_variable message_renderer_cond;
+	std::mutex m_message_parser_mutex;
+	std::condition_variable m_message_parser_cond;
 
-	std::mutex containers_manager_mutex;
-	std::condition_variable containers_manager_cond;
+	std::mutex m_message_renderer_mutex;
+	std::condition_variable m_message_renderer_cond;
 
-	std::mutex occurrences_manager_mutex;
-	std::condition_variable occurrences_manager_cond;
+	std::mutex m_containers_manager_mutex;
+	std::condition_variable m_containers_manager_cond;
+
+	std::mutex m_occurrences_manager_mutex;
+	std::condition_variable m_occurrences_manager_cond;
 
 
     //check_memory ensure that the two map are not too big
