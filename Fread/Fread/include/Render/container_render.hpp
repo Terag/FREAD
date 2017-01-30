@@ -35,33 +35,41 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-
-enum eventType {
-    WAIT, COMPUTE, SEND
-};
+#include "../FObjet.hpp"
 
 class scale {
 private : 
-
     float absoluteTime = 1.f;
-    int containerSize = 500;
-    int spacing = 30;
-    int containerOffsetX;
-    int containerOffsetY;
-    int eventOffsetY;
-
-    float constScale = 1.f;   
+    int containerSize = 1000;
+    int spacing = 100;
+    int containerOffsetX = 50;
+    int containerOffsetY = 30;
+    int eventOffsetY = 8;
+    float constScale = 1.f;
+    //variable related to the text of the timeline
     sf::Font font;
     std::vector<sf::Text> times;
     std::vector<sf::VertexArray> timeLines;
+    
 public : 
     scale();
-    scale(float absoluteTime, int containerSize, int spacing, int nbContainer, int containerOffsetX, int containerOffsetY, int eventOffsetY);
+    scale(float absoluteTime, int nbContainer);
+    scale(float absoluteTime, int nbContainer, int containerSize,
+          int spacing, int containerOffsetX, int containerOffsetY,
+          int eventOffsetY);
+    // getters
     float getScale();
     int getContainerSize();
     int getContainerOffsetX();
     int getContainerOffsetY();
     int getEventOffsetY();
+    // setters
+    void setContainerSize(int containerSize);
+    void setSpacing(int spacing);
+    void setContainerOffsetX(int containerOffsetX);
+    void setContainerOffsetY(int containerOffsetY);
+    void setEventOffsetY(int eventOffsetY);
+    // draw
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 
 };
@@ -76,7 +84,9 @@ private:
     
 public:
     event_render();
-    event_render(eventType type, float tSStart, float tSEnd, float scale, int containerOffsetY, int containerID, int offsetY, int containerOffsetX);
+    event_render(eventType type, float tSStart, float tSEnd,
+                 float scale, int containerOffsetY, int containerID,
+                 int offsetY, int containerOffsetX);
     ~event_render();
     void setColor();
     eventType getType();
@@ -97,7 +107,9 @@ std::vector<event_render> events;
 
 public : 
 occurrence_render();
-occurrence_render(int id, int containerID, int containerOffset, int offsetX, int offsetY, float scale, std::vector<float> timeStamps, std::vector<eventType> event);
+occurrence_render(int id, int containerID, int containerOffsetY, 
+                  int containerOffsetX, int eventOffsetY, float scale, std::vector<float> timeStamps,
+                  std::vector<eventType> event);
 std::vector<event_render> getEvents();
 int getId();
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
@@ -123,6 +135,8 @@ public :
     container_render();
     container_render(int id, std::string name, int containerSize);
     container_render(int id, std::string name, int containerSize, int offsetX, int offsetY);
+    void setOffsetX(int x);
+    void setOffsetY(int y);
     int getOffsetX();
     int getOffsetY();
     int getId();
