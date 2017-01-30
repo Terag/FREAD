@@ -20,7 +20,7 @@ using namespace std;
 namespace paje
 {
     Container_Reader::Container_Reader(std::string const& c_alias) :
-        timestamps_begin_end(-1.f, -1.f), id(-1), readyToRead(false), alias(c_alias)
+        id(-1), alias(c_alias), timestamps_begin_end(-1.f, -1.f), readyToRead(false)
     {
     }
     
@@ -32,6 +32,7 @@ namespace paje
     FContainer Container_Reader::start() {
         
         readyToRead = true;
+        return FContainer(-1, "pouet", pair<float,float>(1.f, 1.f));
     }    
     
     void Container_Reader::checkIfReady() {
