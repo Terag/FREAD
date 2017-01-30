@@ -49,14 +49,14 @@ public:
     
     std::shared_ptr<T> at(const K& k);
     void insert(K key, std::shared_ptr<T> element);
-    bool typedef typename erase( std::map<K, T>::iterator it);
+    bool erase( typename std::map<K, T>::iterator it);
     
     bool contains(T element);
     bool contains(K key);
     
     std::shared_ptr<T> operator[](const K key);
     
-    typedef typename std::map<K, T>::iterator begin();
+    typename std::map<K, T>::iterator begin();
     
     unsigned int size() const;
     bool empty();

@@ -61,7 +61,7 @@ void FMap<K, T>::insert(K key, std::shared_ptr<T> element){
 }
 
 template<typename K, typename T>
-bool typename FMap<K, T>::erase( std::map<K, T>::iterator it ){
+bool FMap<K, T>::erase( typename std::map<K, T>::iterator it ){
     std::lock_guard<std::mutex> lock(m_mutex);
     if( m_map.at( it ).use_count() > 1 ){
         m_map.erase( it );
@@ -97,9 +97,9 @@ std::shared_ptr<T> FMap<K, T>::operator[](const K key){
 }
     
 template<typename K, typename T>
-typename std::map<K, T>::iterator FMap<K, T>::begin(){
-    std::lock_guard<std::mutex> lock(m_mutex);
-    return m_map.begin();
+typename std::map<K, T>::iterator begin(){
+    std::lock_guard<std::mutex> lock( FMap<K,T>::m_mutex );
+    return FMap<K,T>::m_map.begin();
 }
     
 template<typename K, typename T>
