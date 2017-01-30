@@ -6,7 +6,7 @@ using namespace sf;
 using namespace std;
 
 FBezierCurve::FBezierCurve() :
-	calculated(false), nb_subdivision(20), color(sf::Color::Magenta), thickness(1.f)
+	calculated(false), nb_subdivision(20), thickness(1.f), color(sf::Color::Magenta)
 {
 	bezierCurve_vertex = VertexArray(sf::Quads, nb_subdivision * 4);
 	bezierCurve_points.resize(nb_subdivision+1);
@@ -23,7 +23,7 @@ FBezierCurve::FBezierCurve() :
 }
 
 FBezierCurve::FBezierCurve(sf::Vector2f firstPoint, sf::Vector2f lastPoint, int const & nb_subdiv, float const & thick, sf::Color curveColor) :
-	calculated(false), nb_subdivision(nb_subdiv), color(curveColor), thickness(thick)
+	calculated(false), nb_subdivision(nb_subdiv), thickness(thick), color(curveColor)
 {
 	bezierCurve_vertex = VertexArray(sf::Quads, nb_subdivision * 4);
 	bezierCurve_points.resize(nb_subdivision + 1);
