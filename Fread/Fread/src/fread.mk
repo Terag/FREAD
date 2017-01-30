@@ -18,6 +18,10 @@ FColor.o: FColor.cpp
 FThread_guard.o: FThread_guard.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
 	@echo "    	CXX      $@"
+	
+FContainer.o: FContainer.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
+	@echo "    	CXX      $@"
 
 .PHONY: clean
 clean:
