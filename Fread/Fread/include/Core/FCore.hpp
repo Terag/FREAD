@@ -39,8 +39,13 @@ DEALINGS IN THE SOFTWARE.
 
 #include <vector>
 
-#include "FQueue.hpp"
-#include "FMessages.hpp"
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+
+#include "FQueue.hpp" //template
+#include "FMessages.hpp" //template
+#include "FMap.hpp" //template
 #include "FThread_guard.hpp"
 #include "FObjet.hpp"
 #include "FOccurrence.hpp"
@@ -60,7 +65,6 @@ public:
     virtual ~FCore();
     
     void thr_FCore();
-    
     
 private:
     bool awake; //is in awake phase
@@ -95,7 +99,7 @@ private:
     
     void thr_message_handler_parser();
     void thr_message_handler_renderer();
-    
+
 	std::mutex message_parser_mutex;
 	std::condition_variable message_parser_cond:
 
@@ -113,5 +117,5 @@ private:
     void check_memory();
 };
 
-#endif /* FCORE_HPP */
 
+#endif /* FCORE_HPP */
