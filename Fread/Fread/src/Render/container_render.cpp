@@ -98,7 +98,7 @@ int container_render::getId()
 
 void container_render::getOccId() 
 {
-    for (int i = 0; i < occurrences.size(); i++) 
+    for (unsigned int i = 0; i < occurrences.size(); i++) 
     {
         std::cout << occurrences[i].getId() << std::endl;
     }
@@ -110,7 +110,7 @@ void container_render::draw(sf::RenderTarget& target, sf::RenderStates states) c
     target.draw(textId);
     target.draw(line);
     
-    for (int i = 0; i < occurrences.size(); i++) 
+    for (unsigned int i = 0; i < occurrences.size(); i++) 
     {
         target.draw(occurrences[i], states);
     }        

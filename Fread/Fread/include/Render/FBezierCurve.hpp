@@ -66,6 +66,11 @@ private:
 	sf::Vector2f normalize(); // Normalizes first to fourth points vector
 	sf::Vector2f rotate90(sf::Vector2f vector);
 
+	//Thickness
+	float thickness;
+	//Color of the curve
+	sf::Color color;
+
 public:
 	FBezierCurve();
 	FBezierCurve(sf::Vector2f firstPoint, sf::Vector2f lastPoint, int const& nb_subdiv = 100, float const & thick = 1.f, sf::Color color = sf::Color::Magenta);
