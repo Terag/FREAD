@@ -39,15 +39,15 @@ namespace paje
 {
     class Container_Reader {
     private:
-        
         int id;
         std::string alias;
         std::pair<float, float> timestamps_begin_end;
         
-        std::string container_Path;
-        std::ifstream container_Stream;
-        
         bool readyToRead;
+
+        std::string container_Path;
+
+        std::ifstream container_Stream;    
         
     public:
 
