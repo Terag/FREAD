@@ -194,5 +194,4 @@ int main(void){
     
     pusher.join();
     poper.join();
-<<<<<<< HEAD
 }*/
