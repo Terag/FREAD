@@ -32,14 +32,19 @@ DEALINGS IN THE SOFTWARE.
  * Created on 28 janvier 2017, 17:10
  */
 
+#ifndef FOBJET_HPP
+#define FOBJET_HPP
+
 class FObjet
 {
 public:
 	FObjet(){}
 	virtual ~FObjet(){}
 
-	virtual int getId() const = 0;
+	virtual int getId() const;
 
 private :
 
 };
+
+#endif //FOBJET_HPP

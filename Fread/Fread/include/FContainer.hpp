@@ -24,7 +24,8 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#pragma once
+#ifndef FCONTAINER_HPP
+#define FCONTAINER_HPP
 
 #include <utility>
 #include <string>
@@ -53,3 +54,4 @@ public:
         float getEndTime() const {return timestamp_begin_end.second;}
 };
 
+#endif //FCONTAINER_HPP

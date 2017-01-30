@@ -88,12 +88,12 @@ void FCore::thr_containers_manager(){
     
     //any message received from the parser is added to the memory then sent to the parser
     if( !m_parser_containers.empty() ){
-        FMessages<FObjet> msg = m_parser_containers.try_pop();
+        FMessages<FObjet> msg = (FContainer)*(m_parser_containers.try_pop());
         
         /*
           The content is a shared_ptr<FContainer>
         */
-        m_containers.insert( ((FContainer)msg.getContent())->getId() , (Fcontainer)msg.getContent() );
+        m_containers.insert( msg.getContent()->getId() , (Fcontainer)( msg.getContent() ) );
 
         FMessages<FObjet> msg_send( CONTAINER, msg.getContent() );
         m_containers_renderer.push( msg_send );
