@@ -46,7 +46,7 @@ id(id), timeStamps(timeStamps), eventTypes(eventTypes)
             float tStart = timeStamps[2*i];
             float tEnd = timeStamps[2*i+1];
             eventType type = eventTypes[i];
-            event_render nouvelEvent = event_render(tStart,tEnd, scale, type, containerID, containerOffset, offsetX, offsetY);
+            event_render nouvelEvent = event_render(type, tStart, tEnd, scale, containerOffset, containerID, offsetY, offsetX);
             events.push_back(nouvelEvent);
         } 
 }

@@ -42,13 +42,15 @@ enum eventType {
 
 class scale {
 private : 
-    float constScale = 1.f;
+
     float absoluteTime = 1.f;
-    int spacing = 30;
     int containerSize = 500;
+    int spacing = 30;
     int containerOffsetX;
     int containerOffsetY;
-    int eventOffsetY;    
+    int eventOffsetY;
+
+    float constScale = 1.f;   
     sf::Font font;
     std::vector<sf::Text> times;
     std::vector<sf::VertexArray> timeLines;
@@ -67,14 +69,14 @@ public :
 class event_render : public sf::Drawable {
 private:
     sf::Color eventColor = sf::Color(60,60,60);
-    int  tStart, tEnd, containerOffset, containerID = 0;
+    eventType type;
+    int  tStart, tEnd, containerOffsetY, containerID = 0;
     int offsetY = 6;
     int offsetX = 50;
-    eventType type;
     
 public:
     event_render();
-    event_render(float tSStart, float tSEnd, float scale, eventType type, int containerID, int containerOffsetY, int containerOffsetX, int offsetY);
+    event_render(eventType type, float tSStart, float tSEnd, float scale, int containerOffsetY, int containerID, int offsetY, int containerOffsetX);
     ~event_render();
     void setColor();
     eventType getType();
