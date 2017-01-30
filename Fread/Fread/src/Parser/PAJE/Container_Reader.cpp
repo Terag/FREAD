@@ -20,7 +20,7 @@ using namespace std;
 namespace paje
 {
     Container_Reader::Container_Reader(std::string const& c_alias) :
-        timestamps_begin_end(-1.f, -1.f), id(-1), readyToRead(false), alias(c_alias)
+        id(-1), alias(c_alias), timestamps_begin_end(-1.f, -1.f), readyToRead(false)
     {
     }
     
