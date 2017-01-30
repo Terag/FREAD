@@ -47,8 +47,6 @@ private:
 
 	//Check if curve had been calculated
 	bool calculated;
-	//Thickness
-	float thickness;
 	//Number of segments use to draw the curve
 	int nb_subdivision;
 	//Points of the curve
@@ -57,14 +55,17 @@ private:
 	sf::VertexArray bezierCurve_vertex;
 	//Control points to calculate Bezier curve
 	sf::Vector2f controlPointsArray[4];
-	//Color of the curve
-	sf::Color color;
 
 	float x(float t); // X parametric equation
 	float y(float t); // Y parametric equation
 	float lenght(); // distance between first and fourth control points 
 	sf::Vector2f normalize(); // Normalizes first to fourth points vector
 	sf::Vector2f rotate90(sf::Vector2f vector);
+
+	//Thickness
+	float thickness;
+	//Color of the curve
+	sf::Color color;
 
 public:
 	FBezierCurve();
