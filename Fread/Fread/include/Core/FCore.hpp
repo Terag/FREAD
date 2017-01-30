@@ -47,7 +47,6 @@ DEALINGS IN THE SOFTWARE.
 #include "FMessages.hpp" //template
 #include "Core/FMap.hpp" //template
 #include "FThread_guard.hpp"
-#include "FObjet.hpp"
 #include "FOccurrence.hpp"
 #include "FPattern.hpp"
 #include "FContainer.hpp"

@@ -123,3 +123,8 @@ template<typename K, typename T>
 std::mutex FMap<K, T>::getMutex() const{
     return m_mutex;
 }
+
+template<typename K, typename T>
+void FMap<K, T>::operator()(const FMap<K, T>&) const{
+    
+}

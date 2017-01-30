@@ -63,6 +63,8 @@ public:
     
     std::unordered_map<K, std::shared_ptr<T> > getMap() const;
     std::mutex getMutex() const;
+
+    void operator()(const FMap<K, T>&) const;
     
 private:
     std::unordered_map<K, std::shared_ptr<T> > m_unordered_map;
