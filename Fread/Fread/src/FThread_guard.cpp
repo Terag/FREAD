@@ -26,11 +26,13 @@ DEALINGS IN THE SOFTWARE.
  */
 
 /* 
- * File:   FThread_guard.hpp
+ * File:   FThread_guard.cpp
  * Author: guillem
  *
  * Created on 27 janvier 2017, 12:21
  */
+
+#include "FThread_guard.hpp"
 
 FThread_guard::FThread_guard(std::thread& t):
 m_thread(t)
