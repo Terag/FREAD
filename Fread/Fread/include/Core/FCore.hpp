@@ -77,20 +77,20 @@ private:
      TODO
      */
     FQueue< FMessages< FOccurrence > > m_renderer_occurrences;
-    FQueue< FMessages< FContainer > > m_renderer_container;
+    FQueue< FMessages< FContainer > > m_renderer_containers;
     FQueue< FMessages< FOccurrence > > m_occurrences_renderer;
-    FQueue< FMessages< FContainer > > m_container_renderer;
+    FQueue< FMessages< FContainer > > m_containers_renderer;
     
     FQueue< FMessages< FOccurrence > > m_parser_occurrences;
-    FQueue< FMessages< FContainer > > m_parser_container;
+    FQueue< FMessages< FContainer > > m_parser_containers;
     FQueue< FMessages< FOccurrence > > m_occurrences_parser;
-    FQueue< FMessages< FContainer > > m_container_parser;
+    FQueue< FMessages< FContainer > > m_containers_parser;
     
     /*
      TODO
      */
     FMap< std::pair<int, int>, FOccurrence > m_occurrences;
-    FMap<int, FContainer > m_container;
+    FMap<int, FContainer > m_containers;
     FMap<int, FPattern > m_patterns;
     
     void thr_container_manager();

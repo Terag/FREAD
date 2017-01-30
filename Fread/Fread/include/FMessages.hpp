@@ -54,6 +54,7 @@ public:
     
     //give a content to the constructor it will make a shared_ptr of it
     FMessages(HEADER header, T content);
+    FMessages(HEADER header, std::shared_ptr<T> content);
     FMessages(const FMessages& orig);
     
     FMessages& operator=(const FMessages&);
