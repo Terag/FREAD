@@ -41,7 +41,9 @@ event_render::event_render() :
 type(WAIT)
 {}
 
-event_render::event_render(eventType type, float tSStart, float tSEnd, float scale, int containerOffsetY, int containerID, int offsetY, int containerOffsetX) :
+event_render::event_render(eventType type, float tSStart, float tSEnd,
+                           float scale, int containerOffsetY, int containerID, 
+                           int offsetY, int containerOffsetX) :
 type(type), containerOffsetY(containerOffsetY), containerID(containerID), offsetY(offsetY), offsetX(containerOffsetX)
 {
     tStart = (int)(scale*tSStart);

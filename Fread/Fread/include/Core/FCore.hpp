@@ -99,6 +99,7 @@ private:
     void thr_messages_handler_parser();
     void thr_messages_handler_renderer();
 
+
 	std::mutex m_message_parser_mutex;
 	std::condition_variable m_message_parser_cond;
 
