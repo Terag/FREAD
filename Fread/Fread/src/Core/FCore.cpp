@@ -44,29 +44,29 @@ FCore::FCore( std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_parser
               _m_push_queue_renderer(_push_queue_renderer)
                   
 { 
-    _m_pop_queue_parser->setOtherCondition( std::shared_ptr<std::mutex>(message_parser_mutex),
-                                            std::make_shared<std::condition_variable>(message_parser_cond) );
-    m_containers_parser.setOtherCondition( std::shared_ptr<std::mutex>(message_parser_mutex),
-                                           std::make_shared<std::condition_variable>(message_parser_cond) );
-    m_occurrences_parser.setOtherCondition( std::shared_ptr<std::mutex>(message_parser_mutex),
-                                            std::make_shared<std::condition_variable>(message_parser_cond) );
+    _m_pop_queue_parser->setOtherCondition( std::shared_ptr<std::mutex>(m_message_parser_mutex),
+                                            std::make_shared<std::condition_variable>(m_message_parser_cond) );
+    m_containers_parser.setOtherCondition( std::shared_ptr<std::mutex>(m_message_parser_mutex),
+                                           std::make_shared<std::condition_variable>(m_message_parser_cond) );
+    m_occurrences_parser.setOtherCondition( std::shared_ptr<std::mutex>(m_message_parser_mutex),
+                                            std::make_shared<std::condition_variable>(m_message_parser_cond) );
     
-    _m_pop_queue_renderer->setOtherCondition( std::shared_ptr<std::mutex>(message_renderer_mutex),
-                                              std::make_shared<std::condition_variable>(message_renderer_cond) );
-    m_containers_renderer.setOtherCondition( std::shared_ptr<std::mutex>(message_renderer_mutex),
-                                             std::make_shared<std::condition_variable>(message_renderer_cond) );
-    m_occurrences_renderer.setOtherCondition( std::shared_ptr<std::mutex>(message_renderer_mutex),
-                                              std::make_shared<std::condition_variable>(message_renderer_cond) );
+    _m_pop_queue_renderer->setOtherCondition( std::shared_ptr<std::mutex>(m_message_renderer_mutex),
+                                              std::make_shared<std::condition_variable>(m_message_renderer_cond) );
+    m_containers_renderer.setOtherCondition( std::shared_ptr<std::mutex>(m_message_renderer_mutex),
+                                             std::make_shared<std::condition_variable>(m_message_renderer_cond) );
+    m_occurrences_renderer.setOtherCondition( std::shared_ptr<std::mutex>(m_message_renderer_mutex),
+                                              std::make_shared<std::condition_variable>(m_message_renderer_cond) );
    
-    m_renderer_containers.setOtherCondition( std::shared_ptr<std::mutex>(containers_manager_mutex), 
-                                             std::shared_ptr<std::condition_variable>(containers_manager_cond) );
-    m_parser_containers.setOtherCondition( std::shared_ptr<std::mutex>(containers_manager_mutex), 
-                                           std::shared_ptr<std::condition_variable>(containers_manager_cond) );
+    m_renderer_containers.setOtherCondition( std::shared_ptr<std::mutex>(m_containers_manager_mutex), 
+                                             std::shared_ptr<std::condition_variable>(m_containers_manager_cond) );
+    m_parser_containers.setOtherCondition( std::shared_ptr<std::mutex>(m_containers_manager_mutex), 
+                                           std::shared_ptr<std::condition_variable>(m_containers_manager_cond) );
    
-    m_renderer_occurrences.setOtherCondition( std::shared_ptr<std::mutex>(occurrences_manager_mutex), 
-                                              std::shared_ptr<std::condition_variable>(occurrences_manager_cond) );
-    m_parser_containers.setOtherCondition( std::shared_ptr<std::mutex>(occurrences_manager_mutex), 
-                                           std::shared_ptr<std::condition_variable>(occurrences_manager_cond) );
+    m_renderer_occurrences.setOtherCondition( std::shared_ptr<std::mutex>(m_occurrences_manager_mutex), 
+                                              std::shared_ptr<std::condition_variable>(m_occurrences_manager_cond) );
+    m_parser_containers.setOtherCondition( std::shared_ptr<std::mutex>(m_occurrences_manager_mutex), 
+                                           std::shared_ptr<std::condition_variable>(m_occurrences_manager_cond) );
     
 }
 
