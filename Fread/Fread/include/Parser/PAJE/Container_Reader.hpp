@@ -28,25 +28,52 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define CONTAINER_READER_HPP
 
 #include <string>
+#include <vector>
 #include <iostream>
 #include <fstream>
+#include <memory>
+#include <utility>
+#include "FContainer.hpp"
 
 namespace paje
 {
     class Container_Reader {
-    public:
-
-        Container_Reader();
-        void init(std::string const& path);
-        
-        Container_Reader(const Container_Reader& orig);
-
-        virtual ~Container_Reader();
-
     private:
+        
+        int id;
+        std::string alias;
+        std::pair<float, float> timestamps_begin_end;
         
         std::string container_Path;
         std::ifstream container_Stream;
+        
+        bool readyToRead;
+        
+    public:
+
+        Container_Reader(std::string const& c_alias);
+        
+        void init(std::string const& path, int const& c_id);
+        FContainer start();
+
+        //getter
+        int getId() const {return id;}
+        std::string getAlias() const {return alias;}
+        float getBeginTime() const {return timestamps_begin_end.first;}
+        float getEndTime() const {return timestamps_begin_end.second;}
+        
+        //setter
+        void setId(int const& newId) {id = newId;}
+        void setAlias(std::string const& newAlias) {alias = newAlias;}
+        void setBeginTime(float const& t_begin) {timestamps_begin_end.first = t_begin;}
+        void setEndTime(float const& t_end) {timestamps_begin_end.second = t_end;}
+        
+        void checkIfReady(); //Verify if container_reader has all attributes defined to be use
+        bool isReadyToRead() const {return readyToRead;}
+        
+        std::vector<std::string> getLinesBetweenTwoTimes(float const& t1, float const& t2);
+        
+        virtual ~Container_Reader();
 
     };
 }
