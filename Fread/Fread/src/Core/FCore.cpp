@@ -41,7 +41,8 @@ FCore::FCore( std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_parser
               _m_pop_queue_parser(_pop_queue_parser),
               _m_push_queue_parser(_push_queue_parser),
               _m_pop_queue_renderer(_pop_queue_renderer),
-              _m_push_queue_renderer(_push_queue_renderer)      
+              _m_push_queue_renderer(_push_queue_renderer)
+                  
 { 
     _m_pop_queue_parser->setOtherCondition( std::shared_ptr<std::mutex>(message_parser_mutex),
                                             std::make_shared<std::condition_variable>(message_parser_cond) );

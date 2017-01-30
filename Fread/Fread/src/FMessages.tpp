@@ -32,34 +32,36 @@ DEALINGS IN THE SOFTWARE.
  * Created on 27 janvier 2017, 11:50
  */
 
-#include "FMessages.hpp"
-
-FMessages::FMessages(HEADER header, 
+template<typename T>
+FMessages<T>::FMessages(HEADER header, 
                      T content):
                      m_header(header),
                      m_content(std::make_shared<T>(content))
 {    
 }
 
-FMessages& FMessages::operator=(const FMessages& other){
+template<typename T>
+FMessages<T>& FMessages<T>::operator=(const FMessages& other){
     m_header = other.getHeader();
     m_content = other.getContent();  
 }
 
-HEADER FMessages::getHeader(){
+template<typename T>
+HEADER FMessages<T>::getHeader(){
     return m_header;
 }
 
-void FMessages::setHeader(HEADER var){
+template<typename T>
+void FMessages<T>::setHeader(HEADER var){
     m_header = var;
 }
 
 template<typename T>
-std::shared_ptr<T> FMessages::getContent(){
+std::shared_ptr<T> FMessages<T>::getContent(){
     return m_content;
 }
 
 template<typename T>
-void FMessages::setContent(T var){
+void FMessages<T>::setContent(T var){
     m_content = var;
 }

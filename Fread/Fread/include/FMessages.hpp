@@ -37,6 +37,8 @@ DEALINGS IN THE SOFTWARE.
 
 #include <memory>
 
+template<typename T> class FMessages;
+
 enum HEADER{
      START,
      INITDONE,

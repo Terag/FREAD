@@ -38,6 +38,8 @@ DEALINGS IN THE SOFTWARE.
 #include <unordered_map>
 #include <memory>
 
+template<typename K, typename T> class FMap;
+
 template<typename K, typename T>
 class FMap {
 public:
