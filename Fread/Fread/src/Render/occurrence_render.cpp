@@ -41,7 +41,7 @@ id(0)
 occurrence_render::occurrence_render(int id, int containerID, int containerOffset, int offsetX, int offsetY, float scale, std::vector<float> timeStamps, std::vector<eventType> eventTypes ):
 id(id), timeStamps(timeStamps), eventTypes(eventTypes)
 {
-    for (int i = 0; i < eventTypes.size() ; i++)
+    for (unsigned int i = 0; i < eventTypes.size() ; i++)
         {
             float tStart = timeStamps[2*i];
             float tEnd = timeStamps[2*i+1];
@@ -62,7 +62,7 @@ std::vector<event_render> occurrence_render::getEvents()
 
 void occurrence_render::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    for (int i = 0; i < events.size(); i++) 
+    for (unsigned int i = 0; i < events.size(); i++) 
     {
        target.draw(events[i], states);
     }           
