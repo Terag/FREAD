@@ -6,9 +6,10 @@ using namespace sf;
 using namespace std;
 
 FBezierCurve::FBezierCurve() :
-	calculated(false), nb_subdivision(20), color(sf::Color::Magenta)
+	calculated(false), nb_subdivision(20), color(sf::Color::Magenta), thickness(1.f)
 {
-	bezierCurve_points = VertexArray(sf::LinesStrip, nb_subdivision+1);
+	bezierCurve_vertex = VertexArray(sf::Quads, nb_subdivision * 4);
+	bezierCurve_points.resize(nb_subdivision+1);
 
 	controlPointsArray[0] = Vector2f(0, 200);
 	controlPointsArray[3] = Vector2f(300, 400);
@@ -21,10 +22,11 @@ FBezierCurve::FBezierCurve() :
 	controlPointsArray[2] = controlPointsArray[3] + -30.f * l * directionnal + 2.f * l * normale;
 }
 
-FBezierCurve::FBezierCurve(sf::Vector2f firstPoint, sf::Vector2f lastPoint, int const & nb_subdiv, sf::Color curveColor) :
-	calculated(false), nb_subdivision(nb_subdiv), color(curveColor)
+FBezierCurve::FBezierCurve(sf::Vector2f firstPoint, sf::Vector2f lastPoint, int const & nb_subdiv, float const & thick, sf::Color curveColor) :
+	calculated(false), nb_subdivision(nb_subdiv), color(curveColor), thickness(thick)
 {
-	bezierCurve_points = VertexArray(sf::LinesStrip, nb_subdivision+1);
+	bezierCurve_vertex = VertexArray(sf::Quads, nb_subdivision * 4);
+	bezierCurve_points.resize(nb_subdivision + 1);
 
 	controlPointsArray[0] = firstPoint;
 	controlPointsArray[3] = lastPoint;
@@ -80,7 +82,19 @@ void FBezierCurve::calculate()
 {
 	for (int i = 0; i < nb_subdivision+1; i++) {
 		float t = (float)i / (float)nb_subdivision;
-		bezierCurve_points[i] = Vertex(Vector2f(x(t), y(t)), color);
+		bezierCurve_points[i] = Vector2f(x(t), y(t));
+	}
+	for (int i = 0; i < nb_subdivision; i++) {
+		sf::Vector2f direction = bezierCurve_points[i+1] - bezierCurve_points[i];
+		sf::Vector2f unitDirection = direction / std::sqrt(direction.x*direction.x + direction.y*direction.y);
+		sf::Vector2f unitPerpendicular(-unitDirection.y, unitDirection.x);
+
+		sf::Vector2f offset = (thickness / 2.f)*unitPerpendicular;
+		
+		bezierCurve_vertex[(4 * i)] = Vertex(bezierCurve_points[i] - offset, color);
+		bezierCurve_vertex[(4 * i)+1] = Vertex(bezierCurve_points[i] + offset, color);
+		bezierCurve_vertex[(4 * i)+2] = Vertex(bezierCurve_points[i+1] + offset, color);
+		bezierCurve_vertex[(4 * i)+3] = Vertex(bezierCurve_points[i+1] - offset, color);
 	}
 	calculated = true;
 }
@@ -93,7 +107,7 @@ bool FBezierCurve::isCalculated()
 void FBezierCurve::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	if (calculated) {
-		target.draw(bezierCurve_points, states);
+		target.draw(bezierCurve_vertex, states);
 	}
 }
 
