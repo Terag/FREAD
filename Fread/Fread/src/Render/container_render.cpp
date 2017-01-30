@@ -63,7 +63,6 @@ id(id), name(name), offsetX(offsetX), offsetY(offsetY)
     {
        std::cout << "error while loading the font" << std::endl;
     }
-    
     textId.setFont(font);
     textId.setColor(Color(40,40,40));
     textId.setCharacterSize(10);
@@ -102,6 +101,14 @@ void container_render::getOccId()
     {
         std::cout << occurrences[i].getId() << std::endl;
     }
+}
+
+void container_render::setOffsetX(int x) {
+    offsetX = x;
+}
+
+void container_render::setOffsetY(int y) {
+    offsetY = y;
 }
 
 void container_render::draw(sf::RenderTarget& target, sf::RenderStates states) const

@@ -101,16 +101,16 @@ private:
     void thr_message_handler_renderer();
 
 	std::mutex message_parser_mutex;
-	std::condition_variable message_parser_cond:
+	std::condition_variable message_parser_cond;
 
 	std::mutex message_renderer_mutex;
-	std::condition_variable message_renderer_cond:
+	std::condition_variable message_renderer_cond;
 
 	std::mutex containers_manager_mutex;
-	std::condition_variable containers_manager_cond:
+	std::condition_variable containers_manager_cond;
 
 	std::mutex occurrences_manager_mutex;
-	std::condition_variable occurrences_manager_cond:
+	std::condition_variable occurrences_manager_cond;
 
 
     //check_memory ensure that the two map are not too big
