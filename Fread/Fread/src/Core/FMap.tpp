@@ -40,7 +40,7 @@ FMap<K, T>::FMap(){
 template<typename K, typename T>
 FMap<K, T>::FMap(const FMap& orig){
     std::lock_guard<std::mutex> lock(m_mutex);
-    m_unordered_map = orig.getMap();
+    m_map = orig.getMap();
 }
 
 template<typename K, typename T>
@@ -51,20 +51,20 @@ FMap<K, T>::~FMap(){
 template<typename K, typename T>
 std::shared_ptr<T> FMap<K, T>::at(const K& key){
     std::lock_guard<std::mutex> lock(m_mutex);
-    return m_unordered_map.at(key);
+    return m_map.at(key);
 }
 
 template<typename K, typename T>
 void FMap<K, T>::insert(K key, std::shared_ptr<T> element){
     std::lock_guard<std::mutex> lock(m_mutex);
-    m_unordered_map.insert(key, element);
+    m_map.insert(key, element);
 }
 
 template<typename K, typename T>
-bool FMap<K, T>::erase( std::unordered_map<K, T>::iterator it ){
+bool typename FMap<K, T>::erase( std::map<K, T>::iterator it ){
     std::lock_guard<std::mutex> lock(m_mutex);
-    if( m_unordered_map.at( it ).use_count() > 1 ){
-        m_unordered_map.erase( it );
+    if( m_map.at( it ).use_count() > 1 ){
+        m_map.erase( it );
         return true;
     }
     return false;
@@ -73,7 +73,7 @@ bool FMap<K, T>::erase( std::unordered_map<K, T>::iterator it ){
 template<typename K, typename T>
 bool FMap<K, T>::contains(T element){
     std::lock_guard<std::mutex> lock(m_mutex);
-    for( auto it = m_unordered_map.begin(); it != m_unordered_map.end(); ++it ){
+    for( auto it = m_map.begin(); it != m_map.end(); ++it ){
         if( it->second.get() == element ){
             return true;
         }
@@ -84,7 +84,7 @@ bool FMap<K, T>::contains(T element){
 template<typename K, typename T>
 bool FMap<K, T>::contains(K key){
     std::lock_guard<std::mutex> lock(m_mutex);  
-    if( m_unordered_map.at( key ) != NULL ){
+    if( m_map.at( key ) != NULL ){
         return true;
     }
     return false;
@@ -93,30 +93,30 @@ bool FMap<K, T>::contains(K key){
 template<typename K, typename T>
 std::shared_ptr<T> FMap<K, T>::operator[](const K key){
     std::lock_guard<std::mutex> lock(m_mutex);
-    return m_unordered_map[key];
+    return m_map[key];
 }
     
 template<typename K, typename T>
-typename std::unordered_map<K, T>::iterator FMap<K, T>::begin(){
+typename std::map<K, T>::iterator FMap<K, T>::begin(){
     std::lock_guard<std::mutex> lock(m_mutex);
-    return m_unordered_map.begin();
+    return m_map.begin();
 }
     
 template<typename K, typename T>
 unsigned int FMap<K, T>::size() const{
     std::lock_guard<std::mutex> lock(m_mutex);
-    return m_unordered_map.size();
+    return m_map.size();
 }
 
 template<typename K, typename T>
 bool FMap<K, T>::empty(){
     std::lock_guard<std::mutex> lock(m_mutex);
-    return m_unordered_map.empty();
+    return m_map.empty();
 }
 
 template<typename K, typename T>
-std::unordered_map<K, std::shared_ptr<T> > FMap<K, T>::getMap() const{
-    return m_unordered_map;
+std::map<K, std::shared_ptr<T> > FMap<K, T>::getMap() const{
+    return m_map;
 }
 
 template<typename K, typename T>
