@@ -47,18 +47,18 @@ private:
 
 	//Check if curve had been calculated
 	bool calculated;
-	//Thickness
-	float thickness;
 	//Number of segments use to draw the curve
 	int nb_subdivision;
+	//Color of the curve
+	sf::Color color;
+	//Thickness
+	float thickness;
 	//Points of the curve
 	std::vector<sf::Vector2f> bezierCurve_points;
 	//Vertex of the curve
 	sf::VertexArray bezierCurve_vertex;
 	//Control points to calculate Bezier curve
 	sf::Vector2f controlPointsArray[4];
-	//Color of the curve
-	sf::Color color;
 
 	float x(float t); // X parametric equation
 	float y(float t); // Y parametric equation
