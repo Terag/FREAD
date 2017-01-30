@@ -29,13 +29,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <utility>
 #include <string>
 #include "FObjet.hpp"
+#include "FOccurrence.hpp"
 
 class FContainer : FObjet
 {
 private :
 	int id;
         std::string alias;
-        std::vector<FOccurrence> listeOccurrences;
+        std::vector<int> listeIdOccurrences;
 
 protected:
     void setId(int const& newId) {id = newId;}
@@ -47,6 +48,6 @@ public:
 
 	int getId() const {return id;}
         std::string getAlias() const {return alias;}
-        std::vector<FOccurrence> getListeOccurrences() {return listeOccurrences;}
+        std::vector<int> getListeIdOccurrences() {return listeIdOccurrences;}
 };
 

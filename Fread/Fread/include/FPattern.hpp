@@ -25,10 +25,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #pragma once
-
 #include<vector>
 #include<string>	
 #include "FOccurrence.hpp"
+#include "FObjet.hpp"
 
 class FPattern : FObjet
 {

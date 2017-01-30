@@ -1,7 +1,5 @@
 #include "FOccurrence.hpp"
 
-
-
 FOccurrence::FOccurrence()
 {
 }
