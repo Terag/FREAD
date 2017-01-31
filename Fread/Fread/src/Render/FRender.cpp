@@ -4,13 +4,14 @@
  * and open the template in the editor.
  */
 
-/* #include "Render/FRender.hpp"
+ /*#include "Render/FRender.hpp"
 
 FRender::FRender(std::shared_ptr<FQueue<FMessages<FObjet> > > _pop_queue_core, 
                  std::shared_ptr<FQueue<FMessages<std::pair<int,int> > > > _push_queue_core, 
                  float absoluteTime):
 _m_pop_queue_core(_pop_queue_core), _m_push_queue_core(_push_queue_core), absoluteTime(absoluteTime)
 {}
+
  std::vector<container_render> FRender::transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale) 
 {
     std::vector<container_render> renderContainers;
@@ -44,19 +45,17 @@ _m_pop_queue_core(_pop_queue_core), _m_push_queue_core(_push_queue_core), absolu
  
  FPattern FRender::viewPatternById(int id) 
  {
-    std::pair<int, int> askedId = std::make_pair(id, id);
-    FMessages msg(OCCURRENCE, askedId);
-    _m_push_queue_core->push(msg); 
-     FPattern pattern = FPattern();
+     FPattern pattern = *(FCore::view_patterns(id));
      return pattern;
  }
  
- FMessages FRender::receive() 
+ FOccurrence FRender::receive() 
  {
-    std::shared_ptr<FMessages> msg = _m_pop_queue_core->try_pop();
+    std::shared_ptr<FMessages<FOccurrence>> msg = _m_pop_queue_core->try_pop();
     if(msg != NULL) 
-    {
-        
+    {   
+        FOccurrence occ = *(msg->getContent());
+        std::vector<FOccurrence> waitingOcc;
     }
  }
  

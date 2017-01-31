@@ -26,6 +26,7 @@
 #include "FOccurrence.hpp"
 #include "FPattern.hpp"
 #include "FContainer.hpp"
+#include "Core/FCore.hpp"
 
 class FRender {
     
