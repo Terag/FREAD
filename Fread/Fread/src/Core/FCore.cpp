@@ -37,7 +37,7 @@ DEALINGS IN THE SOFTWARE.
 FCore::FCore( std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_parser, 
               std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _push_queue_parser,
               std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _pop_queue_renderer,
-              std::shared_ptr< FQueue< FMessages< FObjet > > > _push_queue_renderer):
+              std::shared_ptr< FQueue< FMessages< FOccurrence > > > _push_queue_renderer):
               _m_pop_queue_parser(_pop_queue_parser),
               _m_push_queue_parser(_push_queue_parser),
               _m_pop_queue_renderer(_pop_queue_renderer),
@@ -141,7 +141,7 @@ void FCore::thr_occurrences_manager(){
     
     //any message received from the parser is added to the memory then sent to the parser
     if( !m_parser_occurrences.empty() ){
-        FMessages<FObjet> msg = *(m_parser_occurrences.try_pop());
+        FMessages<FOccurrence> msg = *(m_parser_occurrences.try_pop());
         /*
           The content is a shared_ptr<FOccurrence>
         */
@@ -150,7 +150,7 @@ void FCore::thr_occurrences_manager(){
                                                 );
         m_occurrences.at(key.first)->insert(key.second, std::static_pointer_cast<FOccurrence>(msg.getContent() ));
 
-        FMessages<FObjet> msg_send( OCCURRENCE, msg.getContent() );
+        FMessages<FOccurrence> msg_send( OCCURRENCE, msg.getContent() );
         m_occurrences_renderer.push( msg_send );
         
     }else if( !m_renderer_occurrences.empty() ){
@@ -162,7 +162,7 @@ void FCore::thr_occurrences_manager(){
           ){
             //if is in memory
             std::shared_ptr<FOccurrence> to_send = m_occurrences[msg.getContent()->first]->at(msg.getContent()->second);
-            FMessages<FObjet> msg_send( OCCURRENCE, to_send );
+            FMessages<FOccurrence> msg_send( OCCURRENCE, to_send );
             m_occurrences_renderer.push( msg_send );
         }else{ // not in memory
             //demands it to parser
@@ -296,27 +296,29 @@ void FCore::thr_messages_handler_renderer(){
             } 
         }
         
-    }else if( !m_containers_renderer.empty() ){ //Messages received from Containers thread
+    }
+    /*
+    else if( !m_containers_renderer.empty() ){ //Messages received from Containers thread
         std::shared_ptr< FMessages<FObjet> > msg = m_containers_renderer.try_pop();
         if(msg != NULL){
             if(msg->getHeader() == CONTAINER){
                 //it might need a conversion
-                FMessages<FObjet> msg_send( CONTAINER, msg->getContent() );
+                FMessages<FOccurrence> msg_send( CONTAINER, msg->getContent() );
                 _m_push_queue_renderer->push( msg_send );
             }else{
                 std::cout << "error : bad header" << std::endl;
             }
         }
         
-    }else if ( !m_occurrences_renderer.empty() ){ // Messages received from Occurrences thread
-        std::shared_ptr< FMessages<FObjet> > msg = m_containers_renderer.try_pop();
+    }*/else if ( !m_occurrences_renderer.empty() ){ // Messages received from Occurrences thread
+        std::shared_ptr< FMessages<FOccurrence> > msg = m_occurrences_renderer.try_pop();
         if(msg != NULL){
             if(msg->getHeader() == OCCURRENCE){
                 /*
                  TODO
                  */
                 //it might need a conversion
-                FMessages<FObjet> msg_send( OCCURRENCE, msg->getContent() );
+                FMessages<FOccurrence> msg_send( OCCURRENCE, msg->getContent() );
                 _m_push_queue_renderer->push( msg_send );
             }else{
                 std::cout << "error : bad header" << std::endl;
@@ -368,7 +370,7 @@ void FCore::thr_FCore(){
 
 static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b){
     std::vector<std::shared_ptr<FContainer> > result;
-    for(unsigned int i = a; i <= b; ++i){
+    for(int i = a; i <= b; ++i){
         result.push_back( FCore::m_containers[i] );
     }
     return result;

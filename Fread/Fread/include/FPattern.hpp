@@ -33,7 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "FObjet.hpp"
 #include "FOccurrence.hpp"
 
-class FPattern : FObjet
+class FPattern : public FObjet
 {
 public:
 	FPattern();
