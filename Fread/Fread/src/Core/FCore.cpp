@@ -123,16 +123,12 @@ void FCore::thr_occurrences_manager(){
 void  FCore::check_memory(){
     if(m_occurrences.size() > MAX_SIZE){
         auto it = m_occurrences.begin();
-        while( !m_occurrences.erase( it ) ){
-            ++it;
-        }
+        !m_occurrences.erase();
     }
    
     if(m_containers.size() > MAX_SIZE){
         auto it = m_containers.begin();
-        while( !m_containers.erase( it ) ){
-            ++it;
-        }   
+        !m_containers.erase();
     }
 }
 
