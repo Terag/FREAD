@@ -41,7 +41,7 @@ id(0)
 }
 
 occurrence_render::occurrence_render(int id, int containerID, int containerOffsetY, 
-                                     int containerOffsetX, int eventOffsetY, float scale, 
+                                     int containerOffsetX, int eventOffsetY, int windowContainerOffsetY, float scale, 
                                      vector<float> timeStamps, vector<eventType> eventTypes ):
 id(id), timeStamps(timeStamps), eventTypes(eventTypes)
 {
@@ -50,7 +50,7 @@ id(id), timeStamps(timeStamps), eventTypes(eventTypes)
             float tStart = timeStamps[2*i];
             float tEnd = timeStamps[2*i+1];
             eventType type = eventTypes[i];
-            event_render nouvelEvent = event_render(type, tStart, tEnd, scale, containerOffsetY, containerID, eventOffsetY, containerOffsetX);
+            event_render nouvelEvent = event_render(type, tStart, tEnd, scale, containerOffsetY, containerID, eventOffsetY, containerOffsetX, windowContainerOffsetY);
             events.push_back(nouvelEvent);
         } 
 }

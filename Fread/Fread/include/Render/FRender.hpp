@@ -31,14 +31,19 @@ class FRender {
     
 public: 
     FRender(std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_core,
-           std::shared_ptr< FQueue< FMessages< FObjet > > > _push_queue_core);
+           std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _push_queue_core,
+            float absoluteTime);
     ~FRender();
     std::vector<container_render> transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale);
     void thr_FRender();
-    FPattern getPatternById(int id);
-
+    FOccurrence askOccurrenceById(int idPattern, int idOccurrence);
+    FPattern viewPatternById(int id);
+    FMessages receive();
+    float getAbsoluteTime();
+    
 private: 
     bool awake;
+    float absoluteTime;
     std::shared_ptr<FQueue< FMessages< FObjet > > > _m_pop_queue_core;
-    std::shared_ptr<FQueue< FMessages< FObjet > > > _m_push_queue_core;
+    std::shared_ptr<FQueue< FMessages< std::pair<int,int> > > > _m_push_queue_core;
 };
