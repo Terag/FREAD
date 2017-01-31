@@ -52,5 +52,3 @@ private :
 };
 bool operator==(FPattern A, FPattern B);
 bool operator!=(FPattern A, FPattern B);
-
-#endif //FPATTERN_HPP
