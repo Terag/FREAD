@@ -53,10 +53,14 @@ DEALINGS IN THE SOFTWARE.
 
 class FCore {
 public:
-    FCore( std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_parser, 
-           std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _push_queue_parser,
-           std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _pop_queue_renderer,
-           std::shared_ptr< FQueue< FMessages< FObjet > > > _push_queue_renderer
+    FCore( std::shared_ptr< FQueue< std::shared_ptr< FOccurrence > > > _pop_queue_parser_occurrences, 
+           std::shared_ptr< FQueue< std::shared_ptr< std::pair<int,int> > > > _push_queue_parser_occurrences,
+           std::shared_ptr< FQueue< std::shared_ptr< std::pair<int,int> > > > _pop_queue_renderer_occurrences,
+           std::shared_ptr< FQueue< std::shared_ptr< FOccurrence > > > _push_queue_renderer_occurrences,
+           std::shared_ptr< FQueue< std::shared_ptr< std::vector<patternStruct> > > > _pop_queue_parser_containers,
+           std::shared_ptr< FQueue< std::shared_ptr< patternStruct > > > _push_queue_parser_containers,
+           std::shared_ptr< FQueue< std::shared_ptr< patternStruct> > > _pop_queue_render_containers,
+           std::shared_ptr< FQueue< std::shared_ptr< patternStruct> > > _push_queue_render_containers
            );
     
     FCore(const FCore& orig);
@@ -74,23 +78,14 @@ public:
 private:
     bool awake; //is in awake phase
     
-    std::shared_ptr<FQueue< FMessages< FObjet > > > _m_pop_queue_parser;
-    std::shared_ptr<FQueue< FMessages< std::pair<int,int> > > > _m_push_queue_parser;
-    std::shared_ptr<FQueue< FMessages< std::pair<int,int> > > > _m_pop_queue_renderer;
-    std::shared_ptr<FQueue< FMessages< FObjet > > > _m_push_queue_renderer;
-     
-    /*
-     TODO
-     */
-    FQueue< FMessages< std::pair<int,int> > > m_renderer_occurrences;
-    FQueue< FMessages< std::pair<int,int> > > m_renderer_containers;
-    FQueue< FMessages< FObjet > > m_occurrences_renderer;
-    FQueue< FMessages< FObjet > > m_containers_renderer;
-    
-    FQueue< FMessages< FObjet > > m_parser_occurrences;
-    FQueue< FMessages< FObjet > > m_parser_containers;
-    FQueue< FMessages< std::pair<int,int> > > m_occurrences_parser;
-    FQueue< FMessages< std::pair<int,int> > > m_containers_parser;
+    std::shared_ptr< FQueue< std::shared_ptr< FOccurrence > > > _m_pop_queue_parser_occurrences;
+    std::shared_ptr< FQueue< std::shared_ptr< std::pair<int,int> > > > _m_push_queue_parser_occurrences;
+    std::shared_ptr< FQueue< std::shared_ptr< std::pair<int,int> > > > _m_pop_queue_render_occurrences;
+    std::shared_ptr< FQueue< std::shared_ptr< FOccurrence > > > _m_push_queue_render_occurrences;
+    std::shared_ptr< FQueue< std::shared_ptr< std::vector<patternStruct> > > > _m_pop_queue_parser_containers;
+    std::shared_ptr< FQueue< std::shared_ptr< patternStruct > > > _m_push_queue_parser_containers;
+    std::shared_ptr< FQueue< std::shared_ptr< patternStruct> > > _m_pop_queue_render_containers;
+    std::shared_ptr< FQueue< std::shared_ptr< patternStruct> > > _m_push_queue_render_containers;
     
     /*
      TODO
@@ -99,23 +94,9 @@ private:
     
     void thr_containers_manager();
     void thr_occurrences_manager();
-    
-    void thr_messages_handler_parser();
-    void thr_messages_handler_renderer();
 
-
-	std::mutex m_message_parser_mutex;
-	std::condition_variable m_message_parser_cond;
-
-	std::mutex m_message_renderer_mutex;
-	std::condition_variable m_message_renderer_cond;
-
-	std::mutex m_containers_manager_mutex;
-	std::condition_variable m_containers_manager_cond;
-
-	std::mutex m_occurrences_manager_mutex;
-	std::condition_variable m_occurrences_manager_cond;
-
+    float getContainerContent(int id, float t1);
+    bool isContainerFull(int id, float t1, float t2);
 
     //check_memory ensure that the two map are not too big
     void check_memory();
