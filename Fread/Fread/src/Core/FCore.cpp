@@ -71,9 +71,15 @@ void FCore::thr_containers_manager(){
     if(msg_render != NULL){
         if( m_containers.at( msg_render->id )->contains( *(msg_render) ) ){ //is in memory
             //TODO
-            std::pair<float, float> containerContent = getContainerContent(beginTime, endTime);
-            patternStruct msg_send = {msg_render->id, containerContent.first, containerContent.second};
-            _m_push_queue_render_containers->push( std::make_shared< patternStruct >(msg_send) );
+            if(isContainerFull(msg_render->id, beginTime, endTime)){
+                patternStruct msg_send = {msg_render->id, beginTime, endTime};
+                _m_push_queue_render_containers->push( std::make_shared< patternStruct >(msg_send) );
+            }else{
+                float endTimeLoaded = getContainerContent( msg_render->id, beginTime );
+                patternStruct msg_send = {msg_render->id, beginTime, endTimeLoaded};
+                _m_push_queue_render_containers->push( std::make_shared< patternStruct >(msg_send) );                
+            }
+
 
         }else{ // is not in memory 
             _m_push_queue_parser_containers->push( msg_render );
@@ -122,12 +128,10 @@ void FCore::thr_occurrences_manager(){
 
 void  FCore::check_memory(){
     if(m_occurrences.size() > MAX_SIZE){
-        auto it = m_occurrences.begin();
         !m_occurrences.erase();
     }
    
     if(m_containers.size() > MAX_SIZE){
-        auto it = m_containers.begin();
         !m_containers.erase();
     }
 }
@@ -168,3 +172,49 @@ static std::shared_ptr<FPattern>  view_patterns(int a){
     return FCore::m_patterns[a];
 }
 
+
+float FCore::getContainerContent(int id, float t1){
+    bool isContinue = false;
+    for(auto it = m_containers.at(id)->getPatternList().begin(); it != m_containers.at(id)->getPatternList().end(); ++it ){
+        if( it->tBegin >= t1 ){
+            auto it_tmp = it;
+            ++it_tmp;
+            if(it->tEnd <= it_tmp->tBegin + 0.01 || it->tEnd >= it_tmp->tBegin - 0.01){
+                isContinue = true;
+            }else{
+                isContinue = false;
+            }
+
+            if(!isContinue){
+                return it->tEnd;
+            }
+        }
+    }
+
+    return m_containers.at(id)->getPatternList().end()->tEnd;
+}
+
+bool FCore::isContainerFull(int id, float t1, float t2){
+    bool isContinue = false;
+    for(auto it = m_containers.at(id)->getPatternList().begin(); it != m_containers.at(id)->getPatternList().end(); ++it ){
+        if( it->tBegin >= t1 ){
+            auto it_tmp = it;
+            ++it_tmp;
+            if(it->tEnd <= it_tmp->tBegin + 0.01 || it->tEnd >= it_tmp->tBegin - 0.01){
+                isContinue = true;
+            }else{
+                isContinue = false;
+            }
+
+            if(isContinue && it->tEnd >t2 ){
+                return true;
+            }
+        }
+
+        if( it->tBegin > t1 && it->tEnd > t2 ){
+            return false;
+        }
+    }
+
+    return false;
+}

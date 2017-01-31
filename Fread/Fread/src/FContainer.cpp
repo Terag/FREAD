@@ -23,7 +23,7 @@ void FContainer::remove_pattern(){
 }
 
 bool FContainer::contains( patternStruct element ){
-	for(unsigned int i = 0; i < patternList.size(); ++i){
+	for(auto it = patternList.begin(); it != patternList.end(); ++it){
 		if(it->tBegin == element.tBegin){
 			return true;
 		}
