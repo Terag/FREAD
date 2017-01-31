@@ -34,41 +34,24 @@ DEALINGS IN THE SOFTWARE.
 
 #include "Core/FCore.hpp"
 
-FCore::FCore( std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_parser, 
-              std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _push_queue_parser,
-              std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _pop_queue_renderer,
-              std::shared_ptr< FQueue< FMessages< FOccurrence > > > _push_queue_renderer):
-              _m_pop_queue_parser(_pop_queue_parser),
-              _m_push_queue_parser(_push_queue_parser),
-              _m_pop_queue_renderer(_pop_queue_renderer),
-              _m_push_queue_renderer(_push_queue_renderer)
-                  
-{ 
-    _m_pop_queue_parser->setOtherCondition( std::make_shared<std::mutex>(m_message_parser_mutex),
-                                            std::make_shared<std::condition_variable>(m_message_parser_cond) );
-    m_containers_parser.setOtherCondition( std::make_shared<std::mutex>(m_message_parser_mutex),
-                                           std::make_shared<std::condition_variable>(m_message_parser_cond) );
-    m_occurrences_parser.setOtherCondition( std::make_shared<std::mutex>(m_message_parser_mutex),
-                                            std::make_shared<std::condition_variable>(m_message_parser_cond) );
-    
-    _m_pop_queue_renderer->setOtherCondition( std::make_shared<std::mutex>(m_message_renderer_mutex),
-                                              std::make_shared<std::condition_variable>(m_message_renderer_cond) );
-    m_containers_renderer.setOtherCondition( std::make_shared<std::mutex>(m_message_renderer_mutex),
-                                             std::make_shared<std::condition_variable>(m_message_renderer_cond) );
-    m_occurrences_renderer.setOtherCondition( std::make_shared<std::mutex>(m_message_renderer_mutex),
-                                              std::make_shared<std::condition_variable>(m_message_renderer_cond) );
-   
-    m_renderer_containers.setOtherCondition( std::make_shared<std::mutex>(m_containers_manager_mutex), 
-                                             std::make_shared<std::condition_variable>(m_containers_manager_cond) );
-    m_parser_containers.setOtherCondition( std::make_shared<std::mutex>(m_containers_manager_mutex), 
-                                           std::make_shared<std::condition_variable>(m_containers_manager_cond) );
-   
-    m_renderer_occurrences.setOtherCondition( std::make_shared<std::mutex>(m_occurrences_manager_mutex), 
-                                              std::make_shared<std::condition_variable>(m_occurrences_manager_cond) );
-    m_parser_containers.setOtherCondition( std::make_shared<std::mutex>(m_occurrences_manager_mutex), 
-                                           std::make_shared<std::condition_variable>(m_occurrences_manager_cond) );
-    
-}
+FCore::FCore( std::shared_ptr< FQueue< FMessages< FOccurrence > > > _pop_queue_parser_occurrences, 
+              std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _push_queue_parser_occurrences,
+              std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _pop_queue_render_occurrences,
+              std::shared_ptr< FQueue< FMessages< FOccurrence > > > _push_queue_render_occurrences,
+              std::shared_ptr< FQueue< FMessages< std::vector<patternStruct> > > > _pop_queue_parser_container,
+              std::shared_ptr< FQueue< FMessages< patternStruct > > > _push_queue_parser_container,
+              std::shared_ptr< FQueue< FMessages< patternStruct> > > _pop_queue_render_container
+             ):
+              _m_pop_queue_parser_occurrences(_pop_queue_parser_occurrences),
+              _m_push_queue_parser_occurrences(_push_queue_parser_occurrences),
+              _m_pop_queue_render_occurrences(_pop_queue_render_occurrences),
+              _m_push_queue_render_occurrences(_push_queue_render_occurrences),
+              _m_pop_queue_parser_container(_pop_queue_parser_parser),
+              _m_push_queue_parser_container(_push_queue_render_parser),
+              _m_pop_queue_render_container(_pop_queue_render_parser)
+              {
+
+              }
 
 
 /*
@@ -130,7 +113,12 @@ void FCore::thr_containers_manager(){
  * containing the occurrences
  */
 void FCore::thr_occurrences_manager(){
+
+
+
+
     //The occurrences manager waits for messages from the parser or the renderer
+    /*
     std::unique_lock<std::mutex> lock(m_occurrences_manager_mutex);
     m_occurrences_manager_cond.wait(lock, [this](){ 
                                                  return !( m_parser_occurrences.empty() 
@@ -142,13 +130,12 @@ void FCore::thr_occurrences_manager(){
     //any message received from the parser is added to the memory then sent to the parser
     if( !m_parser_occurrences.empty() ){
         FMessages<FOccurrence> msg = *(m_parser_occurrences.try_pop());
-        /*
-          The content is a shared_ptr<FOccurrence>
-        */
+        
         std::pair<int, int> key = std::make_pair( std::static_pointer_cast< FOccurrence >(msg.getContent())->getPatternId(), 
                                                   std::static_pointer_cast< FOccurrence >(msg.getContent())->getId() 
                                                 );
-        m_occurrences.at(key.first)->insert(key.second, std::static_pointer_cast<FOccurrence>(msg.getContent() ));
+        std::pair<int, std::shared_ptr<FOccurrence> > my_pair = std::make_pair(key.second, msg.getContent());
+        m_occurrences.at(key.first)->insert( my_pair );
 
         FMessages<FOccurrence> msg_send( OCCURRENCE, msg.getContent() );
         m_occurrences_renderer.push( msg_send );
@@ -170,7 +157,10 @@ void FCore::thr_occurrences_manager(){
             m_occurrences_parser.push( msg_send );
         }
     }
+    */
 }
+
+
 
 /*
  * Thread that will get messages from parser,
@@ -206,7 +196,10 @@ void FCore::thr_messages_handler_parser(){
                 case(PATTERN):
                     {
                     //insert the pattern in m_patterns
-                    m_patterns.insert( msg->getContent()->getId(), std::static_pointer_cast<FPattern>( msg->getContent() ) );
+                    m_patterns.insert( std::pair<int, std::shared_ptr<FPattern> >(msg->getContent()->getId(), 
+                                                                                  std::static_pointer_cast<FPattern>( msg->getContent() ) 
+                                                                                  ) 
+                                     );
                     break;
                     }
                 case(OCCURRENCE):
@@ -337,8 +330,8 @@ void  FCore::check_memory(){
     }
    
     if(m_containers.size() > MAX_SIZE){
-        auto it = m_occurrences.begin();
-        while( !m_occurrences.erase( it ) ){
+        auto it = m_containers.begin();
+        while( !m_containers.erase( it ) ){
             ++it;
         }   
     }

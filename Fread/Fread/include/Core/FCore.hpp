@@ -53,10 +53,13 @@ DEALINGS IN THE SOFTWARE.
 
 class FCore {
 public:
-    FCore( std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_parser, 
-           std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _push_queue_parser,
-           std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _pop_queue_renderer,
-           std::shared_ptr< FQueue< FMessages< FOccurrence > > > _push_queue_renderer
+    FCore( std::shared_ptr< FQueue< FMessages< FOccurrence > > > _pop_queue_parser_occurrences, 
+           std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _push_queue_parser_occurrences,
+           std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _pop_queue_renderer_occurrences,
+           std::shared_ptr< FQueue< FMessages< FOccurrence > > > _push_queue_renderer_occurrences,
+           std::shared_ptr< FQueue< FMessages< std::vector<patternStruct> > > > _pop_queue_parser_container,
+           std::shared_ptr< FQueue< FMessages< patternStruct > > > _push_queue_parser_container,
+           std::shared_ptr< FQueue< FMessages< patternStruct> > > _pop_queue_render_container
            );
     
     FCore(const FCore& orig);
@@ -74,23 +77,13 @@ public:
 private:
     bool awake; //is in awake phase
     
-    std::shared_ptr<FQueue< FMessages< FObjet > > > _m_pop_queue_parser;
-    std::shared_ptr<FQueue< FMessages< std::pair<int,int> > > > _m_push_queue_parser;
-    std::shared_ptr<FQueue< FMessages< std::pair<int,int> > > > _m_pop_queue_renderer;
-    std::shared_ptr<FQueue< FMessages< FOccurrence > > > _m_push_queue_renderer;
-     
-    /*
-     TODO
-     */
-    FQueue< FMessages< std::pair<int,int> > > m_renderer_occurrences;
-    FQueue< FMessages< std::pair<int,int> > > m_renderer_containers;
-    FQueue< FMessages< FOccurrence > > m_occurrences_renderer;
-    FQueue< FMessages< FObjet > > m_containers_renderer;
-    
-    FQueue< FMessages< FOccurrence > > m_parser_occurrences;
-    FQueue< FMessages< FObjet > > m_parser_containers;
-    FQueue< FMessages< std::pair<int,int> > > m_occurrences_parser;
-    FQueue< FMessages< std::pair<int,int> > > m_containers_parser;
+    std::shared_ptr< FQueue< FMessages< FOccurrence > > > _pop_queue_parser_occurrences;
+    std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _push_queue_parser_occurrences;
+    std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _pop_queue_render_occurrences;
+    std::shared_ptr< FQueue< FMessages< FOccurrence > > > _push_queue_render_occurrences;
+    std::shared_ptr< FQueue< FMessages< std::vector<patternStruct> > > > _pop_queue_parser_container;
+    std::shared_ptr< FQueue< FMessages< patternStruct > > > _push_queue_parser_container;
+    std::shared_ptr< FQueue< FMessages< patternStruct> > > _pop_queue_render_container;
     
     /*
      TODO
