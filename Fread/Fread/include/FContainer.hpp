@@ -33,23 +33,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class FContainer : FObjet
 {
 private :
-	int id;
-        std::string alias;
-        std::pair<float,float> timestamp_begin_end;
+    int id;
+    std::string alias;
+    std::pair<float,float> timestamp_begin_end;
 
-protected:
+
+public:
+    FContainer();
+    FContainer( int const& c_id, std::string c_alias, std::pair<float, float> t_begin_and_end);
+    ~FContainer();
+
     void setId(int const& newId) {id = newId;}
     void setAlias(int const& newAlias) {alias = newAlias;}
     void setTimestamp(float const& t_begin, float const& t_end) {timestamp_begin_end = std::pair<float,float>(t_begin, t_end);}
 
-public:
-	FContainer();
-        FContainer( int const& c_id, std::string c_alias, std::pair<float, float> t_begin_and_end);
-	~FContainer();
-
-	int getId() const {return id;}
-        std::string getAlias() const {return alias;}
-        float getBeginTime() const {return timestamp_begin_end.first;}
-        float getEndTime() const {return timestamp_begin_end.second;}
+    int getId() const {return id;}
+    std::string getAlias() const {return alias;}
+    float getBeginTime() const {return timestamp_begin_end.first;}
+    float getEndTime() const {return timestamp_begin_end.second;}
 };
 
