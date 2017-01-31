@@ -55,7 +55,7 @@ class FCore {
 public:
     FCore( std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_parser, 
            std::shared_ptr< FQueue< FMessages< FObjet > > > _push_queue_parser,
-           std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_renderer,
+           std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _pop_queue_renderer,
            std::shared_ptr< FQueue< FMessages< FObjet > > > _push_queue_renderer
            );
     
@@ -70,14 +70,14 @@ private:
     
     std::shared_ptr<FQueue< FMessages< FObjet > > > _m_pop_queue_parser;
     std::shared_ptr<FQueue< FMessages< FObjet > > > _m_push_queue_parser;
-    std::shared_ptr<FQueue< FMessages< FObjet > > > _m_pop_queue_renderer;
+    std::shared_ptr<FQueue< FMessages< std::pair<int,int> > > > _m_pop_queue_renderer;
     std::shared_ptr<FQueue< FMessages< FObjet > > > _m_push_queue_renderer;
      
     /*
      TODO
      */
-    FQueue< FMessages< FObjet > > m_renderer_occurrences;
-    FQueue< FMessages< FObjet > > m_renderer_containers;
+    FQueue< FMessages< std::pair<int,int> > > m_renderer_occurrences;
+    FQueue< FMessages< std::pair<int,int> > > m_renderer_containers;
     FQueue< FMessages< FObjet > > m_occurrences_renderer;
     FQueue< FMessages< FObjet > > m_containers_renderer;
     
