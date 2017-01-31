@@ -35,7 +35,7 @@ DEALINGS IN THE SOFTWARE.
 #include "Core/FCore.hpp"
 
 FCore::FCore( std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_parser, 
-              std::shared_ptr< FQueue< FMessages< FObjet > > > _push_queue_parser,
+              std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _push_queue_parser,
               std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _pop_queue_renderer,
               std::shared_ptr< FQueue< FMessages< FObjet > > > _push_queue_renderer):
               _m_pop_queue_parser(_pop_queue_parser),
@@ -76,7 +76,12 @@ FCore::FCore( std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_parser
  * the part of the memory 
  * containing the containers
  */
+
 void FCore::thr_containers_manager(){
+
+
+
+    /*
     //The container manager waits for messages from the parser or the renderer
     std::unique_lock<std::mutex> lock(m_containers_manager_mutex);
     m_containers_manager_cond.wait(lock, [this](){ 
@@ -92,7 +97,7 @@ void FCore::thr_containers_manager(){
         
         /*
           The content is a shared_ptr<FContainer>
-        */
+        
         std::shared_ptr<FContainer> container_to_insert = std::static_pointer_cast< FContainer >( msg.getContent() );
         m_containers.insert( msg.getContent()->getId() , container_to_insert ) ;
 
@@ -115,7 +120,9 @@ void FCore::thr_containers_manager(){
             m_containers_parser.push( msg_send );
         }
     }
+    */
 }
+
 
 /*
  * Thread that will manage  
@@ -360,4 +367,20 @@ void FCore::thr_FCore(){
     while(1){
         check_memory();
     } 
+}
+
+static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b){
+    std::vector<std::shared_ptr<FContainer> > result;
+    for(unsigned int i = a; i <= b; ++i){
+        result.push_back( m_containers[i] );
+    }
+    return result;
+}
+
+static std::vector<std::shared_ptr<FPattern> > view_patterns(int a, int b){
+    std::vector<std::shared_ptr<FContainer> > result;
+    for(unsigned int i = a; i <= b; ++i){
+        result.push_back( m_patterns[i] );
+    }
+    return result;
 }
