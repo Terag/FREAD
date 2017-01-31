@@ -82,9 +82,9 @@ private:
     std::shared_ptr< FQueue< std::shared_ptr< std::pair<int,int> > > > _m_push_queue_parser_occurrences;
     std::shared_ptr< FQueue< std::shared_ptr< std::pair<int,int> > > > _m_pop_queue_render_occurrences;
     std::shared_ptr< FQueue< std::shared_ptr< FOccurrence > > > _m_push_queue_render_occurrences;
-    std::shared_ptr< FQueue< std::shared_ptr< std::vector<patternStruct> > > > _m_pop_queue_parser_container;
-    std::shared_ptr< FQueue< std::shared_ptr< patternStruct > > > _m_push_queue_parser_container;
-    std::shared_ptr< FQueue< std::shared_ptr< patternStruct> > > _m_pop_queue_render_container;
+    std::shared_ptr< FQueue< std::shared_ptr< std::vector<patternStruct> > > > _m_pop_queue_parser_containers;
+    std::shared_ptr< FQueue< std::shared_ptr< patternStruct > > > _m_push_queue_parser_containers;
+    std::shared_ptr< FQueue< std::shared_ptr< patternStruct> > > _m_pop_queue_render_containers;
     std::shared_ptr< FQueue< std::shared_ptr< patternStruct> > > _m_push_queue_render_containers;
     
     /*
