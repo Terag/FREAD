@@ -31,6 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "FOccurrence.hpp"
 
 #include "FObjet.hpp"
+#include "FOccurrence.hpp"
 
 class FPattern : FObjet
 {
@@ -44,10 +45,11 @@ public:
 	//std::vector<FOccurrence> getOccurrences();
 
 private :
+
 	int m_id;
 	std::vector<eventType> m_eventTypes;
 	std::vector<float> m_meanTimeStamps;
-	//std::vector<FOccurrence> m_occurrences;
+	std::vector<FOccurrence> m_occurrences;
 
 };
 bool operator==(FPattern A, FPattern B);
