@@ -377,10 +377,6 @@ static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b){
     return result;
 }
 
-static std::vector<std::shared_ptr<FPattern> > view_patterns(int a, int b){
-    std::vector<std::shared_ptr<FContainer> > result;
-    for(unsigned int i = a; i <= b; ++i){
-        result.push_back( m_patterns[i] );
-    }
-    return result;
+static std::shared_ptr<FPattern>  view_patterns(int a){
+    return m_patterns[a];
 }
