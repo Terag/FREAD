@@ -95,6 +95,8 @@ private:
     void thr_containers_manager();
     void thr_occurrences_manager();
 
+    float getContainerContent(int id, float t1);
+    bool isContainerFull(int id, float t1, float t2);
 
     //check_memory ensure that the two map are not too big
     void check_memory();

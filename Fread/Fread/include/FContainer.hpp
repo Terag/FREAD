@@ -29,6 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <utility>
 #include <string>
+#include <vector>
 #include "FObjet.hpp"
 
 struct patternStruct {
@@ -57,6 +58,7 @@ public:
   void add_pattern(patternStruct element);
   void remove_pattern();
   bool contains( patternStruct element );
+  std::vector<patternStruct> getPatternList() const { return patternList; }
 
 	int getId() const {return id;}
         std::string getAlias() const {return alias;}
