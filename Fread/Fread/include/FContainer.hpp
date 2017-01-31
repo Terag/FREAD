@@ -32,7 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "FObjet.hpp"
 
 struct patternStruct {
-  int PatternId;
+  int id;
   float tBegin;
   float tEnd;
 };
@@ -42,7 +42,7 @@ class FContainer : public FObjet
 private :
 	int id;
   std::string alias;
-  std::pair<int> timelapse;
+  std::pair<int, int> timelapse;
 
   std::vector<patternStruct> patternList;
 
@@ -54,8 +54,9 @@ public:
         FContainer( int const& c_id, std::string c_alias);
 	~FContainer();
 
-  push_back(patternList element);
-  pop_back();
+  void add_pattern(patternStruct element);
+  void remove_pattern();
+  bool contains( patternStruct element );
 
 	int getId() const {return id;}
         std::string getAlias() const {return alias;}

@@ -47,9 +47,6 @@ public:
 
     FQueue(const FQueue& other)=delete;
     FQueue& operator=(const FQueue& other)=delete;
-
-    void setOtherCondition(std::shared_ptr<std::mutex> _mutex, 
-                           std::shared_ptr<std::condition_variable> _condition_variable);
     
     std::shared_ptr<T> try_pop();
     
@@ -71,9 +68,7 @@ private:
     
     std::mutex m_mutex_mine;
     std::condition_variable m_data_cond_mine;
-    
-    std::shared_ptr< std::mutex > _m_mutex_other;
-    std::shared_ptr< std::condition_variable > _m_data_cond_other;
+
 };
 
 #include "../src/FQueue.tpp"
