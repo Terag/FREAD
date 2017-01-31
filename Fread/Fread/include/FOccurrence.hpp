@@ -30,7 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include<vector>
 #include "FObjet.hpp"
 
-class FOccurrence : FObjet
+class FOccurrence : public FObjet
 {
 public:
 	FOccurrence();

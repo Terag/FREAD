@@ -32,7 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "FObjet.hpp"
 #include "FOccurrence.hpp"
 
-class FContainer : FObjet
+class FContainer : public FObjet
 {
 private :
 	int id;
