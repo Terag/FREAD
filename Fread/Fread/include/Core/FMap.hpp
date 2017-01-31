@@ -50,7 +50,7 @@ public:
     std::shared_ptr<T> at(const K& k);
     void insert(K key, std::shared_ptr<T> element);
     void insert( std::pair<K,std::shared_ptr<T> > );
-    bool erase( typename std::map<K, T>::iterator it);
+    bool erase();
     
     bool contains(T element);
     bool contains(K key);
@@ -59,13 +59,13 @@ public:
     
     typename std::map<K, T>::iterator begin();
     
-    unsigned int size() const;
+    unsigned int size();
     bool empty();
     
-    std::map<K, std::shared_ptr<T> > getMap() const;
-    std::mutex getMutex() const;
+    std::map<K, std::shared_ptr<T> > getMap();
+    std::mutex getMutex();
 
-    void operator()(const FMap<K, T>&) const;
+    void operator()(const FMap<K, T>&);
     
 private:
     std::map<K, std::shared_ptr<T> > m_map;
