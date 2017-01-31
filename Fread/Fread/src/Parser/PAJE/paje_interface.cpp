@@ -8,7 +8,9 @@
 #include <vector>
 #include <stdexcept>
 #include <bitset>
+#include <memory>
 
+#include "Parser/parser.hpp"
 #include "Parser/PAJE/paje_interface.hpp"
 #include "Parser/PAJE/Reader_MainTrace.hpp"
 #include "Parser/statesConfig.hpp"
@@ -70,7 +72,7 @@ namespace paje
     
     static StatesConfig stateConf;
     
-    static vector<Container_Reader> containers;
+    static vector<Container_Buffer> containers;
     
     // Table of functions use when a pajeEvent is read
     static PAJE_EventFunc eventFunctions[25] = { //PajeTypeDef events
@@ -161,6 +163,9 @@ namespace paje
             }
             cout << " - state : " << it.state << endl;
         }
+        for(auto& it : containers) {
+            cout << "Container " << it.id << " name : " << it.alias << " t1=" << to_string((float)it.beginTime) << " t2=" << to_string((float)it.endTime) << endl;
+        }
         
         return true;
     }
@@ -186,6 +191,10 @@ namespace paje
                 cout << "function call : " << eventDefs[id].id << " ";
                 eventFunctions[eventDefs[id].name](line, eventDefs[id]);
             } 
+            else if(eventDefs[id].name == PEF_PajeCreateContainer || eventDefs[id].name == PEF_PajeDestroyContainer || eventDefs[id].name == PEF_IncludeContainerFile){
+                cout << "function call : " << eventDefs[id].id << " ";
+                eventFunctions[eventDefs[id].name](line, eventDefs[id]);
+            }
             else if (eventDefs[id].id == -1){
                 cout << "error, eventDef not set : " << eventDefs[id].id << endl;
             }
@@ -251,12 +260,15 @@ namespace paje
 /*----------Container events-----------*/
     
     void CreateContainer(std::string line, EventDef const& event){
-        int spacePos;
-        int id = container_render.size();
-        string sub_str;
+        cout << "CreateContainer function called with : " << event.name_str << " " << event.name << endl;
         
-        containers.push_back(FContainer());
-        containers[id].setId(id);
+        int spacePos;
+        int id = containers.size();
+        float time;
+        string sub_str;
+        containers.push_back(Container_Buffer());
+       
+        containers[id].id = id;
         
         spacePos = line.find(' ');
         
@@ -264,20 +276,20 @@ namespace paje
             sub_str = getNextParamInLine(line, spacePos);
             switch(it.name){
                 case FN_NAME :
-                    cout << "No name in pattern at the moment" << endl;
+                    containers[id].name = sub_str;
                     break;
                 case FN_TYPE :
-                    cout << "No Type in container at the moment" << endl;
+                    cout << "Type define to define" << endl;
                     break;
                 case FN_ALIAS :
-                    containers[id].setAlias(sub_str);
+                    containers[id].alias = sub_str;
                     break;
                 case FN_CONTAINER :
-                    cout << "No Container in container at the moment" << endl;
+                    cout << "Parent define to define" << endl;
                     break;
                 case FN_TIME :
-                    float time = stof(sub_str);
-                    containers[id].setBeginTime(time);
+                    time = stof(sub_str);
+                    containers[id].beginTime = time;
                     break;
                 default :
                     cout << "error, unexpected FieldName : " << it.name << endl;
@@ -287,10 +299,11 @@ namespace paje
     }
     
     void DestroyContainer(std::string line, EventDef const& event){
+        cout << "DestroyContainer function called with : " << event.name_str << " " << event.name << endl;
         int spacePos;
-        int id;
+        int id = -1;
         string sub_str;
-        string alias;
+        string name;
         float time;
         
         spacePos = line.find(' ');
@@ -299,25 +312,30 @@ namespace paje
             sub_str = getNextParamInLine(line, spacePos);
             switch(it.name){
                 case FN_NAME :
-                    cout << "No name in pattern at the moment" << endl;
+                    name = sub_str;
+                    for(auto& ct : containers) {
+                        if(ct.name == sub_str) {
+                            id = ct.id;
+                            break;
+                        }
+                    }
                     break;
                 case FN_TYPE :
-                    cout << "No Type in container at the moment" << endl;
-                    break;
-                case FN_ALIAS :
-                    containers[id].setAlias(sub_str);
-                    break;
-                case FN_CONTAINER :
-                    cout << "No Container in container at the moment" << endl;
+                    cout << "Type define to define" << endl;
                     break;
                 case FN_TIME :
-                    float time = stof(sub_str);
-                    containers[id].setBeginTime(time);
+                    time = stof(sub_str);
                     break;
                 default :
                     cout << "error, unexpected FieldName : " << it.name << endl;
                     break;
             }
+        }
+        
+        if(id > -1) {
+            containers[id].endTime = time;
+        } else {
+            cout << "error, undefined container name : " << name << endl;
         }
     }
     
@@ -376,7 +394,43 @@ namespace paje
     }
     
     void IncludeContainerFile(std::string line, EventDef const& event){
+        cout << "IncludeContainerFile function called with : " << event.name_str << " " << event.name << endl;
+        int spacePos;
+        int id = -1;
+        string sub_str;
+        string path;
         
+        for (auto it : event.fieldDefs){
+            sub_str = getNextParamInLine(line, spacePos);
+            switch(it.name){
+                case FN_NAME :
+                    for(auto& ct : containers) {
+                        if(ct.name == sub_str) {
+                            id = ct.id;
+                            break;
+                        }
+                    }
+                    break;
+                case FN_TYPE :
+                    cout << "Type define to define" << endl;
+                    break;
+                case FN_FILE :
+                    path = sub_str;
+                    break;
+                default :
+                    cout << "error, unexpected FieldName : " << it.name << endl;
+                    break;
+            }
+        }
+        
+        containers[id].reader = make_unique<Container_Reader>(containers[id].alias, id);
+        containers[id].reader->setBeginTime(containers[id].beginTime);
+        containers[id].reader->setEndTime(containers[id].endTime);
+        containers[id].reader->init(path, id);
+        containers[id].reader->checkIfReady();
+        
+        cout << "Send container : " << containers[id].alias << " to core" << endl;
+        sendContainerToCore(FContainer(id, containers[id].alias, pair<float,float>(containers[id].beginTime,containers[id].endTime)));
     }
     
     void IncludePatternFile(std::string line, EventDef const& event){

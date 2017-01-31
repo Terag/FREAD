@@ -64,7 +64,7 @@ void FQueue<T>::push(T new_value)
     
     m_data_cond_mine.notify_one();
     
-    _m_data_cond_other->notify_one();
+    //_m_data_cond_other->notify_one();
 }
 
 template<typename T>

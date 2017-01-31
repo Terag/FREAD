@@ -29,6 +29,12 @@
 
 using namespace std;
 
+static Parser parser;
+
+Parser::Parser() 
+{    
+}
+
 Parser::Parser(std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue) :
     initDone(false), pop_queue(popQueue), push_queue(pushQueue)
 {
@@ -65,7 +71,7 @@ Parser::~Parser() {
 void parser_thread(std::string path, std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue) {
     cout << "thread launched" << endl;
     
-    Parser parser(popQueue, pushQueue);
+    parser = Parser(popQueue, pushQueue);
     
     parser.awake(path);
     
@@ -74,3 +80,14 @@ void parser_thread(std::string path, std::shared_ptr<FQueue<msg_coreToParser>> p
     parser.listenAndProcess();
 }
 
+void sendContainerToCore(FContainer const& container) {
+    
+}
+
+void sendPatternToCore(FPattern const& pattern) {
+    
+}
+
+void sendOccurenceToCore(FOccurrence const& occurrence) {
+    
+}

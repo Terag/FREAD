@@ -22,6 +22,10 @@ Reader_MainTrace.o: Reader_MainTrace.cpp
 Container_Reader.o: Container_Reader.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
 	@echo "    	CXX        $@"
+	
+Pattern_Reader.o: Pattern_Reader.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
+	@echo "    	CXX        $@"
 
 ## Quand vous rajoutez un fichier, suivre le même format que ci dessous pour chaque fichier :
 ##Cible: dépendances

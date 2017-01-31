@@ -29,9 +29,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "Parser/statesConfig.hpp"
 #include "FColor.hpp"
+#include "Container_Reader.hpp"
 
 #include <vector>
 #include <string>
+#include <memory>
 
 namespace paje
 {
@@ -150,6 +152,20 @@ namespace paje
         PajeEventFunction name;
         std::vector<FieldDef> fieldDefs;
     } EventDef;
+    
+    typedef struct {
+        int id;
+        std::string name;
+        std::string alias;
+        PajeTypeDef type;
+        float beginTime;
+        float endTime;
+        std::unique_ptr<Container_Reader> reader;
+    } Container_Buffer;
+    
+    typedef struct Pattern_Buffer{
+        int id;
+    };
 }
 
 #endif /* PAJE_TYPEDEFS_HPP */
