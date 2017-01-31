@@ -35,8 +35,10 @@ DEALINGS IN THE SOFTWARE.
 #ifndef FMAP_HPP
 #define FMAP_HPP
 
-#include <unordered_map>
+#include <map>
 #include <memory>
+
+template<typename K, typename T> class FMap;
 
 template<typename K, typename T>
 class FMap {
@@ -47,23 +49,25 @@ public:
     
     std::shared_ptr<T> at(const K& k);
     void insert(K key, std::shared_ptr<T> element);
-    bool erase( std::unordered_map<K, T>::iterator it);
+    bool erase( typename std::map<K, T>::iterator it);
     
     bool contains(T element);
     bool contains(K key);
     
     std::shared_ptr<T> operator[](const K key);
     
-    typename std::unordered_map<K, T>::iterator begin();
+    typename std::map<K, T>::iterator begin();
     
     unsigned int size() const;
     bool empty();
     
-    std::unordered_map<K, std::shared_ptr<T> > getMap() const;
+    std::map<K, std::shared_ptr<T> > getMap() const;
     std::mutex getMutex() const;
+
+    void operator()(const FMap<K, T>&) const;
     
 private:
-    std::unordered_map<K, std::shared_ptr<T> > m_unordered_map;
+    std::map<K, std::shared_ptr<T> > m_map;
     std::mutex m_mutex; 
 };
 

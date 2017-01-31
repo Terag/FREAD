@@ -33,12 +33,16 @@
 
 #include "Render/container_render.hpp"
 
+using namespace std;
+
 occurrence_render::occurrence_render() :
 id(0)
 {
 }
 
-occurrence_render::occurrence_render(int id, int containerID, int containerOffset, int offsetX, int offsetY, float scale, std::vector<float> timeStamps, std::vector<eventType> eventTypes ):
+occurrence_render::occurrence_render(int id, int containerID, int containerOffsetY, 
+                                     int containerOffsetX, int eventOffsetY, int windowContainerOffsetY, float scale, 
+                                     vector<float> timeStamps, vector<eventType> eventTypes ):
 id(id), timeStamps(timeStamps), eventTypes(eventTypes)
 {
     for (unsigned int i = 0; i < eventTypes.size() ; i++)
@@ -46,7 +50,7 @@ id(id), timeStamps(timeStamps), eventTypes(eventTypes)
             float tStart = timeStamps[2*i];
             float tEnd = timeStamps[2*i+1];
             eventType type = eventTypes[i];
-            event_render nouvelEvent = event_render(type, tStart, tEnd, scale, containerOffset, containerID, offsetY, offsetX);
+            event_render nouvelEvent = event_render(type, tStart, tEnd, scale, containerOffsetY, containerID, eventOffsetY, containerOffsetX, windowContainerOffsetY);
             events.push_back(nouvelEvent);
         } 
 }

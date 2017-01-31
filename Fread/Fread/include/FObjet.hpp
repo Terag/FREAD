@@ -31,14 +31,18 @@ DEALINGS IN THE SOFTWARE.
  *
  * Created on 28 janvier 2017, 17:10
  */
+#pragma once 
+
+enum eventType {
+    WAIT, COMPUTE, SEND
+};
 
 class FObjet
 {
 public:
-	FObjet(){}
-	virtual ~FObjet(){}
-
-	virtual int getId() const = 0;
+	FObjet();
+	virtual ~FObjet();
+	virtual int getId() const;
 
 private :
 

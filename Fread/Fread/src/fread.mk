@@ -31,6 +31,9 @@ FContainer.o: FContainer.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
 	@echo "    	CXX      $@"
 
+FObjet.o: FObjet.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
+	@echo "    	CXX      $@"
 .PHONY: clean
 clean:
 	@$(RM) -f $(OBJ)
