@@ -76,20 +76,20 @@ private:
     /*
      TODO
      */
-    FQueue< FMessages< FOccurrence > > m_renderer_occurrences;
-    FQueue< FMessages< FContainer > > m_renderer_containers;
-    FQueue< FMessages< FOccurrence > > m_occurrences_renderer;
-    FQueue< FMessages< FContainer > > m_containers_renderer;
+    FQueue< FMessages< FObjet > > m_renderer_occurrences;
+    FQueue< FMessages< FObjet > > m_renderer_containers;
+    FQueue< FMessages< FObjet > > m_occurrences_renderer;
+    FQueue< FMessages< FObjet > > m_containers_renderer;
     
-    FQueue< FMessages< FOccurrence > > m_parser_occurrences;
-    FQueue< FMessages< FContainer > > m_parser_containers;
-    FQueue< FMessages< FOccurrence > > m_occurrences_parser;
-    FQueue< FMessages< FContainer > > m_containers_parser;
+    FQueue< FMessages< FObjet > > m_parser_occurrences;
+    FQueue< FMessages< FObjet > > m_parser_containers;
+    FQueue< FMessages< FObjet > > m_occurrences_parser;
+    FQueue< FMessages< FObjet > > m_containers_parser;
     
     /*
      TODO
      */
-    FMap< std::pair<int, int>, FOccurrence > m_occurrences;
+    FMap< int, FMap< int,  FOccurrence > > m_occurrences;
     FMap<int, FContainer > m_containers;
     FMap<int, FPattern > m_patterns;
     
