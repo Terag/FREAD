@@ -68,6 +68,9 @@ public:
     static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b);
     static std::shared_ptr<FPattern> view_patterns(int a);
     
+    static FMap<int, FContainer > m_containers;
+    static FMap<int, FPattern > m_patterns;
+
 private:
     bool awake; //is in awake phase
     
@@ -93,8 +96,6 @@ private:
      TODO
      */
     FMap< int, FMap< int,  FOccurrence > > m_occurrences;
-    static FMap<int, FContainer > m_containers;
-    static FMap<int, FPattern > m_patterns;
     
     void thr_containers_manager();
     void thr_occurrences_manager();
