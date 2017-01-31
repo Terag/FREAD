@@ -37,8 +37,6 @@ DEALINGS IN THE SOFTWARE.
 
 #include <memory>
 
-template<typename T> class FMessages;
-
 enum HEADER{
      START,
      INITDONE,
@@ -47,14 +45,11 @@ enum HEADER{
      PATTERN,
      OCCURRENCE
 };
-
-template<typename T>
 class FMessages{
 public:
     
     //give a content to the constructor it will make a shared_ptr of it
-    FMessages(HEADER header, T content);
-    FMessages(HEADER header, std::shared_ptr<T> content);
+    FMessages(HEADER header, std::shared_ptr<void> content);
     FMessages(const FMessages& orig);
     
     FMessages& operator=(const FMessages&);
@@ -64,15 +59,13 @@ public:
     HEADER getHeader();
     void setHeader(HEADER var);
     
-    std::shared_ptr<T> getContent();
-    void setContent(T var);
+    std::shared_ptr<void> getContent();
+    void setContent(std::shared_ptr<void> var);
     
 private:
     HEADER m_header;
-    std::shared_ptr<T> m_content;
+    std::shared_ptr<void> m_content;
 };
-
-#include "../src/FMessages.tpp"
 
 #endif //FMESSAGES_HPP
 
