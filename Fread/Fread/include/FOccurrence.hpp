@@ -40,14 +40,14 @@ public:
 	std::vector<float> getTimeStamps();
 	bool getIsLoaded();
 	int getPatternId();
-        int getContainerId();
+    int getContainerId();
 
 private :
 	int m_id;
 	std::vector<float> m_timeStamps;
 	bool m_isLoaded;
 	int m_patternId;
-        int m_containerId;
+    int m_containerId;
 };
 
 bool operator==(FOccurrence A, FOccurrence B);

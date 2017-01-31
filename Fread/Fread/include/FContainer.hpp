@@ -30,14 +30,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <utility>
 #include <string>
 #include "FObjet.hpp"
-#include "FOccurrence.hpp"
+
+struct patternStruct {
+  int PatternId;
+  float tBegin;
+  float tEnd;
+};
 
 class FContainer : public FObjet
 {
 private :
 	int id;
-        std::string alias;
-        std::vector<int> listeIdOccurrences;
+  std::string alias;
+  std::pair<int> timelapse;
+
+  std::vector<patternStruct> patternList;
 
 protected:
     void setId(int const& newId) {id = newId;}
@@ -47,9 +54,12 @@ public:
         FContainer( int const& c_id, std::string c_alias);
 	~FContainer();
 
+  push_back(patternList element);
+  pop_back();
+
 	int getId() const {return id;}
         std::string getAlias() const {return alias;}
-        std::vector<int> getListeIdOccurrences() {return listeIdOccurrences;}
+        std::pair<int, int> getTimelapse() {return timelapse;}
 };
 
 #endif //FCONTAINER_HPP

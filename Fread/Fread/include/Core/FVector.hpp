@@ -25,54 +25,46 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
 
-/* 
- * File:   FMap.hpp
- * Author: guillem
- *
- * Created on 28 janvier 2017, 11:42
- */
 
-#ifndef FMAP_HPP
-#define FMAP_HPP
+#ifndef FVECTOR_HPP
+#define FVECTOR_HPP
 
-#include <map>
+#include <vector>
 #include <memory>
 
-template<typename K, typename T> class FMap;
+template<typename T> class FVector;
 
-template<typename K, typename T>
-class FMap {
+template<typename T>
+class FVector {
 public:
-    FMap();
-    FMap(const FMap& orig);
-    ~FMap();
+    FVector();
+    FVector(const FVector& orig);
+    ~FVector();
     
-    std::shared_ptr<T> at(const K& k);
-    void insert(K key, std::shared_ptr<T> element);
-    void insert( std::pair<K,std::shared_ptr<T> > );
-    bool erase( typename std::map<K, T>::iterator it);
+    std::shared_ptr<T> at(const int& index);
+    void insert(int index, std::shared_ptr<T> element);
+    bool erase( typename std::vector<T>::iterator it);
     
     bool contains(T element);
-    bool contains(K key);
     
-    std::shared_ptr<T> operator[](const K key);
+    std::shared_ptr<T> operator[](const int index);
     
-    typename std::map<K, T>::iterator begin();
+    typename std::vector<T>::iterator begin();
     
     unsigned int size() const;
     bool empty();
     
-    std::map<K, std::shared_ptr<T> > getMap() const;
+    std::vector<std::shared_ptr<T> > getVector() const;
     std::mutex getMutex() const;
 
-    void operator()(const FMap<K, T>&) const;
+    void operator()(const FVector<T>&) const;
     
 private:
-    std::map<K, std::shared_ptr<T> > m_map;
+    std::vector< std::shared_ptr<T> > m_vector;
     std::mutex m_mutex; 
 };
 
-#include "../../src/Core/FMap.tpp"
+#include "../../src/Core/FVector.tpp"
 
-#endif /* FMAP_HPP */
+#endif /* FVECTOR_HPP */
 
