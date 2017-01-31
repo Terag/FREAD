@@ -34,7 +34,7 @@ DEALINGS IN THE SOFTWARE.
 
 template<typename T>
 FMessages<T>::FMessages(HEADER header, 
-                        T& content):
+                        T content):
                         m_header(header),
                         m_content(std::make_shared<T>(content))
 {    
