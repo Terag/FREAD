@@ -66,7 +66,7 @@ public:
     void thr_FCore();
 
     static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b);
-    static std::vector<std::shared_ptr<FPattern> > view_patterns(int a, int b);
+    static std::shared_ptr<FPattern> view_patterns(int a);
     
 private:
     bool awake; //is in awake phase
