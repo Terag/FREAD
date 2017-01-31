@@ -88,14 +88,14 @@ void FCore::thr_containers_manager(){
     
     //any message received from the parser is added to the memory then sent to the parser
     if( !m_parser_containers.empty() ){
-        FMessages<FObjet> msg = (FContainer)*(m_parser_containers.try_pop());
+        FMessages<FObjet> msg( CONTAINER, *(m_parser_containers.try_pop())  );
         
         /*
           The content is a shared_ptr<FContainer>
         */
-        m_containers.insert( msg.getContent()->getId() , (Fcontainer)( msg.getContent() ) );
+        m_containers.insert( msg.getContent()->getId() , msg.getContent() ) ;
 
-        FMessages<FObjet> msg_send( CONTAINER, msg.getContent() );
+        FMessages<FObjet> msg_send( CONTAINER, *(msg.getContent()) );
         m_containers_renderer.push( msg_send );
         
     }else if( !m_renderer_containers.empty() ){
@@ -131,7 +131,7 @@ void FCore::thr_occurrences_manager(){
     
     //any message received from the parser is added to the memory then sent to the parser
     if( !m_parser_occurrences.empty() ){
-        <FObjet> msg = m_parser_occurrences.try_pop();
+        FMessages<FObjet> msg = *(m_parser_occurrences.try_pop());
         /*
           The content is a shared_ptr<FOccurrence>
         */
@@ -175,26 +175,32 @@ void FCore::thr_messages_handler_parser(){
     lock.unlock();
 
     if( !_m_pop_queue_parser->empty() ){ //Messages received from parser
-        FMessages<FObjet> msg = _m_pop_queue_parser->try_pop();
+        FMessages<FObjet> msg = *(_m_pop_queue_parser->try_pop());
         if(msg != NULL){
-            switch(msg->getHeader){
+            switch(msg.getHeader() ){
                 case(INITDONE):
                     awake = false;
                 break;
                 case(CONTAINER):
+                    {
                     //send the container to the containers manager
                     FMessages<FObjet> msg_send(CONTAINER, msg.getContent() );
                     m_parser_containers.push(msg_send);
-                break;
+                    break;
+                    }
                 case(PATTERN):
+                    {
                     //insert the pattern in m_patterns
-                    m_patterns.insert( msg.getContent().getId(), (FPattern)msg.getContent() );
-                break;
+                    m_patterns.insert( msg.getContent()->getId(), msg.getContent() );
+                    break;
+                    }
                 case(OCCURRENCE):
+                    {
                     //send the occurrence to the occurrences manager
                     FMessages<FObjet> msg_send(OCCURRENCE, msg.getContent() );
                     m_parser_containers.push(msg_send);
-                break;
+                    break;
+                    }
                 default:
                     std::cout << "error : bad header" << std::endl;
                 break;
@@ -202,7 +208,7 @@ void FCore::thr_messages_handler_parser(){
         }
         
     }else if( !m_containers_parser.empty() ){ //Messages received from Containers thread
-        FMessages<FObjet> msg = m_containers_parser.try_pop();
+        FMessages<FObjet> msg = *(m_containers_parser.try_pop());
         if(msg != NULL){
             if(msg.getHeader() == CONTAINER){
                 /*
@@ -250,27 +256,33 @@ void FCore::thr_messages_handler_renderer(){
     lock.unlock();
 
     if( !_m_pop_queue_renderer->empty() ){ //Messages received from renderer
-        FMessages<FObjet> msg = _m_pop_queue_renderer->try_pop();
+        FMessages<FObjet> msg = *(_m_pop_queue_renderer->try_pop());
         if(msg != NULL){
-            switch(msg->getHeader){
+            switch(msg.getHeader()){
                 case(CONTAINER):
+                    {
                     //send the container to the containers manager
                     FMessages<FObjet> msg_send(CONTAINER, msg.getContent() );
                     m_renderer_containers.push(msg_send);
-                break;
+                    break;
+                    }
                 case(OCCURRENCE):
+                    {
                     //send the occurrence to the occurrences manager
                     FMessages<FObjet> msg_send(OCCURRENCE, msg.getContent() );
                     m_renderer_containers.push(msg_send);
-                break;
+                    break;
+                    }
                 default:
+                    {
                     std::cout << "error : bad header" << std::endl;
-                break;
+                    break;
+                    }
             } 
         }
         
     }else if( !m_containers_renderer.empty() ){ //Messages received from Containers thread
-        FMessages<FObjet> msg = m_containers_renderer.try_pop();
+        FMessages<FObjet> msg = *(m_containers_renderer.try_pop());
         if(msg != NULL){
             if(msg.getHeader() == CONTAINER){
                 /*
@@ -285,7 +297,7 @@ void FCore::thr_messages_handler_renderer(){
         }
         
     }else if ( !m_occurrences_renderer.empty() ){ // Messages received from Occurrences thread
-        FMessages<FObjet> msg = m_containers_renderer.try_pop();
+        FMessages<FObjet> msg = *(m_containers_renderer.try_pop());
         if(msg != NULL){
             if(msg.getHeader() == OCCURRENCE){
                 /*
