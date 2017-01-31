@@ -51,7 +51,7 @@ namespace paje
         
     public:
 
-        Container_Reader(std::string const& c_alias);
+        Container_Reader(std::string const& c_alias, int c_id);
         
         void init(std::string const& path, int const& c_id);
         FContainer start();
