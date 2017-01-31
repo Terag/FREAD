@@ -37,18 +37,13 @@ enum eventType {
     WAIT, COMPUTE, SEND
 };
 
-#ifndef FOBJET_HPP
-#define FOBJET_HPP
-
 class FObjet
 {
 public:
-	FObjet(){}
-	virtual ~FObjet(){}
+	FObjet();
+	virtual ~FObjet();
 	virtual int getId() const;
 
 private :
 
 };
-
-#endif //FOBJET_HPP

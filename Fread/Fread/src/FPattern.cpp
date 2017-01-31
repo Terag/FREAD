@@ -26,10 +26,10 @@ std::vector<float> FPattern::getMeanTimeStamps()
     return m_meanTimeStamps;
 }
 
-std::vector<FOccurrence> FPattern::getOccurrences() 
+/* std::vector<FOccurrence> FPattern::getOccurrences() 
 {
     return m_occurrences;
-}
+} */
 
 bool operator==(FPattern A, FPattern B)
 {
