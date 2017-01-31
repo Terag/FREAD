@@ -27,7 +27,7 @@ using namespace std;
 /*
  * Parser main function test
  */
-/*int main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
     if(argc != 2){
         std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
@@ -46,24 +46,25 @@ using namespace std;
     
     thread parserThread(parser_thread, path, coreToParserQueue, parserToCoreQueue);
     
-    sleep(5);
+    sleep(2);
     msg_coreToParser msg;
     msg.header = H_START;
     msg.content = make_shared<string>("Start");
+    cout << "try send" << endl;
     coreToParserQueue->push(msg);
-    
+    cout << "msg sended" << endl;
     shared_ptr<msg_parserToCore> str_msg = parserToCoreQueue->wait_and_pop();
     cout << *(str_msg->content) << endl;
     
     parserThread.join();
     
     return 0;
-}*/
+}
 
 /*
  * Render main function test
  */
-int main(void)
+/*int main(void)
 {
  sf::ContextSettings settings;
  settings.antialiasingLevel = 8;
@@ -149,7 +150,7 @@ int main(void)
     }
     
     return 0;
-}
+}*/
 
 /*
  * FQueue main function test

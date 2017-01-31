@@ -68,7 +68,9 @@ namespace paje
         void setBeginTime(float const& t_begin) {timestamps_begin_end.first = t_begin;}
         void setEndTime(float const& t_end) {timestamps_begin_end.second = t_end;}
         
-        void checkIfReady(); //Verify if container_reader has all attributes defined to be use
+        //Verify if container_reader has all attributes defined to be use
+        void checkIfReady();
+        //Return ready boolean value
         bool isReadyToRead() const {return readyToRead;}
         
         std::vector<std::string> getLinesBetweenTwoTimes(float const& t1, float const& t2);

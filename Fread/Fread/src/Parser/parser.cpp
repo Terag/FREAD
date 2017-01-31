@@ -42,6 +42,7 @@ void Parser::awake(const std::string& path) {
 void Parser::start() {
     auto msg = *(pop_queue->wait_and_pop());
     if(msg.header == H_START){
+        cout << "go parse" << endl;
         initDone = PARSER::start();
     } else {
         cout << "wrong start message : " << *msg.content << endl;
