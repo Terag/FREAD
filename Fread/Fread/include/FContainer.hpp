@@ -24,17 +24,20 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#pragma once
+#ifndef FCONTAINER_HPP
+#define FCONTAINER_HPP
 
 #include <utility>
 #include <string>
 #include "FObjet.hpp"
+#include "FOccurrence.hpp"
 
 class FContainer : FObjet
 {
 private :
     int id;
     std::string alias;
+    std::vector<int> listeIdOccurrences;
     std::pair<float,float> timestamp_begin_end;
 
 
@@ -46,10 +49,13 @@ public:
     void setId(int const& newId) {id = newId;}
     void setAlias(int const& newAlias) {alias = newAlias;}
     void setTimestamp(float const& t_begin, float const& t_end) {timestamp_begin_end = std::pair<float,float>(t_begin, t_end);}
+    std::vector<int> getListeIdOccurrences() {return listeIdOccurrences;}
 
     int getId() const {return id;}
     std::string getAlias() const {return alias;}
     float getBeginTime() const {return timestamp_begin_end.first;}
     float getEndTime() const {return timestamp_begin_end.second;}
+
 };
 
+#endif //FCONTAINER_HPP

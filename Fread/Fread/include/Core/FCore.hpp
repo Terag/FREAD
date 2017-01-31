@@ -45,9 +45,8 @@ DEALINGS IN THE SOFTWARE.
 
 #include "FQueue.hpp" //template
 #include "FMessages.hpp" //template
-#include "FMap.hpp" //template
+#include "Core/FMap.hpp" //template
 #include "FThread_guard.hpp"
-#include "FObjet.hpp"
 #include "FOccurrence.hpp"
 #include "FPattern.hpp"
 #include "FContainer.hpp"
@@ -55,8 +54,8 @@ DEALINGS IN THE SOFTWARE.
 class FCore {
 public:
     FCore( std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_parser, 
-           std::shared_ptr< FQueue< FMessages< FObjet > > > _push_queue_parser,
-           std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_renderer,
+           std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _push_queue_parser,
+           std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _pop_queue_renderer,
            std::shared_ptr< FQueue< FMessages< FObjet > > > _push_queue_renderer
            );
     
@@ -65,52 +64,57 @@ public:
     virtual ~FCore();
     
     void thr_FCore();
+
+    static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b);
+    static std::shared_ptr<FPattern> view_patterns(int a);
     
+    static FMap<int, FContainer > m_containers;
+    static FMap<int, FPattern > m_patterns;
+
 private:
     bool awake; //is in awake phase
     
     std::shared_ptr<FQueue< FMessages< FObjet > > > _m_pop_queue_parser;
-    std::shared_ptr<FQueue< FMessages< FObjet > > > _m_push_queue_parser;
-    std::shared_ptr<FQueue< FMessages< FObjet > > > _m_pop_queue_renderer;
+    std::shared_ptr<FQueue< FMessages< std::pair<int,int> > > > _m_push_queue_parser;
+    std::shared_ptr<FQueue< FMessages< std::pair<int,int> > > > _m_pop_queue_renderer;
     std::shared_ptr<FQueue< FMessages< FObjet > > > _m_push_queue_renderer;
      
     /*
      TODO
      */
-    FQueue< FMessages< FOccurrence > > m_renderer_occurrences;
-    FQueue< FMessages< FContainer > > m_renderer_container;
-    FQueue< FMessages< FOccurrence > > m_occurrences_renderer;
-    FQueue< FMessages< FContainer > > m_container_renderer;
+    FQueue< FMessages< std::pair<int,int> > > m_renderer_occurrences;
+    FQueue< FMessages< std::pair<int,int> > > m_renderer_containers;
+    FQueue< FMessages< FObjet > > m_occurrences_renderer;
+    FQueue< FMessages< FObjet > > m_containers_renderer;
     
-    FQueue< FMessages< FOccurrence > > m_parser_occurrences;
-    FQueue< FMessages< FContainer > > m_parser_container;
-    FQueue< FMessages< FOccurrence > > m_occurrences_parser;
-    FQueue< FMessages< FContainer > > m_container_parser;
+    FQueue< FMessages< FObjet > > m_parser_occurrences;
+    FQueue< FMessages< FObjet > > m_parser_containers;
+    FQueue< FMessages< std::pair<int,int> > > m_occurrences_parser;
+    FQueue< FMessages< std::pair<int,int> > > m_containers_parser;
     
     /*
      TODO
      */
-    FMap< std::pair<int, int>, FOccurrence > m_occurrences;
-    FMap<int, FContainer > m_container;
-    FMap<int, FPattern > m_patterns;
+    FMap< int, FMap< int,  FOccurrence > > m_occurrences;
     
-    void thr_container_manager();
+    void thr_containers_manager();
     void thr_occurrences_manager();
     
-    void thr_message_handler_parser();
-    void thr_message_handler_renderer();
+    void thr_messages_handler_parser();
+    void thr_messages_handler_renderer();
 
-	std::mutex message_parser_mutex;
-	std::condition_variable message_parser_cond:
 
-	std::mutex message_renderer_mutex;
-	std::condition_variable message_renderer_cond:
+	std::mutex m_message_parser_mutex;
+	std::condition_variable m_message_parser_cond;
 
-	std::mutex containers_manager_mutex;
-	std::condition_variable containers_manager_cond:
+	std::mutex m_message_renderer_mutex;
+	std::condition_variable m_message_renderer_cond;
 
-	std::mutex occurrences_manager_mutex;
-	std::condition_variable occurrences_manager_cond:
+	std::mutex m_containers_manager_mutex;
+	std::condition_variable m_containers_manager_cond;
+
+	std::mutex m_occurrences_manager_mutex;
+	std::condition_variable m_occurrences_manager_cond;
 
 
     //check_memory ensure that the two map are not too big
