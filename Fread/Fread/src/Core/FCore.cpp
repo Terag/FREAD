@@ -88,9 +88,24 @@ void FCore::thr_timestamps_manager(){
     if(msg_parser != NULL){
 
         patternStruct received = *( std::static_pointer_cast<patternStruct>(msg_render->getContent() ) );
-        /*
-        TODO
-        */
+
+        m_containers.at( received.contId )->add_pattern( received );
+
+        float beginTime = received.tBegin;
+        float endTime = received.tEnd;
+
+        if(isContainerFull(received.contId, beginTime, endTime)){
+            patternStruct pattern_send = {received.id, received.contId, beginTime, endTime};
+            std::shared_ptr<void> content_send = std::static_pointer_cast<void>( std::make_shared<patternStruct>(pattern_send) );
+            FMessages msg_send(TIMESTAMP, content_send); 
+            _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
+        }else{
+            float endTimeLoaded = getContainerContent( received.contId, beginTime );
+            patternStruct pattern_send = {received.id, received.contId, beginTime, endTimeLoaded};
+            std::shared_ptr<void> content_send = std::static_pointer_cast<void>( std::make_shared<patternStruct>(pattern_send) );
+            FMessages msg_send(TIMESTAMP, content_send); 
+            _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
+        }
     }
     
 }
@@ -105,23 +120,26 @@ void FCore::thr_occurrences_manager(){
 
     std::shared_ptr< FMessages > msg_render = *(m_render_occurrences.try_pop() );
     if(msg_render != NULL){
-                if( m_occurrences.contains( msg_render->first 
-                                    && m_occurrences.at( msg_render->first )->contains( msg_render->second ) ) 
+        std::pair<int, int> received = *( std::static_pointer_cast< std::pair<int, int> >(msg_render->getContent() ) );
+            if( m_occurrences.contains( received.first 
+                                    && m_occurrences.at( received.first )->contains( received.second ) ) 
                                   ){ /* is in memory */
-            std::shared_ptr<FOccurrence> msg_send = m_occurrences.at( msg_render->first )->at( msg_render->second );
-            _m_push_queue_render->push( msg_send );
+            std::shared_ptr<FOccurrence> occurrence_send = m_occurrences.at( received.first )->at( received.second );
+            std::shared_ptr<void> content_send = std::static_pointer_cast<void>( occurrence_send );
+            FMessages msg_send(OCCURRENCE, content_send);
+            _m_push_queue_render->push( std::make_shared<FMessages>(msg_send) );
         }else{ /* is not in memory */
             _m_push_queue_parser->push( msg_render );
         }
     }
 
-
     std::shared_ptr< FMessages > msg_parser = *(m_parser_occurrences.try_pop() );
     if(msg_parser != NULL){
-        std::pair<int, int> key = std::make_pair( msg_parser->getPatternId(), msg_parser->getId() );
-        std::pair<int, std::shared_ptr<FOccurrence> > my_pair = std::make_pair(key.second, msg_parser);
+        std::shared_ptr<FOccurrence> received = std::static_pointer_cast< FOccurrence >(msg_parser->getContent() ) ;
+        std::pair<int, int> key = std::make_pair( received->getPatternId(), received->getId() );
+        std::pair<int, std::shared_ptr<FOccurrence> > my_pair = std::make_pair(key.second, received);
         m_occurrences.at(key.first)->insert( my_pair );
-        _m_push_queue_render_occurrences->push(msg_parser);
+        _m_push_queue_render->push(msg_parser);
     }
 
 }

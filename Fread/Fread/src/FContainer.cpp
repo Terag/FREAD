@@ -16,6 +16,7 @@ FContainer::~FContainer()
 
 void FContainer::add_pattern(patternStruct element){
 	patternList.push_back(element);
+	std::sort(patternList.begin(), patternList.end(), [this](patternStruct a, patternStruct b){ return (a.tBegin < b.tBegin); } );
 }
 
 void FContainer::remove_pattern(){
