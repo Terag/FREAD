@@ -16,8 +16,8 @@
 Pattern_Reader::Pattern_Reader() {
 }
 
-Pattern_Reader::Pattern_Reader(const Pattern_Reader& orig) {
-}
+/* Pattern_Reader::Pattern_Reader(const Pattern_Reader& orig) {
+}*/
 
 Pattern_Reader::~Pattern_Reader() {
 }

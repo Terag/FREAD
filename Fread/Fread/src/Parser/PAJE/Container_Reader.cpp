@@ -29,13 +29,13 @@ namespace paje
         id = c_id;
     }
     
-    FContainer Container_Reader::start() {
+    /* FContainer Container_Reader::start() {
         
         readyToRead = true;
         //vector<int> listeId;
         //listeId.push_back(1);
         return FContainer(-1, "pouet", pair<float,float>(1.f, 1.f));
-    }    
+    } */   
     
     void Container_Reader::checkIfReady() {
         if(id > -1 &&

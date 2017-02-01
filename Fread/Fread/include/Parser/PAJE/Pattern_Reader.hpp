@@ -13,7 +13,8 @@
 
 #ifndef PATTERN_READER_HPP
 #define PATTERN_READER_HPP
-
+#include <string>
+#include <fstream>
 #include "FOccurrence.hpp"
 
 class Pattern_Reader {
@@ -31,8 +32,9 @@ class Pattern_Reader {
         
     public:
 
-        Pattern_Reader(std::string const& c_alias, int c_idl);
-        
+        //Pattern_Reader(std::string const& c_alias, int c_idl);
+        Pattern_Reader();
+        //Pattern_Reader(const Pattern_Reader& orig);
         void init(std::string const& path, int const& c_id, FOccurrence& occurrence);
 
         //getter
@@ -50,7 +52,7 @@ class Pattern_Reader {
         //Return ready boolean value
         bool isReadyToRead() const {return readyToRead;}
         
-        virtual ~Pattern_Reader_Reader();
+        virtual ~Pattern_Reader();
 
 };
 
