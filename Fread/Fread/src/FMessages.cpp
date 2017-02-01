@@ -42,6 +42,17 @@ FMessages::FMessages(HEADER header,
 
 }
 
+FMessages::FMessages(const FMessages& orig){
+    if(this != &orig){
+        m_header = orig.getHeader();
+        m_content = orig.getContent();    
+    }
+}
+
+FMessages::FMessages(){
+    
+}
+
 FMessages::~FMessages(){
 
 }
