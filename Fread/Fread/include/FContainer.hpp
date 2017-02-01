@@ -29,11 +29,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <utility>
 #include <string>
+#include <algorithm>
 #include <vector>
 #include "FObjet.hpp"
 
 struct patternStruct {
   int id;
+  int contId;
   float tBegin;
   float tEnd;
 };
