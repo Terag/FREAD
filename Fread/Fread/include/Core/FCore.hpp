@@ -63,13 +63,13 @@ public:
     
     virtual ~FCore();
     
-    void thr_FCore();
+    void start();
 
-    static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b);
-    static std::shared_ptr<FPattern> view_patterns(int a);
+    //static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b);
+    //static std::shared_ptr<FPattern> view_patterns(int a);
     
-    static FMap<int, FContainer > m_containers;
-    static FMap<int, FPattern > m_patterns;
+    FMap<int, FContainer > m_containers;
+    FMap<int, FPattern > m_patterns;
 
 private:
     bool awake; //is in awake phase
@@ -86,6 +86,8 @@ private:
 
     FMap< int, FMap< int,  FOccurrence > > m_occurrences;
     
+    void thr_FCore();
+
     void thr_timestamps_manager();
     void thr_occurrences_manager();
 
@@ -96,7 +98,7 @@ private:
     bool isContainerFull(int id, float t1, float t2);
 
     //check_memory ensure that the two map are not too big
-    void check_memory();
+    void thr_check_memory();
 };
 
 

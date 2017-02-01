@@ -42,11 +42,15 @@ FCore::FCore(   std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_q
               _m_pop_queue_parser(_pop_queue_parser),
               _m_push_queue_parser(_push_queue_parser),
               _m_pop_queue_render(_pop_queue_render),
-              _m_push_queue_render(_push_queue_render)
+              _m_push_queue_render(_push_queue_render),
+              awake(true)
               {
 
               }
 
+FCore::~FCore(){
+
+}
 
 /*
  * Thread that will manage  
@@ -55,6 +59,7 @@ FCore::FCore(   std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_q
  */
 
 void FCore::thr_timestamps_manager(){
+    std::cout << "in thr_timestamps_manager" << std::endl;
     while(1){
         std::shared_ptr<FMessages> msg_render = *(m_render_timestamps.try_pop() );
 
@@ -118,6 +123,7 @@ void FCore::thr_timestamps_manager(){
  * containing the occurrences
  */
 void FCore::thr_occurrences_manager(){
+    std::cout << "in thr_occurrences_manager" << std::endl;
     while(1){
         std::shared_ptr< FMessages > msg_render = *(m_render_occurrences.try_pop() );
         if(msg_render != NULL){
@@ -147,6 +153,7 @@ void FCore::thr_occurrences_manager(){
 
 
 void FCore::thr_messages_handler_parser(){
+    std::cout << "in message_handler_parser" << std::endl;
     while(1){
         std::shared_ptr<FMessages> msg = *(_m_pop_queue_parser->wait_and_pop());
         if(msg != NULL){
@@ -200,13 +207,14 @@ void FCore::thr_messages_handler_parser(){
 }
 
 void FCore::thr_messages_handler_render(){
+    std::cout << "in thr_messages_handler_render" << std::endl;
     while(1){
         std::shared_ptr<FMessages> msg = *(_m_pop_queue_render->wait_and_pop());
         if(msg != NULL){
             switch(msg->getHeader()){
                 case(START):
                 {
-
+                    awake = false;
                 break;
                 }
                 case(INITDONE):
@@ -244,7 +252,7 @@ void FCore::thr_messages_handler_render(){
 
 
 
-void  FCore::check_memory(){
+void  FCore::thr_check_memory(){
     if(m_occurrences.size() > MAX_SIZE){
         !m_occurrences.erase();
     }
@@ -252,28 +260,35 @@ void  FCore::check_memory(){
 
     
 void FCore::thr_FCore(){
-        
+    
+    std::cout << "start message_handler_parser_" << std::endl;
     std::thread message_handler_parser_( [this]{thr_messages_handler_parser();} );
     FThread_guard mhpp_g( message_handler_parser_ );
-        
+/*
+    std::cout << "start timestamps_manager_" << std::endl;
     std::thread timestamps_manager_( [this]{thr_timestamps_manager();} );
-    FThread_guard tm_g(container_manager_);
-        
+    FThread_guard tm_g(timestamps_manager_);
+
+    std::cout << "start occurrences_manager_" << std::endl;
     std::thread occurrences_manager_( [this]{thr_occurrences_manager();} );
     FThread_guard om_g(occurrences_manager_);
-
-    std::thread message_handler_renderer_( [this]{thr_messages_handler_renderer();} );
-    FThread_guard mhpr_g( message_handler_renderer_ );
-
+*/
+    std::cout << "start message_handler_render_" << std::endl;
+    std::thread message_handler_render_( [this]{thr_messages_handler_render();} );
+    FThread_guard mhpr_g( message_handler_render_ );
+/*
     while(awake){
             
     } 
-    
-    while(1){
-        check_memory();
-    } 
+   */ 
+    std::cout << "AWAKE DONE" <<std::endl;
+
+    std::cout << "start check_memory_" << std::endl;
+    std::thread check_memory_( [this]{thr_check_memory();} );
+    FThread_guard mem_g( check_memory_ );
 }
 
+/*
 static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b){
     std::vector<std::shared_ptr<FContainer> > result;
     for(int i = a; i <= b; ++i){
@@ -284,6 +299,16 @@ static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b){
 
 static std::shared_ptr<FPattern>  view_patterns(int a){
     return FCore::m_patterns[a];
+}
+*/
+
+void FCore::start(){
+    std::cout << "start FCore" << std::endl;
+
+    std::thread fCore_( [this]{thr_FCore();} );
+    fCore_.detach();
+
+    //FThread_guard fc_g( fCore_ );
 }
 
 
