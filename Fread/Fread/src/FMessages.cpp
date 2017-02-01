@@ -49,6 +49,10 @@ FMessages::FMessages(const FMessages& orig){
     }
 }
 
+FMessages::FMessages(){
+    
+}
+
 FMessages::~FMessages(){
 
 }

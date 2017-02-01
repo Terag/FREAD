@@ -34,6 +34,10 @@ DEALINGS IN THE SOFTWARE.
 
 #include "Core/FCore.hpp"
 
+FCore::FCore(){
+
+}
+
 FCore::FCore(   std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_parser, 
                 std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_parser,
                 std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_render,
@@ -61,8 +65,9 @@ FCore::~FCore(){
 void FCore::thr_timestamps_manager(){
     std::cout << "in thr_timestamps_manager" << std::endl;
     while(1){
-        std::shared_ptr<FMessages> msg_render = *(m_render_timestamps.try_pop() );
-
+        std::shared_ptr<FMessages> msg_render(new FMessages); 
+        msg_render =  *(m_render_timestamps.try_pop()) ;
+        std::cout << "COUNT timestamps" << msg_render.use_count() << std::endl;
         if(msg_render != NULL){
 
             patternStruct received = *( std::static_pointer_cast<patternStruct>(msg_render->getContent() ) );
@@ -125,7 +130,8 @@ void FCore::thr_timestamps_manager(){
 void FCore::thr_occurrences_manager(){
     std::cout << "in thr_occurrences_manager" << std::endl;
     while(1){
-        std::shared_ptr< FMessages > msg_render = *(m_render_occurrences.try_pop() );
+        std::shared_ptr< FMessages > msg_render( *(m_render_occurrences.try_pop()) );
+        std::cout << msg_render.use_count() << std::endl;
         if(msg_render != NULL){
             std::pair<int, int> received = *( std::static_pointer_cast< std::pair<int, int> >(msg_render->getContent() ) );
                 if( m_occurrences.contains( received.first 
@@ -264,7 +270,7 @@ void FCore::thr_FCore(){
     std::cout << "start message_handler_parser_" << std::endl;
     std::thread message_handler_parser_( [this]{thr_messages_handler_parser();} );
     FThread_guard mhpp_g( message_handler_parser_ );
-/*
+
     std::cout << "start timestamps_manager_" << std::endl;
     std::thread timestamps_manager_( [this]{thr_timestamps_manager();} );
     FThread_guard tm_g(timestamps_manager_);
@@ -272,7 +278,7 @@ void FCore::thr_FCore(){
     std::cout << "start occurrences_manager_" << std::endl;
     std::thread occurrences_manager_( [this]{thr_occurrences_manager();} );
     FThread_guard om_g(occurrences_manager_);
-*/
+
     std::cout << "start message_handler_render_" << std::endl;
     std::thread message_handler_render_( [this]{thr_messages_handler_render();} );
     FThread_guard mhpr_g( message_handler_render_ );
