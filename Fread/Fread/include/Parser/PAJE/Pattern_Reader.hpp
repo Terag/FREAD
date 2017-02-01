@@ -50,7 +50,7 @@ class Pattern_Reader {
         //Return ready boolean value
         bool isReadyToRead() const {return readyToRead;}
         
-        virtual ~Pattern_Reader_Reader();
+        virtual ~Pattern_Reader();
 
 };
 
