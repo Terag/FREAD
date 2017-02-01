@@ -34,6 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 struct patternStruct {
   int id;
+  int contId;
   float tBegin;
   float tEnd;
 };
