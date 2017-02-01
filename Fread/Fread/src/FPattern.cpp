@@ -6,6 +6,9 @@ FPattern::FPattern()
 {
 }
 
+FPattern::FPattern(int i):m_id(i){
+	
+}
 
 FPattern::~FPattern()
 {
