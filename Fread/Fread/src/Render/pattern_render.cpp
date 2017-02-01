@@ -90,7 +90,7 @@ void pattern_render::calculatePoints(float radius, int x, int y) {
      
     float radSub = 360.00 /sub; 
     
-        for (int i = 0; i < events.size()  ; i++)
+        for (unsigned int i = 0; i < events.size()  ; i++)
         {
             float tStart = meanTimeStamps[2*i];
             float tEnd = meanTimeStamps[2*i+1];

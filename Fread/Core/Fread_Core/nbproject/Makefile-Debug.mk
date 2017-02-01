@@ -41,6 +41,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/hashmap_wrapper_fullProtection.o \
 	${OBJECTDIR}/list_wrapper_fullProtection.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/message_handler.o \
 	${OBJECTDIR}/message_sender.o \
 	${OBJECTDIR}/structures.o \
 	${OBJECTDIR}/thread_guard.o \
@@ -101,6 +102,11 @@ ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/message_handler.o: message_handler.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/message_handler.o message_handler.cpp
 
 ${OBJECTDIR}/message_sender.o: message_sender.cpp 
 	${MKDIR} -p ${OBJECTDIR}

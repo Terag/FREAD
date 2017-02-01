@@ -40,10 +40,10 @@
 #include <SFML/Graphics/VertexArray.hpp>
 class pattern_render : public sf::Drawable {
 private : 
-int id; 
-std::vector<event_render> events; 
+int id;
 std::vector<float> meanTimeStamps;
 occurrence_render occurrences;
+std::vector<event_render> events;
 sf::VertexArray patternPoints;
 sf::VertexArray subDiv;
 
