@@ -30,6 +30,9 @@
 #include "Parser/parser_specifications.hpp"
 #include "FQueue.hpp"
 #include "FMessages_structure.hpp"
+#include "FContainer.hpp"
+#include "FPattern.hpp"
+#include "FOccurrence.hpp"
 
 #include <string>
 #include <memory>
@@ -45,6 +48,7 @@ private:
     std::string trace_path;
     
 public:
+    Parser();
     Parser(std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue);
     
     void awake(std::string const& path);
@@ -56,6 +60,12 @@ public:
 
 //Function uses to launch parser thread
 void parser_thread(std::string path, std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue);
+
+void sendContainerToCore(FContainer const& container);
+
+void sendPatternToCore(FPattern const& pattern);
+
+void sendOccurenceToCore(FOccurrence const& occurrence);
 
 #endif /* PARSER_HPP */
 

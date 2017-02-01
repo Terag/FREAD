@@ -19,8 +19,8 @@ using namespace std;
 
 namespace paje
 {
-    Container_Reader::Container_Reader(std::string const& c_alias) :
-        id(-1), alias(c_alias), timestamps_begin_end(-1.f, -1.f), readyToRead(false)
+    Container_Reader::Container_Reader(std::string const& c_alias, int c_id) :
+        id(c_id), alias(c_alias), timestamps_begin_end(-1.f, -1.f), readyToRead(false)
     {
     }
     
@@ -34,11 +34,13 @@ namespace paje
         readyToRead = true;
         //vector<int> listeId;
         //listeId.push_back(1);
-        return FContainer(-1, "pouet");
+        return FContainer(-1, "pouet", pair<float,float>(1.f, 1.f));
     }    
     
     void Container_Reader::checkIfReady() {
-        if(id > -1 ||
+        if(id > -1 &&
+           timestamps_begin_end.first > -1.f &&
+           timestamps_begin_end.second > 1.f &&
            alias != "") 
         {
             readyToRead = true;

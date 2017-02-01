@@ -50,9 +50,7 @@ int main(int argc, char* argv[])
     msg_coreToParser msg;
     msg.header = H_START;
     msg.content = make_shared<string>("Start");
-    cout << "try send" << endl;
     coreToParserQueue->push(msg);
-    cout << "msg sended" << endl;
     shared_ptr<msg_parserToCore> str_msg = parserToCoreQueue->wait_and_pop();
     cout << *(str_msg->content) << endl;
     
