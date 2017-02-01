@@ -67,12 +67,12 @@ namespace paje
     void initType(PajeTypeDef& newPJT);
     void defineType(string const& line, EventDef const& event, PajeType type);
     string getNextParamInLine(string const& line, int &spacePos);
-    
+
+/*---------------------------------Internal variables --------------------------------------------------------*/
+
     static Reader_MainTrace mainTrace;
     
     static StatesConfig stateConf;
-    
-    static vector<Container_Buffer> containers;
     
     // Table of functions use when a pajeEvent is read
     static PAJE_EventFunc eventFunctions[25] = { //PajeTypeDef events
@@ -111,12 +111,17 @@ namespace paje
                                                 EndPattern,             //PEF_PajeEndPattern
                                              };
    
-/*---------------------------------External functions --------------------------------------------------------*/
+    static vector<Container_Buffer> containers;
+    
+    static vector<Pattern_Buffer> patterns;
     
     static vector<EventDef> eventDefs;
     
     static vector<PajeTypeDef> typeDefs;
     
+    
+/*---------------------------------External functions --------------------------------------------------------*/
+
     void awake(string const& path){
         mainTrace.init(path);
         mainTrace.parseHeader(eventDefs);
