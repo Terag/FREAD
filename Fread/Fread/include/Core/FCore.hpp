@@ -73,9 +73,7 @@ public:
     FMap<int, FContainer > m_containers;
     FMap<int, FPattern > m_patterns;
 
-private:
-    bool awake; //is in awake phase
-    
+private:   
     std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _m_pop_queue_parser;
     std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _m_push_queue_parser;
     std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _m_pop_queue_render;
@@ -87,6 +85,8 @@ private:
     FQueue< std::shared_ptr< FMessages > > m_render_timestamps;
 
     FMap< int, FMap< int,  FOccurrence > > m_occurrences;
+
+    bool awake; //is in awake phase
     
     void thr_FCore();
 

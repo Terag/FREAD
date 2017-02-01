@@ -39,7 +39,8 @@ std::shared_ptr<T> FQueue<T>::try_pop()
     if(head.get()==tail)
     {
         std::cout << "Queue empty" << std::endl;
-        return std::shared_ptr<T>();
+        //return std::shared_ptr<T>();
+        return NULL;
     }
     const std::shared_ptr<T> res(head->data);
     const std::unique_ptr<node> old_head=std::move(head);

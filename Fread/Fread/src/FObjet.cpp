@@ -18,5 +18,5 @@ FObjet::~FObjet()
 
 int FObjet::getId() const 
 {
-    
+    return m_id;
 }

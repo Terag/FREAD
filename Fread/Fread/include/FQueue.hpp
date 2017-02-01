@@ -53,7 +53,7 @@ public:
     std::shared_ptr<T> wait_and_pop();
     
     void push(T new_value);
-    
+
     bool empty();
     
 private:

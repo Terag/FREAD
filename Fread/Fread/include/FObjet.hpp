@@ -45,5 +45,6 @@ public:
 	virtual int getId() const;
 
 private :
+	int m_id;
 
 };

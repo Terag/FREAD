@@ -38,7 +38,7 @@ using namespace std;
 
 void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _push_queue_core);
 
-int main(int argc, char* argv[]){
+int main(){
 
     std::cout << "start" << std::endl;
 
