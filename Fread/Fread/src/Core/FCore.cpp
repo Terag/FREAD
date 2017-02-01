@@ -65,11 +65,9 @@ FCore::~FCore(){
 void FCore::thr_timestamps_manager(){
     std::cout << "in thr_timestamps_manager" << std::endl;
     while(1){
-        std::shared_ptr<FMessages> msg_render(new FMessages); 
-        msg_render =  *(m_render_timestamps.try_pop()) ;
-        std::cout << "COUNT timestamps" << msg_render.use_count() << std::endl;
-        if(msg_render != NULL){
-
+        if(!m_render_timestamps.empty()){
+            auto msg_render =  *(m_render_timestamps.try_pop()) ;
+            std::cout << "COUNT timestamps from render" << msg_render.use_count() << std::endl;
             patternStruct received = *( std::static_pointer_cast<patternStruct>(msg_render->getContent() ) );
 
             float beginTime = received.tBegin;
@@ -95,10 +93,13 @@ void FCore::thr_timestamps_manager(){
             }
         }
 
-        std::shared_ptr< FMessages > msg_parser = *(m_parser_timestamps.try_pop() );
-        if(msg_parser != NULL){
+        
+        if(!m_parser_timestamps.empty()){
 
-            patternStruct received = *( std::static_pointer_cast<patternStruct>(msg_render->getContent() ) );
+            auto msg_parser = *(m_parser_timestamps.try_pop() );
+            std::cout << "COUNT timestamps from parser" << msg_parser.use_count() << std::endl;
+
+            patternStruct received = *( std::static_pointer_cast<patternStruct>(msg_parser->getContent() ) );
 
             m_containers.at( received.contId )->add_pattern( received );
 
@@ -130,9 +131,9 @@ void FCore::thr_timestamps_manager(){
 void FCore::thr_occurrences_manager(){
     std::cout << "in thr_occurrences_manager" << std::endl;
     while(1){
-        std::shared_ptr< FMessages > msg_render( *(m_render_occurrences.try_pop()) );
-        std::cout << msg_render.use_count() << std::endl;
-        if(msg_render != NULL){
+        if(!m_render_occurrences.empty()){
+            auto msg_render = *(m_render_occurrences.try_pop());
+            std::cout << "COUNT occurrences from render" << msg_render.use_count() << std::endl;
             std::pair<int, int> received = *( std::static_pointer_cast< std::pair<int, int> >(msg_render->getContent() ) );
                 if( m_occurrences.contains( received.first 
                                         && m_occurrences.at( received.first )->contains( received.second ) ) 
@@ -146,8 +147,11 @@ void FCore::thr_occurrences_manager(){
             }
         }
 
-        std::shared_ptr< FMessages > msg_parser = *(m_parser_occurrences.try_pop() );
-        if(msg_parser != NULL){
+        
+        if(!m_parser_occurrences.empty()){
+            std::shared_ptr< FMessages > msg_parser = *(m_parser_occurrences.try_pop() );
+            std::cout << "COUNT occurrences from parser" << msg_parser.use_count() << std::endl;
+
             std::shared_ptr<FOccurrence> received = std::static_pointer_cast< FOccurrence >(msg_parser->getContent() ) ;
             std::pair<int, int> key = std::make_pair( received->getPatternId(), received->getId() );
             std::pair<int, std::shared_ptr<FOccurrence> > my_pair = std::make_pair(key.second, received);
