@@ -5,11 +5,11 @@
 #include <thread>
 
 //Includes for other tests
-#include "Parser/statesConfig.hpp"
+//#include "Parser/statesConfig.hpp"
 
 //Includes for parser tests
-#include "Parser/parser.hpp"
-#include "FMessages_structure.hpp"
+//#include "Parser/parser.hpp"
+//#include "FMessages_structure.hpp"
 
 //Includes for graphics tests
 #include <SFML/Graphics.hpp>
@@ -22,12 +22,87 @@
 #include <memory>
 #include <unistd.h>
 
+//Includes for Core tests
+#include "Core/FCore.hpp"
+#include "Core/FMap.hpp"
+#include "FOccurrence.hpp"
+#include "FPattern.hpp"
+#include "FContainer.hpp"
+#include "FMessages.hpp"
+
 using namespace std;
+
+/*
+ * Core main function test
+ */
+
+void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _push_queue_core);
+
+int main(int argc, char* argv[]){
+
+    std::cout << "start" << std::endl;
+
+    std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_parser_core(new FQueue< std::shared_ptr<FMessages > >);
+    std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_core_parser(new FQueue< std::shared_ptr<FMessages > >) ;
+    std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_render_core(new FQueue< std::shared_ptr<FMessages > >) ;
+    std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_core_render(new FQueue< std::shared_ptr<FMessages > >) ;
+
+    std::cout << "creating fcore" << std::endl;
+
+    FCore fcore(_queue_parser_core,    
+                _queue_core_parser,
+                _queue_render_core,
+                _queue_core_render
+                );
+
+    std::cout << "starting fcore" << std::endl;
+
+    fcore.start();
+    std::cout << "starting false parser" << std::endl;
+    std::thread false_parser_thr_(false_parser, _queue_core_parser, _queue_parser_core);
+    //std::thread false_parser_thr_( [](std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_core_parser, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_parser_core){ false_parser(_queue_core_parser, _queue_parser_core); } );
+    FThread_guard lock2(false_parser_thr_);
+
+}
+
+void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core){
+    
+        std::cout << "in false parser " << std::endl;
+
+
+    FMessages init(INITDONE, NULL);
+    FMessages start(START, NULL);
+
+    _push_queue_core->push(std::make_shared<FMessages>(init));
+    _push_queue_core->push(std::make_shared<FMessages>(start));
+
+    for(int i = 0; i < 5; ++i){
+        FMessages pattern(PATTERN, std::shared_ptr<FPattern>(new FPattern(i)));
+        _push_queue_core->push(std::make_shared<FMessages>(pattern));
+    }
+
+
+    for(int i = 0; i < 5; ++i){
+        FMessages container(CONTAINER, std::shared_ptr<FContainer>(new FContainer(i)));
+        _push_queue_core->push(std::make_shared<FMessages>(container));
+    }
+
+
+    while(1){
+
+
+    }
+}
+
+
+
 
 /*
  * Parser main function test
  */
- int main(int argc, char* argv[])
+/*
+int main(int argc, char* argv[])
+>>>>>>> core
 {
     if(argc != 2){
         std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
@@ -57,8 +132,12 @@ using namespace std;
     parserThread.join();
     
     return 0;
+<<<<<<< HEAD
 } 
 
+=======
+}
+*/
 /*
  * Render main function test
  */

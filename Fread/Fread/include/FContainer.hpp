@@ -53,6 +53,7 @@ private :
 
 public:
     FContainer();
+    FContainer(int i);
     FContainer( int const& c_id, std::string c_alias, std::pair<float, float> t_begin_and_end);
     ~FContainer();
 
