@@ -8,26 +8,53 @@
 #include <vector>
 #include <stdexcept>
 #include <bitset>
+#include <memory>
 
+#include "Parser/parser.hpp"
 #include "Parser/PAJE/paje_interface.hpp"
 #include "Parser/PAJE/Reader_MainTrace.hpp"
+#include "Parser/statesConfig.hpp"
+#include "Parser/PAJE/Container_Reader.hpp"
 
 using namespace std;
 
 namespace paje
 {   
     typedef void (*PAJE_EventFunc)(std::string, const EventDef&);
-    
+        //PajeTypeDef events
     void DefineContainerType(std::string line, EventDef const& event);
     void DefineStateType(std::string line, EventDef const& event);
     void DefineEventType(std::string line, EventDef const& event);
     void DefineVariableType(std::string line, EventDef const& event);
     void DefineLinkType(std::string line, EventDef const& event);
     void DefineEntityValue(std::string line, EventDef const& event);
+        //PajePatternDef events
     void StartDefinePattern(std::string line, EventDef const& event);
     void EndDefinePattern(std::string line, EventDef const& event);
+        //Container events
+    void CreateContainer(std::string line, EventDef const& event);
+    void DestroyContainer(std::string line, EventDef const& event);
+        //State events
+    void SetState(std::string line, EventDef const& event);
+    void PushState(std::string line, EventDef const& event);
+    void PopState(std::string line, EventDef const& event);
+    void ResetState(std::string line, EventDef const& event);
+        //Event events
+    void NewEvent(std::string line, EventDef const& event);
+        //Variable events
+    void SetVariable(std::string line, EventDef const& event);
+    void AddVariable(std::string line, EventDef const& event);
+    void SubVariable(std::string line, EventDef const& event);
+        //Link events
+    void StartLink(std::string line, EventDef const& event);
+    void EndLink(std::string line, EventDef const& event);
+        //Include events
+    void IncludeFile(std::string line, EventDef const& event);
     void IncludeContainerFile(std::string line, EventDef const& event);
     void IncludePatternFile(std::string line, EventDef const& event);
+        //Pattern events
+    void StartPattern(std::string line, EventDef const& event);
+    void EndPattern(std::string line, EventDef const& event);
     
     void setName(PajeTypeDef& newPJT, string str, FieldType const& type);
     void setType(PajeTypeDef& newPJT, string str, FieldType const& type);
@@ -40,29 +67,68 @@ namespace paje
     void initType(PajeTypeDef& newPJT);
     void defineType(string const& line, EventDef const& event, PajeType type);
     string getNextParamInLine(string const& line, int &spacePos);
-    
+
+/*---------------------------------Internal variables --------------------------------------------------------*/
+
     static Reader_MainTrace mainTrace;
     
-    static PAJE_EventFunc eventFunctions[8] = { DefineContainerType,    //PEF_PajeDefineContainerType
+    static StatesConfig stateConf;
+    
+    // Table of functions use when a pajeEvent is read
+    static PAJE_EventFunc eventFunctions[25] = { //PajeTypeDef events
+                                                DefineContainerType,    //PEF_PajeDefineContainerType
                                                 DefineStateType,        //PEF_PajeDefineStateType
                                                 DefineEventType,        //PEF_PajeDefineEventType
                                                 DefineVariableType,     //PEF_PajeDefineVariableType
                                                 DefineLinkType,         //PEF_PajeDefineLinkType
                                                 DefineEntityValue,      //PEF_PajeDefineEntityValue
+                                                //PajePatternDef events
                                                 StartDefinePattern,     //PEF_PajeStartDefinePattern
-                                                EndDefinePattern        //PEF_PajeEndDefinePattern
+                                                EndDefinePattern,       //PEF_PajeEndDefinePattern
+                                                //Container events
+                                                CreateContainer,        //PEF_PajeCreateContainer
+                                                DestroyContainer,       //PEF_PajeDestroyContainer
+                                                //State events
+                                                SetState,               //PEF_PajeSetState
+                                                PushState,              //PEF_PajePushState
+                                                PopState,               //PEF_PajePopState
+                                                ResetState,             //PEF_PajeResetState
+                                                //Event events
+                                                NewEvent,               //PEF_PajeNewEvent
+                                                //Variable events
+                                                SetVariable,            //PEF_PajeSetVariable
+                                                AddVariable,            //PEF_PajeAddVariable
+                                                SubVariable,            //PEF_PajeSubVariable
+                                                //Link events
+                                                StartLink,              //PEF_PajeStartLink
+                                                EndLink,                //PEF_PajeEndLink
+                                                //Include events
+                                                IncludeFile,            //PEF_IncludeFile
+                                                IncludeContainerFile,   //PEF_IncludeContainerFile
+                                                IncludePatternFile,     //PEF_IncludePatternFile
+                                                //Pattern events
+                                                StartPattern,           //PEF_PajeStartPattern
+                                                EndPattern,             //PEF_PajeEndPattern
                                              };
+   
+    static vector<Container_Buffer> containers;
+    
+    static vector<Pattern_Buffer> patterns;
     
     static vector<EventDef> eventDefs;
     
     static vector<PajeTypeDef> typeDefs;
     
+    
+/*---------------------------------External functions --------------------------------------------------------*/
+
     void awake(string const& path){
         mainTrace.init(path);
         mainTrace.parseHeader(eventDefs);
+        stateConf.initEvents();
     }
     
-    void start() {
+    bool start() {
         parseMainTrace();
         for (auto it : typeDefs) {
             switch (it.nameType){
@@ -92,22 +158,28 @@ namespace paje
             }
             switch (it.aliasType){
                 case FT_STRING :
-                    cout << " - alias : " << it.alias_str << endl;
+                    cout << " - alias : " << it.alias_str;
                     break;
                 case FT_INT :
-                    cout <<" - alias : " << it.alias_int << endl;
+                    cout <<" - alias : " << it.alias_int;
                     break;
                 default :
                     cout << "error, unexpected type : " << it.typeType;
             }
+            cout << " - state : " << it.state << endl;
         }
+        for(auto& it : containers) {
+            cout << "Container " << it.id << " name : " << it.alias << " t1=" << to_string((float)it.beginTime) << " t2=" << to_string((float)it.endTime) << endl;
+        }
+        
+        return true;
     }
     
     void parseMainTrace(){
         int id;
         int fpos;
         string line;
-        
+        cout << "Begin parse main.trace" << endl;
         mainTrace.openStream();
         line = mainTrace.getLine();
         while(!mainTrace.end() && line != "!"){
@@ -124,17 +196,25 @@ namespace paje
                 cout << "function call : " << eventDefs[id].id << " ";
                 eventFunctions[eventDefs[id].name](line, eventDefs[id]);
             } 
+            else if(eventDefs[id].name == PEF_PajeCreateContainer || eventDefs[id].name == PEF_PajeDestroyContainer || eventDefs[id].name == PEF_IncludeContainerFile){
+                cout << "function call : " << eventDefs[id].id << " ";
+                eventFunctions[eventDefs[id].name](line, eventDefs[id]);
+            }
             else if (eventDefs[id].id == -1){
                 cout << "error, eventDef not set : " << eventDefs[id].id << endl;
             }
             else {
-                cout << "error, unknow function : " << eventDefs[id].name << " " << eventDefs[id].name_str << endl;
+                cout << "unexpected function during MainTrace parsing : " << eventDefs[id].name << " " << eventDefs[id].name_str << endl;
             }
             line = mainTrace.getLine();
         }
         
         mainTrace.closeStream();
     }
+    
+/*---------------------------------Paje Event functions --------------------------------------------------------*/
+
+/*-----------TypeDef events------------*/   
     
     void DefineContainerType(std::string line, EventDef const& event) {
         cout << "DefineContainerType function called with : " << event.name_str << " " << event.name << endl;
@@ -171,17 +251,208 @@ namespace paje
         
         defineType(line, event, PT_VALUE);
     }
+  
+/*----------PatternDef events----------*/
     
-    void initType(PajeTypeDef& newPJT){
-        newPJT.type = PT_UNDEFINED;
-        
-        newPJT.nameType = FT_UNDEFINED;
-        newPJT.typeType = FT_UNDEFINED;
-        newPJT.aliasType = FT_UNDEFINED;
-        newPJT.startContainerTypeType = FT_UNDEFINED;
-        newPJT.endContainerTypeType = FT_UNDEFINED;
-        newPJT.color = FColor();
+    void StartDefinePattern(std::string line, EventDef const& event) {
+        cout << "DefinePatternStart function called with : " << event.name_str << " " << event.name << endl;
     }
+    
+    void EndDefinePattern(std::string line, EventDef const& event) {
+        cout << "DefinePatternEnd function called with : " << event.name_str << " " << event.name << endl;
+    }
+    
+/*----------Container events-----------*/
+    
+    void CreateContainer(std::string line, EventDef const& event){
+        cout << "CreateContainer function called with : " << event.name_str << " " << event.name << endl;
+        
+        int spacePos;
+        int id = containers.size();
+        float time;
+        string sub_str;
+        containers.push_back(Container_Buffer());
+       
+        containers[id].id = id;
+        
+        spacePos = line.find(' ');
+        
+        for (auto it : event.fieldDefs){
+            sub_str = getNextParamInLine(line, spacePos);
+            switch(it.name){
+                case FN_NAME :
+                    containers[id].name = sub_str;
+                    break;
+                case FN_TYPE :
+                    cout << "Type define to define" << endl;
+                    break;
+                case FN_ALIAS :
+                    containers[id].alias = sub_str;
+                    break;
+                case FN_CONTAINER :
+                    cout << "Parent define to define" << endl;
+                    break;
+                case FN_TIME :
+                    time = stof(sub_str);
+                    containers[id].beginTime = time;
+                    break;
+                default :
+                    cout << "error, unexpected FieldName : " << it.name << endl;
+                    break;
+            }
+        }
+    }
+    
+    void DestroyContainer(std::string line, EventDef const& event){
+        cout << "DestroyContainer function called with : " << event.name_str << " " << event.name << endl;
+        int spacePos;
+        int id = -1;
+        string sub_str;
+        string name;
+        float time;
+        
+        spacePos = line.find(' ');
+        
+        for (auto it : event.fieldDefs){
+            sub_str = getNextParamInLine(line, spacePos);
+            switch(it.name){
+                case FN_NAME :
+                    name = sub_str;
+                    for(auto& ct : containers) {
+                        if(ct.name == sub_str) {
+                            id = ct.id;
+                            break;
+                        }
+                    }
+                    break;
+                case FN_TYPE :
+                    cout << "Type define to define" << endl;
+                    break;
+                case FN_TIME :
+                    time = stof(sub_str);
+                    break;
+                default :
+                    cout << "error, unexpected FieldName : " << it.name << endl;
+                    break;
+            }
+        }
+        
+        if(id > -1) {
+            containers[id].endTime = time;
+        } else {
+            cout << "error, undefined container name : " << name << endl;
+        }
+    }
+    
+/*----------State events---------------*/
+    
+    void SetState(std::string line, EventDef const& event){
+        
+    }
+    
+    void PushState(std::string line, EventDef const& event){
+        
+    }
+    
+    void PopState(std::string line, EventDef const& event){
+        
+    }
+    
+    void ResetState(std::string line, EventDef const& event) {
+        
+    }
+   
+/*----------Event events---------------*/
+    
+    void NewEvent(std::string line, EventDef const& event){
+        
+    }
+    
+/*----------Variable events------------*/
+    
+    void SetVariable(std::string line, EventDef const& event){
+        
+    }
+    
+    void AddVariable(std::string line, EventDef const& event){
+        
+    }
+    
+    void SubVariable(std::string line, EventDef const& event){
+        
+    }
+    
+/*----------Link events----------------*/
+    
+    void StartLink(std::string line, EventDef const& event){
+        
+    }
+    
+    void EndLink(std::string line, EventDef const& event){
+        
+    }
+    
+/*----------Include events-------------*/
+    
+    void IncludeFile(std::string line, EventDef const& event){
+        
+    }
+    
+    void IncludeContainerFile(std::string line, EventDef const& event){
+        cout << "IncludeContainerFile function called with : " << event.name_str << " " << event.name << endl;
+        int spacePos;
+        int id = -1;
+        string sub_str;
+        string path;
+        
+        for (auto it : event.fieldDefs){
+            sub_str = getNextParamInLine(line, spacePos);
+            switch(it.name){
+                case FN_NAME :
+                    for(auto& ct : containers) {
+                        if(ct.name == sub_str) {
+                            id = ct.id;
+                            break;
+                        }
+                    }
+                    break;
+                case FN_TYPE :
+                    cout << "Type define to define" << endl;
+                    break;
+                case FN_FILE :
+                    path = sub_str;
+                    break;
+                default :
+                    cout << "error, unexpected FieldName : " << it.name << endl;
+                    break;
+            }
+        }
+        
+        containers[id].reader = make_unique<Container_Reader>(containers[id].alias, id);
+        containers[id].reader->setBeginTime(containers[id].beginTime);
+        containers[id].reader->setEndTime(containers[id].endTime);
+        containers[id].reader->init(path, id);
+        containers[id].reader->checkIfReady();
+        
+        cout << "Send container : " << containers[id].alias << " to core" << endl;
+        sendContainerToCore(FContainer(id, containers[id].alias, pair<float,float>(containers[id].beginTime,containers[id].endTime)));
+    }
+    
+    void IncludePatternFile(std::string line, EventDef const& event){
+        
+    }
+    
+/*----------Pattern events-------------*/
+    
+    void StartPattern(std::string line, EventDef const& event){
+        
+    }
+    
+    void EndPattern(std::string line, EventDef const& event){
+        
+    }
+    
+/*---------------------------------Type definition functions ---------------------------------------------------*/
     
     void defineType(string const& line, EventDef const& event, PajeType type) {
         int spacePos;
@@ -219,6 +490,13 @@ namespace paje
                     break;
             }
         }
+        
+        if(newPajeType.nameType == FT_STRING && newPajeType.aliasType == FT_STRING){
+            newPajeType.state = stateConf.getState(newPajeType.name_str, newPajeType.alias_str);
+        } else {
+            newPajeType.state = STATE_UNKNOWN;
+        }
+        
         typeDefs.push_back(newPajeType);
     }
   
@@ -258,6 +536,18 @@ namespace paje
             cout << "error, " << spacePos << " is not a space position in line : " << line << endl;
             return "!";
         }
+    }
+    
+    void initType(PajeTypeDef& newPJT){
+        newPJT.type = PT_UNDEFINED;
+        
+        newPJT.nameType = FT_UNDEFINED;
+        newPJT.typeType = FT_UNDEFINED;
+        newPJT.aliasType = FT_UNDEFINED;
+        newPJT.startContainerTypeType = FT_UNDEFINED;
+        newPJT.endContainerTypeType = FT_UNDEFINED;
+        newPJT.color = FColor();
+        newPJT.state = STATE_UNKNOWN;
     }
     
     void setName(PajeTypeDef& newPJT, string str, FieldType const& type){
@@ -348,11 +638,4 @@ namespace paje
         newPJT.color = FColor(r, g, b, 255);
     }
     
-    void StartDefinePattern(std::string line, EventDef const& event) {
-        cout << "DefinePatternStart function called with : " << event.name_str << " " << event.name << endl;
-    }
-    
-    void EndDefinePattern(std::string line, EventDef const& event) {
-        cout << "DefinePatternEnd function called with : " << event.name_str << " " << event.name << endl;
-    }
 }

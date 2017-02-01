@@ -1,9 +1,15 @@
 //Generic Includes
 #include <iostream>
 #include <string>
+#include <memory>
+#include <thread>
+
+//Includes for other tests
+#include "Parser/statesConfig.hpp"
 
 //Includes for parser tests
-#include "Parser/PAJE/paje_interface.hpp"
+#include "Parser/parser.hpp"
+#include "FMessages_structure.hpp"
 
 //Includes for graphics tests
 #include <SFML/Graphics.hpp>
@@ -11,7 +17,7 @@
 #include "Render/container_render.hpp"
 #include "Render/pattern_render.hpp"
 //Includes for queue tests
-#include "queue.hpp"
+#include "FQueue.hpp"
 #include <thread>
 #include <memory>
 #include <unistd.h>
@@ -21,7 +27,7 @@ using namespace std;
 /*
  * Parser main function test
  */
-/*int main(int argc, char* argv[])
+ int main(int argc, char* argv[])
 {
     if(argc != 2){
         std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
@@ -35,28 +41,43 @@ using namespace std;
         return -1;
     }
     
-    paje::awake(path);
-    paje::start();
+    auto coreToParserQueue = make_shared<FQueue<msg_coreToParser>>();
+    auto parserToCoreQueue = make_shared<FQueue<msg_parserToCore>>();
+    
+    thread parserThread(parser_thread, path, coreToParserQueue, parserToCoreQueue);
+    
+    sleep(2);
+    msg_coreToParser msg;
+    msg.header = H_START;
+    msg.content = make_shared<string>("Start");
+    coreToParserQueue->push(msg);
+    shared_ptr<msg_parserToCore> str_msg = parserToCoreQueue->wait_and_pop();
+    cout << *(str_msg->content) << endl;
+    
+    parserThread.join();
     
     return 0;
-}*/
+} 
 
 /*
  * Render main function test
  */
-int main(void)
+/* int main(void)
 {
  sf::ContextSettings settings;
  settings.antialiasingLevel = 8;
 
-    sf::RenderWindow window(sf::VideoMode(1500, 1000), "Container and occurrences test",sf::Style::Default, settings);
+ int sizeX = 1500;
+ int sizeY = 1000;
+ 
+    sf::RenderWindow window(sf::VideoMode(sizeX, sizeY), "Container and occurrences test",sf::Style::Default, settings);
 
-    /* FBezierCurve bezierCurve1(sf::Vector2f(50,50), sf::Vector2f(350,350), 20, sf::Color::Cyan);
-    FBezierCurve bezierCurve2(sf::Vector2f(100,100), sf::Vector2f(300,300), 20, sf::Color::Magenta);
+    FBezierCurve bezierCurve1(sf::Vector2f(50,50), sf::Vector2f(350,350), 20, 2.f, sf::Color::Cyan);
+    FBezierCurve bezierCurve2(sf::Vector2f(100,100), sf::Vector2f(300,300), 20, 2.f, sf::Color::Magenta);
 
     bezierCurve1.calculate();
     bezierCurve2.calculate();
-    */
+    
     //timeStamps test vectors implementation
     std::vector<float> timeStamps1;
     timeStamps1.push_back(0.1124f);
@@ -96,15 +117,15 @@ int main(void)
     eventType3.push_back(SEND);
 
     //definition of the scalling we want
-    scale scale1(0.1847, 1100, 100, 3, 50, 30, 8);
+    scale scale1(0.1847, 3, (sizeX - 100), 100, 50, 30, 8, (sizeY*45)/100);
     
-    container_render container1(1,"coucou",scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY());
-    container_render container2(2,"ça va ?", scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY());
-    container_render container3(3,"Oui et toi ?", scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY());
+    container_render container1(1,"coucou",scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY(), scale1.getWindowContainerOffsetY());
+    container_render container2(2,"ça va ?", scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY(), scale1.getWindowContainerOffsetY());
+    container_render container3(3,"Oui et toi ?", scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY(), scale1.getWindowContainerOffsetY());
 
-    occurrence_render occurrence1(1, container1.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(), scale1.getScale(), timeStamps1, eventType1);
-    occurrence_render occurrence2(2, container2.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(), scale1.getScale(), timeStamps2, eventType2);
-    occurrence_render occurrence3(3, container3.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(), scale1.getScale(), timeStamps3, eventType3);
+    occurrence_render occurrence1(1, container1.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(),scale1.getWindowContainerOffsetY(), scale1.getScale(), timeStamps1, eventType1);
+    occurrence_render occurrence2(2, container2.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(),scale1.getWindowContainerOffsetY(), scale1.getScale(), timeStamps2, eventType2);
+    occurrence_render occurrence3(3, container3.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(),scale1.getWindowContainerOffsetY(), scale1.getScale(), timeStamps3, eventType3);
 
     container1.addOccurrence(occurrence1);
     container2.addOccurrence(occurrence2);
@@ -130,34 +151,34 @@ int main(void)
     }
     
     return 0;
-}
+}*/
 
 /*
- * Queue main function test
+ * FQueue main function test
  */
 
-/* void push_thread(Queue<string>* queue) {
+/*void push_thread(FQueue<string>* Fqueue) {
     for(int i=0; i<5; i++){
         string msg = "msg " + to_string(i);
-        queue->push(msg);
+        Fqueue->push(msg);
         cout << msg << " just pushed" << endl;
     }
     sleep(5);
     for(int i=5; i<10; i++){
         string msg = "msg " + to_string(i);
-        queue->push(msg);
+        Fqueue->push(msg);
         cout << msg << " just pushed" << endl;
         sleep(1);
     }
     string endMsg = "End";
-    queue->push(endMsg);
+    Fqueue->push(endMsg);
     cout << endMsg << " just pushed" << endl;
 }
 
-void pop_thread(Queue<string>* queue) {
+void pop_thread(FQueue<string>* Fqueue) {
     sleep(3);
     while(1) {
-        shared_ptr<string> string_ptr(queue->wait_and_pop());
+        shared_ptr<string> string_ptr(Fqueue->wait_and_pop());
         cout << *(string_ptr.get()) << " found" << endl;
         if(*(string_ptr.get()) == "End"){
             break;
@@ -167,12 +188,12 @@ void pop_thread(Queue<string>* queue) {
 
 int main(void){
     
-    Queue<string> testQueue;
-    cout << "queue has been created" << endl;
+    FQueue<string> testFQueue;
+    cout << "Fqueue has been created" << endl;
     
-    thread pusher(push_thread, &testQueue);
-    thread poper(pop_thread, &testQueue);
+    thread pusher(push_thread, &testFQueue);
+    thread poper(pop_thread, &testFQueue);
     
     pusher.join();
     poper.join();
-} */
+}*/

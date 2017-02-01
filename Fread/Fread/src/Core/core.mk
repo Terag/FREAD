@@ -1,11 +1,15 @@
 SRC = $(wildcard *.cpp)
 OBJ = $(SRC:.cpp=.o)
 
-core.a: $(OBJ)
-	@ar rcs $@ $(OBJ)
-	@echo "    	generated	core.a 	File"
-	@mv core.a $(OBJ_DIR)/
-	@echo "    	core.a move to $(OBJ_DIR)"
+core.so: $(OBJ)
+	@g++ -o $@ -shared -fPIC $(OBJ)
+	@echo "    	generated	core.so	File"
+	@mv core.so $(OBJ_DIR)/
+	@echo "    	core.so move to $(OBJ_DIR)"
+
+FCore.o: FCore.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $^
+	@echo "    	CXX        $@"
 
 ## Quand vous rajoutez un fichier, suivre le même format que ci dessous pour chaque fichier :
 ##Cible: dépendances
