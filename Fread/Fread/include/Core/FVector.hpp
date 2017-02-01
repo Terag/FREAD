@@ -25,53 +25,46 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef QUEUE_HPP
-#define QUEUE_HPP
 
+#ifndef FVECTOR_HPP
+#define FVECTOR_HPP
+
+#include <vector>
 #include <memory>
-#include <mutex>
-#include <iostream>
-#include <thread>
-#include <chrono>
-#include <condition_variable>
+
+template<typename T> class FVector;
 
 template<typename T>
-class FQueue
-{   
+class FVector {
 public:
-    FQueue():
-            head(new node),
-            tail(head.get())
-    {
-    }
-
-    FQueue(const FQueue& other)=delete;
-    FQueue& operator=(const FQueue& other)=delete;
+    FVector();
+    FVector(const FVector& orig);
+    ~FVector();
     
-    std::shared_ptr<T> try_pop();
+    std::shared_ptr<T> at(const int& index);
+    void insert(int index, std::shared_ptr<T> element);
+    bool erase( typename std::vector<T>::iterator it);
     
-    std::shared_ptr<T> wait_and_pop();
+    bool contains(T element);
     
-    void push(T new_value);
+    std::shared_ptr<T> operator[](const int index);
     
+    typename std::vector<T>::iterator begin();
+    
+    unsigned int size() const;
     bool empty();
     
-private:
-    struct node
-    {
-        std::shared_ptr<T> data;
-        std::unique_ptr<node> next;
-    };
-    
-    std::unique_ptr<node> head;
-    node* tail;
-    
-    std::mutex m_mutex_mine;
-    std::condition_variable m_data_cond_mine;
+    std::vector<std::shared_ptr<T> > getVector() const;
+    std::mutex getMutex() const;
 
+    void operator()(const FVector<T>&) const;
+    
+private:
+    std::vector< std::shared_ptr<T> > m_vector;
+    std::mutex m_mutex; 
 };
 
-#include "../src/FQueue.tpp"
+#include "../../src/Core/FVector.tpp"
 
-#endif /* QUEUE_HPP */
+#endif /* FVECTOR_HPP */
 

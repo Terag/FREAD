@@ -29,16 +29,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <utility>
 #include <string>
+#include <vector>
 #include "FObjet.hpp"
-#include "FOccurrence.hpp"
 
-class FContainer : FObjet
+struct patternStruct {
+  int id;
+  float tBegin;
+  float tEnd;
+};
+
+class FContainer : public FObjet
 {
 private :
+
     int id;
     std::string alias;
     std::vector<int> listeIdOccurrences;
     std::pair<float,float> timestamp_begin_end;
+    std::vector<patternStruct> patternList;
 
 
 public:
@@ -55,6 +63,13 @@ public:
     std::string getAlias() const {return alias;}
     float getBeginTime() const {return timestamp_begin_end.first;}
     float getEndTime() const {return timestamp_begin_end.second;}
+    std::pair<float, float> getTimelapse() {return timestamp_begin_end;}
+
+    void add_pattern(patternStruct element);
+    void remove_pattern();
+    bool contains( patternStruct element );
+    std::vector<patternStruct> getPatternList() const { return patternList; }
+
 
 };
 
