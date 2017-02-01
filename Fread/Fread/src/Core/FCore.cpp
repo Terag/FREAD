@@ -147,7 +147,7 @@ void FCore::thr_occurrences_manager(){
 
 void FCore::thr_messages_handler_parser(){
 
-    std::shared_ptr<FMessages> msg = _m_pop_queue_parser->wait_and_pop();
+    std::shared_ptr<FMessages> msg = *(_m_pop_queue_parser->wait_and_pop());
     if(msg != NULL){
         switch(msg->getHeader()){
             case(START):
@@ -163,23 +163,25 @@ void FCore::thr_messages_handler_parser(){
             case(CONTAINER):
             {
                 std::shared_ptr<FContainer> received = std::static_pointer_cast<FContainer>(msg->getContent());
-                m_containers.insert( received->getId() , received );
+                std::pair<int, std::shared_ptr<FContainer> > my_pair(received->getId() , received);
+                m_containers.insert( my_pair );
                 break;
             }
             case(PATTERN):
             {
                 std::shared_ptr<FPattern> received = std::static_pointer_cast<FPattern>(msg->getContent());
-                m_patterns.insert( received->getId(), received );
+                std::pair<int, std::shared_ptr<FPattern> > my_pair(received->getId() , received);
+                m_patterns.insert( my_pair );
                 break;
             }
             case(TIMESTAMP):
             {
-                m_queue_timestamps.push( msg );
+                m_parser_timestamps.push( msg );
                 break;
             }
             case(OCCURRENCE):
             {
-                m_queue_occurrences.push( msg );
+                m_parser_occurrences.push( msg );
                 break;
             }
             default:
@@ -191,9 +193,9 @@ void FCore::thr_messages_handler_parser(){
 
 }
 
-void FCore::thr_messages_handler_renderer(){
+void FCore::thr_messages_handler_render(){
 
-    std::shared_ptr<FMessages> msg = _m_pop_queue_render->wait_and_pop();
+    std::shared_ptr<FMessages> msg = *(_m_pop_queue_render->wait_and_pop());
     if(msg != NULL){
         switch(msg->getHeader()){
             case(START):
@@ -218,12 +220,12 @@ void FCore::thr_messages_handler_renderer(){
             }
             case(TIMESTAMP):
             {
-                m_queue_timestamps.push( msg );
+                m_render_timestamps.push( msg );
                 break;
             }
             case(OCCURRENCE):
             {
-                m_queue_occurrences.push( msg );
+                m_render_occurrences.push( msg );
                 break;
             }
             default:
@@ -254,7 +256,7 @@ void FCore::thr_FCore(){
     //std::thread message_handler_parser_( [this]{thr_messages_handler_parser();} );
     //FThread_guard mhpp_g( message_handler_parser_ );
         
-    std::thread container_manager_( [this]{thr_containers_manager();} );
+    std::thread container_manager_( [this]{thr_timestamps_manager();} );
     FThread_guard cm_g(container_manager_);
         
     std::thread occurrences_manager_( [this]{thr_occurrences_manager();} );

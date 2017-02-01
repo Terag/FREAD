@@ -84,21 +84,13 @@ private:
     FQueue< std::shared_ptr< FMessages > > m_render_occurrences;
     FQueue< std::shared_ptr< FMessages > > m_render_timestamps;
 
-/*
-    std::shared_ptr< FQueue< std::shared_ptr< FOccurrence > > > _m_pop_queue_parser_occurrences;
-    std::shared_ptr< FQueue< std::shared_ptr< std::pair<int,int> > > > _m_push_queue_parser_occurrences;
-    std::shared_ptr< FQueue< std::shared_ptr< std::pair<int,int> > > > _m_pop_queue_render_occurrences;
-    std::shared_ptr< FQueue< std::shared_ptr< FOccurrence > > > _m_push_queue_render_occurrences;
-    std::shared_ptr< FQueue< std::shared_ptr< std::vector<patternStruct> > > > _m_pop_queue_parser_containers;
-    std::shared_ptr< FQueue< std::shared_ptr< patternStruct > > > _m_push_queue_parser_containers;
-    std::shared_ptr< FQueue< std::shared_ptr< patternStruct> > > _m_pop_queue_render_containers;
-    std::shared_ptr< FQueue< std::shared_ptr< patternStruct> > > _m_push_queue_render_containers;
-    */
-
     FMap< int, FMap< int,  FOccurrence > > m_occurrences;
     
     void thr_timestamps_manager();
     void thr_occurrences_manager();
+
+    void thr_messages_handler_parser();
+    void thr_messages_handler_render();
 
     float getContainerContent(int id, float t1);
     bool isContainerFull(int id, float t1, float t2);
