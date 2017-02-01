@@ -57,7 +57,6 @@ void FQueue<T>::push(T new_value)
     tail=new_tail;
     
     m_data_cond_mine.notify_one();
-    
 }
 
 template<typename T>
