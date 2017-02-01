@@ -34,6 +34,11 @@ FContainer.o: FContainer.cpp
 FObjet.o: FObjet.cpp
 	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
 	@echo "    	CXX      $@"
+
+FMessages.o: FMessages.cpp
+	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
+	@echo "    	CXX      $@"
+
 .PHONY: clean
 clean:
 	@$(RM) -f $(OBJ)
