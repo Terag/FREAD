@@ -35,13 +35,6 @@ DEALINGS IN THE SOFTWARE.
 #include "FMessages.hpp"
 
 FMessages::FMessages(HEADER header, 
-                        void content):
-                        m_header(header),
-                        m_content(std::make_shared<void>(content))
-{    
-}
-
-FMessages::FMessages(HEADER header, 
                         std::shared_ptr<void> content):
                         m_header(header),
                         m_content(content)
@@ -49,13 +42,20 @@ FMessages::FMessages(HEADER header,
 
 }
 
+FMessages::~FMessages(){
 
-FMessages& FMessages::operator=(const FMessages& other){
-    m_header = other.getHeader();
-    m_content = other.getContent();  
 }
 
-HEADER FMessages::getHeader(){
+FMessages& FMessages::operator=(const FMessages& other){
+    if(this != &other){
+        m_header = other.getHeader();
+        m_content = other.getContent();    
+    }
+    return *this;
+
+}
+
+HEADER FMessages::getHeader() const{
     return m_header;
 }
 
@@ -63,10 +63,10 @@ void FMessages::setHeader(HEADER var){
     m_header = var;
 }
 
-std::shared_ptr<void> FMessages::getContent(){
+std::shared_ptr<void> FMessages::getContent() const{
     return m_content;
 }
 
-void FMessages::setContent(void var){
+void FMessages::setContent(std::shared_ptr<void> var){
     m_content = var;
 }

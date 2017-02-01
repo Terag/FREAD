@@ -56,10 +56,10 @@ public:
     
     virtual ~FMessages();
     
-    HEADER getHeader();
+    HEADER getHeader() const;
     void setHeader(HEADER var);
     
-    std::shared_ptr<void> getContent();
+    std::shared_ptr<void> getContent() const;
     void setContent(std::shared_ptr<void> var);
     
 private:
