@@ -53,6 +53,8 @@ DEALINGS IN THE SOFTWARE.
 
 class FCore {
 public:
+    FCore();
+
     FCore( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_parser, 
            std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_parser,
            std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_render,
