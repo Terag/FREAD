@@ -61,12 +61,22 @@ void FMap<K, T>::insert(K key, std::shared_ptr<T> element){
 }
 
 template<typename K, typename T>
-bool FMap<K, T>::erase( typename std::map<K, T>::iterator it ){
+void FMap<K, T>::insert( std::pair<K,std::shared_ptr<T> > pair){
     std::lock_guard<std::mutex> lock(m_mutex);
-    if( m_map.at( it ).use_count() > 1 ){
-        m_map.erase( it );
-        return true;
+    m_map.insert( pair );  
+}
+
+
+template<typename K, typename T>
+bool FMap<K, T>::erase(){
+    std::lock_guard<std::mutex> lock(m_mutex);
+    for(auto it = m_map.begin(); it != m_map.end(); ++it){
+        if( it->second.unique() ){
+            m_map.erase( it );
+            return true;
+        }
     }
+
     return false;
 }
 
@@ -103,7 +113,7 @@ typename std::map<K, T>::iterator begin(){
 }
     
 template<typename K, typename T>
-unsigned int FMap<K, T>::size() const{
+unsigned int FMap<K, T>::size(){
     std::lock_guard<std::mutex> lock(m_mutex);
     return m_map.size();
 }
@@ -115,16 +125,16 @@ bool FMap<K, T>::empty(){
 }
 
 template<typename K, typename T>
-std::map<K, std::shared_ptr<T> > FMap<K, T>::getMap() const{
+std::map<K, std::shared_ptr<T> > FMap<K, T>::getMap(){
     return m_map;
 }
 
 template<typename K, typename T>
-std::mutex FMap<K, T>::getMutex() const{
+std::mutex FMap<K, T>::getMutex(){
     return m_mutex;
 }
 
 template<typename K, typename T>
-void FMap<K, T>::operator()(const FMap<K, T>&) const{
+void FMap<K, T>::operator()(const FMap<K, T>&){
     
 }

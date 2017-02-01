@@ -30,7 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include<vector>
 #include "FObjet.hpp"
 
-class FOccurrence : FObjet
+class FOccurrence : public FObjet
 {
 public:
 	FOccurrence();
@@ -40,14 +40,14 @@ public:
 	std::vector<float> getTimeStamps();
 	bool getIsLoaded();
 	int getPatternId();
-        int getContainerId();
+    int getContainerId();
 
 private :
 	int m_id;
 	std::vector<float> m_timeStamps;
 	bool m_isLoaded;
 	int m_patternId;
-        int m_containerId;
+    int m_containerId;
 };
 
 bool operator==(FOccurrence A, FOccurrence B);
