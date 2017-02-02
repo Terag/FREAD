@@ -101,6 +101,8 @@ private:
 
     //check_memory ensure that the two map are not too big
     void thr_check_memory();
+
+    bool contains_occurrence(int idPattern, int idOccurrence);
 };
 
 
