@@ -19,7 +19,7 @@ _m_pop_queue_core(_pop_queue_core), _m_push_queue_core(_push_queue_core), absolu
     {
         container_render container(listContainer[i]->getId(), listContainer[i]->getAlias(), 1000, scale.getContainerOffsetX(),scale.getContainerOffsetY(),scale.getWindowContainerOffsetY());
         std::vector <patternStruct> listPattern = listContainer[i]->getPatternList();
-        for (int j = 0; j < listPattern.size(); j ++) {
+        for (unsigned int j = 0; j < listPattern.size(); j ++) {
             FPattern fPat = viewPatternById(listPattern[j].id);
             occurrence_render occ(fPat.getId(),listPattern[j].contId,
                                                       scale.getContainerOffsetY(), scale.getContainerOffsetX(),
@@ -87,7 +87,7 @@ void FRender::thr_FRender() {
             while (window.pollEvent(event))
             {
                 if (event.type == sf::Event::Closed)
-                    for (int i = 0; i < renderContainers.size(); i++) {
+                    for (unsigned int i = 0; i < renderContainers.size(); i++) {
                        window.draw(renderContainers[i]);
                     }
                     window.close();

@@ -58,7 +58,7 @@ void pattern_render::draw(sf::RenderTarget& target, sf::RenderStates states) con
         circle[2*i].setOutlineThickness(1);
         circle[2*i].setOutlineColor(sf::Color(155, 155, 155));
         circle[2*i].setPosition((100+10*i),(100+10*i));
-         circle[2*i+1]= sf::CircleShape((95-10*i),1000);
+        circle[2*i+1]= sf::CircleShape((95-10*i),1000);
         circle[2*i+1].setFillColor(sf::Color::Transparent);
         circle[2*i+1].setOutlineThickness(1);
         circle[2*i+1].setOutlineColor(sf::Color(231, 231, 231));
@@ -84,7 +84,11 @@ void pattern_render::draw(sf::RenderTarget& target, sf::RenderStates states) con
 void pattern_render::calculatePoints(float radius, int x, int y) {
    
     int sub = events.size();
-        
+    if (meanTimeStamps.size()>0) {
+    float tMin = meanTimeStamps.at(0);
+    float tMax = meanTimeStamps.at(meanTimeStamps.size()-1);
+    float tradius = (tMax-tMin);
+    
   //  patternPoints = new sf::VertexArray(sf::TriangleStrip,8 );   
 
      
@@ -97,30 +101,31 @@ void pattern_render::calculatePoints(float radius, int x, int y) {
            /*
             Calcul à redéfinir
             */
-            float tRadius = log(tEnd-tStart)/radius +radius;
+            float tRadius = ((tradius-(tEnd-tStart))/tradius*radius) ;
             
             float demi =radSub * M_PI / 180.0/2;
             float tAngle = i * radSub * M_PI / 180.0 ;
          
             subDiv[2*i].position = sf::Vector2f(x,y);
             subDiv[2*i+1].position = sf::Vector2f(x + radius*sin(tAngle ),y -radius*cos(tAngle ));
-             subDiv[2*i].color = sf::Color(199,199,199);
-              subDiv[2*i+1].color = sf::Color(199,199,199);
+            subDiv[2*i].color = sf::Color(199,199,199);
+            subDiv[2*i+1].color = sf::Color(199,199,199);
             patternPoints[8*i].position = sf::Vector2f(x + radius*sin(tAngle ),y -radius*cos(tAngle ));
             patternPoints[8*i+1].position = sf::Vector2f(x + (radius+4)*sin(tAngle), y-(radius+4)*cos(tAngle));
             patternPoints[8*i+3].position = sf::Vector2f(x + tRadius*sin(tAngle+demi ),y -tRadius*cos(tAngle+demi));
             patternPoints[8*i+2].position = sf::Vector2f(x + (tRadius+4)*sin(tAngle+demi), y -(tRadius+4)*cos(tAngle+demi));
-           patternPoints[8*i+4].position = sf::Vector2f(x + tRadius*sin(tAngle+demi ),y -tRadius*cos(tAngle+demi));
+            patternPoints[8*i+4].position = sf::Vector2f(x + tRadius*sin(tAngle+demi ),y -tRadius*cos(tAngle+demi));
             patternPoints[8*i+5].position = sf::Vector2f(x + (tRadius+4)*sin(tAngle+demi), y -(tRadius+4)*cos(tAngle+demi));
-          patternPoints[8*i+6].position = sf::Vector2f(x + radius*sin(tAngle+2*demi ),y -radius*cos(tAngle+2* demi ));
+            patternPoints[8*i+6].position = sf::Vector2f(x + radius*sin(tAngle+2*demi ),y -radius*cos(tAngle+2* demi ));
             patternPoints[8*i+7].position = sf::Vector2f(x + (radius+4)*sin(tAngle+2* demi), y -(radius+4)*cos(tAngle+2* demi));
             
-                for (int j =0 ; j< 8;j++ )
+            for (int j =0 ; j< 8;j++ )
             { 
                 patternPoints[8*i+j].color = events[i].getColor();
-                    }
+            }
             
         }
+    }
       
 }
 pattern_render::~pattern_render() {

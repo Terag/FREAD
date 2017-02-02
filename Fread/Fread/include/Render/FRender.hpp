@@ -34,6 +34,7 @@ private:
     float absoluteTime;
     std::shared_ptr<FQueue< FMessages> > _m_pop_queue_core;
     std::shared_ptr<FQueue< FMessages > > _m_push_queue_core;
+    
 public: 
     FRender(std::shared_ptr< FQueue< FMessages > > _pop_queue_core,
            std::shared_ptr< FQueue< FMessages > > _push_queue_core,
