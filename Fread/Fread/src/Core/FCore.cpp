@@ -132,14 +132,13 @@ void FCore::thr_occurrences_manager(){
     std::cout << "in thr_occurrences_manager" << std::endl;
     while(1){
         if(!m_render_occurrences.empty()){
-        	std::cout << "CORE >>> GET OCCURRENCE PAIR FROM RENDER" << std::endl;
             std::shared_ptr<FMessages> msg_render = *(m_render_occurrences.try_pop());
 
             auto received = *( std::static_pointer_cast< std::pair<int, int> >(msg_render->getContent() ) );
             std::cout << "CORE >>> OCCURRENCE RECEIVED FROM RENDER n° " << received.first << ":" << received.second << std::endl;
 
             if( m_occurrences.key_exists(received.first)){
-            	if( m_occurrences[ received.first ]->contains( received.second ) ){
+            	if( contains_occurrence(received.first, received.second) ){
             	  	/* is in memory */
 					std::cout << "CORE >>> IS IN MEMORY" << std::endl;
                 	std::shared_ptr<FOccurrence> occurrence_send = m_occurrences[ received.first ]->at( received.second );
@@ -166,8 +165,6 @@ void FCore::thr_occurrences_manager(){
             std::cout << "CORE >>> OCCURRENCE RECEIVED FROM PARSER n°" << received->getPatternId() << ":" << received->getId() << std::endl;
 
             std::pair<int, int> key = std::make_pair( received->getPatternId(), received->getId() );
-            //std::pair<int, std::shared_ptr<FOccurrence> > my_pair = std::make_pair(key.second, received);
-            std::cout << "CORE >>> OCCURRENCE to put : " << received->getPatternId() << ":" << received->getId() << std::endl;
 
             if( m_occurrences.key_exists(key.first)){
             	m_occurrences.at(key.first)->push_back( received );
@@ -183,15 +180,9 @@ void FCore::thr_occurrences_manager(){
             if(m_occurrences.size() > 0){
             	for(auto it = m_occurrences.getMap().begin(); it != m_occurrences.getMap().end(); ++it){
             		std::cout << "CORE >>> M_OCCURRENCES PATTERN KEY " << it->first << std::endl;
-            		/*
-            		for(auto it2 = (it->second)->getMap().begin(); it2 != (it->second)->getMap().end(); ++it2 ){
-            			std::cout << "    CORE >>> M_OCCURRENCES OCCURRENCE KEY " << it2->first << std::endl;
-            		}
-            		*/
+            		std::cout << "                            Size : " << (it->second)->size() << std::endl;
             	}
-            	std::cout << std::endl;
             }
-            std::cout << "CORE >>> OCCURRENCE : " << received->getPatternId() << " Size : " << m_occurrences[received->getPatternId()]->size() << std::endl;
         } /* if(!m_parser_occurrences.empty()) */
 
         if(!m_occurrences.empty()){
@@ -267,7 +258,6 @@ void FCore::thr_messages_handler_render(){
     while(1){
         std::shared_ptr<FMessages> msg = *(_m_pop_queue_render->wait_and_pop());
         if( msg.use_count() != 0 && msg != NULL){
-        	std::cout << "CORE >>> MESSAGE RECEIVED FROM RENDER" << std::endl;
             switch(msg->getHeader()){
                 case(START):
                 {
@@ -426,4 +416,16 @@ bool FCore::isContainerFull(int id, float t1, float t2){
     }
 
     return false;
+}
+
+bool FCore::contains_occurrence(int idPattern, int idOccurrence){
+//m_occurrences[ received.first ]->contains( received.second ) 
+	for(auto it = m_occurrences[idPattern]->begin(); it != m_occurrences[idPattern]->end(); ++it ){
+		if( (*it)->getId() == idOccurrence){
+			return true;
+		}else if( (*it)->getId() > idOccurrence ){
+			return false;
+		}
+	}
+	return false;
 }
