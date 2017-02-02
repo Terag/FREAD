@@ -34,6 +34,7 @@ class FOccurrence : public FObjet
 {
 public:
 	FOccurrence();
+	FOccurrence(int i, int p);
 	~FOccurrence();
 
 	int getId();
