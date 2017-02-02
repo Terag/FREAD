@@ -12,7 +12,7 @@ FRender::FRender(std::shared_ptr<FQueue<FMessages > > _pop_queue_core,
 _m_pop_queue_core(_pop_queue_core), _m_push_queue_core(_push_queue_core), absoluteTime(absoluteTime)
 {}
 
- std::vector<container_render> FRender::transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale) 
+std::vector<container_render> FRender::transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale) 
 {
     std::vector<container_render> renderContainers;
     for(unsigned int i = 0; i < listContainer.size(); i++) 
@@ -21,11 +21,12 @@ _m_pop_queue_core(_pop_queue_core), _m_push_queue_core(_push_queue_core), absolu
         std::vector <patternStruct> listPattern = listContainer[i]->getPatternList();
         for (unsigned int j = 0; j < listPattern.size(); j ++) {
             FPattern fPat = viewPatternById(listPattern[j].id);
-            occurrence_render occ(fPat.getId(),listPattern[j].contId,
-                                                      scale.getContainerOffsetY(), scale.getContainerOffsetX(),
-                                                      scale.getEventOffsetY(), scale.getWindowContainerOffsetY(),scale.getScale(), fPat.getMeanTimeStamps(),
-                                                      fPat.getEventTypes()
-                                                      );
+            occurrence_render occ(
+                                  fPat.getId(),listPattern[j].contId,
+                                  scale.getContainerOffsetY(), scale.getContainerOffsetX(),
+                                  scale.getEventOffsetY(), scale.getWindowContainerOffsetY(),scale.getScale(), fPat.getMeanTimeStamps(),
+                                  fPat.getEventTypes()
+                                  );
             container.addOccurrence(occ);
         }
         renderContainers.push_back(container);
@@ -33,37 +34,43 @@ _m_pop_queue_core(_pop_queue_core), _m_push_queue_core(_push_queue_core), absolu
     return renderContainers;
 }  
 
-/* FOccurrence FRender::askOccurrenceById(int idPattern, int idOccurrence)
- {
-     std::pair<int, int> askedId = std::make_pair(idPattern, idOccurrence);
-     std::shared_ptr<void> shrd= std::make_shared<void>(askedId); 
-     FMessages msg(OCCURRENCE, shrd);
-     _m_push_queue_core->push(msg);
-     FOccurrence occurrence = FOccurrence();
-     return occurrence;
+FOccurrence FRender::askOccurrenceById(int idPattern, int idOccurrence)
+{
+    std::pair<int,int> pair= std::make_pair(idPattern, idOccurrence); 
+    std::shared_ptr<std::pair<int,int>> shrd= std::make_shared<std::pair<int,int>>(pair);  
+    std::shared_ptr<void> askedId = std::static_pointer_cast<void>(shrd); 
+    FMessages msg(OCCURRENCE, askedId); 
+    _m_push_queue_core->push(msg);
+    FOccurrence occurrence = FOccurrence();
+    return occurrence;
      
- }
- */
- FPattern FRender::viewPatternById(int id) 
- {
-     FPattern pattern = *(FCore::view_patterns(id));
-     return pattern;
- }
- /*
- FMessages FRender::receive() 
- {
-    std::shared_ptr<FMessages<FOccurrence>> msg = _m_pop_queue_core->try_pop();
+}
+ 
+ 
+FPattern FRender::viewPatternById(int id) 
+{
+    FPattern pattern = *(FCore::view_patterns(id));
+    return pattern;
+}
+ 
+
+FMessages FRender::receive() 
+{
+   /*
+    std::shared_ptr<FMessages> msg = _m_pop_queue_core->try_pop();
     if(msg != NULL) 
     {   
         FOccurrence occ = *(msg->getContent());
         std::vector<FOccurrence> waitingOcc;
     }
- }
- */
- float FRender::getAbsoluteTime() 
- {
-     return absoluteTime;
- }
+    */
+}
+ 
+ 
+float FRender::getAbsoluteTime() 
+{
+    return absoluteTime;
+}
  
 void FRender::thr_FRender() {
     //transform a list of FContainers in a list of container_renders + define the scaling 
