@@ -37,6 +37,7 @@ using namespace std;
  */
 
 void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _push_queue_core);
+void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core );
 
 int main(){
 
@@ -56,18 +57,22 @@ int main(){
                 );
 
     std::cout << "starting fcore" << std::endl;
-
     fcore.start();
+
     std::cout << "starting false parser" << std::endl;
     std::thread false_parser_thr_(false_parser, _queue_core_parser, _queue_parser_core);
-    //std::thread false_parser_thr_( [](std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_core_parser, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_parser_core){ false_parser(_queue_core_parser, _queue_parser_core); } );
     FThread_guard lock2(false_parser_thr_);
 
+	std::cout << "starting false render" << std::endl;
+    std::thread false_render_thr_(false_render, _queue_core_render, _queue_render_core);
+    FThread_guard lock3(false_render_thr_);
+
+    return 0;
 }
 
 void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core){
     
-        std::cout << "in false parser " << std::endl;
+    std::cout << "in false parser " << std::endl;
 
 
     FMessages init(INITDONE, NULL);
@@ -87,14 +92,75 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
         _push_queue_core->push(std::make_shared<FMessages>(container));
     }
 
-
     while(1){
+        std::shared_ptr<FMessages> msg = *(_pop_queue_core->wait_and_pop());
+        if( msg.use_count() != 0 && msg != NULL){
+        	if(msg->getHeader() == OCCURRENCE){
+        		auto received = *( std::static_pointer_cast< std::pair<int, int> >(msg->getContent()) );
+        		std::cout << "PARSER OCCURRENCE RECEIVED FROM CORE n°" << received.first << ":" << received.second << std::endl;
 
-
+        		FOccurrence occurrence(received.first, -(received.second) );
+                std::shared_ptr<FOccurrence> occurrence_send = std::make_shared<FOccurrence>(occurrence);
+                auto content_send = std::static_pointer_cast<void>( occurrence_send );
+                FMessages msg_send(OCCURRENCE, content_send);
+                _push_queue_core->push(std::make_shared<FMessages>(msg_send) );
+                std::cout << "PARSER SEND " << -received.second << " TO CORE" << std::endl;
+        	}
+        }
     }
+
 }
 
+void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core ){
+    std::cout << "in false render " << std::endl;
 
+
+    FMessages init(INITDONE, NULL);
+    FMessages start(START, NULL);
+
+    _push_queue_core->push(std::make_shared<FMessages>(init));
+    _push_queue_core->push(std::make_shared<FMessages>(start));
+
+    FMessages pattern(PATTERN, std::shared_ptr<FPattern>(new FPattern(0)));
+    _push_queue_core->push(std::make_shared<FMessages>(pattern));
+
+    FMessages container(CONTAINER, std::shared_ptr<FContainer>(new FContainer(0)));
+    _push_queue_core->push(std::make_shared<FMessages>(container));
+    
+    int i = 0;
+    int minId = 0;
+    std::vector<int> to_render;
+
+	std::this_thread::sleep_for (std::chrono::seconds(3));
+
+    while(i < 50 && minId != -50){
+        FMessages occurrence(OCCURRENCE, std::shared_ptr< std::pair<int,int> >(new std::pair<int, int>(0, i)));
+        std::cout << "RENDER SEND " << -i << " TO CORE" << std::endl;
+    	_push_queue_core->push(std::make_shared<FMessages>(occurrence));
+
+    	if(!_pop_queue_core->empty()){
+            auto msg_core = *(_pop_queue_core->try_pop() );
+            if(msg_core->getHeader() == OCCURRENCE){
+            	auto received = std::static_pointer_cast< FOccurrence >(msg_core->getContent() ) ;
+            	std::cout << "RENDER OCCURRENCE RECEIVED FROM CORE n°" << received->getPatternId() << ":" << received->getId() << std::endl;
+
+            	to_render.push_back(received->getId());
+            	if(received->getId() < minId) minId = received->getId();
+            }
+    	}
+        
+        for(auto it = to_render.begin(); it != to_render.end(); ++it){
+          	std::cout << *it << std::endl;
+        }
+
+		std::cout << i << std::endl;
+
+    	if(i < 50) ++i;
+
+    	std::this_thread::sleep_for (std::chrono::milliseconds(100));
+    }
+
+}
 
 
 /*

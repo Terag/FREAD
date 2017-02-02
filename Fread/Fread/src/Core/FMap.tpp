@@ -49,6 +49,13 @@ FMap<K, T>::~FMap(){
 }
     
 template<typename K, typename T>
+bool FMap<K,T>::key_exists(K key){
+    std::lock_guard<std::mutex> lock(m_mutex);
+    return m_map.find(key) != m_map.end();
+}
+
+
+template<typename K, typename T>
 std::shared_ptr<T> FMap<K, T>::at(const K& key){
     std::lock_guard<std::mutex> lock(m_mutex);
     return m_map.at(key);
@@ -83,19 +90,24 @@ bool FMap<K, T>::erase(){
 template<typename K, typename T>
 bool FMap<K, T>::contains(T element){
     std::lock_guard<std::mutex> lock(m_mutex);
-    for( auto it = m_map.begin(); it != m_map.end(); ++it ){
-        if( it->second.get() == element ){
+    if(!m_map.empty()){
+        for( auto it = m_map.begin(); it != m_map.end(); ++it ){
+            if( it->second.get() == element ){
             return true;
-        }
+            }
+        } 
     }
+
     return false;
 }
 
 template<typename K, typename T>
 bool FMap<K, T>::contains(K key){
-    std::lock_guard<std::mutex> lock(m_mutex);  
-    if( m_map.at( key ) != NULL ){
-        return true;
+    std::lock_guard<std::mutex> lock(m_mutex); 
+    if(!m_map.empty()){ 
+        if( m_map.at( key ) != NULL ){
+            return true;
+        }
     }
     return false;
 }

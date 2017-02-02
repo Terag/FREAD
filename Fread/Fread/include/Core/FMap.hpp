@@ -54,6 +54,7 @@ public:
     
     bool contains(T element);
     bool contains(K key);
+    bool key_exists(K key);
     
     std::shared_ptr<T> operator[](const K key);
     

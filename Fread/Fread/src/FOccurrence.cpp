@@ -4,6 +4,9 @@ FOccurrence::FOccurrence()
 {
 }
 
+FOccurrence::FOccurrence(int i, int p): m_id(i), m_patternId(p)
+{
+}
 
 FOccurrence::~FOccurrence()
 {
@@ -36,10 +39,10 @@ bool FOccurrence::getIsLoaded()
 
 bool operator==(FOccurrence A, FOccurrence B)
 {
-	return false;
+	return ( ( A.getId() == B.getId() ) && ( A.getPatternId() == B.getPatternId() ) );
 }
 
 bool operator!=(FOccurrence A, FOccurrence B)
 {
-	return false;
+	return ( ( A.getId() != B.getId() ) && ( A.getPatternId() != B.getPatternId() ) );
 }
