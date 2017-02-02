@@ -100,9 +100,7 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
 /*
  * Parser main function test
  */
-/*
-int main(int argc, char* argv[])
->>>>>>> core
+ /* int main(int argc, char* argv[])
 {
     if(argc != 2){
         std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
@@ -132,8 +130,7 @@ int main(int argc, char* argv[])
     parserThread.join();
     
     return 0;
-<<<<<<< HEAD
-} 
+} */
 
 =======
 }
@@ -141,7 +138,7 @@ int main(int argc, char* argv[])
 /*
  * Render main function test
  */
-/* int main(void)
+ int main(void)
 {
  sf::ContextSettings settings;
  settings.antialiasingLevel = 8;
@@ -230,7 +227,7 @@ int main(int argc, char* argv[])
     }
     
     return 0;
-}*/
+}
 
 /*
  * FQueue main function test
