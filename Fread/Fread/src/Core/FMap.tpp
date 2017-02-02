@@ -60,12 +60,13 @@ std::shared_ptr<T> FMap<K, T>::at(const K& key){
     std::lock_guard<std::mutex> lock(m_mutex);
     return m_map.at(key);
 }
-
+/*
 template<typename K, typename T>
 void FMap<K, T>::insert(K key, std::shared_ptr<T> element){
     std::lock_guard<std::mutex> lock(m_mutex);
     m_map.insert(key, element);
 }
+*/
 
 template<typename K, typename T>
 void FMap<K, T>::insert( std::pair<K,std::shared_ptr<T> > pair){
@@ -97,7 +98,6 @@ bool FMap<K, T>::contains(T element){
             }
         } 
     }
-
     return false;
 }
 
