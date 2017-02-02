@@ -68,7 +68,7 @@ public:
     void start();
 
     //static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b);
-    //static std::shared_ptr<FPattern> view_patterns(int a);
+    static std::shared_ptr<FPattern> view_patterns(int a);
     
     FMap<int, FContainer > m_containers;
     FMap<int, FPattern > m_patterns;

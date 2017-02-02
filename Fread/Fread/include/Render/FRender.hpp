@@ -20,7 +20,7 @@
 #include "Render/container_render.hpp"
 #include "FQueue.hpp" //template
 #include "FMessages.hpp" //template
-#include "FMap.hpp" //template
+//#include "FMap.hpp" //template
 #include "FThread_guard.hpp"
 #include "FObjet.hpp"
 #include "FOccurrence.hpp"
@@ -29,10 +29,14 @@
 #include "Core/FCore.hpp"
 
 class FRender {
-    
+private: 
+    bool awake;
+    float absoluteTime;
+    std::shared_ptr<FQueue< FMessages> > _m_pop_queue_core;
+    std::shared_ptr<FQueue< FMessages > > _m_push_queue_core;
 public: 
-    FRender(std::shared_ptr< FQueue< FMessages< FObjet > > > _pop_queue_core,
-           std::shared_ptr< FQueue< FMessages< std::pair<int,int> > > > _push_queue_core,
+    FRender(std::shared_ptr< FQueue< FMessages > > _pop_queue_core,
+           std::shared_ptr< FQueue< FMessages > > _push_queue_core,
             float absoluteTime);
     ~FRender();
     std::vector<container_render> transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale);
@@ -42,9 +46,5 @@ public:
     FMessages receive();
     float getAbsoluteTime();
     
-private: 
-    bool awake;
-    float absoluteTime;
-    std::shared_ptr<FQueue< FMessages< FObjet > > > _m_pop_queue_core;
-    std::shared_ptr<FQueue< FMessages< std::pair<int,int> > > > _m_push_queue_core;
+
 };

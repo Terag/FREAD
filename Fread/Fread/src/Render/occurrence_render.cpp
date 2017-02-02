@@ -68,11 +68,11 @@ std::vector<event_render> occurrence_render::getEvents()
     return events;
 }
 
-void occurrence_render::updatePosition() 
+void occurrence_render::updatePosition(int containerOffsetY, int x) 
 {
     for (unsigned int i = 0; i < events.size(); i++) 
     {
-       events[i].updatePosition();
+       events[i].updatePosition(containerOffsetY,x);
     } 
 }
 

@@ -50,7 +50,9 @@ type(type), containerOffsetY(containerOffsetY), containerID(containerID), offset
     tEnd = (int)(scale*tSEnd);
     setColor();
 }
-
+void event_render::updatePosition(int containerOffsetY, int x ){
+    
+}
 void event_render::setColor() 
 {
         switch(type) {

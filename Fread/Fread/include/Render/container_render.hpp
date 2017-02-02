@@ -101,7 +101,7 @@ public:
     sf::Color getColor();
     std::string getTypeString();
     //update
-    void updatePosition(int containerOffsetY, int);
+    void updatePosition(int containerOffsetY, int x );
     //draw
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 };
@@ -125,7 +125,7 @@ occurrence_render(int id, int containerID, int containerOffsetY,
 std::vector<event_render> getEvents();
 int getId();
 //update
-void updatePosition();
+void updatePosition(int containerOffsetY, int x);
 //draw
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 };
