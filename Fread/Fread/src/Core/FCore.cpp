@@ -134,26 +134,24 @@ void FCore::thr_occurrences_manager(){
         if(!m_render_occurrences.empty()){
         	std::cout << "GET OCCURRENCE PAIR FROM RENDER" << std::endl;
             std::shared_ptr<FMessages> msg_render = *(m_render_occurrences.try_pop());
-            std::cout << "COUNT occurrences from render" << msg_render.use_count() << std::endl;
 
             auto received = *( std::static_pointer_cast< std::pair<int, int> >(msg_render->getContent() ) );
             std::cout << "OCCURRENCE RECEIVED FROM RENDER n° " << received.first << ":" << received.second << std::endl;
 
-            if( m_occurrences.key_exists(received.first)
-            	&& m_occurrences.contains( received.first) 
-                && m_occurrences.at( received.first )->contains( received.second ) ) { /* is in memory */
-                std::shared_ptr<FOccurrence> occurrence_send = m_occurrences.at( received.first )->at( received.second );
-                auto content_send = std::static_pointer_cast<void>( occurrence_send );
-                FMessages msg_send(OCCURRENCE, content_send);
-                _m_push_queue_render->push( std::make_shared<FMessages>(msg_send) );
-                std::cout << "send occurrence " << occurrence_send->getPatternId() << ":" << occurrence_send->getId() << " to render from memory" << std::endl;
-
-            }else{ /* is not in memory */
-                _m_push_queue_parser->push( msg_render );
-                std::cout << "send occurrence demand to parser" << std::endl;
-            }
-        }
-
+            if( m_occurrences.key_exists(received.first)){
+            	if( m_occurrences.contains( received.first) && m_occurrences.at( received.first )->contains( received.second ) ){
+            	  	/* is in memory */
+                	std::shared_ptr<FOccurrence> occurrence_send = m_occurrences.at( received.first )->at( received.second );
+                	auto content_send = std::static_pointer_cast<void>( occurrence_send );
+                	FMessages msg_send(OCCURRENCE, content_send);
+                	_m_push_queue_render->push( std::make_shared<FMessages>(msg_send) );
+                	std::cout << "send occurrence " << occurrence_send->getPatternId() << ":" << occurrence_send->getId() << " to render from memory" << std::endl;
+            	}else{ /* is not in memory */
+                	_m_push_queue_parser->push( msg_render );
+                	std::cout << "send occurrence demand to parser" << std::endl;
+            	} /* else */
+            } /* if( m_occurrences.key_exists(received.first)) */
+        } /* if(!m_render_occurrences.empty()) */
         
         if(!m_parser_occurrences.empty()){
             std::shared_ptr<FMessages> msg_parser = *(m_parser_occurrences.try_pop() );
@@ -167,8 +165,10 @@ void FCore::thr_occurrences_manager(){
             m_occurrences.at(key.first)->insert( my_pair );
             _m_push_queue_render->push(msg_parser);
             std::cout << "send occurrence " << received->getPatternId() << ":" << received->getId() << " to render" << std::endl;
-        }
-    }
+        } /* if(!m_parser_occurrences.empty()) */
+
+        std::cout << "OCCURRENCE Size : " << m_occurrences.size() << std::endl;
+    } /* while(1) */
 }
 
 

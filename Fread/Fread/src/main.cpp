@@ -97,14 +97,14 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
         if( msg.use_count() != 0 && msg != NULL){
         	if(msg->getHeader() == OCCURRENCE){
         		auto received = *( std::static_pointer_cast< std::pair<int, int> >(msg->getContent()) );
-        		std::cout << "PARSER OCCURRENCE RECEIVED FROM CORE n°" << received.first << ":" << received.second << std::endl;
+        		std::cout << "PARSER >>> OCCURRENCE RECEIVED FROM CORE n°" << received.first << ":" << received.second << std::endl;
 
         		FOccurrence occurrence(received.first, -(received.second) );
                 std::shared_ptr<FOccurrence> occurrence_send = std::make_shared<FOccurrence>(occurrence);
                 auto content_send = std::static_pointer_cast<void>( occurrence_send );
                 FMessages msg_send(OCCURRENCE, content_send);
                 _push_queue_core->push(std::make_shared<FMessages>(msg_send) );
-                std::cout << "PARSER SEND " << -received.second << " TO CORE" << std::endl;
+                std::cout << "PARSER >>> SEND " << -received.second << " TO CORE" << std::endl;
         	}
         }
     }
@@ -135,14 +135,14 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
 
     while(i < 50 && minId != -50){
         FMessages occurrence(OCCURRENCE, std::shared_ptr< std::pair<int,int> >(new std::pair<int, int>(0, i)));
-        std::cout << "RENDER SEND " << -i << " TO CORE" << std::endl;
+        std::cout << "RENDER >>> SEND " << i << " TO CORE" << std::endl;
     	_push_queue_core->push(std::make_shared<FMessages>(occurrence));
 
     	if(!_pop_queue_core->empty()){
             auto msg_core = *(_pop_queue_core->try_pop() );
             if(msg_core->getHeader() == OCCURRENCE){
             	auto received = std::static_pointer_cast< FOccurrence >(msg_core->getContent() ) ;
-            	std::cout << "RENDER OCCURRENCE RECEIVED FROM CORE n°" << received->getPatternId() << ":" << received->getId() << std::endl;
+            	std::cout << "RENDER >>> OCCURRENCE RECEIVED FROM CORE n°" << received->getPatternId() << ":" << received->getId() << std::endl;
 
             	to_render.push_back(received->getId());
             	if(received->getId() < minId) minId = received->getId();
