@@ -144,14 +144,13 @@ void FCore::thr_timestamps_manager(){
         if(!m_parser_timestamps.empty()){
    	       /*
          	* 
-         	* MESSAGE FROM RENDER
+         	* MESSAGE FROM PARSER
 		 	*
 		 	*/
             std::shared_ptr<FMessages> msg_parser = *(m_parser_timestamps.try_pop() );
-            std::cout << "COUNT timestamps from parser" << msg_parser.use_count() << std::endl;
 
-            auto received = *( std::static_pointer_cast<patternStruct>(msg_parser->getContent() ) );
-            std::cout << "TIMESTAMPS RECEIVED FROM PARSER in container : " << received.contId << ", of pattern : " << received.id << ", beginning at : " << received.tBegin << std::endl;
+            auto received = *( std::static_pointer_cast<std::vector<patternStruct> >(msg_parser->getContent() ) );
+            std::cout << "TIMESTAMPS RECEIVED FROM PARSER in container : " << received[0].contId << ", beginning at : " << received[0].tBegin << std::endl;
 
             m_containers.at( received.contId )->add_pattern( received );
 
