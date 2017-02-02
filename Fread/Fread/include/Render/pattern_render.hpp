@@ -41,6 +41,9 @@
 class pattern_render : public sf::Drawable {
 private : 
 int id;
+int x;
+int y;
+int radius;
 std::vector<float> meanTimeStamps;
 occurrence_render occurrences;
 std::vector<event_render> events;
@@ -50,8 +53,8 @@ sf::VertexArray subDiv;
       
 public : 
 pattern_render();
-pattern_render(int id, std::vector<float> meanTimeStamps, occurrence_render occurrence);
+pattern_render(int id, std::vector<float> meanTimeStamps, occurrence_render occurrence,int posX, int posY, float Radius);
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
-void calculatePoints(float radius,int x , int y) ;
+void calculatePoints() ;
 ~pattern_render();
 };

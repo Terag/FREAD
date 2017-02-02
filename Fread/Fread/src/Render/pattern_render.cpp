@@ -39,11 +39,11 @@ id(0)
 {
 }
 
-pattern_render::pattern_render(int id, std::vector<float> meanTimeStamps,occurrence_render occurrence) :
-id(id), meanTimeStamps(meanTimeStamps), occurrences(occurrence),events(occurrence.getEvents()){    //events(occurrence.getEvents());
+pattern_render::pattern_render(int id, std::vector<float> meanTimeStamps,occurrence_render occurrence,int posX, int posY, float Radius) :
+id(id), meanTimeStamps(meanTimeStamps), occurrences(occurrence),events(occurrence.getEvents()),x(posX),y(posY),radius(Radius){    //events(occurrence.getEvents());
     patternPoints = sf::VertexArray(sf::Quads, events.size()*8 );
-       subDiv = sf::VertexArray(sf::Lines, events.size()*2 );
-    calculatePoints(100.0,200,200);
+    subDiv = sf::VertexArray(sf::Lines, events.size()*2 );
+    calculatePoints();
 
 }
 
@@ -53,26 +53,27 @@ void pattern_render::draw(sf::RenderTarget& target, sf::RenderStates states) con
     
     for (int i=0; i<10;i++)
     {
-        circle[2*i]= sf::CircleShape((100-10*i),1000);
+        circle[2*i]= sf::CircleShape((radius-radius/10*i),1000);
         circle[2*i].setFillColor(sf::Color::Transparent);
         circle[2*i].setOutlineThickness(1);
         circle[2*i].setOutlineColor(sf::Color(155, 155, 155));
-        circle[2*i].setPosition((100+10*i),(100+10*i));
-        circle[2*i+1]= sf::CircleShape((95-10*i),1000);
+        circle[2*i].setPosition((x-radius+radius/10*i),(y-radius+radius/10*i));
+        circle[2*i+1]= sf::CircleShape((radius-(radius/20)-(radius/10)*i),1000);
         circle[2*i+1].setFillColor(sf::Color::Transparent);
         circle[2*i+1].setOutlineThickness(1);
         circle[2*i+1].setOutlineColor(sf::Color(231, 231, 231));
-        circle[2*i+1].setPosition((105+10*i),(105+10*i));
+        circle[2*i+1].setPosition((x-radius+radius/20+radius/10*i),(y-radius+radius/20+radius/10*i));
     }
      sf::ConvexShape polygon(200);
         polygon.setPointCount(4);
-        polygon.setPoint(0, sf::Vector2f(98,0));
-        polygon.setPoint(1, sf::Vector2f(100, 100));
-        polygon.setPoint(2, sf::Vector2f(100, 100));
-        polygon.setPoint(3, sf::Vector2f(102, 0));
+        polygon.setPoint(0, sf::Vector2f(radius-radius/50,-2));
+        polygon.setPoint(1, sf::Vector2f(radius, radius));
+        polygon.setPoint(2, sf::Vector2f(radius, radius));
+        polygon.setPoint(3, sf::Vector2f(radius+radius/50, -2));
         polygon.setOutlineColor(sf::Color(155, 155,155));
         polygon.setOutlineThickness(2);
-        polygon.setPosition(100, 100);
+        polygon.setPosition(x-radius, y-radius);
+        
         target.draw(subDiv);
         for (int i=0; i<20;i++)
     {
@@ -81,19 +82,17 @@ void pattern_render::draw(sf::RenderTarget& target, sf::RenderStates states) con
         target.draw(patternPoints);
         target.draw(polygon);
 }
-void pattern_render::calculatePoints(float radius, int x, int y) {
+void pattern_render::calculatePoints() {
    
     int sub = events.size();
+    
     if (meanTimeStamps.size()>0) {
-    float tMin = meanTimeStamps.at(0);
-    float tMax = meanTimeStamps.at(meanTimeStamps.size()-1);
-    float tradius = (tMax-tMin);
-    
-  //  patternPoints = new sf::VertexArray(sf::TriangleStrip,8 );   
-
-     
-    float radSub = 360.00 /sub; 
-    
+        
+        float tMin = meanTimeStamps.at(0);
+        float tMax = meanTimeStamps.at(meanTimeStamps.size()-1);
+        float tradius = (tMax-tMin);        
+        float radSub = 360.00 /sub; 
+        
         for (unsigned int i = 0; i < events.size()  ; i++)
         {
             float tStart = meanTimeStamps[2*i];
@@ -110,14 +109,15 @@ void pattern_render::calculatePoints(float radius, int x, int y) {
             subDiv[2*i+1].position = sf::Vector2f(x + radius*sin(tAngle ),y -radius*cos(tAngle ));
             subDiv[2*i].color = sf::Color(199,199,199);
             subDiv[2*i+1].color = sf::Color(199,199,199);
+            
             patternPoints[8*i].position = sf::Vector2f(x + radius*sin(tAngle ),y -radius*cos(tAngle ));
             patternPoints[8*i+1].position = sf::Vector2f(x + (radius+4)*sin(tAngle), y-(radius+4)*cos(tAngle));
             patternPoints[8*i+3].position = sf::Vector2f(x + tRadius*sin(tAngle+demi ),y -tRadius*cos(tAngle+demi));
             patternPoints[8*i+2].position = sf::Vector2f(x + (tRadius+4)*sin(tAngle+demi), y -(tRadius+4)*cos(tAngle+demi));
             patternPoints[8*i+4].position = sf::Vector2f(x + tRadius*sin(tAngle+demi ),y -tRadius*cos(tAngle+demi));
             patternPoints[8*i+5].position = sf::Vector2f(x + (tRadius+4)*sin(tAngle+demi), y -(tRadius+4)*cos(tAngle+demi));
-            patternPoints[8*i+6].position = sf::Vector2f(x + radius*sin(tAngle+2*demi ),y -radius*cos(tAngle+2* demi ));
-            patternPoints[8*i+7].position = sf::Vector2f(x + (radius+4)*sin(tAngle+2* demi), y -(radius+4)*cos(tAngle+2* demi));
+            patternPoints[8*i+7].position = sf::Vector2f(x + radius*sin(tAngle+2*demi ),y -radius*cos(tAngle+2* demi ));
+            patternPoints[8*i+6].position = sf::Vector2f(x + (radius+4)*sin(tAngle+2* demi), y -(radius+4)*cos(tAngle+2* demi));
             
             for (int j =0 ; j< 8;j++ )
             { 
@@ -128,5 +128,6 @@ void pattern_render::calculatePoints(float radius, int x, int y) {
     }
       
 }
-pattern_render::~pattern_render() {
+pattern_render::~pattern_render() 
+{
 }
