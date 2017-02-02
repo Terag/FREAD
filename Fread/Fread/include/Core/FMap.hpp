@@ -48,7 +48,7 @@ public:
     ~FMap();
     
     std::shared_ptr<T> at(const K& k);
-    void insert(K key, std::shared_ptr<T> element);
+    //void insert(K key, std::shared_ptr<T> element);
     void insert( std::pair<K,std::shared_ptr<T> > );
     bool erase();
     

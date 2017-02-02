@@ -4,7 +4,7 @@ FOccurrence::FOccurrence()
 {
 }
 
-FOccurrence::FOccurrence(int i, int p): m_id(i), m_patternId(p)
+FOccurrence::FOccurrence(int p, int i): m_patternId(p), m_id(i) 
 {
 }
 

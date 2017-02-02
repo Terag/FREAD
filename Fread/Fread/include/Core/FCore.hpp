@@ -84,7 +84,7 @@ private:
     FQueue< std::shared_ptr< FMessages > > m_render_occurrences;
     FQueue< std::shared_ptr< FMessages > > m_render_timestamps;
 
-    FMap< int, FMap< int,  FOccurrence > > m_occurrences;
+    FMap< int, std::vector< std::shared_ptr<FOccurrence > > > m_occurrences;
 
     bool awake; //is in awake phase
     
