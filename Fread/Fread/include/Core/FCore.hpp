@@ -103,6 +103,7 @@ private:
     void thr_check_memory();
 
     bool contains_occurrence(int idPattern, int idOccurrence);
+    std::shared_ptr<FOccurrence> find_occurrence(int idPattern, int idOccurrence);
 };
 
 

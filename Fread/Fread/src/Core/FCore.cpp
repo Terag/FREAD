@@ -131,6 +131,9 @@ void FCore::thr_timestamps_manager(){
 void FCore::thr_occurrences_manager(){
     std::cout << "in thr_occurrences_manager" << std::endl;
     while(1){
+    	/*
+         * MESSAGE FROM PARSER
+		 */
         if(!m_render_occurrences.empty()){
             std::shared_ptr<FMessages> msg_render = *(m_render_occurrences.try_pop());
 
@@ -141,23 +144,41 @@ void FCore::thr_occurrences_manager(){
             	if( contains_occurrence(received.first, received.second) ){
             	  	/* is in memory */
 					std::cout << "CORE >>> IS IN MEMORY" << std::endl;
-                	std::shared_ptr<FOccurrence> occurrence_send = m_occurrences[ received.first ]->at( received.second );
+                	std::shared_ptr<FOccurrence> occurrence_send = find_occurrence(received.first, received.second );
                 	auto content_send = std::static_pointer_cast<void>( occurrence_send );
                 	FMessages msg_send(OCCURRENCE, content_send);
                 	_m_push_queue_render->push( std::make_shared<FMessages>(msg_send) );
                 	std::cout << "CORE >>> send occurrence " << occurrence_send->getPatternId() << ":" << occurrence_send->getId() << " to render from memory" << std::endl;
                 }else{ /* is not in memory */
-					std::cout << "CORE >>> IS NOT IN MEMORY" << std::endl;            	
+					std::cout << "CORE >>> IS NOT IN MEMORY 1" << std::endl;            	
                 	_m_push_queue_parser->push( msg_render );
                 	std::cout << "CORE >>> send occurrence demand to parser" << std::endl;	
                 }
             }else{ /* is not in memory */
-				std::cout << "CORE >>> IS NOT IN MEMORY" << std::endl;            	
+				std::cout << "CORE >>> IS NOT IN MEMORY 2" << std::endl;            	
                 _m_push_queue_parser->push( msg_render );
                 std::cout << "CORE >>> send occurrence demand to parser" << std::endl;
             } /* else if( m_occurrences.key_exists(received.first)) */
+
+	        std::cout << "CORE >>> OCCURRENCE Size : " << m_occurrences.size() << std::endl;
+	        if(m_occurrences.size() > 0){
+	         	for(auto it = m_occurrences.getMap().begin(); it != m_occurrences.getMap().end(); ++it){
+	          		std::cout << "CORE >>> M_OCCURRENCES PATTERN KEY : " << it->first << std::endl;
+	          		std::cout << "                              Size : " << (it->second)->size() << std::endl;
+	          		std::cout << "                            Values : ";
+	          		for(auto it2 = (it->second)->begin(); it2 != (it->second)->end(); ++it2 ){
+	          	 		std::cout << (*it2)->getId() << " "; 
+	          		}
+	          			std::cout << std::endl;
+	         	}
+	        }
+
+
         } /* if(!m_render_occurrences.empty()) */
         
+		/*
+         * MESSAGE FROM PARSER
+		 */
         if(!m_parser_occurrences.empty()){
             std::shared_ptr<FMessages> msg_parser = *(m_parser_occurrences.try_pop() );
 
@@ -171,25 +192,33 @@ void FCore::thr_occurrences_manager(){
             }else{
             	auto pair_to_insert = std::make_pair(key.first, std::make_shared< std::vector< std::shared_ptr<FOccurrence> > >() );
             	m_occurrences.insert( pair_to_insert ); 
+            	m_occurrences.at(key.first)->push_back( received );
             }
-            _m_push_queue_render->push(msg_parser);
-            
-//DEBUG MESSAGES
             std::cout << "CORE >>> send occurrence " << received->getPatternId() << ":" << received->getId() << " to render" << std::endl;
-            std::cout << "CORE >>> OCCURRENCE Size : " << m_occurrences.size() << std::endl;
-            if(m_occurrences.size() > 0){
-            	for(auto it = m_occurrences.getMap().begin(); it != m_occurrences.getMap().end(); ++it){
-            		std::cout << "CORE >>> M_OCCURRENCES PATTERN KEY " << it->first << std::endl;
-            		std::cout << "                            Size : " << (it->second)->size() << std::endl;
-            	}
-            }
+            _m_push_queue_render->push(msg_parser);
+           
+            if(!m_occurrences.empty()){
+	        	for(auto it = m_occurrences.getMap().begin(); it != m_occurrences.getMap().end(); ++it){
+					std::sort(it->second->begin(), it->second->end(), []( std::shared_ptr<FOccurrence> occ1 , std::shared_ptr<FOccurrence> occ2 ){ return (occ1->getId() < occ2->getId() ); });    		
+        		}   	
+        	}
+
+	        std::cout << "CORE >>> OCCURRENCE Size : " << m_occurrences.size() << std::endl;
+	        if(m_occurrences.size() > 0){
+	         	for(auto it = m_occurrences.getMap().begin(); it != m_occurrences.getMap().end(); ++it){
+	          		std::cout << "CORE >>> M_OCCURRENCES PATTERN KEY : " << it->first << std::endl;
+	          		std::cout << "                              Size : " << (it->second)->size() << std::endl;
+	          		std::cout << "                            Values : ";
+	          		for(auto it2 = (it->second)->begin(); it2 != (it->second)->end(); ++it2 ){
+	          	 		std::cout << (*it2)->getId() << " "; 
+	          		}
+	          			std::cout << std::endl;
+	         	}
+	        }
+
         } /* if(!m_parser_occurrences.empty()) */
 
-        if(!m_occurrences.empty()){
-	        for(auto it = m_occurrences.getMap().begin(); it != m_occurrences.getMap().end(); ++it){
-				std::sort(it->second->begin(), it->second->end(), []( std::shared_ptr<FOccurrence> occ1 , std::shared_ptr<FOccurrence> occ2 ){ return (occ1->getId() < occ2->getId() ); });    		
-        	}   	
-        }
+
     } /* while(1) */
 }
 
@@ -252,6 +281,9 @@ void FCore::thr_messages_handler_parser(){
         }    
     }
 }
+
+
+
 
 void FCore::thr_messages_handler_render(){
     std::cout << "in thr_messages_handler_render" << std::endl;
@@ -428,4 +460,13 @@ bool FCore::contains_occurrence(int idPattern, int idOccurrence){
 		}
 	}
 	return false;
+}
+
+std::shared_ptr<FOccurrence> FCore::find_occurrence(int idPattern, int idOccurrence){
+	for(auto it = m_occurrences[idPattern]->begin(); it != m_occurrences[idPattern]->end(); ++it ){
+		if( (*it)->getId() == idOccurrence){
+			return (*it);
+		}
+	}	
+	return NULL;
 }
