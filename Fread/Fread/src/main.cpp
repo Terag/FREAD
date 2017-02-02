@@ -172,10 +172,15 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
     std::cout << std::endl;
 
     i = 0;
-
-    std::cout << "//////////////////////////////" << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "///////////////////////////" << std::endl;
     std::cout << "FIN DE L ENVOI DES PATTERNS" << std::endl;
-    std::cout << "//////////////////////////////" << std::endl;
+    std::cout << "///////////////////////////" << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
 
     std::this_thread::sleep_for (std::chrono::milliseconds(1000));
 
@@ -276,67 +281,39 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
         std::cout << " " << *it2 ;
     }
     std::cout << std::endl;
-
-    std::cout << "//////////////////////////////" << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "//////////////////////////////////////////" << std::endl;
     std::cout << "FIN DE LA DEMANDE DE NOUVELLES OCCURRENCES" << std::endl;
-    std::cout << "//////////////////////////////" << std::endl;
-
+    std::cout << "//////////////////////////////////////////" << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
     std::this_thread::sleep_for (std::chrono::milliseconds(1000));
 
-        std::this_thread::sleep_for (std::chrono::milliseconds(1000));
-
     std::vector<int> to_render_old_occurrences0;
-    std::vector<int> to_render_old_occurrences1;
-    std::vector<int> to_render_old_occurrences2;
+
+    i = 0;
 
     while(i < 10 && minId != -10){
-        FMessages occurrence0(OCCURRENCE, std::shared_ptr< std::pair<int,int> >(new std::pair<int, int>(0, i)));
-        std::cout << "RENDER >>> SEND OLD OCCURRENCE 0:" << i << " TO CORE" << std::endl;
+        FMessages occurrence0(OCCURRENCE, std::shared_ptr< std::pair<int,int> >(new std::pair<int, int>(0, -i)));
+        std::cout << "RENDER >>> SEND OLD OCCURRENCE 0:" << -i << " TO CORE" << std::endl;
         _push_queue_core->push(std::make_shared<FMessages>(occurrence0));
-
-        FMessages occurrence1(OCCURRENCE, std::shared_ptr< std::pair<int,int> >(new std::pair<int, int>(1, i)));
-        std::cout << "RENDER >>> SEND OLD OCCURRENCE 1:" << i << " TO CORE" << std::endl;
-        _push_queue_core->push(std::make_shared<FMessages>(occurrence1));
-
-        FMessages occurrence2(OCCURRENCE, std::shared_ptr< std::pair<int,int> >(new std::pair<int, int>(2, i)));
-        std::cout << "RENDER >>> SEND OLD OCCURRENCE 2:" << i << " TO CORE" << std::endl;
-        _push_queue_core->push(std::make_shared<FMessages>(occurrence2));
 
         if(!_pop_queue_core->empty()){
             auto msg_core = *(_pop_queue_core->try_pop() );
             if(msg_core->getHeader() == OCCURRENCE){
                 auto received = std::static_pointer_cast< FOccurrence >(msg_core->getContent() ) ;
-                std::cout << "RENDER >>> OCCURRENCE RECEIVED FROM CORE n°" << received->getPatternId() << ":" << received->getId() << std::endl;
+                std::cout << "RENDER >>> OLD OCCURRENCE RECEIVED FROM CORE n°" << received->getPatternId() << ":" << received->getId() << std::endl;
 
-                switch(received->getPatternId()){
-                    case(0):
-                        to_render_old_occurrences0.push_back(received->getId());
-                    break;
-                    case(1):
-                        to_render_old_occurrences1.push_back(received->getId());
-                    break;
-                    case(2):
-                        to_render_old_occurrences2.push_back(received->getId());
-                    break;
-                }
+                to_render_old_occurrences0.push_back(received->getId());
+
             }
         }
         
         std::cout << "RENDERING OLD OCCURRENCES 0: " ;
         for(auto it0 = to_render_old_occurrences0.begin(); it0 != to_render_old_occurrences0.end(); ++it0){
             std::cout << " " << *it0 ;
-        }
-        std::cout << std::endl;
-
-        std::cout << "RENDERING OLD OCCURRENCES 1: " ;
-        for(auto it1 = to_render_old_occurrences1.begin(); it1 != to_render_old_occurrences1.end(); ++it1){
-            std::cout << " " << *it1 ;
-        }
-        std::cout << std::endl;
-
-        std::cout << "RENDERING OLD OCCURRENCES 2: " ;
-        for(auto it2 = to_render_old_occurrences2.begin(); it2 != to_render_old_occurrences2.end(); ++it2){
-            std::cout << " " << *it2 ;
         }
         std::cout << std::endl;
 
@@ -348,19 +325,10 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
         auto msg_core = *(_pop_queue_core->try_pop() );
         if(msg_core->getHeader() == OCCURRENCE){
             auto received = std::static_pointer_cast< FOccurrence >(msg_core->getContent() ) ;
-            //std::cout << "RENDER >>> OCCURRENCE RECEIVED FROM CORE n°" << received->getPatternId() << ":" << received->getId() << std::endl;
+            std::cout << "RENDER >>> OLD OCCURRENCE RECEIVED FROM CORE n°" << received->getPatternId() << ":" << received->getId() << std::endl;
 
-            switch(received->getPatternId()){
-                    case(0):
-                        to_render_old_occurrences0.push_back(received->getId());
-                    break;
-                    case(1):
-                        to_render_old_occurrences1.push_back(received->getId());
-                    break;
-                    case(2):
-                        to_render_old_occurrences2.push_back(received->getId());
-                    break;
-                }
+            to_render_old_occurrences0.push_back(received->getId());
+
         }
         std::this_thread::sleep_for (std::chrono::milliseconds(1));
     }
@@ -369,24 +337,16 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
     for(auto it0 = to_render_old_occurrences0.begin(); it0 != to_render_old_occurrences0.end(); ++it0){
         std::cout << " " << *it0 ;
     }
-    std::cout << std::endl;
 
-    std::cout << "RENDERING OLD OCCURRENCES 1: " ;
-    for(auto it1 = to_render_old_occurrences1.begin(); it1 != to_render_old_occurrences1.end(); ++it1){
-        std::cout << " " << *it1 ;
-    }
     std::cout << std::endl;
-
-    std::cout << "RENDERING OLD OCCURRENCES 2: " ;
-    for(auto it2 = to_render_old_occurrences2.begin(); it2 != to_render_old_occurrences2.end(); ++it2){
-        std::cout << " " << *it2 ;
-    }
     std::cout << std::endl;
-
-    std::cout << "//////////////////////////////" << std::endl;
+    std::cout << std::endl;
+    std::cout << "/////////////////////////////////////////" << std::endl;
     std::cout << "FIN DE LA DEMANDE D'ANCIENNES OCCURRENCES" << std::endl;
-    std::cout << "//////////////////////////////" << std::endl;
-
+    std::cout << "/////////////////////////////////////////" << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
 }
 
 
