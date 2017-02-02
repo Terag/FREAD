@@ -35,7 +35,7 @@ using namespace std;
 /*
  * Core main function test
  */
-
+/*
 void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _push_queue_core);
 
 int main(int argc, char* argv[]){
@@ -95,7 +95,7 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
 }
 
 
-
+*/
 
 /*
  * Parser main function test
@@ -132,9 +132,6 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
     return 0;
 } */
 
-=======
-}
-*/
 /*
  * Render main function test
  */

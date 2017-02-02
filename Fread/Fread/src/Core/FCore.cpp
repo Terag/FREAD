@@ -302,11 +302,10 @@ static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b){
     }
     return result;
 }
-
-static std::shared_ptr<FPattern>  view_patterns(int a){
-    return FCore::m_patterns[a];
-}
 */
+ std::shared_ptr<FPattern> FCore::view_patterns(int a){
+ //   return FCore::m_patterns[a];
+}
 
 void FCore::start(){
     std::cout << "start FCore" << std::endl;
