@@ -29,22 +29,16 @@
 #include "Core/FCore.hpp"
 
 class FRender {
-private: 
-    bool awake;
-    float absoluteTime;
-    std::shared_ptr<FQueue< FMessages> > _m_pop_queue_core;
-    std::shared_ptr<FQueue< FMessages > > _m_push_queue_core;
     
 public: 
     FRender(std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _pop_queue_core,
             std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _push_queue_core,
             float absoluteTime);
     ~FRender();
-    /*
+    
     std::vector<container_render> transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale);
-    void thr_FRender();
+    // void thr_FRender();
     float getAbsoluteTime();
-*/
 
     void ask_for_occurrence(int patternId, int occId);
     void ask_for_timestamps(int contId, float begin_time, float end_time);
