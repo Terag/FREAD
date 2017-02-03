@@ -106,8 +106,14 @@ void FCore::thr_timestamps_manager(){
 					 	*
 	            	    */
 	                	std::cout << "CORE >>> ALL DEMANDED TIMESTAMPS ARE IN MEMORY" << std::endl;
-	                    patternStruct pattern_send = {received.id, received.contId, beginTime, endTime};
-	                    std::shared_ptr<void> content_send = std::static_pointer_cast<void>( std::make_shared<patternStruct>(pattern_send) );
+	                	patternStruct first_pattern = get_first_pattern(received.contId, beginTime);
+	                    std::vector< patternStruct > pattern_send;
+	                    pattern_send.push_back(first_pattern);
+	                    patternStruct current_pattern = first_pattern;
+	                    while(current_pattern.tBegin <= endTime){
+	                    	current_pattern = get_next_pattern( current_pattern );
+	                    }
+	                    std::shared_ptr<void> content_send = std::static_pointer_cast<void>( std::make_shared< std::vector<patternStruct> >(pattern_send) );
 	                    FMessages msg_send(TIMESTAMP, content_send); 
 	                    _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
 
@@ -149,28 +155,35 @@ void FCore::thr_timestamps_manager(){
 		 	*/
             std::shared_ptr<FMessages> msg_parser = *(m_parser_timestamps.try_pop() );
 
-            auto received = *( std::static_pointer_cast<std::vector<patternStruct> >(msg_parser->getContent() ) );
-            std::cout << "TIMESTAMPS RECEIVED FROM PARSER in container : " << received[0].contId << ", beginning at : " << received[0].tBegin << std::endl;
+            auto received = std::static_pointer_cast<std::vector<patternStruct> >(msg_parser->getContent() );
+            std::cout << "CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : " << received->begin()->contId << ", beginning at : " << received->begin()->tBegin << std::endl;
 
-            m_containers.at( received.contId )->add_pattern( received );
+            for(auto it = received->begin(); it != received->end(); ++it ){
+            	/*
+            	 *
+            	 * ADDING ALL PATTERN RECEIVED FROM PARSER TO CORRESPONDING CONTAINER
+            	 *
+            	 */
+            	m_containers.at( received->begin()->contId )->add_pattern( *it );
+            }
+            
+            std::shared_ptr<void> content_send = std::static_pointer_cast<void>( received );
+            FMessages msg_send(TIMESTAMP, content_send);
+            _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
+            std::cout << "CORE >>> send timestamps in container : " << received->begin()->contId << ", beginning at : " << received->begin()->tBegin << ", and ending at : " << (--received->end())->tEnd << std::endl;
 
-            float beginTime = received.tBegin;
-            float endTime = received.tEnd;
+            for(auto it = m_containers.getMap().begin(); it != m_containers.getMap().end(); ++it ){
+           	   /*
+			 	*
+			 	* SORTING TIMESTAMPS FOR EACH CONTAINERS
+			 	*
+	         	*/ 	
+            	if(!it->second->getPatternList().empty()){
+ 					std::sort(it->second->getPatternList().begin(), it->second->getPatternList().end(), [](patternStruct a, patternStruct b){ return (a.tBegin < b.tBegin); } );
 
-            if(isContainerFull(received.contId, beginTime, endTime)){
-                patternStruct pattern_send = {received.id, received.contId, beginTime, endTime};
-                std::shared_ptr<void> content_send = std::static_pointer_cast<void>( std::make_shared<patternStruct>(pattern_send) );
-                FMessages msg_send(TIMESTAMP, content_send); 
-                _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
+        		} /* if(!it->second->getPatternList().empty()) */
 
-            }else{
-                float endTimeLoaded = getContainerContent( received.contId, beginTime );
-                patternStruct pattern_send = {received.id, received.contId, beginTime, endTimeLoaded};
-                std::shared_ptr<void> content_send = std::static_pointer_cast<void>( std::make_shared<patternStruct>(pattern_send) );
-                FMessages msg_send(TIMESTAMP, content_send); 
-                _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
-
-            } /* else if(isContainerFull(received.contId, beginTime, endTime)) */
+            } /* for(auto it = m_containers.getMap().begin(); it != m_occurrences.getMap().end(); ++it ) */
 
         } /* if(!m_parser_timestamps.empty()) */
 
@@ -523,19 +536,9 @@ void FCore::thr_FCore(){
     FThread_guard mem_g( check_memory_ );
 }
 
-/*
-static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b){
-    std::vector<std::shared_ptr<FContainer> > result;
-    for(int i = a; i <= b; ++i){
-        result.push_back( FCore::m_containers[i] );
-    }
-    return result;
-}
 
-static std::shared_ptr<FPattern>  view_patterns(int a){
-    return FCore::m_patterns[a];
-}
-*/
+
+
 
 void FCore::start(){
     std::cout << "start FCore" << std::endl;
@@ -568,6 +571,10 @@ float FCore::getContainerContent(int id, float t1){
     return m_containers.at(id)->getPatternList().end()->tEnd;
 }
 
+
+
+
+
 bool FCore::isContainerFull(int id, float t1, float t2){
     bool isContinue = false;
     for(auto it = m_containers.at(id)->getPatternList().begin(); it != m_containers.at(id)->getPatternList().end(); ++it ){
@@ -593,8 +600,39 @@ bool FCore::isContainerFull(int id, float t1, float t2){
     return false;
 }
 
+
+
+
+
+patternStruct FCore::get_first_pattern(int contId, float beginTime){
+	for(auto it = m_containers.at(contId)->getPatternList().begin(); it != m_containers.at(contId)->getPatternList().end(); ++it ){
+		if( it->tEnd >= beginTime ){
+			return *it;
+		}
+	}
+	patternStruct result = { -1, contId, beginTime, beginTime };
+	return result ;
+}
+
+
+
+
+patternStruct FCore::get_next_pattern(patternStruct current_pattern ){
+	int contId = current_pattern.contId;
+	for(auto it = m_containers.at(contId)->getPatternList().begin(); it != m_containers.at(contId)->getPatternList().end(); ++it ){
+		if( it->tBegin == current_pattern.tBegin ){
+			return *(++it);
+		}
+	}
+	patternStruct result = { -1, current_pattern.contId, ( --m_containers.at(contId)->getPatternList().end() )->tEnd, ( --m_containers.at(contId)->getPatternList().end() )->tEnd };
+	return result ;
+}
+
+
+
+
+
 bool FCore::contains_occurrence(int idPattern, int idOccurrence){
-//m_occurrences[ received.first ]->contains( received.second ) 
 	for(auto it = m_occurrences[idPattern]->begin(); it != m_occurrences[idPattern]->end(); ++it ){
 		if( (*it)->getId() == idOccurrence){
 			return true;

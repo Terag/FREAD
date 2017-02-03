@@ -19,7 +19,7 @@ FContainer::~FContainer()
 }
 
 void FContainer::add_pattern(patternStruct element){
-	if( !patternList.contains(element) )
+	if( !(*this).contains(element) )
 		patternList.push_back(element);
 }
 
