@@ -175,6 +175,8 @@ void scale::updatePosition(int nbContainer)
 {
     for (int i = 0; i < times.size(); i ++) 
     {
+            times[i].setCharacterSize(10);
+
         times[i].setPosition(containerOffsetX + spacing*(i),windowContainerOffsetY + containerOffsetY - eventOffsetY - 15);
     }
     for (int j = 0; j < timeLines.size(); j ++)

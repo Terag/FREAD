@@ -143,7 +143,7 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
  int sizeX = 1500;
  int sizeY = 1000;
  
-    sf::RenderWindow window(sf::VideoMode(sizeX, sizeY), "Container and occurrences test",sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width,sf::VideoMode::getDesktopMode().height), "Container and occurrences test",sf::Style::Default, settings);
 
        sizeX =window.getSize().x;
          sizeY =window.getSize().y;
