@@ -44,14 +44,28 @@ type(WAIT)
 event_render::event_render(eventType type, float tSStart, float tSEnd,
                            float scale, int containerOffsetY, int containerID, 
                            int offsetY, int containerOffsetX, int windowContainerOffsetY) :
-type(type), containerOffsetY(containerOffsetY), containerID(containerID), offsetY(offsetY), offsetX(containerOffsetX), windowContainerOffsetY(windowContainerOffsetY)
+type(type), ftStart(tSStart), ftEnd(tSEnd), containerOffsetY(containerOffsetY), containerID(containerID), offsetY(offsetY), offsetX(containerOffsetX), windowContainerOffsetY(windowContainerOffsetY)
 {
-    tStart = (int)(scale*tSStart);
-    tEnd = (int)(scale*tSEnd);
+    int tStart = (int)(scale*tSStart);
+    int tEnd = (int)(scale*tSEnd);
     setColor();
+    rectangles[0].position = sf::Vector2f(tStart + offsetX,windowContainerOffsetY + containerID*containerOffsetY +offsetY);
+    rectangles[1].position = sf::Vector2f(tStart + offsetX,windowContainerOffsetY + containerID*containerOffsetY -offsetY);
+    rectangles[2].position = sf::Vector2f(tEnd + offsetX,windowContainerOffsetY + containerID*containerOffsetY -offsetY);
+    rectangles[3].position = sf::Vector2f(tEnd + offsetX,windowContainerOffsetY + containerID*containerOffsetY + offsetY);
+    for (int i = 0; i < 4; i++) {
+        rectangles[i].color = eventColor;
+    }
 }
-void event_render::updatePosition(int containerOffsetY, int x ){
-    
+void event_render::updatePosition(int newScale, int containerOffsetY, int offsetX, int offsetY)
+{
+    int tStart = (int)(newScale*ftStart);
+    int tEnd = (int)(newScale*ftEnd);
+    setColor();
+    rectangles[0].position = sf::Vector2f(tStart + offsetX,windowContainerOffsetY + containerID*containerOffsetY +offsetY);
+    rectangles[1].position = sf::Vector2f(tStart + offsetX,windowContainerOffsetY + containerID*containerOffsetY -offsetY);
+    rectangles[2].position = sf::Vector2f(tEnd + offsetX,windowContainerOffsetY + containerID*containerOffsetY -offsetY);
+    rectangles[3].position = sf::Vector2f(tEnd + offsetX,windowContainerOffsetY + containerID*containerOffsetY + offsetY);
 }
 void event_render::setColor() 
 {
@@ -86,21 +100,7 @@ sf::Color event_render::getColor()
 
 void event_render::draw(sf::RenderTarget& target, sf::RenderStates states) const 
 {
-    /* int size = (tEnd - tStart);
-    RectangleShape rectangle(Vector2f(size, 50));
-    rectangle.setFillColor(sf::Color::Red);
-    rectangle.setPosition(400,400);
-    target.draw(rectangle); */
-    VertexArray rectangle = VertexArray(sf::Quads, 4);
-    rectangle[0].position = sf::Vector2f(tStart + offsetX,windowContainerOffsetY + containerID*containerOffsetY +offsetY);
-    rectangle[1].position = sf::Vector2f(tStart + offsetX,windowContainerOffsetY + containerID*containerOffsetY -offsetY);
-    rectangle[2].position = sf::Vector2f(tEnd + offsetX,windowContainerOffsetY + containerID*containerOffsetY -offsetY);
-    rectangle[3].position = sf::Vector2f(tEnd + offsetX,windowContainerOffsetY + containerID*containerOffsetY + offsetY);
-    for (int i = 0; i < 4; i++) {
-        rectangle[i].color = eventColor;
-    }
-    target.draw(rectangle, states);
-    
+    target.draw(rectangles, states);
 }
 
 event_render::~event_render() 
