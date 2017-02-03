@@ -204,7 +204,9 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
     container2.addOccurrence(occurrence2);
     container3.addOccurrence(occurrence3);
 
-    pattern_render pattern(1, timeStamps3, occurrence3, 200, 200,150.0);
+    pattern_render pattern(1, timeStamps3, occurrence3, 200, 200,100.0);
+    pattern_render pattern2(2, timeStamps2, occurrence2, 400, 200,100.0);
+
     while (window.isOpen())
     {
             sf::Event event;
@@ -218,7 +220,8 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
             window.draw(container1);
             window.draw(container2);
             window.draw(container3);
-           pattern.draw(window);
+            pattern.draw(window);
+            window.draw(pattern2);
             window.display();
     }
     

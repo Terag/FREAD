@@ -20,7 +20,7 @@
 #include "Render/container_render.hpp"
 #include "FQueue.hpp" //template
 #include "FMessages.hpp" //template
-//#include "FMap.hpp" //template
+#include "Core/FMap.hpp" //template
 #include "FThread_guard.hpp"
 #include "FObjet.hpp"
 #include "FOccurrence.hpp"
