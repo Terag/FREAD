@@ -12,11 +12,10 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
                 _m_pop_queue_core(_pop_queue_core), 
                 _m_push_queue_core(_push_queue_core), 
                 absoluteTime(absoluteTime)
-{
+{}
 
-/* std::vector<container_render> FRender::transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale) 
+ std::vector<container_render> FRender::transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale) 
 {
-
     std::vector<container_render> renderContainers;
     for(unsigned int i = 0; i < listContainer.size(); i++) 
     {
@@ -35,13 +34,13 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
         renderContainers.push_back(container);
     }
     return renderContainers;
-} */
+}
  
-/* FPattern FRender::viewPatternById(int id) 
+ FPattern FRender::viewPatternById(int id) 
 {
-    FPattern pattern = *(FCore::view_patterns(id));
-    return pattern;
-} */ 
+    //FPattern pattern = *(FCore::view_patterns(id));
+    //return pattern;
+}
  
  float FRender::getAbsoluteTime() 
 {
