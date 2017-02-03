@@ -105,7 +105,7 @@ public:
     //update
     void updatePosition(int newScale, int containerOffsetY, int offsetX,int offsetY);
     //draw
-    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
+    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
 };
 
 class occurrence_render : public sf::Drawable {
@@ -129,7 +129,7 @@ int getId();
 //update
 void updatePosition(int newScale, int containerOffsetY, int offsetX, int offsetY);
 //draw
-void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
+void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
 };
 
 class container_render : public sf::Drawable
