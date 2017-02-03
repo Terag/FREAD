@@ -64,7 +64,7 @@ scale::scale(float absoluteTime, int nbContainer, int containerSize,
             containerOffsetX(containerOffsetX), containerOffsetY(containerOffsetY),
             eventOffsetY(eventOffsetY), windowContainerOffsetY(windowContainerOffsetY)
 {   
-    int subdTimeLine = containerSize/spacing;
+    subdTimeLine = containerSize/spacing;
     constScale = containerSize/absoluteTime;
     if (!font.loadFromFile("Arimo-Regular.ttf")) 
     {
@@ -138,6 +138,8 @@ void scale::setContainerOffsetY(int containerOffsetY)
 void scale::setContainerSize(int containerSize) 
 {
     containerSize = containerSize;
+    constScale = containerSize/absoluteTime;
+    subdTimeLine = containerSize/spacing;
 }
 
 void scale::setEventOffsetY(int eventOffsetY) 
@@ -148,6 +150,7 @@ void scale::setEventOffsetY(int eventOffsetY)
 void scale::setSpacing(int spacing) 
 {
     spacing = spacing;
+    subdTimeLine = containerSize/spacing;
 }
 
 void scale::setWindowContainerOffsetY(int windowContainerOffsetY)
@@ -156,7 +159,19 @@ void scale::setWindowContainerOffsetY(int windowContainerOffsetY)
 }
 
 //update 
-void scale::updatePosition(int containerOffsetX, int containerOffsetY, int spacing, int eventOffsetY, int windowContainerOffsetY, int nbContainer)
+
+void scale::updateScale(int containerSize, int spacing, int containerOffsetX, int containerOffsetY, int eventOffsetY, int windowContainerOffsetY, int nbContainer)
+{
+    scale::setContainerSize(containerSize);
+    scale::setSpacing(spacing);
+    scale::setContainerOffsetX(containerOffsetX);
+    scale::setContainerOffsetY(containerOffsetY);
+    scale::setEventOffsetY(eventOffsetY);
+    scale::setWindowContainerOffsetY(windowContainerOffsetY);
+    scale::updatePosition(nbContainer);
+}
+
+void scale::updatePosition(int nbContainer)
 {
     for (int i = 0; i < times.size(); i ++) 
     {
