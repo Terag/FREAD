@@ -88,6 +88,7 @@ scale::scale(float absoluteTime, int nbContainer, int containerSize,
     }
 }
 
+//getters
 int scale::getContainerSize()
 {
     return containerSize;
@@ -118,6 +119,7 @@ float scale::getScale()
     return constScale;
 }
 
+//setters
 void scale::setContainerOffsetX(int containerOffsetX) 
 {
     containerOffsetX = containerOffsetX;
@@ -143,13 +145,27 @@ void scale::setSpacing(int spacing)
     spacing = spacing;
 }
 
+//update 
+void scale::updatePosition(int containerOffsetX, int containerOffsetY, int spacing, int eventOffsetY, int windowContainerOffsetY, int nbContainer)
+{
+    for (int i = 0; i < times.size(); i ++) 
+    {
+        times[i].setPosition(containerOffsetX + spacing*(i),windowContainerOffsetY + containerOffsetY - eventOffsetY - 15);
+    }
+    for (int j = 0; j < timeLines.size(); j ++)
+    {
+        timeLines[j][0].position = sf::Vector2f(containerOffsetX + spacing*(j), windowContainerOffsetY + containerOffsetY - eventOffsetY); 
+        timeLines[j][1].position = sf::Vector2f(containerOffsetX + spacing*(j), windowContainerOffsetY + containerOffsetY*nbContainer + eventOffsetY);
+    }
+}
+
+//draw
  void scale::draw(sf::RenderTarget& target, sf::RenderStates states) const 
  {
      for (unsigned int i = 0; i < timeLines.size(); i++) 
      {
         target.draw(times[i], states);    
         target.draw(timeLines[i], states);
- 
      }
  }
 

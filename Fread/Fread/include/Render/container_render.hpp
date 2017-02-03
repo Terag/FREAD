@@ -72,7 +72,7 @@ public :
     void setContainerOffsetY(int containerOffsetY);
     void setEventOffsetY(int eventOffsetY);
     //update 
-    void updatePosition(int containerOffsetX, int containerOffsetY, int spacing, int eventOffset);
+    void updatePosition(int containerOffsetX, int containerOffsetY, int spacing, int eventOffsetY, int windowContainerOffsetY, int nbContainer);
     // draw
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 
@@ -83,9 +83,11 @@ class event_render : public sf::Drawable {
 private:
     sf::Color eventColor = sf::Color(60,60,60);
     eventType type;
-    int  tStart, tEnd, containerOffsetY, containerID, windowContainerOffsetY = 0;
+    float ftStart, ftEnd = 0;
+    int  containerOffsetY, containerID, windowContainerOffsetY = 0;
     int offsetY = 6;
     int offsetX = 50;
+    sf::VertexArray rectangles = sf::VertexArray(sf::Quads, 4);
     
 public:
     //constructor & destructor
@@ -101,7 +103,7 @@ public:
     sf::Color getColor();
     std::string getTypeString();
     //update
-    void updatePosition(int containerOffsetY, int x );
+    void updatePosition(int newScale, int containerOffsetY, int offsetX,int offsetY);
     //draw
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 };
@@ -125,7 +127,7 @@ occurrence_render(int id, int containerID, int containerOffsetY,
 std::vector<event_render> getEvents();
 int getId();
 //update
-void updatePosition(int containerOffsetY, int x);
+void updatePosition(int newScale, int containerOffsetY, int offsetX, int offsetY);
 //draw
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 };

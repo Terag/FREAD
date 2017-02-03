@@ -77,7 +77,7 @@ void FRender::thr_FRender() {
     std::vector<std::shared_ptr<FContainer>> listContainer;
     int nbContainer = listContainer.size();
     // Valeur 1000 et 10 a changer
-    scale scale(absoluteTime, nbContainer, 1000,10);
+    scale scale(absoluteTime, nbContainer, 1000, 10);
     std::vector<container_render> renderContainers = transformContainer(listContainer, scale);
     
     //sfml antialiasing
