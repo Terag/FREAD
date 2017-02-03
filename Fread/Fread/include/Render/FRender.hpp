@@ -18,9 +18,9 @@
 #include <thread>
 #include <SFML/Graphics.hpp>
 #include "Render/container_render.hpp"
-#include "FQueue.hpp" 
-#include "FMessages.hpp" 
-#include "Core/FMap.hpp" 
+#include "FQueue.hpp" //template
+#include "FMessages.hpp" //template
+#include "Core/FMap.hpp" //template
 #include "FThread_guard.hpp"
 #include "FObjet.hpp"
 #include "FOccurrence.hpp"
@@ -36,18 +36,25 @@ private:
     std::shared_ptr<FQueue< FMessages > > _m_push_queue_core;
     
 public: 
-    FRender(std::shared_ptr< FQueue< FMessages > > _pop_queue_core,
-           std::shared_ptr< FQueue< FMessages > > _push_queue_core,
+    FRender(std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _pop_queue_core,
+            std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _push_queue_core,
             float absoluteTime);
     ~FRender();
+    /*
     std::vector<container_render> transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale);
     void thr_FRender();
-    FOccurrence askOccurrenceById(int idPattern, int idOccurrence);
-    FPattern viewPatternById(int id);
-    FContainer viewContainerById(int id);
-    // FOccurrence viewOccurrenceById(int id);
-    FMessages receive();
     float getAbsoluteTime();
-    
+*/
 
+    void ask_for_occurrence(int patternId, int occId);
+    void ask_for_timestamps(int contId, float begin_time, float end_time);
+    void ask_for_pattern(int patternId);
+    void ask_for_container(int contId);
+    void receive_message();
+    
+private: 
+    bool awake;
+    std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _m_pop_queue_core;
+    std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _m_push_queue_core;
+    float absoluteTime;
 };

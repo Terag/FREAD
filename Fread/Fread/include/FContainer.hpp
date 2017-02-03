@@ -39,6 +39,12 @@ struct patternStruct {
   int occId;
   float tBegin;
   float tEnd;
+  patternStruct(int i, int ci, float t1, float t2) : id(i), contId(ci), tBegin(t1), tEnd(t2) {} 
+
+  bool operator < (const patternStruct& other) const
+  {
+      return (tBegin < other.tBegin);
+  }
 };
 
 class FContainer : public FObjet
