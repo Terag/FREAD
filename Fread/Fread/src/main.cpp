@@ -107,23 +107,23 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
                 _push_queue_core->push(std::make_shared<FMessages>(msg_send) );
                 
         	}else if(msg->getHeader() == TIMESTAMP){
-                auto received = std::static_pointer_cast< std::vector<patternStruct> >(msg->getContent()) ;
-                std::cout << "PARSER >>> TIMESTAMPS RECEIVED FROM CORE on container : " << received->begin()->contId << ", from : " << received->begin()->tBegin << ", to : " << (--received->end())->tEnd << std::endl;
+                auto received = std::static_pointer_cast< patternStruct >(msg->getContent()) ;
+                std::cout << "PARSER >>> TIMESTAMPS RECEIVED FROM CORE on container : " << received->contId << ", from : " << received->tBegin << ", to : " << received->tEnd << std::endl;
                 
-                float length = (--received->end())->tEnd - received->begin()->tBegin;
+                float length = received->tEnd - received->tBegin;
                 float subdivision = length / 10.0f ;
                 
                 auto timestamps_send = std::make_shared< std::vector<patternStruct> >();
-                float begin_time = received->begin()->tBegin;
+                float begin_time = received->tBegin;
                 
                 for(unsigned int i = 0; i < 10; ++i){
-                    patternStruct to_insert( i, received->begin()->contId, begin_time, begin_time + subdivision );
+                    patternStruct to_insert( i, received->contId, begin_time, begin_time + subdivision );
                     timestamps_send->push_back(to_insert);
                     begin_time += subdivision;
                 }
                 auto content_send = std::static_pointer_cast<void>( timestamps_send );
                 FMessages msg_send(TIMESTAMP, content_send);
-                std::cout << "PARSER >>> SEND TIMESTAMPS ON CONTAINER : " << received->begin()->contId << " TO CORE" << std::endl;
+                std::cout << "PARSER >>> SEND TIMESTAMPS ON CONTAINER : " << received->contId << " TO CORE" << std::endl;
                 _push_queue_core->push(std::make_shared<FMessages>(msg_send) );
 
             }
@@ -378,15 +378,15 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     std::vector<float> to_render_timestamps2;
 
     FMessages timestamps0(TIMESTAMP, std::shared_ptr< patternStruct >(new patternStruct(-1, 0, 0.0f, 1.0f)));
-    std::cout << "RENDER >>> SEND TIMESTAMPS 0:" << i << " TO CORE" << std::endl;
+    std::cout << "RENDER >>> SEND TIMESTAMPS  on container : 0, from : 0.0, to : 1.0" << std::endl;
     _push_queue_core->push(std::make_shared<FMessages>(timestamps0));
 
     FMessages timestamps1(TIMESTAMP, std::shared_ptr< patternStruct >(new patternStruct(-1, 1, 0.0f, 1.0f)));
-    std::cout << "RENDER >>> SEND TIMESTAMPS 1:" << i << " TO CORE" << std::endl;
+    std::cout << "RENDER >>> SEND TIMESTAMPS  on container : 1, from : 0.0, to : 1.0" << std::endl;
     _push_queue_core->push(std::make_shared<FMessages>(timestamps1));
 
     FMessages timestamps2(TIMESTAMP, std::shared_ptr< patternStruct >(new patternStruct(-1, 2, 0.0f, 1.0f)));
-    std::cout << "RENDER >>> SEND TIMESTAMPS 2:" << i << " TO CORE" << std::endl;
+    std::cout << "RENDER >>> SEND TIMESTAMPS  on container : 2, from : 0.0, to : 1.0" << std::endl;
     _push_queue_core->push(std::make_shared<FMessages>(timestamps2));
 
     while(i < 10 && minId != -10){

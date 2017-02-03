@@ -82,7 +82,7 @@ void FCore::thr_timestamps_manager(){
             std::shared_ptr<FMessages> msg_render =  *(m_render_timestamps.try_pop()) ;
             
             auto received = *( std::static_pointer_cast<patternStruct>(msg_render->getContent() ) );
-			std::cout << "CORE >>> TIMESTAMPS RECEIVED FROM RENDER in container : " << received.contId << ", of pattern : " << received.id << ", beginning at : " << received.tBegin << std::endl;
+			std::cout << "CORE >>> TIMESTAMPS RECEIVED FROM RENDER in container : " << received.contId << ", beginning at : " << received.tBegin << std::endl;
 
             float beginTime = received.tBegin;
             float endTime = received.tEnd;
