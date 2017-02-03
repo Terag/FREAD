@@ -45,7 +45,7 @@ public:
     FOccurrence askOccurrenceById(int idPattern, int idOccurrence);
     FPattern viewPatternById(int id);
     FContainer viewContainerById(int id);
-    FOccurrence viewOccurrenceById(int id);
+    // FOccurrence viewOccurrenceById(int id);
     FMessages receive();
     float getAbsoluteTime();
     
