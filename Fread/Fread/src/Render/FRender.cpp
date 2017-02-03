@@ -14,7 +14,7 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
                 absoluteTime(absoluteTime)
 {
 
-std::vector<container_render> FRender::transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale) 
+/* std::vector<container_render> FRender::transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale) 
 {
 
     std::vector<container_render> renderContainers;
@@ -35,33 +35,20 @@ std::vector<container_render> FRender::transformContainer(std::vector<std::share
         renderContainers.push_back(container);
     }
     return renderContainers;
-}  
+} */
  
-FPattern FRender::viewPatternById(int id) 
+/* FPattern FRender::viewPatternById(int id) 
 {
     FPattern pattern = *(FCore::view_patterns(id));
     return pattern;
-}
-
-FMessages FRender::receive() 
-{
-   /*
-    std::shared_ptr<FMessages> msg = _m_pop_queue_core->try_pop();
-    if(msg != NULL) 
-    {   
-        FOccurrence occ = *(msg->getContent());
-        std::vector<FOccurrence> waitingOcc;
-    }
-    */
-}
+} */ 
  
- 
-float FRender::getAbsoluteTime() 
+ float FRender::getAbsoluteTime() 
 {
     return absoluteTime;
-}
+} 
  
-void FRender::thr_FRender() {
+/* void FRender::thr_FRender() {
   
     //transform a list of FContainers in a list of container_renders + define the scaling 
     std::vector<std::shared_ptr<FContainer>> listContainer;
@@ -93,7 +80,7 @@ void FRender::thr_FRender() {
             window.display();
     }
     
-}
+} */
 
 
 /*
