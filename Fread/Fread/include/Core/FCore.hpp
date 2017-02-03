@@ -96,8 +96,8 @@ private:
     void thr_messages_handler_parser();
     void thr_messages_handler_render();
 
-    float getContainerContent(int id, float t1);
-    bool isContainerFull(int id, float t1, float t2);
+    float get_container_content(int id, float t1);
+    bool is_container_full(int id, float t1, float t2);
 
     //check_memory ensure that the two map are not too big
     void thr_check_memory();

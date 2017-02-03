@@ -81,13 +81,13 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
     _push_queue_core->push(std::make_shared<FMessages>(init));
     _push_queue_core->push(std::make_shared<FMessages>(start));
 
-    for(int i = 0; i < 10; ++i){
+    for(int i = 0; i < 100; ++i){
         FMessages pattern(PATTERN, std::shared_ptr<FPattern>(new FPattern(i)));
         _push_queue_core->push(std::make_shared<FMessages>(pattern));
     }
 
 
-    for(int i = 0; i < 10; ++i){
+    for(int i = 0; i < 100; ++i){
         FMessages container(CONTAINER, std::shared_ptr<FContainer>(new FContainer(i)));
         _push_queue_core->push(std::make_shared<FMessages>(container));
     }
@@ -129,7 +129,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
 
 	std::this_thread::sleep_for (std::chrono::seconds(1));
 
-    while(i < 10 && minId != -10){
+    while(i < 100 && minId != -100){
         FMessages pattern(PATTERN, std::make_shared< int >(i) );
         std::cout << "RENDER >>> SEND PATTERN " << i << " TO CORE" << std::endl;
         _push_queue_core->push(std::make_shared<FMessages>(pattern));
@@ -150,7 +150,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
         }
         std::cout << std::endl;
 
-        if(i < 10) ++i;
+        if(i < 100) ++i;
 
         std::this_thread::sleep_for (std::chrono::milliseconds(1));
     }
@@ -188,7 +188,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
     std::vector<int> to_render_occurrences1;
     std::vector<int> to_render_occurrences2;
 
-    while(i < 10 && minId != -10){
+    while(i < 100 && minId != -100){
         FMessages occurrence0(OCCURRENCE, std::shared_ptr< std::pair<int,int> >(new std::pair<int, int>(0, i)));
         std::cout << "RENDER >>> SEND OCCURRENCE 0:" << i << " TO CORE" << std::endl;
     	_push_queue_core->push(std::make_shared<FMessages>(occurrence0));
@@ -239,7 +239,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
         }
         std::cout << std::endl;
 
-    	if(i < 10) ++i;
+    	if(i < 100) ++i;
 
     	std::this_thread::sleep_for (std::chrono::milliseconds(1));
     }
@@ -295,7 +295,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
 
     i = 0;
 
-    while(i < 10 && minId != -10){
+    while(i < 100 && minId != -100){
         FMessages occurrence0(OCCURRENCE, std::shared_ptr< std::pair<int,int> >(new std::pair<int, int>(0, -i)));
         std::cout << "RENDER >>> SEND OLD OCCURRENCE 0:" << -i << " TO CORE" << std::endl;
         _push_queue_core->push(std::make_shared<FMessages>(occurrence0));
@@ -317,7 +317,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
         }
         std::cout << std::endl;
 
-        if(i < 10) ++i;
+        if(i < 100) ++i;
 
         std::this_thread::sleep_for (std::chrono::milliseconds(1));
     }

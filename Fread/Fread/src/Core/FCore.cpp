@@ -99,7 +99,7 @@ void FCore::thr_timestamps_manager(){
 					 * TIMESTAMPS IN THE SAME CONTAINER AS DEMANDED TIMESTAMPS ARE IN MEMORY
 					 *
 	            	 */
-	                if(isContainerFull(received.contId, beginTime, endTime)){
+	                if(is_container_full(received.contId, beginTime, endTime)){
 	                   /*
 					 	*
 					 	* ALL DEMANDED TIMESTAMPS ARE IN MEMORY
@@ -111,8 +111,15 @@ void FCore::thr_timestamps_manager(){
 	                    pattern_send.push_back(first_pattern);
 	                    patternStruct current_pattern = first_pattern;
 	                    while(current_pattern.tBegin <= endTime){
+	                       /*
+						 	*
+						 	* ADDING ALL PATTERNS FROM MEMORY TO THE VECTOR TO BE SENT
+						 	*
+		            	    */
 	                    	current_pattern = get_next_pattern( current_pattern );
-	                    }
+	                    	pattern_send.push_back( current_pattern );
+	                    } /* while(current_pattern.tBegin <= endTime) */
+
 	                    std::shared_ptr<void> content_send = std::static_pointer_cast<void>( std::make_shared< std::vector<patternStruct> >(pattern_send) );
 	                    FMessages msg_send(TIMESTAMP, content_send); 
 	                    _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
@@ -123,17 +130,25 @@ void FCore::thr_timestamps_manager(){
 					 	* SOME OF THE DEMANDED TIMESTAMPS ARE IN MEMORY
 					 	*
 	            	    */
-	                    float endTimeLoaded = getContainerContent( received.contId, beginTime );
+	            	    /* 
+
+						FOR NOW WE GONNA CONSIDER THIS CASE AS IF NONE OF THE DEMANDED TIMESTAMPS WERE IN MEMORY
+
+	                    float endTimeLoaded = get_container_content( received.contId, beginTime );
 	                    patternStruct pattern_send = {received.id, received.contId, beginTime, endTimeLoaded};
 	                    std::shared_ptr<void> content_send = std::static_pointer_cast<void>( std::make_shared<patternStruct>(pattern_send) );
 	                    FMessages msg_send(TIMESTAMP, content_send); 
-	                    _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );              
-	                } /* else if(isContainerFull(received.contId, beginTime, endTime)) */
+	                    _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
+	                    */
+	                    std::cout << "CORE >>> SOME OF THE DEMANDED TIMESTAMPS ARE IN MEMORY" << std::endl;
+	                	_m_push_queue_parser->push( msg_render );
+	                	std::cout << "CORE >>> send timestamps demand to parser" << std::endl;            
+	                } /* else if(is_container_full(received.contId, beginTime, endTime)) */
 
 	            }else{
 	               /* 
             	 	* 
-            	 	* ALL THE DEMANDED TIMESTAMPS ARE NOT IN MEMORY 
+            	 	* NONE OF THE TIMESTAMPS DEMANDED ARE IN MEMORY 
 				 	*
             	 	*/
 					std::cout << "CORE >>> NONE OF THE DEMANDED TIMESTAMPS ARE IN MEMORY" << std::endl;
@@ -550,7 +565,7 @@ void FCore::start(){
 }
 
 
-float FCore::getContainerContent(int id, float t1){
+float FCore::get_container_content(int id, float t1){
     bool isContinue = false;
     for(auto it = m_containers.at(id)->getPatternList().begin(); it != m_containers.at(id)->getPatternList().end(); ++it ){
         if( it->tBegin >= t1 ){
@@ -575,7 +590,7 @@ float FCore::getContainerContent(int id, float t1){
 
 
 
-bool FCore::isContainerFull(int id, float t1, float t2){
+bool FCore::is_container_full(int id, float t1, float t2){
     bool isContinue = false;
     for(auto it = m_containers.at(id)->getPatternList().begin(); it != m_containers.at(id)->getPatternList().end(); ++it ){
         if( it->tBegin >= t1 ){
