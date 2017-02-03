@@ -38,6 +38,7 @@ struct patternStruct {
   int contId;
   float tBegin;
   float tEnd;
+  patternStruct(int i, int ci, float t1, float t2) : id(i), contId(ci), tBegin(t1), tEnd(t2) {} 
 };
 
 class FContainer : public FObjet

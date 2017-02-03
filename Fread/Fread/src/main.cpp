@@ -81,13 +81,13 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
     _push_queue_core->push(std::make_shared<FMessages>(init));
     _push_queue_core->push(std::make_shared<FMessages>(start));
 
-    for(int i = 0; i < 100; ++i){
+    for(int i = 0; i < 10; ++i){
         FMessages pattern(PATTERN, std::shared_ptr<FPattern>(new FPattern(i)));
         _push_queue_core->push(std::make_shared<FMessages>(pattern));
     }
 
 
-    for(int i = 0; i < 100; ++i){
+    for(int i = 0; i < 10; ++i){
         FMessages container(CONTAINER, std::shared_ptr<FContainer>(new FContainer(i)));
         _push_queue_core->push(std::make_shared<FMessages>(container));
     }
@@ -106,11 +106,32 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
                 std::cout << "PARSER >>> SEND " << -received.second << " TO CORE" << std::endl;
                 _push_queue_core->push(std::make_shared<FMessages>(msg_send) );
                 
-        	}
+        	}else if(msg->getHeader() == TIMESTAMP){
+                auto received = std::static_pointer_cast< std::vector<patternStruct> >(msg->getContent()) ;
+                std::cout << "PARSER >>> TIMESTAMPS RECEIVED FROM CORE on container : " << received->begin()->contId << ", from : " << received->begin()->tBegin << ", to : " << (--received->end())->tEnd << std::endl;
+                
+                float length = (--received->end())->tEnd - received->begin()->tBegin;
+                float subdivision = length / 10.0f ;
+                
+                auto timestamps_send = std::make_shared< std::vector<patternStruct> >();
+                float begin_time = received->begin()->tBegin;
+                
+                for(unsigned int i = 0; i < 10; ++i){
+                    patternStruct to_insert( i, received->begin()->contId, begin_time, begin_time + subdivision );
+                    timestamps_send->push_back(to_insert);
+                    begin_time += subdivision;
+                }
+                auto content_send = std::static_pointer_cast<void>( timestamps_send );
+                FMessages msg_send(TIMESTAMP, content_send);
+                std::cout << "PARSER >>> SEND TIMESTAMPS ON CONTAINER : " << received->begin()->contId << " TO CORE" << std::endl;
+                _push_queue_core->push(std::make_shared<FMessages>(msg_send) );
+
+            }
         }
     }
-
 }
+
+
 
 void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core ){
     std::cout << "in false render " << std::endl;
@@ -129,7 +150,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
 
 	std::this_thread::sleep_for (std::chrono::seconds(1));
 
-    while(i < 100 && minId != -100){
+    while(i < 10 && minId != -10){
         FMessages pattern(PATTERN, std::make_shared< int >(i) );
         std::cout << "RENDER >>> SEND PATTERN " << i << " TO CORE" << std::endl;
         _push_queue_core->push(std::make_shared<FMessages>(pattern));
@@ -150,7 +171,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
         }
         std::cout << std::endl;
 
-        if(i < 100) ++i;
+        if(i < 10) ++i;
 
         std::this_thread::sleep_for (std::chrono::milliseconds(1));
     }
@@ -188,7 +209,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
     std::vector<int> to_render_occurrences1;
     std::vector<int> to_render_occurrences2;
 
-    while(i < 100 && minId != -100){
+    while(i < 10 && minId != -10){
         FMessages occurrence0(OCCURRENCE, std::shared_ptr< std::pair<int,int> >(new std::pair<int, int>(0, i)));
         std::cout << "RENDER >>> SEND OCCURRENCE 0:" << i << " TO CORE" << std::endl;
     	_push_queue_core->push(std::make_shared<FMessages>(occurrence0));
@@ -239,7 +260,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
         }
         std::cout << std::endl;
 
-    	if(i < 100) ++i;
+    	if(i < 10) ++i;
 
     	std::this_thread::sleep_for (std::chrono::milliseconds(1));
     }
@@ -295,7 +316,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
 
     i = 0;
 
-    while(i < 100 && minId != -100){
+    while(i < 10 && minId != -10){
         FMessages occurrence0(OCCURRENCE, std::shared_ptr< std::pair<int,int> >(new std::pair<int, int>(0, -i)));
         std::cout << "RENDER >>> SEND OLD OCCURRENCE 0:" << -i << " TO CORE" << std::endl;
         _push_queue_core->push(std::make_shared<FMessages>(occurrence0));
@@ -317,7 +338,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
         }
         std::cout << std::endl;
 
-        if(i < 100) ++i;
+        if(i < 10) ++i;
 
         std::this_thread::sleep_for (std::chrono::milliseconds(1));
     }
@@ -347,6 +368,153 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
     std::cout << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;
+
+std::this_thread::sleep_for (std::chrono::milliseconds(1000));
+
+    i = 0;
+
+    std::vector<float> to_render_timestamps0;
+    std::vector<float> to_render_timestamps1;
+    std::vector<float> to_render_timestamps2;
+
+    FMessages timestamps0(TIMESTAMP, std::shared_ptr< patternStruct >(new patternStruct(-1, 0, 0.0f, 1.0f)));
+    std::cout << "RENDER >>> SEND TIMESTAMPS 0:" << i << " TO CORE" << std::endl;
+    _push_queue_core->push(std::make_shared<FMessages>(timestamps0));
+
+    FMessages timestamps1(TIMESTAMP, std::shared_ptr< patternStruct >(new patternStruct(-1, 1, 0.0f, 1.0f)));
+    std::cout << "RENDER >>> SEND TIMESTAMPS 1:" << i << " TO CORE" << std::endl;
+    _push_queue_core->push(std::make_shared<FMessages>(timestamps1));
+
+    FMessages timestamps2(TIMESTAMP, std::shared_ptr< patternStruct >(new patternStruct(-1, 2, 0.0f, 1.0f)));
+    std::cout << "RENDER >>> SEND TIMESTAMPS 2:" << i << " TO CORE" << std::endl;
+    _push_queue_core->push(std::make_shared<FMessages>(timestamps2));
+
+    while(i < 10 && minId != -10){
+
+
+        if(!_pop_queue_core->empty()){
+            auto msg_core = *(_pop_queue_core->try_pop() );
+            if(msg_core->getHeader() == TIMESTAMP){
+                auto received = std::static_pointer_cast< std::vector<patternStruct> >(msg_core->getContent() ) ;
+                std::cout << "RENDER >>> TIMESTAMPS RECEIVED FROM CORE on container : " << received->begin()->contId << ", from : " << received->begin()->tBegin << ", to : " << (--received->end())->tEnd << std::endl;
+
+                switch(received->begin()->contId){
+                    case(0):
+                        for(auto it = received->begin(); it != received->end(); ++it){
+                            to_render_timestamps0.push_back(it->id);
+                            to_render_timestamps0.push_back(it->tBegin);
+                            to_render_timestamps0.push_back(it->tEnd);
+                        }
+                    break;
+                    case(1):
+                        for(auto it = received->begin(); it != received->end(); ++it){
+                            to_render_timestamps1.push_back(it->id);
+                            to_render_timestamps1.push_back(it->tBegin);
+                            to_render_timestamps1.push_back(it->tEnd);
+                        }
+                    break;
+                    case(2):
+                        for(auto it = received->begin(); it != received->end(); ++it){
+                            to_render_timestamps2.push_back(it->id);
+                            to_render_timestamps2.push_back(it->tBegin);
+                            to_render_timestamps2.push_back(it->tEnd);
+                        }
+                    break;
+
+                }
+
+
+            }
+        }
+        
+        std::cout << "RENDERING CONTAINER 0: " ;
+        for(auto it0 = to_render_timestamps0.begin(); it0 != to_render_timestamps0.end(); ++it0){
+            std::cout << " " << *it0 ;
+        }
+        std::cout << std::endl;
+
+        std::cout << "RENDERING CONTAINER 1: " ;
+        for(auto it1 = to_render_timestamps1.begin(); it1 != to_render_timestamps1.end(); ++it1){
+            std::cout << " " << *it1 ;
+        }
+        std::cout << std::endl;
+
+        std::cout << "RENDERING CONTAINER 2: " ;
+        for(auto it2 = to_render_timestamps2.begin(); it2 != to_render_timestamps2.end(); ++it2){
+            std::cout << " " << *it2 ;
+        }
+        std::cout << std::endl;
+
+        if(i < 10) ++i;
+
+        std::this_thread::sleep_for (std::chrono::milliseconds(1));
+    }
+    while(!_pop_queue_core->empty()){
+        if(!_pop_queue_core->empty()){
+            auto msg_core = *(_pop_queue_core->try_pop() );
+            if(msg_core->getHeader() == TIMESTAMP){
+                auto received = std::static_pointer_cast< std::vector<patternStruct> >(msg_core->getContent() ) ;
+                std::cout << "RENDER >>> TIMESTAMPS RECEIVED FROM CORE on container : " << received->begin()->contId << ", from : " << received->begin()->tBegin << ", to : " << (--received->end())->tEnd << std::endl;
+
+                switch(received->begin()->contId){
+                    case(0):
+                        for(auto it = received->begin(); it != received->end(); ++it){
+                            to_render_timestamps0.push_back(it->id);
+                            to_render_timestamps0.push_back(it->tBegin);
+                            to_render_timestamps0.push_back(it->tEnd);
+                        }
+                    break;
+                    case(1):
+                        for(auto it = received->begin(); it != received->end(); ++it){
+                            to_render_timestamps1.push_back(it->id);
+                            to_render_timestamps1.push_back(it->tBegin);
+                            to_render_timestamps1.push_back(it->tEnd);
+                        }
+                    break;
+                    case(2):
+                        for(auto it = received->begin(); it != received->end(); ++it){
+                            to_render_timestamps2.push_back(it->id);
+                            to_render_timestamps2.push_back(it->tBegin);
+                            to_render_timestamps2.push_back(it->tEnd);
+                        }
+                    break;
+
+                }
+
+
+            }
+        }
+
+        std::this_thread::sleep_for (std::chrono::milliseconds(1));
+    }
+
+    std::cout << "RENDERING TIMESTAMPS 0: " ;
+    for(auto it0 = to_render_timestamps0.begin(); it0 != to_render_timestamps0.end(); ++it0){
+        std::cout << " " << *it0 ;
+    }
+    std::cout << std::endl;
+
+    std::cout << "RENDERING TIMESTAMPS 1: " ;
+    for(auto it1 = to_render_timestamps1.begin(); it1 != to_render_timestamps1.end(); ++it1){
+        std::cout << " " << *it1 ;
+    }
+    std::cout << std::endl;
+
+    std::cout << "RENDERING TIMESTAMPS 2: " ;
+    for(auto it2 = to_render_timestamps2.begin(); it2 != to_render_timestamps2.end(); ++it2){
+        std::cout << " " << *it2 ;
+    }
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "//////////////////////////////////////////" << std::endl;
+    std::cout << "FIN DE LA DEMANDE DE NOUVEAUX TIMESTAMPS" << std::endl;
+    std::cout << "//////////////////////////////////////////" << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::this_thread::sleep_for (std::chrono::milliseconds(1000));
+
 }
 
 
