@@ -426,30 +426,12 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
 
             }
         }
-        
-        std::cout << "RENDERING CONTAINER 0: " ;
-        for(auto it0 = to_render_timestamps0.begin(); it0 != to_render_timestamps0.end(); ++it0){
-            std::cout << " " << *it0 ;
-        }
-        std::cout << std::endl;
-
-        std::cout << "RENDERING CONTAINER 1: " ;
-        for(auto it1 = to_render_timestamps1.begin(); it1 != to_render_timestamps1.end(); ++it1){
-            std::cout << " " << *it1 ;
-        }
-        std::cout << std::endl;
-
-        std::cout << "RENDERING CONTAINER 2: " ;
-        for(auto it2 = to_render_timestamps2.begin(); it2 != to_render_timestamps2.end(); ++it2){
-            std::cout << " " << *it2 ;
-        }
-        std::cout << std::endl;
-
         if(i < 10) ++i;
 
         std::this_thread::sleep_for (std::chrono::milliseconds(1));
     }
     while(!_pop_queue_core->empty()){
+        std::this_thread::sleep_for (std::chrono::milliseconds(500));
         if(!_pop_queue_core->empty()){
             auto msg_core = *(_pop_queue_core->try_pop() );
             if(msg_core->getHeader() == TIMESTAMP){
@@ -485,7 +467,24 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
             }
         }
 
-        std::this_thread::sleep_for (std::chrono::milliseconds(1));
+    std::cout << "RENDERING TIMESTAMPS 0: " ;
+    for(auto it0 = to_render_timestamps0.begin(); it0 != to_render_timestamps0.end(); ++it0){
+        std::cout << " " << *it0 ;
+    }
+    std::cout << std::endl;
+
+    std::cout << "RENDERING TIMESTAMPS 1: " ;
+    for(auto it1 = to_render_timestamps1.begin(); it1 != to_render_timestamps1.end(); ++it1){
+        std::cout << " " << *it1 ;
+    }
+    std::cout << std::endl;
+
+    std::cout << "RENDERING TIMESTAMPS 2: " ;
+    for(auto it2 = to_render_timestamps2.begin(); it2 != to_render_timestamps2.end(); ++it2){
+        std::cout << " " << *it2 ;
+    }
+
+        
     }
 
     std::cout << "RENDERING TIMESTAMPS 0: " ;
@@ -504,12 +503,140 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     for(auto it2 = to_render_timestamps2.begin(); it2 != to_render_timestamps2.end(); ++it2){
         std::cout << " " << *it2 ;
     }
+
     std::cout << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;
     std::cout << "//////////////////////////////////////////" << std::endl;
     std::cout << "FIN DE LA DEMANDE DE NOUVEAUX TIMESTAMPS" << std::endl;
     std::cout << "//////////////////////////////////////////" << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::this_thread::sleep_for (std::chrono::milliseconds(1000));
+
+    i = 0;
+
+    std::vector<float> to_render_old_timestamps0;
+    std::vector<float> to_render_old_timestamps1;
+    std::vector<float> to_render_old_timestamps2;
+
+    FMessages old_timestamps0(TIMESTAMP, std::shared_ptr< patternStruct >(new patternStruct(-1, 0, 0.0f, 1.0f)));
+    std::cout << "RENDER >>> SEND TIMESTAMPS  on container : 0, from : 0.0, to : 1.0" << std::endl;
+    _push_queue_core->push(std::make_shared<FMessages>(old_timestamps0));
+/*
+    FMessages old_timestamps1(TIMESTAMP, std::shared_ptr< patternStruct >(new patternStruct(-1, 1, 0.0f, 1.0f)));
+    std::cout << "RENDER >>> SEND TIMESTAMPS  on container : 1, from : 0.0, to : 1.0" << std::endl;
+    _push_queue_core->push(std::make_shared<FMessages>(old_timestamps1));
+
+    FMessages old_timestamps2(TIMESTAMP, std::shared_ptr< patternStruct >(new patternStruct(-1, 2, 0.0f, 1.0f)));
+    std::cout << "RENDER >>> SEND TIMESTAMPS  on container : 2, from : 0.0, to : 1.0" << std::endl;
+    _push_queue_core->push(std::make_shared<FMessages>(old_timestamps2));
+*/
+    while(i < 10 && minId != -10){
+
+
+        if(!_pop_queue_core->empty()){
+            auto msg_core = *(_pop_queue_core->try_pop() );
+            if(msg_core->getHeader() == TIMESTAMP){
+                auto received = std::static_pointer_cast< std::vector<patternStruct> >(msg_core->getContent() ) ;
+                std::cout << "RENDER >>> TIMESTAMPS RECEIVED FROM CORE on container : " << received->begin()->contId << ", from : " << received->begin()->tBegin << ", to : " << (--received->end())->tEnd << std::endl;
+
+                switch(received->begin()->contId){
+                    case(0):
+                        for(auto it = received->begin(); it != received->end(); ++it){
+                            to_render_old_timestamps0.push_back(it->id);
+                            to_render_old_timestamps0.push_back(it->tBegin);
+                            to_render_old_timestamps0.push_back(it->tEnd);
+                        }
+                    break;
+                    case(1):
+                        for(auto it = received->begin(); it != received->end(); ++it){
+                            to_render_old_timestamps1.push_back(it->id);
+                            to_render_old_timestamps1.push_back(it->tBegin);
+                            to_render_old_timestamps1.push_back(it->tEnd);
+                        }
+                    break;
+                    case(2):
+                        for(auto it = received->begin(); it != received->end(); ++it){
+                            to_render_old_timestamps2.push_back(it->id);
+                            to_render_old_timestamps2.push_back(it->tBegin);
+                            to_render_old_timestamps2.push_back(it->tEnd);
+                        }
+                    break;
+
+                }
+
+
+            }
+        }
+
+        if(i < 10) ++i;
+
+        std::this_thread::sleep_for (std::chrono::milliseconds(1));
+    }
+    while(!_pop_queue_core->empty()){
+        if(!_pop_queue_core->empty()){
+            auto msg_core = *(_pop_queue_core->try_pop() );
+            if(msg_core->getHeader() == TIMESTAMP){
+                auto received = std::static_pointer_cast< std::vector<patternStruct> >(msg_core->getContent() ) ;
+                std::cout << "RENDER >>> TIMESTAMPS RECEIVED FROM CORE on container : " << received->begin()->contId << ", from : " << received->begin()->tBegin << ", to : " << (--received->end())->tEnd << std::endl;
+
+                switch(received->begin()->contId){
+                    case(0):
+                        for(auto it = received->begin(); it != received->end(); ++it){
+                            to_render_old_timestamps0.push_back(it->id);
+                            to_render_old_timestamps0.push_back(it->tBegin);
+                            to_render_old_timestamps0.push_back(it->tEnd);
+                        }
+                    break;
+                    case(1):
+                        for(auto it = received->begin(); it != received->end(); ++it){
+                            to_render_old_timestamps1.push_back(it->id);
+                            to_render_old_timestamps1.push_back(it->tBegin);
+                            to_render_old_timestamps1.push_back(it->tEnd);
+                        }
+                    break;
+                    case(2):
+                        for(auto it = received->begin(); it != received->end(); ++it){
+                            to_render_old_timestamps2.push_back(it->id);
+                            to_render_old_timestamps2.push_back(it->tBegin);
+                            to_render_old_timestamps2.push_back(it->tEnd);
+                        }
+                    break;
+
+                }
+
+
+            }
+        }
+
+        std::this_thread::sleep_for (std::chrono::milliseconds(10));
+    }
+
+    std::cout << "RENDERING TIMESTAMPS 0: " ;
+    for(auto it0 = to_render_old_timestamps0.begin(); it0 != to_render_old_timestamps0.end(); ++it0){
+        std::cout << " " << *it0 ;
+    }
+    std::cout << std::endl;
+/*
+    std::cout << "RENDERING TIMESTAMPS 1: " ;
+    for(auto it1 = to_render_old_timestamps1.begin(); it1 != to_render_old_timestamps1.end(); ++it1){
+        std::cout << " " << *it1 ;
+    }
+    std::cout << std::endl;
+
+    std::cout << "RENDERING TIMESTAMPS 2: " ;
+    for(auto it2 = to_render_old_timestamps2.begin(); it2 != to_render_old_timestamps2.end(); ++it2){
+        std::cout << " " << *it2 ;
+    }
+    */
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "//////////////////////////////////////" << std::endl;
+    std::cout << "FIN DE LA DEMANDE D'ANCIENS TIMESTAMPS" << std::endl;
+    std::cout << "//////////////////////////////////////" << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;
