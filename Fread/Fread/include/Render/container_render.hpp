@@ -65,12 +65,14 @@ public :
     int getContainerOffsetY();
     int getEventOffsetY();
     int getWindowContainerOffsetY();
+    int getSpacing();
     // setters
     void setContainerSize(int containerSize);
     void setSpacing(int spacing);
     void setContainerOffsetX(int containerOffsetX);
     void setContainerOffsetY(int containerOffsetY);
     void setEventOffsetY(int eventOffsetY);
+    void setWindowContainerOffsetY(int windowContainerOffsetY);
     //update 
     void updatePosition(int containerOffsetX, int containerOffsetY, int spacing, int eventOffsetY, int windowContainerOffsetY, int nbContainer);
     // draw

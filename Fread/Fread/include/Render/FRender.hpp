@@ -18,9 +18,9 @@
 #include <thread>
 #include <SFML/Graphics.hpp>
 #include "Render/container_render.hpp"
-#include "FQueue.hpp" //template
-#include "FMessages.hpp" //template
-#include "Core/FMap.hpp" //template
+#include "FQueue.hpp" 
+#include "FMessages.hpp" 
+#include "Core/FMap.hpp" 
 #include "FThread_guard.hpp"
 #include "FObjet.hpp"
 #include "FOccurrence.hpp"

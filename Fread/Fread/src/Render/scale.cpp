@@ -114,6 +114,11 @@ int scale::getWindowContainerOffsetY()
     return windowContainerOffsetY;
 }
 
+int scale::getSpacing() 
+{
+    return spacing;
+}
+
 float scale::getScale() 
 {
     return constScale;
@@ -143,6 +148,11 @@ void scale::setEventOffsetY(int eventOffsetY)
 void scale::setSpacing(int spacing) 
 {
     spacing = spacing;
+}
+
+void scale::setWindowContainerOffsetY(int windowContainerOffsetY)
+{
+    windowContainerOffsetY = windowContainerOffsetY;
 }
 
 //update 
