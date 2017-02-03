@@ -145,6 +145,8 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
  
     sf::RenderWindow window(sf::VideoMode(sizeX, sizeY), "Container and occurrences test",sf::Style::Default, settings);
 
+       sizeX =window.getSize().x;
+         sizeY =window.getSize().y;
     FBezierCurve bezierCurve1(sf::Vector2f(50,50), sf::Vector2f(350,350), 20, 2.f, sf::Color::Cyan);
     FBezierCurve bezierCurve2(sf::Vector2f(100,100), sf::Vector2f(300,300), 20, 2.f, sf::Color::Magenta);
 
@@ -209,12 +211,33 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
 
     while (window.isOpen())
     {
+        int spacing =100;
             sf::Event event;
             while (window.pollEvent(event))
             {
                 if (event.type == sf::Event::Closed)
                     window.close();
+                if (event.type == sf::Event::Resized)
+                    {
+                        std::cout << "new width: " << event.size.width << std::endl;
+                        std::cout << "new height: " << event.size.height << std::endl;
+                        sizeX =window.getSize().x;
+                        sizeY =window.getSize().y;
+                        scale1.updateScale((sizeX - spacing),spacing,scale1.getContainerOffsetX(),scale1.getContainerOffsetX(),scale1.getEventOffsetY(),(sizeY*45)/100,3);
+                        container1.updatePosition(scale1.getContainerSize(),scale1.getContainerOffsetX(),scale1.getContainerOffsetY(),scale1.getWindowContainerOffsetY());
+                        
+                        container2.updatePosition(scale1.getContainerSize(),scale1.getContainerOffsetX(),scale1.getContainerOffsetY(),scale1.getWindowContainerOffsetY());
+                       
+                        container3.updatePosition(scale1.getContainerSize(),scale1.getContainerOffsetX(),scale1.getContainerOffsetY(),scale1.getWindowContainerOffsetY());
+                        
+                        occurrence1.updatePosition(scale1.getScale(),scale1.getContainerOffsetY(),scale1.getContainerOffsetX(),scale1.getEventOffsetY());
+                                                occurrence2.updatePosition(scale1.getScale(),scale1.getContainerOffsetY(),scale1.getContainerOffsetX(),scale1.getEventOffsetY());
+                        occurrence3.updatePosition(scale1.getScale(),scale1.getContainerOffsetY(),scale1.getContainerOffsetX(),scale1.getEventOffsetY());
+
+                    }
+                
             }
+            
             window.clear(sf::Color(255,255,255));
             scale1.draw(window);
             window.draw(container1);
