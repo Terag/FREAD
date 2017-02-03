@@ -104,6 +104,9 @@ private:
 
     bool contains_occurrence(int idPattern, int idOccurrence);
     std::shared_ptr<FOccurrence> find_occurrence(int idPattern, int idOccurrence);
+
+    patternStruct get_first_pattern(int contId, float beginTime);
+    patternStruct get_next_pattern( patternStruct current_pattern );
 };
 
 
