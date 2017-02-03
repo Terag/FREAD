@@ -77,7 +77,7 @@ scale::scale(float absoluteTime, int nbContainer, int containerSize,
     time.setFillColor(sf::Color(60,60,60));
     time.setCharacterSize(10);
     time.setString(std::to_string(spacing*i/constScale));
-    time.setPosition(containerOffsetX + spacing*(i),windowContainerOffsetY + containerOffsetY - eventOffsetY - 15);
+    time.setPosition(containerOffsetX + spacing*(i),windowContainerOffsetY + containerOffsetY - eventOffsetY - 20);
     times.push_back(time);
     sf::VertexArray timeLine = sf::VertexArray(sf::Lines, 2);
     timeLine[0].position = sf::Vector2f(containerOffsetX + spacing*(i), windowContainerOffsetY + containerOffsetY - eventOffsetY); 
@@ -175,6 +175,7 @@ void scale::updatePosition(int nbContainer)
 {
     for (int i = 0; i < times.size(); i ++) 
     {
+        times[i].setCharacterSize(10);
         times[i].setPosition(containerOffsetX + spacing*(i),windowContainerOffsetY + containerOffsetY - eventOffsetY - 15);
     }
     for (int j = 0; j < timeLines.size(); j ++)

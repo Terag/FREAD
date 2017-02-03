@@ -140,8 +140,8 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
  sf::ContextSettings settings;
  settings.antialiasingLevel = 8;
 
- int sizeX = 1500;
- int sizeY = 1000;
+ int sizeX = 1920;
+ int sizeY = 926;
  
     sf::RenderWindow window(sf::VideoMode(sizeX, sizeY), "Container and occurrences test",sf::Style::Default, settings);
 

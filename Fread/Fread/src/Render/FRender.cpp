@@ -45,14 +45,18 @@ FOccurrence FRender::askOccurrenceById(int idPattern, int idOccurrence)
     return occurrence;
      
 }
- 
+
+FContainer FRender::viewContainerById(int id)
+{
+   FContainer container; // = *(FCore::view_Containers(id));
+   return container;    
+}
  
 FPattern FRender::viewPatternById(int id) 
 {
     FPattern pattern = *(FCore::view_patterns(id));
     return pattern;
 }
- 
 
 FMessages FRender::receive() 
 {
