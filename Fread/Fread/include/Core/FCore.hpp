@@ -70,12 +70,10 @@ public:
     //static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b);
     static std::shared_ptr<FPattern> view_patterns(int a);
     
-    FMap<int, FContainer > m_containers;
+
     FMap<int, FPattern > m_patterns;
 
-private:
-    bool awake; //is in awake phase
-    
+private:   
     std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _m_pop_queue_parser;
     std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _m_push_queue_parser;
     std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _m_pop_queue_render;
@@ -86,7 +84,10 @@ private:
     FQueue< std::shared_ptr< FMessages > > m_render_occurrences;
     FQueue< std::shared_ptr< FMessages > > m_render_timestamps;
 
-    FMap< int, FMap< int,  FOccurrence > > m_occurrences;
+    std::vector< std::shared_ptr<FContainer> > m_containers;
+    FMap< int, std::vector< std::shared_ptr<FOccurrence > > > m_occurrences;
+
+    bool awake; //is in awake phase
     
     void thr_FCore();
 
@@ -96,11 +97,17 @@ private:
     void thr_messages_handler_parser();
     void thr_messages_handler_render();
 
-    float getContainerContent(int id, float t1);
-    bool isContainerFull(int id, float t1, float t2);
+    float get_container_content(int id, float t1);
+    bool is_container_full(int id, float t1, float t2);
 
     //check_memory ensure that the two map are not too big
     void thr_check_memory();
+
+    bool contains_occurrence(int idPattern, int idOccurrence);
+    std::shared_ptr<FOccurrence> find_occurrence(int idPattern, int idOccurrence);
+
+    patternStruct get_first_pattern(int contId, float beginTime);
+    patternStruct get_next_pattern( patternStruct current_pattern );
 };
 
 
