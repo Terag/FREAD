@@ -13,7 +13,7 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
                 _m_push_queue_core(_push_queue_core), 
                 absoluteTime(absoluteTime)
 {
-
+}
 std::vector<container_render> FRender::transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale) 
 {
 
@@ -39,21 +39,10 @@ std::vector<container_render> FRender::transformContainer(std::vector<std::share
  
 FPattern FRender::viewPatternById(int id) 
 {
-    FPattern pattern = *(FCore::view_patterns(id));
-    return pattern;
+    //FPattern pattern = *(FCore::view_patterns(id));
+    //return pattern;
 }
 
-FMessages FRender::receive() 
-{
-   /*
-    std::shared_ptr<FMessages> msg = _m_pop_queue_core->try_pop();
-    if(msg != NULL) 
-    {   
-        FOccurrence occ = *(msg->getContent());
-        std::vector<FOccurrence> waitingOcc;
-    }
-    */
-}
  
  
 float FRender::getAbsoluteTime() 
