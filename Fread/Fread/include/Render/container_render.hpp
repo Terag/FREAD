@@ -75,7 +75,8 @@ public :
     void setEventOffsetY(int eventOffsetY);
     void setWindowContainerOffsetY(int windowContainerOffsetY);
     //update
-    void updateScale(int containerSize, int spacing, int containerOffsetX, int containerOffsetY, int eventOffsetY, int windowContainerOffsetY, int nbContainer);
+    void updateScale(int containerSize, int spacing, int containerOffsetX, 
+                     int containerOffsetY, int eventOffsetY, int windowContainerOffsetY, int nbContainer);
     void updatePosition(int nbContainer);
     // draw
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
@@ -161,5 +162,5 @@ public :
     //update 
     void updatePosition(int containerSize, int offsetX, int offsetY, int windowContainerOffsetY);
     //draw
-   virtual void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const  override;     
+    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const  override;     
 };
