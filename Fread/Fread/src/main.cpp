@@ -688,14 +688,12 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
 {
  sf::ContextSettings settings;
  settings.antialiasingLevel = 8;
-
- int sizeX = 1920;
- int sizeY = 926;
  
-    sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width,sf::VideoMode::getDesktopMode().height), "Container and occurrences test",sf::Style::Default, settings);
+sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width,sf::VideoMode::getDesktopMode().height), "Container and occurrences test",sf::Style::Default, settings);
 
-       sizeX =window.getSize().x;
-         sizeY =window.getSize().y;
+int sizeX =window.getSize().x;
+int sizeY =window.getSize().y;
+
     FBezierCurve bezierCurve1(sf::Vector2f(50,50), sf::Vector2f(350,350), 20, 2.f, sf::Color::Cyan);
     FBezierCurve bezierCurve2(sf::Vector2f(100,100), sf::Vector2f(300,300), 20, 2.f, sf::Color::Magenta);
 
@@ -741,12 +739,15 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     eventType3.push_back(SEND);
 
     //definition of the scalling we want
-    scale scale1(0.1847, 3, (sizeX - 100), 100, 50, 30, 8, (sizeY*45)/100);
+    scale scale1(0.1847, 3, (sizeX - 100), 100, 50,(sizeY*3)/100, sizeY/100, (sizeY*45)/100);
+    
+    //definition of a container_render vector
+    std::vector<container_render> containers;
     
     container_render container1(1,"coucou",scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY(), scale1.getWindowContainerOffsetY());
     container_render container2(2,"ça va ?", scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY(), scale1.getWindowContainerOffsetY());
     container_render container3(3,"Oui et toi ?", scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY(), scale1.getWindowContainerOffsetY());
-
+    
     occurrence_render occurrence1(1, container1.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(),scale1.getWindowContainerOffsetY(), scale1.getScale(), timeStamps1, eventType1);
     occurrence_render occurrence2(2, container2.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(),scale1.getWindowContainerOffsetY(), scale1.getScale(), timeStamps2, eventType2);
     occurrence_render occurrence3(3, container3.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(),scale1.getWindowContainerOffsetY(), scale1.getScale(), timeStamps3, eventType3);
@@ -754,7 +755,11 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     container1.addOccurrence(occurrence1);
     container2.addOccurrence(occurrence2);
     container3.addOccurrence(occurrence3);
-
+    
+    containers.push_back(container1);
+    containers.push_back(container2);
+    containers.push_back(container3);
+    
     pattern_render pattern(1, timeStamps3, occurrence3, 200, 200,100.0);
     pattern_render pattern2(2, timeStamps2, occurrence2, 400, 200,100.0);
 
@@ -772,7 +777,7 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
                         std::cout << "new height: " << event.size.height << std::endl;
                         sizeX =window.getSize().x;
                         sizeY =window.getSize().y;
-                        scale1.updateScale((sizeX - spacing),spacing,scale1.getContainerOffsetX(),scale1.getContainerOffsetX(),scale1.getEventOffsetY(),(sizeY*45)/100,3);
+                        scale1.updateScale((sizeX - spacing),spacing,scale1.getContainerOffsetX(),(sizeY*3)/100,sizeY/100,(sizeY*45)/100,3);
                         container1.updatePosition(scale1.getContainerSize(),scale1.getContainerOffsetX(),scale1.getContainerOffsetY(),scale1.getWindowContainerOffsetY());
                         
                         container2.updatePosition(scale1.getContainerSize(),scale1.getContainerOffsetX(),scale1.getContainerOffsetY(),scale1.getWindowContainerOffsetY());
@@ -789,9 +794,10 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
             
             window.clear(sf::Color(255,255,255));
             scale1.draw(window);
-            window.draw(container1);
-            window.draw(container2);
-            window.draw(container3);
+            for (int i =0; i < containers.size(); i++)
+            {
+                window.draw(containers[i]); 
+            }
             pattern.draw(window);
             window.draw(pattern2);
             window.display();
