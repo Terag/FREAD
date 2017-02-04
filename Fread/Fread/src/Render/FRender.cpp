@@ -39,15 +39,60 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
  FPattern FRender::viewPatternById(int id) 
 {
     //FPattern pattern = *(FCore::view_patterns(id));
-    //return pattern;
-}
+    ask_for_pattern(id);
+     auto msg = *( _m_pop_queue_core->try_pop() );
+     auto received = std::static_pointer_cast<FPattern>( msg->getContent() ); 
+     FPattern content = *received;
+     
+     return content;
+  
+ }
+ 
+  FOccurrence FRender::viewOccurenceById(int patternId,int occId) 
+{
+    ask_for_occurrence( patternId,  occId);
+    auto msg = *( _m_pop_queue_core->try_pop() );
+    auto received = std::static_pointer_cast<FOccurrence>( msg->getContent() ); 
+     
+    FOccurrence content = *received;
+     
+     return content;
+  
+ }
+ 
+  std::vector<container_render> FRender::ContainerToDrawBettewen(int firstContID, int lastContID,float begin_time, float end_time, scale scale)
+  {
+       std::vector<container_render> renderContainers;
+       for( int i = firstContID; i < lastContID; i++) {
+       ask_for_timestamps( i,  begin_time,  end_time);
+       auto msg = *( _m_pop_queue_core->try_pop() );
+     auto received = std::static_pointer_cast<FContainer>( msg->getContent() ); 
+     FContainer content = *received;
+     container_render container(content.getId(), content.getAlias(), 1000, scale.getContainerOffsetX(),scale.getContainerOffsetY(),scale.getWindowContainerOffsetY());
+        std::vector <patternStruct> listPattern = content.getPatternList();
+        for (unsigned int j = 0; j < listPattern.size(); j ++) {
+            FPattern fPat = viewPatternById(listPattern[j].id);
+            occurrence_render occ(
+                                  fPat.getId(),listPattern[j].contId,
+                                  scale.getContainerOffsetY(), scale.getContainerOffsetX(),
+                                  scale.getEventOffsetY(), scale.getWindowContainerOffsetY(),scale.getScale(), fPat.getMeanTimeStamps(),
+                                  fPat.getEventTypes()
+                                  );
+            container.addOccurrence(occ);
+        }
+        renderContainers.push_back(container);
+       
+       }
+       return renderContainers;
+       
+  }
  
  float FRender::getAbsoluteTime() 
 {
     return absoluteTime;
 } 
  
-/* void FRender::thr_FRender() {
+void FRender::thr_FRender() {
   
     //transform a list of FContainers in a list of container_renders + define the scaling 
     std::vector<std::shared_ptr<FContainer>> listContainer;
@@ -69,17 +114,19 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
             sf::Event event;
             while (window.pollEvent(event))
             {
-                if (event.type == sf::Event::Closed)
+                if (event.type == sf::Event::Closed){
                     for (unsigned int i = 0; i < renderContainers.size(); i++) {
                        window.draw(renderContainers[i]);
                     }
                     window.close();
-            }
+            
+                }
+            }    
             window.clear(sf::Color(255,255,255));
             window.display();
-    }
+            }
     
-} */
+} 
 
 
 /*

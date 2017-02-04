@@ -37,12 +37,13 @@ public:
     ~FRender();
     
     std::vector<container_render> transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale);
-    // void thr_FRender();
+    void thr_FRender();
     float getAbsoluteTime();
     FPattern viewPatternById(int id) ;
-
+    FOccurrence viewOccurenceById(int patternId,int occId) ;
+     std::vector<container_render> ContainerToDrawBettewen(int firstContID, int lastContID,float begin_time, float end_time, scale scale);
     void ask_for_occurrence(int patternId, int occId);
-    void ask_for_timestamps(int contId, float begin_time, float end_time);
+     void ask_for_timestamps(int contId, float begin_time, float end_time);
     void ask_for_pattern(int patternId);
     void ask_for_container(int contId);
     void receive_message();
