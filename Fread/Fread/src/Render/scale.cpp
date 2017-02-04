@@ -33,13 +33,13 @@ scale::scale()
 scale::scale(float absoluteTime, int nbContainer, int containerSize, int windowContainerOffsetY):
 absoluteTime(absoluteTime), containerSize(containerSize), windowContainerOffsetY(windowContainerOffsetY)
 {
-    int subdTimeLine = containerSize/spacing;
+    subdTimeLine = containerSize/spacing;
     constScale = containerSize/absoluteTime;
     if (!font.loadFromFile("Arimo-Regular.ttf")) 
     {
         // error
     }
-    for (int i = 0; i < subdTimeLine + 1; i++) 
+    for (unsigned int i = 0; i < subdTimeLine + 1; i++) 
     {
     sf::Text time;
     time.setFont(font);
@@ -70,7 +70,7 @@ scale::scale(float absoluteTime, int nbContainer, int containerSize,
     {
         // error
     }
-    for (int i = 0; i < subdTimeLine + 1; i++) 
+    for (unsigned int i = 0; i < subdTimeLine + 1; i++) 
     {
     sf::Text time;
     time.setFont(font);
@@ -173,12 +173,12 @@ void scale::updateScale(int containerSize, int spacing, int containerOffsetX, in
 
 void scale::updatePosition(int nbContainer)
 {
-    for (int i = 0; i < times.size(); i ++) 
+    for (unsigned int i = 0; i < times.size(); i ++) 
     {
         times[i].setCharacterSize(10);
         times[i].setPosition(containerOffsetX + spacing*(i),windowContainerOffsetY + containerOffsetY - eventOffsetY - 15);
     }
-    for (int j = 0; j < timeLines.size(); j ++)
+    for (unsigned int j = 0; j < timeLines.size(); j ++)
     {
         timeLines[j][0].position = sf::Vector2f(containerOffsetX + spacing*(j), windowContainerOffsetY + containerOffsetY - eventOffsetY); 
         timeLines[j][1].position = sf::Vector2f(containerOffsetX + spacing*(j), windowContainerOffsetY + containerOffsetY*nbContainer + eventOffsetY);

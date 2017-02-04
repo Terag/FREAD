@@ -42,7 +42,7 @@ private :
     float absoluteTime = 1.f;
     int containerSize = 1000;
     int spacing = 100;
-    int subdTimeLine;
+    unsigned int subdTimeLine;
     int containerOffsetX = 50;
     int containerOffsetY = 30;
     int eventOffsetY = 8;
@@ -89,9 +89,9 @@ private:
     sf::Color eventColor = sf::Color(60,60,60);
     eventType type;
     float ftStart, ftEnd = 0;
-    int  containerOffsetY, containerID, windowContainerOffsetY = 0;
     int offsetY = 6;
-    int offsetX = 50;
+    int offsetX;
+    int  containerOffsetY, containerID, windowContainerOffsetY = 0;
     sf::VertexArray rectangles = sf::VertexArray(sf::Quads, 4);
     
 public:
