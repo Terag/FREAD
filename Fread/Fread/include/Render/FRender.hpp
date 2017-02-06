@@ -50,7 +50,7 @@ public:
     void drawPatterns(std::vector<pattern_render> listPatterns,int sizeX, int sizeY,sf::RenderTarget& window);
     FPattern viewPatternById(int id) ;
     FOccurrence viewOccurenceById(int patternId,int occId) ;
-    std::vector<container_render> ContainerToDrawBetween(int firstContID, int lastContID,float begin_time, float end_time, scale scale,std::vector<pattern_render> listPatterns);
+    std::vector<container_render> ContainerToDrawBetween(std::vector<int>listContainer,float begin_time, float end_time, scale scale,std::vector<pattern_render> listPatterns);
     std::vector<int> getContainerID();
     
     void ask_for_occurrence(int patternId, int occId);
