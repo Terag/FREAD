@@ -147,7 +147,7 @@ void FCore::thr_timestamps_manager(){
             auto content_send = std::static_pointer_cast<void>( received );
             FMessages msg_send(TIMESTAMP, content_send);
             _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
-            std::cout << "CORE >>> send timestamps in container : " << received->begin()->contId << ", beginning at : " << received->begin()->tBegin << ", and ending at : " << (--received->end())->tEnd << std::endl;
+//            std::cout << "CORE >>> send timestamps in container : " << received->begin()->contId << ", beginning at : " << received->begin()->tBegin << ", and ending at : " << (--received->end())->tEnd << std::endl;
 
 
         	/*

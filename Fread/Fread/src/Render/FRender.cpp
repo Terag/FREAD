@@ -270,7 +270,7 @@ void FRender::ask_for_timestamps(int contId, float begin_time, float end_time){
   auto timestamps_send = std::make_shared< patternStruct >(timestamp);
   auto content_send = std::static_pointer_cast<void>( timestamps_send );
   FMessages msg_send(TIMESTAMP, content_send);
-  std::cout << "PARSER >>> SEND TIMESTAMPS ON CONTAINER : " << contId << " FROM : " << begin_time << " UNTIL : " << end_time << " TO CORE" << std::endl;
+  std::cout << "RENDER >>> SEND TIMESTAMPS ON CONTAINER : " << contId << " FROM : " << begin_time << " UNTIL : " << end_time << " TO CORE" << std::endl;
   _m_push_queue_core->push(std::make_shared<FMessages>(msg_send) );
 }
 
