@@ -26,7 +26,7 @@
 
 /* 
  * File:   pattern_render.hpp
- * Author: emma, Jerome
+ * Author: Emma et Jerome
  *
  * Created on 24 janvier 2017, 11:38
  */
