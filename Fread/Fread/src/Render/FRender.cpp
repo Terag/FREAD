@@ -139,13 +139,14 @@ void FRender::thr_FRender() {
                         sizeY =window.getSize().y;
                         scale.updateScale((sizeX - sizeX/10), sizeX/10, sizeX/20 ,(sizeY*3)/100, sizeY/100, (sizeY*45)/100,nbContainer);
                         
-                    }
+                }
             }    
             window.clear(sf::Color(255,255,255));
             scale.draw(window);
             for (unsigned int i = 0; i < renderContainers.size(); i++) {
                        window.draw(renderContainers[i]);
                     }
+            drawPatterns(listPattern,sizeX,sizeY,window);
             window.display();
             }
     
