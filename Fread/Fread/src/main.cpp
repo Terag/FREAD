@@ -8,8 +8,7 @@
 //#include "Parser/statesConfig.hpp"
 
 //Includes for parser tests
-//#include "Parser/parser.hpp"
-//#include "FMessages_structure.hpp"
+#include "Parser/parser.hpp"
 
 //Includes for graphics tests
 
@@ -43,24 +42,36 @@ using namespace std;
 void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _push_queue_core);
 void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core );
 
-int main(){
+int main(int argc, char* argv[]){
+    
+    if(argc != 2){
+        std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
+        return -1;
+    }
+    
+    std::string path = argv[1];
+            
+    if(path.substr(path.size()-6, 6) != ".trace"){
+        std::cout << "invalid trace format, need *.trace" << std::endl;
+        return -1;
+    } 
 
     std::cout << "start" << std::endl;
 
-    std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_parser_core(new FQueue< std::shared_ptr<FMessages > >);
-    std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_core_parser(new FQueue< std::shared_ptr<FMessages > >) ;
-    std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_render_core(new FQueue< std::shared_ptr<FMessages > >) ;
-    std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_core_render(new FQueue< std::shared_ptr<FMessages > >) ;
-
+    auto _queue_parser_core = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    auto _queue_core_parser = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    auto _queue_render_core = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    auto _queue_core_render = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    
+    std::thread parserThread(parser_thread, path, _queue_core_parser, _queue_parser_core);
+    FThread_guard lock1(parserThread);
+    
     std::cout << "starting fcore" << std::endl;
-    std::thread fcore_thr_( start_core, _queue_parser_core,    
+    std::thread fcore_thr_( core_thread, _queue_parser_core,    
                                         _queue_core_parser,
                                         _queue_render_core,
                                         _queue_core_render);
-
-    std::cout << "starting false parser" << std::endl;
-    std::thread false_parser_thr_(false_parser, _queue_core_parser, _queue_parser_core);
-    FThread_guard lock2(false_parser_thr_);
+    FThread_guard lock2(fcore_thr_);
 
 	std::cout << "starting false render" << std::endl;
     std::thread false_render_thr_(false_render, _queue_core_render, _queue_render_core);
@@ -68,6 +79,7 @@ int main(){
 
     return 0;
 }
+
 
 void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core){
     
@@ -124,17 +136,10 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
 }
 
 
-*/
+
 
 void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core ){
     std::cout << "in false render " << std::endl;
-
-
-    FMessages init(INITDONE, NULL);
-    FMessages start(START, NULL);
-
-    _push_queue_core->push(std::make_shared<FMessages>(init));
-    _push_queue_core->push(std::make_shared<FMessages>(start));
     
     int i = 0;
     int minId = 0;
@@ -525,7 +530,7 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     FMessages old_timestamps2(TIMESTAMP, std::shared_ptr< patternStruct >(new patternStruct(-1, 2, 0.0f, 1.0f)));
     std::cout << "RENDER >>> SEND TIMESTAMPS  on container : 2, from : 0.0, to : 1.0" << std::endl;
     _push_queue_core->push(std::make_shared<FMessages>(old_timestamps2));
-*/
+
     while(i < 10 && minId != -10){
 
 
@@ -623,7 +628,7 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     for(auto it2 = to_render_old_timestamps2.begin(); it2 != to_render_old_timestamps2.end(); ++it2){
         std::cout << " " << *it2 ;
     }
-    */
+    
     std::cout << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;
@@ -676,7 +681,7 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
 /*
  * Render main function test
  */
-
+/*
  int main(void)
 {
  sf::ContextSettings settings;
@@ -898,3 +903,63 @@ int main(void){
     pusher.join();
     poper.join();
 }*/
+
+
+
+/*
+ *
+ * TRUE MAIN FONCTION
+ *
+ */
+int main(int argc, char* argv[]){
+    
+    if(argc != 2){
+        std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
+        return -1;
+    }
+    
+    std::string path = argv[1];
+            
+    if(path.substr(path.size()-6, 6) != ".trace"){
+        std::cout << "invalid trace format, need *.trace" << std::endl;
+        return -1;
+    } 
+
+    std::cout << "start" << std::endl;
+
+    auto _queue_parser_core = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    auto _queue_core_parser = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    auto _queue_render_core = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    auto _queue_core_render = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    
+    std::cout << "starting fparser" << std::endl;
+    std::thread parser_thr_(parser_thread, path, 
+                                            _queue_core_parser, 
+                                            _queue_parser_core
+                                            );
+    FThread_guard lock1(parser_thr_);
+    
+    std::cout << "starting fcore" << std::endl;
+    std::thread fcore_thr_( core_thread, _queue_parser_core,    
+                                         _queue_core_parser,
+                                         _queue_render_core,
+                                         _queue_core_render
+                                         );
+    FThread_guard lock2(fcore_thr_);
+
+    auto msg = *(_queue_core_render->wait_and_pop() );
+    if( msg->getHeader() == START ){
+       float absolute_time = *( std::static_pointer_cast<float>(msg->getContent()) );
+        
+        std::cout << "starting frender" << std::endl;
+        std::thread frender_thr_(render_thread, _queue_core_render, 
+                                                _queue_render_core,
+                                                absolute_time
+                                                );
+        FThread_guard lock3(frender_thr_);
+    }
+
+
+
+    return 0;
+}
