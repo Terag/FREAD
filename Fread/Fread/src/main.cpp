@@ -830,7 +830,7 @@ std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _push_queue_core;
               }     
             if (event.type == sf::Event::MouseButtonReleased and clic){
                 clic =false;
-               // barre2.setPosition(event.mouseMove.x-startclic/2,sizeY-20);
+                //barre2.setPosition(event.mouseMove.x-startclic/2,sizeY-20);
             }
                 
                 
@@ -843,10 +843,10 @@ std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _push_queue_core;
                 window.draw(containers[i]); 
             }
             window.draw(barre);
-             window.draw(barre2);
+            window.draw(barre2);
             render.drawPatterns(lp,sizeX,sizeY,window);
             //pattern.draw(window);
-           // window.draw(pattern2);
+            //window.draw(pattern2);
             window.display();
     }
     
