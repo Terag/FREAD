@@ -18,6 +18,7 @@
 #include "Render/container_render.hpp"
 #include "Render/pattern_render.hpp"
 #include "Render/FRender.hpp"
+#include "Render/scale.hpp"
 
 //Includes for queue tests
 #include "FQueue.hpp"

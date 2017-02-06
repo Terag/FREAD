@@ -30,9 +30,7 @@
  * 
  * Created on 24 janvier 2017, 15:47
  */
-#include "Render/container_render.hpp"
-#include <cmath>
-#include <stdio.h>
+#include "Render/event_render.hpp"
 
 using namespace std;
 using namespace sf;
