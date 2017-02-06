@@ -43,7 +43,8 @@ enum HEADER{
      TIMESTAMP,
      CONTAINER,
      PATTERN,
-     OCCURRENCE
+     OCCURRENCE,
+     LIST_ID
 };
 class FMessages{
 public:
