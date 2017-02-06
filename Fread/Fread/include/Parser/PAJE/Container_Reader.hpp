@@ -33,10 +33,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <fstream>
 #include <memory>
 #include <utility>
+
 #include "FContainer.hpp"
+#include "paje_typedefs.hpp"
+#include "Container_Reader.hpp"
 
 namespace paje
-{
+{   
     class Container_Reader {
     private:
         int id;
@@ -78,6 +81,16 @@ namespace paje
         virtual ~Container_Reader();
 
     };
+    
+    typedef struct {
+        int id;
+        std::string name;
+        std::string alias;
+        PajeTypeDef type;
+        float beginTime;
+        float endTime;
+        std::unique_ptr<Container_Reader> reader;
+    } Container_Buffer;
 }
 
 #endif /* CONTAINER_READER_HPP */

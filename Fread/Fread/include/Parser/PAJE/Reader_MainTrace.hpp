@@ -38,6 +38,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace paje
 {
     class Reader_MainTrace {
+    private:
+
+        std::string name;
+        std::string parent;
+        
+        std::string mainTrace_Path;
+        std::ifstream mainTrace_Stream;
+
+        void eventDef(std::vector<EventDef>& eventDefs, std::string &in);
+        FieldDef fieldDef(std::string &in);
+        
     public:
         Reader_MainTrace();
         void init(std::string const& path);
@@ -51,16 +62,8 @@ namespace paje
         std::string getLine();
         bool end();
         
-    private:
-
-        std::string name;
-        std::string parent;
+        std::string getPath() const {return mainTrace_Path;}
         
-        std::string mainTrace_Path;
-        std::ifstream mainTrace_Stream;
-
-        void eventDef(std::vector<EventDef>& eventDefs, std::string &in);
-        FieldDef fieldDef(std::string &in);
     };
 }
 
