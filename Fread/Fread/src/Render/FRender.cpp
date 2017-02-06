@@ -122,8 +122,8 @@ void FRender::thr_FRender() {
     int nbContainer = listContainer.size();
     
     scale scale(absoluteTime, nbContainer, (sizeX - sizeX/10), sizeX/10, sizeX/20 ,(sizeY*3)/100, sizeY/100, (sizeY*45)/100);
+
     std::vector<container_render> renderContainers = ContainerToDrawBetween(1,nbContainer,0.0,1.0,scale,listPattern);
-    
     float barreSize =(sizeX - sizeX/10);
     sf::RectangleShape barre(sf::Vector2f(barreSize, 10));
     barre.setPosition(100,sizeY-20);
@@ -177,6 +177,7 @@ void FRender::thr_FRender() {
                     barre2.setPosition(event.mouseMove.x-startclic/2,sizeY-20);
                     (barreSize)-(barre2.getPosition().x-100);
                     }
+
                 }     
                 if (event.type == sf::Event::MouseButtonReleased and clic)
                 {
