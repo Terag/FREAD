@@ -29,13 +29,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <utility>
 #include <string>
+#include <algorithm>
 #include <vector>
 #include "FObjet.hpp"
 
 struct patternStruct {
   int id;
+  int contId;
   float tBegin;
   float tEnd;
+  patternStruct(int i, int ci, float t1, float t2) : id(i), contId(ci), tBegin(t1), tEnd(t2) {} 
+
+  bool operator < (const patternStruct& other) const
+  {
+      return (tBegin < other.tBegin);
+  }
 };
 
 class FContainer : public FObjet
@@ -51,6 +59,7 @@ private :
 
 public:
     FContainer();
+    FContainer(int i);
     FContainer( int const& c_id, std::string c_alias, std::pair<float, float> t_begin_and_end);
     ~FContainer();
 

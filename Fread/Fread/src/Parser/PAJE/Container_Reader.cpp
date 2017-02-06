@@ -29,7 +29,7 @@ namespace paje
         id = c_id;
         curseur_line = -1;
         //container_Stream.open(container_Path);
-    }  
+    } 
     
     void Container_Reader::checkIfReady() {
         if(id > -1 &&
