@@ -25,7 +25,9 @@ private:
     float ftStart, ftEnd = 0;
     int offsetY = 6;
     int offsetX;
-    int containerOffsetY, containerID, windowContainerOffsetY = 0;
+    int containerOffsetY= 0;
+    int containerID =0;
+    int windowContainerOffsetY = 0;
     sf::VertexArray rectangles = sf::VertexArray(sf::Quads, 4);
     
 public:
