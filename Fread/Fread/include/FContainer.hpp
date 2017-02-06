@@ -57,6 +57,7 @@ private :
     std::pair<float,float> timestamp_begin_end;
     std::vector<patternStruct> patternList;
 
+    
 
 public:
     FContainer();
