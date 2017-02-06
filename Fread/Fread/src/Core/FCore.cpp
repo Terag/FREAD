@@ -422,16 +422,13 @@ void FCore::thr_messages_handler_parser(){
                 case(INITDONE):
                 {
                 	std::cout << "CORE >>> INITDONE MESSAGE RECEIVED FROM PARSER" << std::endl;
+
+                	get_total_time();	
+
                     std::vector<int> containers_id = get_containers_id();
                     auto content_containers_send = std::static_pointer_cast<void>( std::make_shared<std::vector<int>>(containers_id) );
                     FMessages msg_send_container( LIST_ID, content_containers_send );
                     _m_push_queue_render->push( std::make_shared<FMessages>(msg_send_container) );
-                    /*
-                    std::vector<int> patterns_id = get_patterns_id();
-                    auto content_patterns_send = std::static_pointer_cast<void>( std::make_shared<std::vector<int>>(patterns_id) );
-                    FMessages msg_send_pattern( LIST_ID, content_patterns_send );
-                    _m_push_queue_render->push( std::make_shared<FMessages>(msg_send_pattern) );
-                    */
                     break;
                 }
                 case(CONTAINER):
