@@ -11,18 +11,26 @@
  * Created on 6 février 2017, 18:35
  */
 
+/*
+ * An occurrence_render referes to a bloc of events_render that are drawn on a container_render
+ */
+
 #pragma once 
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "../FObjet.hpp"
+#include "../FObjet.hpp" // the enum eventType is defined here
 #include "event_render.hpp"
 
 class occurrence_render : public sf::Drawable {
  
 private : 
+// the id of the occurrence
 int id;
+// the vector of all the timestamps of the events of an occurrence_render
 std::vector<float> timeStamps;
+// the vector of all the type of events which goes with the vector of timestamps
 std::vector<eventType> eventTypes;
+// the vector of each events drawable of an occurrence
 std::vector<event_render> events; 
 
 public : 

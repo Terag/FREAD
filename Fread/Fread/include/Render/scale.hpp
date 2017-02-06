@@ -17,14 +17,23 @@
 
 class scale {
 private : 
+    // the execution time of the whole trace
     float absoluteTime = 1.f;
+    // the size in pixel we wants the container to have on the interface
     int containerSize = 1000;
+    // the number of pixels between each line of the timeline
     int spacing = 100;
+    //number of subdivision of the timeline
     unsigned int subdTimeLine;
+    // the offset of the x-axis where starts the 0 of the timeline (and the containers)
     int containerOffsetX = 50;
+    // the space between each containers 
     int containerOffsetY = 30;
+    // the height of all the rectangles representing the events on the containers
     int eventOffsetY = 8;
+    // constScale = containersize/absoluteTime 
     float constScale = 1.f;
+    // determines where on the y-axis will be drawn the containers and the timeline 
     int windowContainerOffsetY;
     //variable related to the text of the timeline
     sf::Font font;

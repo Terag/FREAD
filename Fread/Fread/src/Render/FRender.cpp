@@ -1,7 +1,27 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) 2017, FREAD - Jérôme Berthelin, Emma Goldblum, Maxime Guillem, Victor Rouquette
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+
+ * * Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
+ * * Neither the name of the copyright holders nor the names of its contributors 
+ *   may be used to endorse or promote products derived from this software without
+ *   specific prior written permission.
+
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE REGENTS AND CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
  #include "Render/FRender.hpp"
@@ -43,6 +63,8 @@ FRender::~FRender()
 {
     ask_for_pattern(id);
      auto msg = *( _m_pop_queue_core->wait_and_pop() );
+            std::cout << "RENDER <<< PATTERN FROM CORE" << std::endl;
+
      auto received = std::static_pointer_cast<FPattern>( msg->getContent() ); 
      FPattern content = *received;
      return content;
@@ -52,6 +74,8 @@ FRender::~FRender()
 {
     ask_for_occurrence( patternId,  occId);
     auto msg = *( _m_pop_queue_core->wait_and_pop() );
+        std::cout << "RENDER <<< OCCURENCE FROM CORE" << std::endl;
+
     auto received = std::static_pointer_cast<FOccurrence>( msg->getContent() ); 
      
     FOccurrence content = *received;
@@ -61,7 +85,10 @@ FRender::~FRender()
  }
   std::vector<int> FRender::getContainerID(){
       ask_for_list_container();
+        
     auto msg = *( _m_pop_queue_core->wait_and_pop() );
+    std::cout << "RENDER <<< LIST_ID FROM CORE" << std::endl;
+
     auto received = std::static_pointer_cast<std::vector<int>>( msg->getContent() ); 
      
     std::vector<int> content = *received;
@@ -69,12 +96,14 @@ FRender::~FRender()
      return content;
       
   }
-  std::vector<container_render> FRender::ContainerToDrawBetween(int firstContID, int lastContID,float begin_time, float end_time, scale scale,std::vector<pattern_render> listPatterns)
+  std::vector<container_render> FRender::ContainerToDrawBetween(std::vector<int>listContainer,float begin_time, float end_time, scale scale,std::vector<pattern_render> listPatterns)
   {
        std::vector<container_render> renderContainers;
-       for( int i = firstContID; i < lastContID; i++) {
-       ask_for_timestamps( i,  begin_time,  end_time);
+       for( int i = 0; i < listContainer.size(); i++) {
+       ask_for_timestamps(listContainer[i] ,  begin_time,  end_time);
        auto msg = *( _m_pop_queue_core->wait_and_pop());
+        std::cout << "RENDER <<< CONTAINERS FROM CORE" << std::endl;
+
      auto received = std::static_pointer_cast<FContainer>( msg->getContent() ); 
      FContainer content = *received;
      container_render container(content.getId(), content.getAlias(), 1000, scale.getContainerOffsetX(),scale.getContainerOffsetY(),scale.getWindowContainerOffsetY());
@@ -118,12 +147,12 @@ void FRender::thr_FRender() {
       
     //transform a list of FContainers in a list of container_renders + define the scaling 
     std::vector<pattern_render> listPattern;
-    std::vector<int> listContainer;
+    std::vector<int> listContainer = getContainerID() ;
     int nbContainer = listContainer.size();
     
     scale scale(absoluteTime, nbContainer, (sizeX - sizeX/10), sizeX/10, sizeX/20 ,(sizeY*3)/100, sizeY/100, (sizeY*45)/100);
 
-    std::vector<container_render> renderContainers = ContainerToDrawBetween(1,nbContainer,0.0,1.0,scale,listPattern);
+    std::vector<container_render> renderContainers = ContainerToDrawBetween(listContainer,0.0,0.5,scale,listPattern);
     float barreSize =(sizeX - sizeX/10);
     sf::RectangleShape barre(sf::Vector2f(barreSize, 10));
     barre.setPosition(100,sizeY-20);
@@ -175,7 +204,10 @@ void FRender::thr_FRender() {
                     if (event.mouseMove.x-startclic/2<1000 and event.mouseMove.x-startclic/2>100)
                     {
                     barre2.setPosition(event.mouseMove.x-startclic/2,sizeY-20);
-                    (barreSize)-(barre2.getPosition().x-100);
+                    float timeS =((barreSize)-(barre2.getPosition().x-100))/barreSize*absoluteTime;
+                    renderContainers = ContainerToDrawBetween(listContainer,timeS,timeS+0.5,scale,listPattern);
+                    
+                    
                     }
 
                 }     
@@ -276,7 +308,7 @@ void FRender::ask_for_list_container(){
     std::shared_ptr<void> list_ask;
   auto content_send = list_ask;
   FMessages msg_send(LIST_ID, list_ask);
-  std::cout << "RENDER >>> SEND LIST_ID  TO CORE" << std::endl;
+  std::cout << "RENDER >>> SEND ASK LIST_ID  TO CORE" << std::endl;
   _m_push_queue_core->push(std::make_shared<FMessages>(msg_send) );
 }
 /*
