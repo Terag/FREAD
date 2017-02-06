@@ -136,7 +136,7 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
 }
 
 
-*/
+
 
 void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core ){
     std::cout << "in false render " << std::endl;
@@ -147,7 +147,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
     
 
 	std::this_thread::sleep_for (std::chrono::seconds(1));
-/*
+
     while(i < 10 && minId != -10){
         FMessages pattern(PATTERN, std::make_shared< int >(i) );
         std::cout << "RENDER >>> SEND PATTERN " << i << " TO CORE" << std::endl;
@@ -200,7 +200,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
     std::cout << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;
-*/
+
     std::this_thread::sleep_for (std::chrono::milliseconds(1000));
 
     std::vector<int> to_render_occurrences0;
@@ -530,7 +530,7 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     FMessages old_timestamps2(TIMESTAMP, std::shared_ptr< patternStruct >(new patternStruct(-1, 2, 0.0f, 1.0f)));
     std::cout << "RENDER >>> SEND TIMESTAMPS  on container : 2, from : 0.0, to : 1.0" << std::endl;
     _push_queue_core->push(std::make_shared<FMessages>(old_timestamps2));
-*/
+
     while(i < 10 && minId != -10){
 
 
@@ -628,7 +628,7 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     for(auto it2 = to_render_old_timestamps2.begin(); it2 != to_render_old_timestamps2.end(); ++it2){
         std::cout << " " << *it2 ;
     }
-    */
+    
     std::cout << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;
@@ -681,7 +681,7 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
 /*
  * Render main function test
  */
-
+/*
  int main(void)
 {
  sf::ContextSettings settings;
@@ -904,7 +904,13 @@ int main(void){
     poper.join();
 }*/
 
+
+
 /*
+ *
+ * TRUE MAIN FONCTION
+ *
+ */
 int main(int argc, char* argv[]){
     
     if(argc != 2){
@@ -943,16 +949,17 @@ int main(int argc, char* argv[]){
 
     auto msg = *(_queue_core_render->wait_and_pop() );
     if( msg->getHeader() == START ){
-       float absolute_time = *(msg->getContent); 
+       float absolute_time = *( std::static_pointer_cast<float>(msg->getContent()) );
+        
+        std::cout << "starting frender" << std::endl;
+        std::thread frender_thr_(render_thread, _queue_core_render, 
+                                                _queue_render_core,
+                                                absolute_time
+                                                );
+        FThread_guard lock3(frender_thr_);
     }
 
-    std::cout << "starting frender" << std::endl;
-    std::thread frender_thr_(render_thread, absolute_time, 
-                                            _queue_core_render, 
-                                            _queue_render_core
-                                            );
-    FThread_guard lock3(frender_thr_);
+
 
     return 0;
 }
-*/

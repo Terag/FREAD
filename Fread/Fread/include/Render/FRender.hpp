@@ -60,3 +60,7 @@ public:
     void ask_for_list_container();
     void receive_message();
 };
+
+void render_thread( std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_queue_core, 
+                    std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _push_queue_core, 
+                    float absoluteTime);
