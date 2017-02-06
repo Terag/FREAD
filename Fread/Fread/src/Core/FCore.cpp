@@ -210,7 +210,7 @@ void FCore::thr_timestamps_manager(){
             	m_containers.at( received->begin()->contId )->add_pattern( *it );
             }
             
-            std::shared_ptr<void> content_send = std::static_pointer_cast<void>( received );
+            auto content_send = std::static_pointer_cast<void>( received );
             FMessages msg_send(TIMESTAMP, content_send);
             _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
             std::cout << "CORE >>> send timestamps in container : " << received->begin()->contId << ", beginning at : " << received->begin()->tBegin << ", and ending at : " << (--received->end())->tEnd << std::endl;
@@ -613,13 +613,17 @@ void FCore::thr_FCore(){
 
 
 
-void FCore::start(){
+void start(std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_parser, 
+           std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_parser,
+           std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_render,
+           std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_render){
+
+	core FCore(_pop_queue_parser, _push_queue_parser, _pop_queue_render, _push_queue_render);
+
     std::cout << "start FCore" << std::endl;
 
-    std::thread fCore_( [this]{thr_FCore();} );
-    fCore_.detach();
-
-    //FThread_guard fc_g( fCore_ );
+    std::thread fCore_( core.thr_FCore() );
+	FThread_guard fc_g( fCore_ );
 }
 
 
