@@ -8,8 +8,7 @@
 //#include "Parser/statesConfig.hpp"
 
 //Includes for parser tests
-//#include "Parser/parser.hpp"
-//#include "FMessages_structure.hpp"
+#include "Parser/parser.hpp"
 
 //Includes for graphics tests
 /*
@@ -42,25 +41,35 @@ using namespace std;
 void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _push_queue_core);
 void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core );
 
-int main(){
+int main(int argc, char* argv[]){
+    
+    if(argc != 2){
+        std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
+        return -1;
+    }
+    
+    std::string path = argv[1];
+            
+    if(path.substr(path.size()-6, 6) != ".trace"){
+        std::cout << "invalid trace format, need *.trace" << std::endl;
+        return -1;
+    } 
 
     std::cout << "start" << std::endl;
 
-    std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_parser_core(new FQueue< std::shared_ptr<FMessages > >);
-    std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_core_parser(new FQueue< std::shared_ptr<FMessages > >) ;
-    std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_render_core(new FQueue< std::shared_ptr<FMessages > >) ;
-    std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_core_render(new FQueue< std::shared_ptr<FMessages > >) ;
-
+    auto _queue_parser_core = std::make_shared<FQueue<std::shared_ptr<FMessages>>>();
+    auto _queue_core_parser = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    auto _queue_render_core = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    auto _queue_core_render = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    
+    std::thread parserThread(parser_thread, path, _queue_core_parser, _queue_parser_core);
+    FThread_guard lock1(parserThread);
+    
     std::cout << "starting fcore" << std::endl;
     std::thread fcore_thr_( start_core, _queue_parser_core,    
                                         _queue_core_parser,
                                         _queue_render_core,
                                         _queue_core_render);
-
-
-    std::cout << "starting false parser" << std::endl;
-    std::thread false_parser_thr_(false_parser, _queue_core_parser, _queue_parser_core);
-    FThread_guard lock2(false_parser_thr_);
 
 	std::cout << "starting false render" << std::endl;
     std::thread false_render_thr_(false_render, _queue_core_render, _queue_render_core);

@@ -29,7 +29,7 @@
 
 #include "Parser/parser_specifications.hpp"
 #include "FQueue.hpp"
-#include "FMessages_structure.hpp"
+#include "FMessages.hpp"
 #include "FContainer.hpp"
 #include "FPattern.hpp"
 #include "FOccurrence.hpp"
@@ -42,24 +42,26 @@ private:
 
     bool initDone;
     
-    std::shared_ptr<FQueue<msg_coreToParser>> pop_queue;
-    std::shared_ptr<FQueue<msg_parserToCore>> push_queue;
+    std::shared_ptr<FQueue<std::shared_ptr<FMessages>>> pop_queue;
+    std::shared_ptr<FQueue<std::shared_ptr<FMessages>>> push_queue;
     
     std::string trace_path;
     
 public:
     Parser();
-    Parser(std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue);
+    Parser(std::shared_ptr<FQueue<std::shared_ptr<FMessages>>> popQueue, std::shared_ptr<FQueue<std::shared_ptr<FMessages>>> pushQueue);
     
     void awake(std::string const& path);
     void start();
     void listenAndProcess();
     
+    void send(std::shared_ptr<FMessages> msg);
+    
     virtual ~Parser();
 };
 
 //Function uses to launch parser thread
-void parser_thread(std::string path, std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue);
+void parser_thread(std::string path, std::shared_ptr<FQueue<std::shared_ptr<FMessages>>> popQueue, std::shared_ptr<FQueue<std::shared_ptr<FMessages>>> pushQueue);
 
 void sendContainerToCore(FContainer const& container);
 
