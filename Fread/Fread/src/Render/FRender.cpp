@@ -14,6 +14,9 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
                 absoluteTime(absoluteTime)
 {}
 
+FRender::~FRender()
+{}
+
  std::vector<container_render> FRender::transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale) 
 {
     std::vector<container_render> renderContainers;
@@ -66,7 +69,7 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
      return content;
       
   }
-  std::vector<container_render> FRender::ContainerToDrawBettewen(int firstContID, int lastContID,float begin_time, float end_time, scale scale,std::vector<pattern_render> listPatterns)
+  std::vector<container_render> FRender::ContainerToDrawBetween(int firstContID, int lastContID,float begin_time, float end_time, scale scale,std::vector<pattern_render> listPatterns)
   {
        std::vector<container_render> renderContainers;
        for( int i = firstContID; i < lastContID; i++) {
@@ -117,37 +120,84 @@ void FRender::thr_FRender() {
     std::vector<pattern_render> listPattern;
     std::vector<int> listContainer;
     int nbContainer = listContainer.size();
+    
     scale scale(absoluteTime, nbContainer, (sizeX - sizeX/10), sizeX/10, sizeX/20 ,(sizeY*3)/100, sizeY/100, (sizeY*45)/100);
-    std::vector<container_render> renderContainers = ContainerToDrawBettewen(1,nbContainer,0.0,1.0,scale,listPattern);
+
+    std::vector<container_render> renderContainers = ContainerToDrawBetween(1,nbContainer,0.0,1.0,scale,listPattern);
+    float barreSize =(sizeX - sizeX/10);
+    sf::RectangleShape barre(sf::Vector2f(barreSize, 10));
+    barre.setPosition(100,sizeY-20);
+    barre.setFillColor(sf::Color(131,131,131));
+
+    sf::RectangleShape barre2(sf::Vector2f(barreSize*(0.5)/absoluteTime, 10));
+    barre2.setPosition(100,sizeY-20);
+    barre2.setFillColor(sf::Color(200,200,200));
+    
+    float startclic =0.0 ;
+    bool clic = false;
     
     // window loop
-        while (window.isOpen())
+    while (window.isOpen())
     {
-            sf::Event event;
-            while (window.pollEvent(event))
+        sf::Event event;
+        while (window.pollEvent(event))
             {
-                if (event.type == sf::Event::Closed){
-                    
+                if (event.type == sf::Event::Closed)
+                {    
                     window.close();
             
                 }
                 if (event.type == sf::Event::Resized)
+                {
+                    std::cout << "new width: " << event.size.width << std::endl;
+                    std::cout << "new height: " << event.size.height << std::endl;
+                    sizeX =window.getSize().x;
+                    sizeY =window.getSize().y;
+                    scale.updateScale((sizeX - sizeX/10), sizeX/10, sizeX/20 ,(sizeY*3)/100, sizeY/100, (sizeY*45)/100,nbContainer);       
+                }
+                if (event.type == sf::Event::MouseButtonPressed)
                     {
-                        std::cout << "new width: " << event.size.width << std::endl;
-                        std::cout << "new height: " << event.size.height << std::endl;
-                        sizeX =window.getSize().x;
-                        sizeY =window.getSize().y;
-                        scale.updateScale((sizeX - sizeX/10), sizeX/10, sizeX/20 ,(sizeY*3)/100, sizeY/100, (sizeY*45)/100,nbContainer);
-                        
+                        if (event.mouseButton.button == sf::Mouse::Left)
+                        {
+                            if (barre2.getGlobalBounds().contains(event.mouseButton.x,event.mouseButton.y))
+                            {
+                                clic = true;
+                                startclic=(barre2.getPosition().x);
+                            }
+                            else if (barre.getGlobalBounds().contains(event.mouseButton.x,event.mouseButton.y))
+                            {
+                                // std::cout << "the barre button was pressed" << std::endl;
+                            }
+                        }
                     }
-            }    
-            window.clear(sf::Color(255,255,255));
-            scale.draw(window);
-            for (unsigned int i = 0; i < renderContainers.size(); i++) {
-                       window.draw(renderContainers[i]);
+                if (event.type == sf::Event::MouseMoved and clic)
+                { 
+                    if (event.mouseMove.x-startclic/2<1000 and event.mouseMove.x-startclic/2>100)
+                    {
+                    barre2.setPosition(event.mouseMove.x-startclic/2,sizeY-20);
+                    (barreSize)-(barre2.getPosition().x-100);
                     }
-            window.display();
+
+                }     
+                if (event.type == sf::Event::MouseButtonReleased and clic)
+                {
+                    clic = false;
+                }
             }
+            
+        window.clear(sf::Color(255,255,255));
+        scale.draw(window);
+        
+        for (unsigned int i = 0; i < renderContainers.size(); i++) 
+        {   
+            window.draw(renderContainers[i]);
+        }
+        
+        drawPatterns(listPattern,sizeX,sizeY,window);
+        window.draw(barre);
+        window.draw(barre2);
+        window.display();
+    }
     
 } 
 void FRender::drawPatterns(std::vector<pattern_render> listPatterns,int sizeX, int sizeY,sf::RenderTarget& window) {
@@ -279,9 +329,3 @@ void FRender::receive_message(){
       } /* switch */
     } /* if */
 } /* void */
-FRender::~FRender(){
-}
-//Je ne sais pas comment vous comptez récupérer les messages mais sinon la méthode c'est:
-//  auto msg = *( _m_pop_queue_core->try_and_pop() ); on récupère le message sous la forme d'un std::shared_ptr<FMessages>
-//  auto received = std::static_pointer_cast<DEFINIR_LE_TYPE_SELON_LE_HEADER>( msg->getContent() ); on récupère un shared_ptr sur l'objet récupéré (dont le type dépend du HEADER : FContainer pour CONTAINER, FPattern pour PATTERN, std::vector<patternStruct> pour TIMESTAMP ou FOccurrence pour OCCURRENCE)
-//  auto content = *received; pour avoir le contenu du shared_ptr

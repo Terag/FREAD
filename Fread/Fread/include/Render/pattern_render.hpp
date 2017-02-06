@@ -38,6 +38,7 @@
 #include <vector>
 #include "Render/container_render.hpp"
 #include <SFML/Graphics/VertexArray.hpp>
+
 class pattern_render : public sf::Drawable {
 private : 
 int id;
