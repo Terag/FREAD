@@ -59,7 +59,12 @@ void Parser::start() {
 }
 
 void Parser::listenAndProcess() {
-    
+    while(1){
+        std::shared_ptr<FMessages> = *(pop_queue->wait_and_pop());
+        if(msg->getHeader() == TIMESTAMP) {
+            //TO DO : complete !!!
+        }
+    }
 }
 
 void Parser::send(std::shared_ptr<FMessages> msg) {
