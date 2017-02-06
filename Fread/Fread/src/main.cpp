@@ -12,12 +12,13 @@
 //#include "FMessages_structure.hpp"
 
 //Includes for graphics tests
+/*
 #include <SFML/Graphics.hpp>
 #include "Render/FBezierCurve.hpp"
 #include "Render/container_render.hpp"
 #include "Render/pattern_render.hpp"
 #include "Render/FRender.hpp"
-
+*/
 //Includes for queue tests
 #include "FQueue.hpp"
 #include <thread>
@@ -37,7 +38,7 @@ using namespace std;
 /*
  * Core main function test
  */
-/*
+
 void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _push_queue_core);
 void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core );
 
@@ -70,13 +71,6 @@ int main(){
 void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core){
     
     std::cout << "in false parser " << std::endl;
-
-
-    FMessages init(INITDONE, NULL);
-    FMessages start(START, NULL);
-
-    _push_queue_core->push(std::make_shared<FMessages>(init));
-    _push_queue_core->push(std::make_shared<FMessages>(start));
 
     for(int i = 0; i < 10; ++i){
         FMessages pattern(PATTERN, std::shared_ptr<FPattern>(new FPattern(i)));
@@ -129,7 +123,7 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
 }
 
 
-*/
+
 
 void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core ){
     std::cout << "in false render " << std::endl;
@@ -681,6 +675,7 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
 /*
  * Render main function test
  */
+/*
  int main(void)
 {
  sf::ContextSettings settings;
