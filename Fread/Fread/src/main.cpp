@@ -760,9 +760,10 @@ int sizeY =window.getSize().y;
     containers.push_back(container2);
     containers.push_back(container3);
     
-    pattern_render pattern(1, timeStamps3, occurrence3, 200, 200,100.0);
-    pattern_render pattern2(2, timeStamps2, occurrence2, 400, 200,100.0);
-
+    pattern_render pattern(1, timeStamps3, occurrence3,200, 200,100.0);
+  //  pattern.SetPosition(200, 200,100.0);
+    pattern_render pattern2(2, timeStamps2, occurrence2,410, 200,100.0);
+   // pattern2.SetPosition(410, 200,100.0);
     while (window.isOpen())
     {
         int spacing =100;

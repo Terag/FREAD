@@ -40,10 +40,13 @@ id(0)
 }
 
 pattern_render::pattern_render(int id, std::vector<float> meanTimeStamps,occurrence_render occurrence,int posX, int posY, float Radius) :
-id(id), meanTimeStamps(meanTimeStamps), occurrences(occurrence),events(occurrence.getEvents()),x(posX),y(posY),radius(Radius){    //events(occurrence.getEvents());
+id(id), meanTimeStamps(meanTimeStamps), occurrences(occurrence),events(occurrence.getEvents()){    //events(occurrence.getEvents());
     patternPoints = sf::VertexArray(sf::Quads, events.size()*8 );
     subDiv = sf::VertexArray(sf::Lines, events.size()*2 );
-    calculatePoints();
+      x = posX;
+    y = posY;
+    radius = Radius;
+     calculatePoints();
 
 }
 
@@ -81,6 +84,12 @@ void pattern_render::draw(sf::RenderTarget& target, sf::RenderStates states) con
     }
         target.draw(patternPoints);
         target.draw(polygon);
+}
+void pattern_render::SetPosition(int posX, int posY, float Radius)  {
+    x = posX;
+    y = posY;
+    radius = Radius;
+     calculatePoints();
 }
 void pattern_render::calculatePoints() {
    
