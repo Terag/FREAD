@@ -26,6 +26,7 @@
 
 #include "Parser/parser_specifications.hpp"
 #include "Parser/parser.hpp"
+#include "FContainer.hpp"
 
 using namespace std;
 
@@ -60,9 +61,10 @@ void Parser::start() {
 
 void Parser::listenAndProcess() {
     while(1){
-        std::shared_ptr<FMessages> = *(pop_queue->wait_and_pop());
+        std::shared_ptr<FMessages> msg = *(pop_queue->wait_and_pop());
         if(msg->getHeader() == TIMESTAMP) {
-            //TO DO : complete !!!
+            auto content = static_pointer_cast<patternStruct>(msg->getContent);
+            PARSER::getEventsBetweenTwoTimesInContainer(content->contId, content->tBegin, content->tEnd);
         }
     }
 }
