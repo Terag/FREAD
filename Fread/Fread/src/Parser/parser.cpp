@@ -77,6 +77,8 @@ void parser_thread(std::string path, std::shared_ptr<FQueue<msg_coreToParser>> p
     
     parser.start();
     
+    paje::getEventsBetweenTwoTimesInContainer(2, 0.f, 1.f);
+    
     parser.listenAndProcess();
 }
 

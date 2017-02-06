@@ -218,6 +218,41 @@ namespace paje
         mainTrace.closeStream();
     }
     
+    void PajeEventCall(std::string line, EventDef& event) {
+        eventFunctions[event.name](line, event);
+    }
+    
+    void getEventsBetweenTwoTimesInContainer(int container_id, float t_begin, float t_end) {
+        int fpos;
+        int id;
+        cout << "Request between t1=" << t_begin << " and t2=" << t_end << " in container : " << container_id << endl;
+        
+        vector<string> lines = containers[container_id].reader->getLinesBetweenTwoTimes(t_begin, t_end);
+        cout << "lines get" << endl;
+        //current_occurrence = make_shared<FOccurrence>();
+        for(auto& it : lines) {    
+            try{
+                fpos = it.find(' ');
+                id = stoi(it.substr(0,fpos));
+            }
+            catch(const std::invalid_argument& ia){
+                cout << "error, invalid format : " << ia.what() << " parameter " << it.substr(0, fpos) << endl;
+            }
+            
+            if(eventDefs[id].name > 22 && eventDefs[id].name < 25){
+                //cout << "function call : " << eventDefs[id].id << " ";
+                eventFunctions[eventDefs[id].name](it, eventDefs[id]);
+            } 
+            else if (eventDefs[id].id == -1){
+                cout << "error, eventDef not set : " << eventDefs[id].id << endl;
+            }
+            else {
+                cout << "unexpected function during Container parsing : " << eventDefs[id].name << " " << eventDefs[id].name_str << endl;
+            }
+        }
+        
+    }
+    
 /*---------------------------------Paje Event functions --------------------------------------------------------*/
 
 /*-----------TypeDef events------------*/   
@@ -508,16 +543,80 @@ namespace paje
             cout << patterns[id].occurrence_buffer->alias[i] << " type : " << patterns[id].occurrence_buffer->states[i] << " time : " << patterns[id].occurrence_buffer->timeStamps[i] << endl;
         }
         current_pattern_id = -1;
+        sendPatternToCore(FPattern());
     }
     
 /*----------Pattern events-------------*/
     
     void StartPattern(std::string line, EventDef const& event){
-
+        //cout << "StartPattern function called with : " << event.name_str << " " << event.name << endl;
+        int spacePos;
+        string sub_str;
+        float time;
+        string alias;
+        
+        spacePos = line.find(' ');
+        
+        for (auto it : event.fieldDefs){
+            sub_str = getNextParamInLine(line, spacePos);
+            switch(it.name){
+                case FN_ALIAS :
+                    alias = sub_str;
+                    break;
+                case FN_TIME :
+                    time = stof(sub_str);
+                    break;
+                default :
+                    //cout << "error, unexpected FieldName : " << it.name << endl;
+                    break;
+            }
+        }
+        
+        for(int i=0; i<patterns.size(); i++) {
+            if(patterns[i].alias == alias) {
+                current_pattern_id = i;
+                break;
+            }
+        }
+        
+        if(current_pattern_id > -1) {
+            patterns[current_pattern_id].occurrence_buffer->t_begin = time;
+        }
     }
     
     void EndPattern(std::string line, EventDef const& event){
+        //cout << "EndPattern function called with : " << event.name_str << " " << event.name << endl;
+        int spacePos;
+        string sub_str;
+        float time;
+        string alias;
+        int key;
         
+        spacePos = line.find(' ');
+        
+        for (auto it : event.fieldDefs){
+            sub_str = getNextParamInLine(line, spacePos);
+            switch(it.name){
+                case FN_ALIAS :
+                    alias = sub_str;
+                    break;
+                case FN_TIME :
+                    time = stof(sub_str);
+                    break;
+                case FN_KEY :
+                    key =  stoi(sub_str);
+                    break;
+                default :
+                    //cout << "error, unexpected FieldName : " << it.name << endl;
+                    break;
+            }
+        }
+        
+        if(patterns[current_pattern_id].alias == alias) {
+            patterns[current_pattern_id].occurrence_buffer->t_end = time;
+            cout << "--------- Occurrence sended to core pattern alias : " << alias << " key : " << key << " t1=" << patterns[current_pattern_id].occurrence_buffer->t_begin << " t2=" << patterns[current_pattern_id].occurrence_buffer->t_end << endl;
+            sendOccurenceToCore(FOccurrence());
+        }
     }
     
 /*---------------------------------Type definition functions ---------------------------------------------------*/
@@ -745,9 +844,5 @@ namespace paje
         StateType state = stateConf.getState(name, alias);
         patterns[current_pattern_id].occurrence_buffer->states.push_back(state);         
         patterns[current_pattern_id].occurrence_buffer->alias.push_back(type);
-    }
-    
-    void PajeEventCall(std::string line, EventDef& event) {
-        eventFunctions[event.name](line, event);
     }
 }
