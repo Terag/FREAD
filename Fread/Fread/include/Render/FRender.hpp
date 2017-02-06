@@ -34,9 +34,12 @@
 class FRender {
 
 private: 
+    //bool of awake status
     bool awake;
+    //FQueue of discussion with core
     std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _m_pop_queue_core;
     std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _m_push_queue_core;
+    //trace global time
     float absoluteTime; 
 
 public: 
