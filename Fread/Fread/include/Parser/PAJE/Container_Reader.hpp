@@ -43,6 +43,7 @@ namespace paje
     class Container_Reader {
     private:
         int id;
+        int curseur_line;
         std::string alias;
         std::pair<float, float> timestamps_begin_end;
         
@@ -50,7 +51,9 @@ namespace paje
 
         std::string container_Path;
 
-        std::ifstream container_Stream;    
+        std::ifstream container_Stream;   
+        
+        float lineTime(std::string const& line);
         
     public:
 

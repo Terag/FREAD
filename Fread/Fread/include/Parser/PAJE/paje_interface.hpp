@@ -37,6 +37,7 @@ namespace paje
     bool start();
     
     void PajeEventCall(std::string line, EventDef &event);
+    void getEventsBetweenTwoTimesInContainer(int container_id, float t_begin, float t_end);
 }
 
 
