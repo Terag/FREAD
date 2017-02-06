@@ -26,13 +26,11 @@
 
 /* 
  * File:   event_render.cpp
- * Author: gg
+ * Author: Emma et Jerome 
  * 
  * Created on 24 janvier 2017, 15:47
  */
-#include "Render/container_render.hpp"
-#include <cmath>
-#include <stdio.h>
+#include "Render/event_render.hpp"
 
 using namespace std;
 using namespace sf;
@@ -57,6 +55,11 @@ type(type), ftStart(tSStart), ftEnd(tSEnd), containerOffsetY(containerOffsetY), 
         rectangles[i].color = eventColor;
     }
 }
+
+event_render::~event_render() 
+{
+}
+
 void event_render::updatePosition(int newScale, int containerOffsetY, int offsetX, int offsetY)
 {
     int tStart = (int)(newScale*ftStart);
@@ -102,8 +105,3 @@ void event_render::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(rectangles, states);
 }
-
-event_render::~event_render() 
-{
-}
-    
