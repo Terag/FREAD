@@ -475,11 +475,6 @@ void FCore::thr_messages_handler_parser(){
                     std::pair<int, std::shared_ptr<FContainer> > my_pair(received->getId() , received);
                     m_containers.insert( my_pair );
                     std::cout << "M_CONTAINERS SIZE IS NOW : " << m_containers.size() << std::endl;
-                    std::cout << "M_CONTAINERS IS NOW : ";
-                    for(unsigned int i = 0; i < m_containers.size(); ++i){
-                    	std::cout << " " << m_containers[i]->getId();
-                    }
-                    std::cout << std::endl;
                     break;
                 }
                 case(PATTERN):
