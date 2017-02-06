@@ -26,7 +26,7 @@
 
 /* 
  * File:   pattern_render.hpp
- * Author: emma, Jerome
+ * Author: Emma, Jerome
  *
  * Created on 24 janvier 2017, 11:38
  */
@@ -40,12 +40,19 @@
 #include <SFML/Graphics/VertexArray.hpp>
 
 class pattern_render : public sf::Drawable {
+    
 private : 
+//the id of the pattern drawn     
 int id;
+//x coordinate of the entire pattern_render (circles + events)
 int x;
+//y coordinate of the entire pattern_render (circles + events)
 int y;
+//the radius of the biggest circle
 int radius;
+// the vector of the timestamps of the pattern 
 std::vector<float> meanTimeStamps;
+//
 occurrence_render occurrences;
 std::vector<event_render> events;
 sf::VertexArray patternPoints;
@@ -53,6 +60,7 @@ sf::VertexArray subDiv;
 
       
 public : 
+    
 pattern_render();
 pattern_render(int id, std::vector<float> meanTimeStamps, occurrence_render occurrence);
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
