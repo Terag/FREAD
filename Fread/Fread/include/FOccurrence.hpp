@@ -34,6 +34,7 @@ class FOccurrence : public FObjet
 {
 public:
 	FOccurrence();
+	FOccurrence(int p, int i);
 	~FOccurrence();
 
 	int getId();
@@ -43,10 +44,10 @@ public:
     int getContainerId();
 
 private :
+	int m_patternId;
 	int m_id;
 	std::vector<float> m_timeStamps;
 	bool m_isLoaded;
-	int m_patternId;
     int m_containerId;
 };
 

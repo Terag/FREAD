@@ -32,46 +32,52 @@ DEALINGS IN THE SOFTWARE.
  * Created on 27 janvier 2017, 11:50
  */
 
-template<typename T>
-FMessages<T>::FMessages(HEADER header, 
-                        T content):
-                        m_header(header),
-                        m_content(std::make_shared<T>(content))
-{    
-}
+#include "FMessages.hpp"
 
-template<typename T>
-FMessages<T>::FMessages(HEADER header, 
-                        std::shared_ptr<T> content):
+FMessages::FMessages(HEADER header, 
+                        std::shared_ptr<void> content):
                         m_header(header),
                         m_content(content)
 {
 
 }
 
-
-template<typename T>
-FMessages<T>& FMessages<T>::operator=(const FMessages& other){
-    m_header = other.getHeader();
-    m_content = other.getContent();  
+FMessages::FMessages(const FMessages& orig){
+    if(this != &orig){
+        m_header = orig.getHeader();
+        m_content = orig.getContent();    
+    }
 }
 
-template<typename T>
-HEADER FMessages<T>::getHeader(){
+FMessages::FMessages(){
+    
+}
+
+FMessages::~FMessages(){
+
+}
+
+FMessages& FMessages::operator=(const FMessages& other){
+    if(this != &other){
+        m_header = other.getHeader();
+        m_content = other.getContent();    
+    }
+    return *this;
+
+}
+
+HEADER FMessages::getHeader() const{
     return m_header;
 }
 
-template<typename T>
-void FMessages<T>::setHeader(HEADER var){
+void FMessages::setHeader(HEADER var){
     m_header = var;
 }
 
-template<typename T>
-std::shared_ptr<T> FMessages<T>::getContent(){
+std::shared_ptr<void> FMessages::getContent() const{
     return m_content;
 }
 
-template<typename T>
-void FMessages<T>::setContent(T var){
+void FMessages::setContent(std::shared_ptr<void> var){
     m_content = var;
 }

@@ -37,6 +37,7 @@ class FPattern : public FObjet
 {
 public:
 	FPattern();
+	FPattern(int i);
 	~FPattern();
 	int getId();
 

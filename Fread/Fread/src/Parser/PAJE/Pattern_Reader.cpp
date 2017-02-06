@@ -85,7 +85,6 @@ namespace paje
         return pattern_Stream.eof();
     }
 
-
     Pattern_Reader::~Pattern_Reader() {
     }
 }

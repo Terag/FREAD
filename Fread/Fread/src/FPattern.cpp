@@ -6,6 +6,9 @@ FPattern::FPattern()
 {
 }
 
+FPattern::FPattern(int i):m_id(i){
+	
+}
 
 FPattern::~FPattern()
 {
@@ -33,10 +36,10 @@ std::vector<float> FPattern::getMeanTimeStamps()
 
 bool operator==(FPattern A, FPattern B)
 {
-	return false;
+	return A.getId() == B.getId();
 }
 
 bool operator!=(FPattern A, FPattern B)
 {
-	return false;
+	return A.getId() != B.getId();
 }

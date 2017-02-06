@@ -13,7 +13,8 @@
 
 #ifndef PATTERN_READER_HPP
 #define PATTERN_READER_HPP
-
+#include <string>
+#include <fstream>
 #include "FOccurrence.hpp"
 #include "paje_interface.hpp"
 #include "paje_typedefs.hpp"

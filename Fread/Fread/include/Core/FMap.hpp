@@ -48,12 +48,13 @@ public:
     ~FMap();
     
     std::shared_ptr<T> at(const K& k);
-    void insert(K key, std::shared_ptr<T> element);
+    //void insert(K key, std::shared_ptr<T> element);
     void insert( std::pair<K,std::shared_ptr<T> > );
     bool erase();
     
     bool contains(T element);
     bool contains(K key);
+    bool key_exists(K key);
     
     std::shared_ptr<T> operator[](const K key);
     

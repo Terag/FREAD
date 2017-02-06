@@ -80,9 +80,10 @@ class event_render : public sf::Drawable {
 private:
     sf::Color eventColor = sf::Color(60,60,60);
     eventType type;
-    int  tStart, tEnd, containerOffsetY, containerID, windowContainerOffsetY = 0;
+    int  tStart, tEnd, containerOffsetY, containerID = 0;
     int offsetY = 6;
     int offsetX = 50;
+    int windowContainerOffsetY = 0;
     
 public:
     event_render();
