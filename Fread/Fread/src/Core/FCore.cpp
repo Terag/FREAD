@@ -108,6 +108,15 @@ void FCore::thr_timestamps_manager(){
 					 	* ALL DEMANDED TIMESTAMPS ARE IN MEMORY
 					 	*
 	            	    */
+
+
+						//FOR NOW WE GONNA CONSIDER THIS CASE AS IF NONE OF THE DEMANDED TIMESTAMPS WERE IN MEMORY
+	                	std::cout << "CORE >>> SOME OF THE DEMANDED TIMESTAMPS ARE IN MEMORY" << std::endl;
+	                	_m_push_queue_parser->push( msg_render );
+	                	std::cout << "CORE >>> send timestamps demand to parser" << std::endl;
+
+
+/*
 	                	std::cout << "CORE >>> ALL DEMANDED TIMESTAMPS ARE IN MEMORY" << std::endl;
 
 	                	patternStruct first_pattern = get_first_pattern(containerId, beginTime);
@@ -120,14 +129,15 @@ void FCore::thr_timestamps_manager(){
 						 	*
 						 	* ADDING ALL PATTERNS FROM MEMORY TO THE VECTOR TO BE SENT
 						 	*
-		            	    */
+		            	    *
 	                    	current_pattern = get_next_pattern( current_pattern );
 	                    	pattern_send.push_back( current_pattern );
-	                    } /* while(current_pattern.tBegin <= endTime) */
+	                    } /* while(current_pattern.tBegin <= endTime) *
 
 	                    std::shared_ptr<void> content_send = std::static_pointer_cast<void>( std::make_shared< std::vector<patternStruct> >(pattern_send) );
 	                    FMessages msg_send(TIMESTAMP, content_send); 
 	                    _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
+	                    */
 
 	                }else{
 	                   /*
@@ -475,11 +485,6 @@ void FCore::thr_messages_handler_parser(){
                     std::pair<int, std::shared_ptr<FContainer> > my_pair(received->getId() , received);
                     m_containers.insert( my_pair );
                     std::cout << "M_CONTAINERS SIZE IS NOW : " << m_containers.size() << std::endl;
-                    std::cout << "M_CONTAINERS IS NOW : ";
-                    for(unsigned int i = 0; i < m_containers.size(); ++i){
-                    	std::cout << " " << m_containers[i]->getId();
-                    }
-                    std::cout << std::endl;
                     break;
                 }
                 case(PATTERN):
@@ -601,12 +606,11 @@ void FCore::thr_FCore(){
     std::thread message_handler_render_( [this]{thr_messages_handler_render();} );
     FThread_guard mhpr_g( message_handler_render_ );
 
-    std::cout << "AWAKE DONE" <<std::endl;
-
     std::cout << "start check_memory_" << std::endl;
     std::thread check_memory_( [this]{thr_check_memory();} );
     FThread_guard mem_g( check_memory_ );
 
+    std::cout << "SENDING START DONE" <<std::endl;
     std::shared_ptr<void> content_send;
     FMessages msg_send(START, content_send );
     _m_push_queue_parser->push( std::make_shared<FMessages>(msg_send) );

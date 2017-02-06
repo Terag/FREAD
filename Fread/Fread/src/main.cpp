@@ -57,6 +57,7 @@ int main(){
                                         _queue_render_core,
                                         _queue_core_render);
 
+
     std::cout << "starting false parser" << std::endl;
     std::thread false_parser_thr_(false_parser, _queue_core_parser, _queue_parser_core);
     FThread_guard lock2(false_parser_thr_);
@@ -67,6 +68,7 @@ int main(){
 
     return 0;
 }
+
 
 void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core){
     
