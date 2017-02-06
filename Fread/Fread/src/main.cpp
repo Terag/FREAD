@@ -16,6 +16,8 @@
 #include "Render/FBezierCurve.hpp"
 #include "Render/container_render.hpp"
 #include "Render/pattern_render.hpp"
+#include "Render/FRender.hpp"
+
 //Includes for queue tests
 #include "FQueue.hpp"
 #include <thread>
@@ -688,8 +690,9 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
 {
  sf::ContextSettings settings;
  settings.antialiasingLevel = 8;
- 
-sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width,sf::VideoMode::getDesktopMode().height), "Container and occurrences test",sf::Style::Default, settings);
+ settings.minorVersion =0;
+  settings.majorVersion =4;
+sf::RenderWindow window(sf::VideoMode(1500,800), "Container and occurrences test",sf::Style::Default, settings);
 
 int sizeX =window.getSize().x;
 int sizeY =window.getSize().y;
@@ -759,11 +762,20 @@ int sizeY =window.getSize().y;
     containers.push_back(container1);
     containers.push_back(container2);
     containers.push_back(container3);
-    
-    pattern_render pattern(1, timeStamps3, occurrence3,200, 200,100.0);
-  //  pattern.SetPosition(200, 200,100.0);
-    pattern_render pattern2(2, timeStamps2, occurrence2,410, 200,100.0);
-   // pattern2.SetPosition(410, 200,100.0);
+    std::vector<pattern_render> lp;
+    pattern_render pattern(1, timeStamps3, occurrence3);
+    lp.push_back(pattern);
+ //  pattern.SetPosition(200, 200,100.0);
+    pattern_render pattern2(2, timeStamps2, occurrence2);
+       lp.push_back(pattern2);
+  // pattern2.SetPosition(410, 200,100.0);
+       FMessages init(INITDONE, NULL);
+    FMessages start(START, NULL);
+std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _pop_queue_core;
+std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _push_queue_core;
+ //   _push_queue_core->push(std::make_shared<FMessages>(init));
+           FRender render(_pop_queue_core,_push_queue_core,0.7);
+
     while (window.isOpen())
     {
         int spacing =100;
@@ -776,17 +788,18 @@ int sizeY =window.getSize().y;
                     {
                         std::cout << "new width: " << event.size.width << std::endl;
                         std::cout << "new height: " << event.size.height << std::endl;
+                        
                         sizeX =window.getSize().x;
                         sizeY =window.getSize().y;
-                        scale1.updateScale((sizeX - spacing),spacing,scale1.getContainerOffsetX(),(sizeY*3)/100,sizeY/100,(sizeY*45)/100,3);
-                        container1.updatePosition(scale1.getContainerSize(),scale1.getContainerOffsetX(),scale1.getContainerOffsetY(),scale1.getWindowContainerOffsetY());
                         
-                        container2.updatePosition(scale1.getContainerSize(),scale1.getContainerOffsetX(),scale1.getContainerOffsetY(),scale1.getWindowContainerOffsetY());
-                       
+                        scale1.updateScale((sizeX - spacing),spacing,scale1.getContainerOffsetX(),(sizeY*3)/100,sizeY/100,(sizeY*45)/100,3);
+                        
+                        container1.updatePosition(scale1.getContainerSize(),scale1.getContainerOffsetX(),scale1.getContainerOffsetY(),scale1.getWindowContainerOffsetY());
+                        container2.updatePosition(scale1.getContainerSize(),scale1.getContainerOffsetX(),scale1.getContainerOffsetY(),scale1.getWindowContainerOffsetY());                       
                         container3.updatePosition(scale1.getContainerSize(),scale1.getContainerOffsetX(),scale1.getContainerOffsetY(),scale1.getWindowContainerOffsetY());
                         
                         occurrence1.updatePosition(scale1.getScale(),scale1.getContainerOffsetY(),scale1.getContainerOffsetX(),scale1.getEventOffsetY());
-                                                occurrence2.updatePosition(scale1.getScale(),scale1.getContainerOffsetY(),scale1.getContainerOffsetX(),scale1.getEventOffsetY());
+                        occurrence2.updatePosition(scale1.getScale(),scale1.getContainerOffsetY(),scale1.getContainerOffsetX(),scale1.getEventOffsetY());
                         occurrence3.updatePosition(scale1.getScale(),scale1.getContainerOffsetY(),scale1.getContainerOffsetX(),scale1.getEventOffsetY());
 
                     }
@@ -795,16 +808,19 @@ int sizeY =window.getSize().y;
             
             window.clear(sf::Color(255,255,255));
             scale1.draw(window);
-            for (int i =0; i < containers.size(); i++)
+            for (unsigned int i =0; i < containers.size(); i++)
             {
                 window.draw(containers[i]); 
             }
-            pattern.draw(window);
-            window.draw(pattern2);
+            
+            render.drawPatterns(lp,sizeX,sizeY,window);
+            //pattern.draw(window);
+           // window.draw(pattern2);
             window.display();
     }
     
     return 0;
+ 
 }
 
 /*

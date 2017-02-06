@@ -39,14 +39,11 @@ id(0)
 {
 }
 
-pattern_render::pattern_render(int id, std::vector<float> meanTimeStamps,occurrence_render occurrence,int posX, int posY, float Radius) :
+pattern_render::pattern_render(int id, std::vector<float> meanTimeStamps,occurrence_render occurrence) :
 id(id), meanTimeStamps(meanTimeStamps), occurrences(occurrence),events(occurrence.getEvents()){    //events(occurrence.getEvents());
     patternPoints = sf::VertexArray(sf::Quads, events.size()*8 );
     subDiv = sf::VertexArray(sf::Lines, events.size()*2 );
-      x = posX;
-    y = posY;
-    radius = Radius;
-     calculatePoints();
+  
 
 }
 
