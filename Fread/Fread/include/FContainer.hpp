@@ -36,6 +36,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 struct patternStruct {
   int id;
   int contId;
+  int occId;
   float tBegin;
   float tEnd;
   patternStruct(int i, int ci, float t1, float t2) : id(i), contId(ci), tBegin(t1), tEnd(t2) {} 
