@@ -63,7 +63,8 @@ void Parser::listenAndProcess() {
     while(1){
         std::shared_ptr<FMessages> msg = *(pop_queue->wait_and_pop());
         if(msg->getHeader() == TIMESTAMP) {
-            auto content = static_pointer_cast<patternStruct>(msg->getContent);
+            auto content_void = msg->getContent();
+            auto content = static_pointer_cast<patternStruct>(content_void);
             PARSER::getEventsBetweenTwoTimesInContainer(content->contId, content->tBegin, content->tEnd);
         }
     }
