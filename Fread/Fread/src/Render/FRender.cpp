@@ -105,9 +105,13 @@ FRender::~FRender()
         std::cout << "RENDER <<< CONTAINERS FROM CORE" << std::endl;
 
      auto received = std::static_pointer_cast<FContainer>( msg->getContent() ); 
+     std::cout << "RENDER <<< CONTAINERS RECEVIED" << std::endl;
      FContainer content = *received;
+     std::cout << "RENDER <<< CONTAINERS TAKEN" << std::endl;
      container_render container(content.getId(), content.getAlias(), 1000, scale.getContainerOffsetX(),scale.getContainerOffsetY(),scale.getWindowContainerOffsetY());
-        std::vector <patternStruct> listPattern = content.getPatternList();
+     std::cout << "RENDER <<< CONTAINER_RENDER CREATE" << std::endl;
+     std::vector <patternStruct> listPattern = content.getPatternList();
+     
         for (unsigned int j = 0; j < listPattern.size(); j ++) {
             FPattern fPat = viewPatternById(listPattern[j].id);
             
