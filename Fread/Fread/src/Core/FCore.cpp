@@ -71,7 +71,7 @@ void FCore::thr_timestamps_manager(){
     float endTime; 
     int containerId;
     std::vector<patternStruct> vector_to_send;
-    bool hasSend = false;
+    bool hasSend = true;
     while(1){
     	/*
   		 * COMPUTING LOOP
