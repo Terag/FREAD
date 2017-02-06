@@ -680,9 +680,9 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
 {
  sf::ContextSettings settings;
  settings.antialiasingLevel = 8;
- settings.minorVersion =0;
-  settings.majorVersion =4;
-sf::RenderWindow window(sf::VideoMode(1500,800), "Container and occurrences test",sf::Style::Default, settings);
+ //settings.minorVersion =0;
+ //settings.majorVersion =4;
+ sf::RenderWindow window(sf::VideoMode(1500,800), "Container and occurrences test",sf::Style::Default, settings);
 
 int sizeX =window.getSize().x;
 int sizeY =window.getSize().y;
@@ -805,17 +805,17 @@ std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _push_queue_core;
                 if (event.mouseButton.button == sf::Mouse::Left)
                      {
         
-                    std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+                    //std::cout << "mouse x: " << event.mouseButton.x << std::endl;
                    
                   if (barre2.getGlobalBounds().contains(event.mouseButton.x,event.mouseButton.y))
                   {
-                    std::cout << "the barre2 button was pressed" << std::endl;
+                   // std::cout << "the barre2 button was pressed" << std::endl;
                     clic =true;
                     startclic=(barre2.getPosition().x);
                   }
                 
                   else if (barre.getGlobalBounds().contains(event.mouseButton.x,event.mouseButton.y)){
-                    std::cout << "the barre button was pressed" << std::endl;
+                   // std::cout << "the barre button was pressed" << std::endl;
                     }
                     
                 }
@@ -823,8 +823,9 @@ std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _push_queue_core;
             }
                 
             if (event.type == sf::Event::MouseMoved and clic){
-                  std::cout << "new x: " << event.mouseMove.x << std::endl;
-                  barre2.setPosition(event.mouseMove.x-startclic/2,sizeY-20);
+                  //std::cout << "new x: " << event.mouseMove.x << std::endl;
+                if (event.mouseMove.x-startclic/2<1000 and event.mouseMove.x-startclic/2>100){
+                  barre2.setPosition(event.mouseMove.x-startclic/2,sizeY-20);}
               }     
             if (event.type == sf::Event::MouseButtonReleased and clic){
                 clic =false;
