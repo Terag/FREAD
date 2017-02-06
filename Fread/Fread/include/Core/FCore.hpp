@@ -86,7 +86,7 @@ private:
     FMap< int, FContainer > m_containers;
     FMap< int, std::vector< std::shared_ptr<FOccurrence > > > m_occurrences;
 
-    bool awake; //is in awake phase
+    bool initdone; //after initdone
     
     std::vector<int> get_containers_id();
     std::vector<int> get_patterns_id();

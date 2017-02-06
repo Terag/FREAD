@@ -47,7 +47,7 @@ FCore::FCore(   std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_q
               _m_push_queue_parser(_push_queue_parser),
               _m_pop_queue_render(_pop_queue_render),
               _m_push_queue_render(_push_queue_render),
-              awake(true)
+              initdone(false)
               {
 
               }
@@ -67,25 +67,15 @@ FCore::~FCore(){
  */
 void FCore::thr_timestamps_manager(){
     std::cout << "in thr_timestamps_manager" << std::endl;
+    float beginTime;
+    float endTime; 
+    int containerId;
+    bool hasSend = false;
+    bool vectorComplete = false;
     while(1){
     	/*
   		 * COMPUTING LOOP
   		 */
-    	//getting and processing messages from render
-    	timestamps_from_render();
-
-    	//getting and processing messages from parser
-    	timestamps_from_parser();
-
-    } /* while(1) */
-
-}/* void FCore::thr_timestamps_manager() */
-
-
-
-
-
-void FCore::timestamps_from_render(){
 
         if(!m_render_timestamps.empty()){
    	   	   /* 
@@ -94,89 +84,26 @@ void FCore::timestamps_from_render(){
             std::shared_ptr<FMessages> msg_render =  *(m_render_timestamps.try_pop()) ;
             
             auto received = std::static_pointer_cast<patternStruct>(msg_render->getContent() ) ;
-            float beginTime = received->tBegin;
-            float endTime = received->tEnd;
-            int containerId = received->contId;
+            beginTime = received->tBegin;
+            endTime = received->tEnd;
+            containerId = received->contId;
 
 			std::cout << "CORE >>> TIMESTAMPS RECEIVED FROM RENDER in container : " << containerId << ", beginning at : " << beginTime << " and ending at : " << endTime << std::endl;
 
-			if( m_containers.key_exists( containerId )){
-   			   /* 
-            	* THERE ARE TIMESTAMPS IN THE SAME CONTAINER AS THE DEMANDED ONES IN MEMORY 
-            	*/
-	            if( m_containers.at( containerId )->contains( *received ) ){
-	            	/*
-					 * TIMESTAMPS IN THE SAME CONTAINER AS DEMANDED TIMESTAMPS ARE IN MEMORY
-	            	 */
-	                if(is_container_full(containerId, beginTime, endTime)){
-	                   /*
-					 	* ALL DEMANDED TIMESTAMPS ARE IN MEMORY
-	            	    */
+			/* 
+             * NONE OF THE TIMESTAMPS DEMANDED ARE IN MEMORY 
+             */
+			std::cout << "CORE >>> NONE OF THE DEMANDED TIMESTAMPS ARE IN MEMORY" << std::endl;
+	        _m_push_queue_parser->push( msg_render );
+	        std::cout << "CORE >>> send timestamps demand to parser" << std::endl;
 
-
-						//FOR NOW WE GONNA CONSIDER THIS CASE AS IF NONE OF THE DEMANDED TIMESTAMPS WERE IN MEMORY
-	                	std::cout << "CORE >>> SOME OF THE DEMANDED TIMESTAMPS ARE IN MEMORY" << std::endl;
-	                	_m_push_queue_parser->push( msg_render );
-	                	std::cout << "CORE >>> send timestamps demand to parser" << std::endl;
-
-
-/*
-	                	std::cout << "CORE >>> ALL DEMANDED TIMESTAMPS ARE IN MEMORY" << std::endl;
-
-	                	patternStruct first_pattern = get_first_pattern(containerId, beginTime);
-	                	std::cout << "CORE >>> FIRST PATTERN in container : " << first_pattern.contId << ", beginning at : " << first_pattern.tBegin << " and ending at : " << first_pattern.tEnd << std::endl;
-	                    std::vector< patternStruct > pattern_send;
-	                    pattern_send.push_back(first_pattern);
-	                    patternStruct current_pattern = first_pattern;
-	                    while(current_pattern.tBegin <= endTime){
-	                       /*
-						 	* ADDING ALL PATTERNS FROM MEMORY TO THE VECTOR TO BE SENT
-		            	    *
-	                    	current_pattern = get_next_pattern( current_pattern );
-	                    	pattern_send.push_back( current_pattern );
-	                    } /* while(current_pattern.tBegin <= endTime) *
-
-	                    std::shared_ptr<void> content_send = std::static_pointer_cast<void>( std::make_shared< std::vector<patternStruct> >(pattern_send) );
-	                    FMessages msg_send(TIMESTAMP, content_send); 
-	                    _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
-	                    */
-
-	                }else{
-	                   /*
-					 	* SOME OF THE DEMANDED TIMESTAMPS ARE IN MEMORY
-	            	    */
-	            	    /* 
-
-						FOR NOW WE GONNA CONSIDER THIS CASE AS IF NONE OF THE DEMANDED TIMESTAMPS WERE IN MEMORY
-
-	                    float endTimeLoaded = get_container_content( received.contId, beginTime );
-	                    patternStruct pattern_send = {received.id, received.contId, beginTime, endTimeLoaded};
-	                    std::shared_ptr<void> content_send = std::static_pointer_cast<void>( std::make_shared<patternStruct>(pattern_send) );
-	                    FMessages msg_send(TIMESTAMP, content_send); 
-	                    _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
-	                    */
-	                    std::cout << "CORE >>> SOME OF THE DEMANDED TIMESTAMPS ARE IN MEMORY" << std::endl;
-	                	_m_push_queue_parser->push( msg_render );
-	                	std::cout << "CORE >>> send timestamps demand to parser" << std::endl;            
-	                } /* else if(is_container_full(received.contId, beginTime, endTime)) */
-
-	            }else{
-	               /* 
-            	 	* NONE OF THE TIMESTAMPS DEMANDED ARE IN MEMORY 
-            	 	*/
-					std::cout << "CORE >>> NONE OF THE DEMANDED TIMESTAMPS ARE IN MEMORY" << std::endl;
-	                _m_push_queue_parser->push( msg_render );
-	                std::cout << "CORE >>> send timestamps demand to parser" << std::endl;
-
-	            } /* else if( m_containers.at( received.contId )->contains( received ) ) */
-			
-			}/* if( m_containers.key_exists( received.contId )) */
+	        hasSend = false;
 
         	/*
  			 * BEGIN
  			 * DEBUGGING MESSAGE
  			 * BEGIN
-        	 */
+        	 *
 	        std::cout << "CORE >>> CONTAINERS Size : " << m_containers.size() << std::endl;
 	        if(m_containers.size() > 0){
 	         	for(auto it = m_containers.getMap().begin(); it != m_containers.getMap().end(); ++it){
@@ -189,7 +116,7 @@ void FCore::timestamps_from_render(){
 	          			std::cout << std::endl;
 	         	}
 	        }
-        	/*
+        	 *
  			 * END
  			 * DEBUGGING MESSAGE
  			 * END
@@ -197,12 +124,6 @@ void FCore::timestamps_from_render(){
 
         } /* if(!m_render_timestamps.empty()) */
 
-}
-
-
-
-
-void FCore::timestamps_from_parser(){
 
         if(!m_parser_timestamps.empty()){
    	       /*
@@ -210,16 +131,19 @@ void FCore::timestamps_from_parser(){
 		 	*/
             std::shared_ptr<FMessages> msg_parser = *(m_parser_timestamps.try_pop() );
 
-            auto received = std::static_pointer_cast<std::vector<patternStruct> >(msg_parser->getContent() );
-            std::cout << "CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : " << received->begin()->contId << ", beginning at : " << received->begin()->tBegin << std::endl;
-
+            auto received = std::static_pointer_cast<patternStruct >(msg_parser->getContent() );
+            //std::cout << "CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : " << received->begin()->contId << ", beginning at : " << received->begin()->tBegin << std::endl;
+            /*
             for(auto it = received->begin(); it != received->end(); ++it ){
-            	/*
+            	 *
             	 * ADDING ALL PATTERN RECEIVED FROM PARSER TO CORRESPONDING CONTAINER
-            	 */
+            	 *
             	m_containers.at( received->begin()->contId )->add_pattern( *it );
             }
-            
+            */
+
+            //if(received->)
+
             auto content_send = std::static_pointer_cast<void>( received );
             FMessages msg_send(TIMESTAMP, content_send);
             _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
@@ -230,7 +154,7 @@ void FCore::timestamps_from_parser(){
  			 * BEGIN
  			 * DEBUGGING MESSAGE
  			 * BEGIN
-        	 */
+        	 *
 	        std::cout << "CORE >>> CONTAINERS Size : " << m_containers.size() << std::endl;
 	        if(m_containers.size() > 0){
 	         	for(auto it = m_containers.getMap().begin(); it != m_containers.getMap().end(); ++it){
@@ -243,7 +167,7 @@ void FCore::timestamps_from_parser(){
 	          			std::cout << std::endl;
 	         	}
 	        }
-        	/*
+        	 *
  			 * END
  			 * DEBUGGING MESSAGE
  			 * END
@@ -265,7 +189,9 @@ void FCore::timestamps_from_parser(){
 
         } /* if(!m_parser_timestamps.empty()) */
 
-}
+    } /* while(1) */
+
+}/* void FCore::thr_timestamps_manager() */
 
 
 
@@ -431,13 +357,8 @@ void FCore::thr_messages_handler_parser(){
                 case(INITDONE):
                 {
                 	std::cout << "CORE >>> INITDONE MESSAGE RECEIVED FROM PARSER" << std::endl;
-
+                	initdone = true;
                 	get_total_time();	
-
-                    std::vector<int> containers_id = get_containers_id();
-                    auto content_containers_send = std::static_pointer_cast<void>( std::make_shared<std::vector<int>>(containers_id) );
-                    FMessages msg_send_container( LIST_ID, content_containers_send );
-                    _m_push_queue_render->push( std::make_shared<FMessages>(msg_send_container) );
                     break;
                 }
                 case(CONTAINER):
@@ -495,7 +416,6 @@ void FCore::thr_messages_handler_render(){
                 case(START):
                 {
                 	std::cout << "CORE >>> START MESSAGE RECEIVED FROM RENDER" << std::endl;
-                    awake = false;
                 break;
                 }
                 case(INITDONE):
@@ -532,6 +452,18 @@ void FCore::thr_messages_handler_render(){
                 {
                 	std::cout << "CORE >>> OCCURRENCE MESSAGE RECEIVED FROM RENDER" << std::endl;
                     m_render_occurrences.push( msg );
+                    break;
+                }
+                case(LIST_ID):
+                {
+                	std::cout << "CORE >>> LIST_ID MESSAGE RECEIVED FROM RENDER" << std::endl;
+                	if(initdone){
+                	    std::vector<int> containers_id = get_containers_id();
+                    	auto content_containers_send = std::static_pointer_cast<void>( std::make_shared<std::vector<int>>(containers_id) );
+                    	FMessages msg_send_container( LIST_ID, content_containers_send );
+                    	_m_push_queue_render->push( std::make_shared<FMessages>(msg_send_container) );	
+                	}
+
                     break;
                 }
                 default:
