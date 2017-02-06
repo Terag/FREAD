@@ -771,7 +771,7 @@ std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _push_queue_core;
             sf::RectangleShape barre2(sf::Vector2f(100, 10));
            barre2.setPosition(100,sizeY-20);
            barre2.setFillColor(sf::Color(200,200,200));
-           int startclic =0 ;
+           float startclic =0.0 ;
            bool clic=false;
     while (window.isOpen())
     {
@@ -806,21 +806,30 @@ std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _push_queue_core;
                      {
         
                     std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-                    std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+                   
                   if (barre2.getGlobalBounds().contains(event.mouseButton.x,event.mouseButton.y))
                   {
                     std::cout << "the barre2 button was pressed" << std::endl;
                     clic =true;
-                    startclic=(event.mouseButton.x-barre2.getPosition().x);
+                    startclic=(barre2.getPosition().x);
                   }
-                  else if (clic)  { barre2.setPosition(event.mouseMove.x-barre2.getPosition().x,sizeY-20); }
+                
                   else if (barre.getGlobalBounds().contains(event.mouseButton.x,event.mouseButton.y)){
                     std::cout << "the barre button was pressed" << std::endl;
                     }
                     
                 }
-            }  
-                    
+                
+            }
+                
+            if (event.type == sf::Event::MouseMoved and clic){
+                  std::cout << "new x: " << event.mouseMove.x << std::endl;
+                  barre2.setPosition(event.mouseMove.x-startclic/2,sizeY-20);
+              }     
+            if (event.type == sf::Event::MouseButtonReleased and clic){
+                clic =false;
+               // barre2.setPosition(event.mouseMove.x-startclic/2,sizeY-20);
+            }
                 
                 
             }
