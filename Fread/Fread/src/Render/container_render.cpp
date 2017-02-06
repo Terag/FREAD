@@ -33,42 +33,20 @@ using namespace sf;
 
 container_render::container_render() :
 id(0), name("")
-{
-}
-
-container_render::container_render(int id, std::string name, int containerSize) : 
-id(id), name(name)
-{
-    if (!font.loadFromFile("Arimo-Regular.ttf")) 
-    {
-        std::cout << "error while loading the font" << std::endl;
-    }
-    textId.setFont(font);
-    textId.setColor(Color(40,40,40));
-    textId.setCharacterSize(10);
-    textId.setString(std::to_string(id));
-    textId.setPosition(20, offsetY*id - 5);
-    line = VertexArray(sf::Lines, 2);
-    line[0].position = sf::Vector2f(offsetX, offsetY*id); 
-    line[1].position = sf::Vector2f(containerSize + offsetX, offsetY*id);
-    line[0].color = sf::Color(60,60,60);
-    line[1].color = sf::Color(60,60,60);
-
-}
+{}
 
 container_render::container_render(int id, std::string name, int containerSize, int offsetX, int offsetY, int windowContainerOffsetY) : 
-id(id), name(name), offsetX(offsetX), offsetY(offsetY)
+id(id), name(name)
 {
     if (!font.loadFromFile("Arimo-Regular.ttf")) 
     {
        std::cout << "error while loading the font" << std::endl;
     }
     textId.setFont(font);
-    textId.setColor(Color(40,40,40));
+    textId.setFillColor(Color(40,40,40));
     textId.setCharacterSize(10);
     textId.setString(std::to_string(id));
     textId.setPosition(20, windowContainerOffsetY + offsetY*id - 5);
-    line = VertexArray(sf::Lines, 2);
     line[0].position = sf::Vector2f(offsetX, windowContainerOffsetY + offsetY*id); 
     line[1].position = sf::Vector2f(containerSize + offsetX, windowContainerOffsetY + offsetY*id);
     line[0].color = sf::Color(60,60,60);
@@ -80,43 +58,25 @@ void container_render::addOccurrence(occurrence_render occ)
    occurrences.push_back(occ); 
 }
 
-int container_render::getOffsetX()
-{
-    return offsetX;
-}
-
-int container_render::getOffsetY()
-{
-    return offsetY;
-}
-
 int container_render::getId()
 {
     return id;
 }
 
-void container_render::getOccId() 
+std::vector<occurrence_render> container_render::getOccurrences() 
 {
-    for (unsigned int i = 0; i < occurrences.size(); i++) 
-    {
-        std::cout << occurrences[i].getId() << std::endl;
-    }
+    return occurrences;
 }
 
-void container_render::setOffsetX(int x) {
-    offsetX = x;
-}
-
-void container_render::setOffsetY(int y) {
-    offsetY = y;
+void container_render::updatePosition(int containerSize, int offsetX, int offsetY, int windowContainerOffsetY) 
+{
+    line[0].position = sf::Vector2f(offsetX, windowContainerOffsetY + offsetY*id); 
+    line[1].position = sf::Vector2f(containerSize + offsetX, windowContainerOffsetY + offsetY*id);
 }
 
 void container_render::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    
-    target.draw(textId);
     target.draw(line);
-    
     for (unsigned int i = 0; i < occurrences.size(); i++) 
     {
         target.draw(occurrences[i], states);

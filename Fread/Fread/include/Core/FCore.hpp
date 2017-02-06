@@ -68,7 +68,7 @@ public:
     void thr_FCore();
 
     //static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b);
-    //static std::shared_ptr<FPattern> view_patterns(int a);
+    static std::shared_ptr<FPattern> view_patterns(int a);
     
 
     FMap<int, FPattern > m_patterns;
@@ -84,12 +84,12 @@ private:
     FQueue< std::shared_ptr< FMessages > > m_render_occurrences;
     FQueue< std::shared_ptr< FMessages > > m_render_timestamps;
 
-    std::vector< std::shared_ptr<FContainer> > m_containers;
+    FMap< int, FContainer > m_containers;
     FMap< int, std::vector< std::shared_ptr<FOccurrence > > > m_occurrences;
 
     bool awake; //is in awake phase
     
-
+    std::vector<int> get_containers_id();
 
     void thr_timestamps_manager();
     void thr_occurrences_manager();

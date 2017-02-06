@@ -245,3 +245,7 @@ ModelManifest.xml
 *.xml
 
 *.o
+
+*.properties
+
+Fread/Fread/src/Fread

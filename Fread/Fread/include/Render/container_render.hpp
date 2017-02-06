@@ -42,6 +42,7 @@ private :
     float absoluteTime = 1.f;
     int containerSize = 1000;
     int spacing = 100;
+    unsigned int subdTimeLine;
     int containerOffsetX = 50;
     int containerOffsetY = 30;
     int eventOffsetY = 8;
@@ -65,37 +66,51 @@ public :
     int getContainerOffsetY();
     int getEventOffsetY();
     int getWindowContainerOffsetY();
+    int getSpacing();
     // setters
     void setContainerSize(int containerSize);
     void setSpacing(int spacing);
     void setContainerOffsetX(int containerOffsetX);
     void setContainerOffsetY(int containerOffsetY);
     void setEventOffsetY(int eventOffsetY);
+    void setWindowContainerOffsetY(int windowContainerOffsetY);
+    //update
+    void updateScale(int containerSize, int spacing, int containerOffsetX, 
+                     int containerOffsetY, int eventOffsetY, int windowContainerOffsetY, int nbContainer);
+    void updatePosition(int nbContainer);
     // draw
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 
 };
 
 class event_render : public sf::Drawable {
+    
 private:
     sf::Color eventColor = sf::Color(60,60,60);
     eventType type;
-    int  tStart, tEnd, containerOffsetY, containerID = 0;
+    float ftStart, ftEnd = 0;
     int offsetY = 6;
-    int offsetX = 50;
-    int windowContainerOffsetY = 0;
+    int offsetX;
+    int  containerOffsetY, containerID, windowContainerOffsetY = 0;
+    sf::VertexArray rectangles = sf::VertexArray(sf::Quads, 4);
     
 public:
+    //constructor & destructor
     event_render();
     event_render(eventType type, float tSStart, float tSEnd,
                  float scale, int containerOffsetY, int containerID,
                  int offsetY, int containerOffsetX, int windowContainerOffsetY);
     ~event_render();
+    //setters
     void setColor();
+    //getters
     eventType getType();
     sf::Color getColor();
     std::string getTypeString();
-    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
+    //update
+    void updatePosition(int newScale, int containerOffsetY, int offsetX,int offsetY);
+    //draw
+    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
 };
 
 class occurrence_render : public sf::Drawable {
@@ -105,21 +120,21 @@ int id;
 std::vector<float> timeStamps;
 std::vector<eventType> eventTypes;
 std::vector<event_render> events; 
-// int id_pattern;   
-// bool isLoaded = false;
 
 public : 
+//constructors & destructors
 occurrence_render();
 occurrence_render(int id, int containerID, int containerOffsetY, 
                   int containerOffsetX, int eventOffsetY, int windowContainerOffsetY, float scale, std::vector<float> timeStamps,
                   std::vector<eventType> event);
+~occurrence_render();
+//getters
 std::vector<event_render> getEvents();
 int getId();
-void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
-~occurrence_render();
-// int getIdPattern();  
-// bool getIsLoaded();
-
+//update
+void updatePosition(int newScale, int containerOffsetY, int offsetX, int offsetY);
+//draw
+void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
 };
 
 class container_render : public sf::Drawable
@@ -127,25 +142,25 @@ class container_render : public sf::Drawable
 private : 
     int id; 
     std::string name;
-    int offsetX = 30;
-    int offsetY = 20;
     std::vector<occurrence_render> occurrences;
     sf::Font font;
     sf::Text textId;
-    sf::VertexArray line;
+    sf::VertexArray line = sf::VertexArray(sf::Lines, 2);
       
 public : 
+    //constructors & destructor
     container_render();
-    container_render(int id, std::string name, int containerSize);
     container_render(int id, std::string name, int containerSize, int offsetX, int offsetY,  int windowContainerOffsetY);
-    void setOffsetX(int x);
-    void setOffsetY(int y);
-    int getOffsetX();
-    int getOffsetY();
-    int getId();
-    void getOccId();
-    void addOccurrence(occurrence_render occ);
-   virtual void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const  override;
     ~container_render();
-            
+    //setters
+    //getters
+    int getId();
+    std::string getName();
+    std::vector<occurrence_render> getOccurrences();
+    //add an occurrence_render to its occurrences list
+    void addOccurrence(occurrence_render occ);
+    //update 
+    void updatePosition(int containerSize, int offsetX, int offsetY, int windowContainerOffsetY);
+    //draw
+    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const  override;     
 };
