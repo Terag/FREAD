@@ -65,7 +65,11 @@ public:
     
     virtual ~FCore();
     
-    void start();
+    //function start that will launch the threads
+    void start( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_parser, 
+                std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_parser,
+                std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_render,
+                std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_render);
 
     //static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b);
     //static std::shared_ptr<FPattern> view_patterns(int a);
