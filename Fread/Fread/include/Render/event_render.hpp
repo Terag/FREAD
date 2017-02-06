@@ -20,12 +20,23 @@
 class event_render : public sf::Drawable {
     
 private:
+    // color of the rectangle that represents the event
     sf::Color eventColor = sf::Color(60,60,60);
+    // type of the event (COMPUTE, SEND or WAIT), which determines the color
     eventType type;
+    // the actual lapse of time that takes the event in the trace, these values will never change
     float ftStart, ftEnd = 0;
+    // the height of the rectangle drawn on the trace
     int offsetY = 6;
+    // the offset of the drawn containers on the x-axis, so that the rectangle can be drawn at the right place on the timeline
     int offsetX;
-    int containerOffsetY, containerID, windowContainerOffsetY = 0;
+    //the space between the containers
+    int containerOffsetY= 0;
+    //the id of the containers, so that the rectangle is drawn on the right one
+    int containerID =0;
+    // the offset that determines where the containers are drawn on the window (here it will be on the half bottom of the window)
+    int windowContainerOffsetY = 0;
+    // the vertices of the rectangle
     sf::VertexArray rectangles = sf::VertexArray(sf::Quads, 4);
     
 public:

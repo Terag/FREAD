@@ -42,11 +42,16 @@
 class container_render : public sf::Drawable
 {
 private : 
+    // the id of the container
     int id; 
+    // the name or "alias" of a container, so that it can be drawn later when placing its mouse on the container
     std::string name;
+    // a vector of all the occurrence_render (bloc of events) that occures in this container
     std::vector<occurrence_render> occurrences;
+    // the font and the content of the sfml::text representing the id
     sf::Font font;
     sf::Text textId;
+    //the vertex array of the line representing the container on the window
     sf::VertexArray line = sf::VertexArray(sf::Lines, 2);
       
 public : 
