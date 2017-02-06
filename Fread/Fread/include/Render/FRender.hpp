@@ -18,6 +18,7 @@
 #include <thread>
 #include <SFML/Graphics.hpp>
 #include "Render/container_render.hpp"
+#include "Render/scale.hpp"
 #include "Render/pattern_render.hpp"
 
 #include "FQueue.hpp" //template

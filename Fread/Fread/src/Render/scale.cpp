@@ -24,7 +24,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "Render/container_render.hpp"
+#include "Render/scale.hpp"
 
 scale::scale()
 {
