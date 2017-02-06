@@ -38,20 +38,17 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
  
  FPattern FRender::viewPatternById(int id) 
 {
-    //FPattern pattern = *(FCore::view_patterns(id));
     ask_for_pattern(id);
-     auto msg = *( _m_pop_queue_core->try_pop() );
+     auto msg = *( _m_pop_queue_core->wait_and_pop() );
      auto received = std::static_pointer_cast<FPattern>( msg->getContent() ); 
      FPattern content = *received;
-     
      return content;
-  
  }
  
   FOccurrence FRender::viewOccurenceById(int patternId,int occId) 
 {
     ask_for_occurrence( patternId,  occId);
-    auto msg = *( _m_pop_queue_core->try_pop() );
+    auto msg = *( _m_pop_queue_core->wait_and_pop() );
     auto received = std::static_pointer_cast<FOccurrence>( msg->getContent() ); 
      
     FOccurrence content = *received;
@@ -65,7 +62,7 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
        std::vector<container_render> renderContainers;
        for( int i = firstContID; i < lastContID; i++) {
        ask_for_timestamps( i,  begin_time,  end_time);
-       auto msg = *( _m_pop_queue_core->try_pop() );
+       auto msg = *( _m_pop_queue_core->wait_and_pop());
      auto received = std::static_pointer_cast<FContainer>( msg->getContent() ); 
      FContainer content = *received;
      container_render container(content.getId(), content.getAlias(), 1000, scale.getContainerOffsetX(),scale.getContainerOffsetY(),scale.getWindowContainerOffsetY());
@@ -93,20 +90,21 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
 } 
  
 void FRender::thr_FRender() {
-  
-    //transform a list of FContainers in a list of container_renders + define the scaling 
-    std::vector<std::shared_ptr<FContainer>> listContainer;
-    int nbContainer = listContainer.size();
-    // Valeur 1000 et 10 a changer
-    scale scale(absoluteTime, nbContainer, 1000, 10);
-    std::vector<container_render> renderContainers = transformContainer(listContainer, scale);
-    
+
     //sfml antialiasing
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
 
     //define the window
-    sf::RenderWindow window(sf::VideoMode(1500, 1000), "Container and occurrences test",sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Container and occurrences test",sf::Style::Default, settings);
+    int sizeX =window.getSize().x;
+    int sizeY =window.getSize().y;
+      
+    //transform a list of FContainers in a list of container_renders + define the scaling 
+    std::vector<std::shared_ptr<FContainer>> listContainer;
+    int nbContainer = listContainer.size();
+    scale scale(absoluteTime, nbContainer, (sizeX - sizeX/10), sizeX/10, sizeX/20 ,(sizeY*3)/100, sizeY/100, (sizeY*45)/100);
+    std::vector<container_render> renderContainers = ContainerToDrawBettewen(1,nbContainer,0.0,1.0,scale);
     
     // window loop
         while (window.isOpen())
@@ -115,14 +113,25 @@ void FRender::thr_FRender() {
             while (window.pollEvent(event))
             {
                 if (event.type == sf::Event::Closed){
-                    for (unsigned int i = 0; i < renderContainers.size(); i++) {
-                       window.draw(renderContainers[i]);
-                    }
+                    
                     window.close();
             
                 }
+                if (event.type == sf::Event::Resized)
+                    {
+                        std::cout << "new width: " << event.size.width << std::endl;
+                        std::cout << "new height: " << event.size.height << std::endl;
+                        sizeX =window.getSize().x;
+                        sizeY =window.getSize().y;
+                        scale.updateScale((sizeX - sizeX/10), sizeX/10, sizeX/20 ,(sizeY*3)/100, sizeY/100, (sizeY*45)/100,nbContainer);
+                        
+                    }
             }    
             window.clear(sf::Color(255,255,255));
+            scale.draw(window);
+            for (unsigned int i = 0; i < renderContainers.size(); i++) {
+                       window.draw(renderContainers[i]);
+                    }
             window.display();
             }
     
