@@ -24,6 +24,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/*
+ * this file is use to launch parser part and communicate with core.
+ * You have to communicate with this part if you code your own parser for FREAD
+ */
+
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
@@ -51,10 +56,13 @@ public:
     Parser();
     Parser(std::shared_ptr<FQueue<std::shared_ptr<FMessages>>> popQueue, std::shared_ptr<FQueue<std::shared_ptr<FMessages>>> pushQueue);
     
+    //Call with thread init
     void awake(std::string const& path);
+    //Launch parser when START is received in Pop_queue
     void start();
+    //Listen on pop_queue and send request to parser_interface
     void listenAndProcess();
-    
+    //Send msg in push_queue
     void send(std::shared_ptr<FMessages> msg);
     
     virtual ~Parser();
@@ -62,6 +70,8 @@ public:
 
 //Function uses to launch parser thread
 void parser_thread(std::string path, std::shared_ptr<FQueue<std::shared_ptr<FMessages>>> popQueue, std::shared_ptr<FQueue<std::shared_ptr<FMessages>>> pushQueue);
+
+/*---------------------- Send functions -------------------------*/
 
 void sendContainerToCore(FContainer const& container);
 

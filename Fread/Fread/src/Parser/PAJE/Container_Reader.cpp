@@ -45,7 +45,7 @@ namespace paje
         vector<string> lines;
         string line;
         float time;
-        int line_number;
+        int line_number = 0;
         if(curseur_line < 0) {
             container_Stream.open(container_Path);
             curseur_line = 0;
