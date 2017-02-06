@@ -73,11 +73,12 @@ namespace paje
 
 /*---------------------------------Internal variables --------------------------------------------------------*/
 
+    //Reader for main.trace file
     static Reader_MainTrace mainTrace;
-    
+    //Reader for states.conf file
     static StatesConfig stateConf;
     
-    // Table of functions use when a pajeEvent is read
+    // Table of functions uses when a pajeEvent is read
     static PAJE_EventFunc eventFunctions[25] = { //PajeTypeDef events
                                                 DefineContainerType,    //PEF_PajeDefineContainerType
                                                 DefineStateType,        //PEF_PajeDefineStateType
@@ -114,15 +115,21 @@ namespace paje
                                                 EndPattern,             //PEF_PajeEndPattern
                                              };
    
+    //Current working container_id for paje functions
     static int current_container_id;
-    static vector<Container_Buffer> containers;
-    static shared_ptr<Occurrence_Buffer> current_occurrence;
-    
+    //Current working pattern_id for paje functions
     static int current_pattern_id;
+    
+    //Existing containers in context
+    static vector<Container_Buffer> containers;
+    //Existing patterns in context
     static vector<Pattern_Buffer> patterns;
+    //A occurrence buffer TO DO : will be use for occurrence out of patterns context
+    //static shared_ptr<Occurrence_Buffer> current_occurrence;
     
+    //Event definitions, uses to read a line and identify elements of line
     static vector<EventDef> eventDefs;
-    
+    //Paje type which are defined in main.trace
     static vector<PajeTypeDef> typeDefs;
     
     
@@ -498,7 +505,7 @@ namespace paje
         sendContainerToCore(FContainer(id, containers[id].alias, pair<float,float>(containers[id].beginTime,containers[id].endTime)));
     }
     
-    //This function is not a definitive function, it will be delete in futur
+    //This function is not a definitive function, it will be delete
     eventType convertState(StateType state) {
         switch(state) {
             case STATE_COMPUTE :

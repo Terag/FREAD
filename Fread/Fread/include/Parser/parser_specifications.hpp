@@ -27,6 +27,7 @@
 #ifndef PARSER_SPECIFICATIONS_HPP
 #define PARSER_SPECIFICATIONS_HPP
 
+//the namespace of the parser that will be use by parser
 #define PARSER paje
 
 #include "PAJE/paje_interface.hpp"

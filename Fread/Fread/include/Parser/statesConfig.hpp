@@ -24,6 +24,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/*
+ * This class is use to parse and read state.config file
+ * This file describes stateType for all events
+ */
+
 #ifndef STATESCONFIG_HPP
 #define STATESCONFIG_HPP
 

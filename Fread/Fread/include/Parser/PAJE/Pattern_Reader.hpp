@@ -5,10 +5,7 @@
  */
 
 /* 
- * File:   pattern_reader.hpp
- * Author: terag
- *
- * Created on February 1, 2017, 12:42 AM
+ * This class is use to parse and read a pattern file
  */
 
 #ifndef PATTERN_READER_HPP
@@ -68,6 +65,8 @@ namespace paje
 
             virtual ~Pattern_Reader();
     };
+    
+    //Buffer uses in paje_interface to stock informations with fast access.
     
     typedef struct {
         std::vector<std::string> alias;
