@@ -56,8 +56,17 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
      return content;
   
  }
- 
-  std::vector<container_render> FRender::ContainerToDrawBettewen(int firstContID, int lastContID,float begin_time, float end_time, scale scale)
+  std::vector<int> FRender::getContainerID(){
+      ask_for_list_container();
+    auto msg = *( _m_pop_queue_core->wait_and_pop() );
+    auto received = std::static_pointer_cast<std::vector<int>>( msg->getContent() ); 
+     
+    std::vector<int> content = *received;
+     
+     return content;
+      
+  }
+  std::vector<container_render> FRender::ContainerToDrawBettewen(int firstContID, int lastContID,float begin_time, float end_time, scale scale,std::vector<pattern_render> listPatterns)
   {
        std::vector<container_render> renderContainers;
        for( int i = firstContID; i < lastContID; i++) {
@@ -69,6 +78,7 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
         std::vector <patternStruct> listPattern = content.getPatternList();
         for (unsigned int j = 0; j < listPattern.size(); j ++) {
             FPattern fPat = viewPatternById(listPattern[j].id);
+            
             occurrence_render occ(
                                   fPat.getId(),listPattern[j].contId,
                                   scale.getContainerOffsetY(), scale.getContainerOffsetX(),
@@ -76,6 +86,9 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
                                   fPat.getEventTypes()
                                   );
             container.addOccurrence(occ);
+            pattern_render pat(fPat.getId(),fPat.getMeanTimeStamps(),occ);
+            listPatterns.push_back(pat);
+            
         }
         renderContainers.push_back(container);
        
@@ -101,10 +114,11 @@ void FRender::thr_FRender() {
     int sizeY =window.getSize().y;
       
     //transform a list of FContainers in a list of container_renders + define the scaling 
-    std::vector<std::shared_ptr<FContainer>> listContainer;
+    std::vector<pattern_render> listPattern;
+    std::vector<int> listContainer;
     int nbContainer = listContainer.size();
     scale scale(absoluteTime, nbContainer, (sizeX - sizeX/10), sizeX/10, sizeX/20 ,(sizeY*3)/100, sizeY/100, (sizeY*45)/100);
-    std::vector<container_render> renderContainers = ContainerToDrawBettewen(1,nbContainer,0.0,1.0,scale);
+    std::vector<container_render> renderContainers = ContainerToDrawBettewen(1,nbContainer,0.0,1.0,scale,listPattern);
     
     // window loop
         while (window.isOpen())
@@ -136,7 +150,19 @@ void FRender::thr_FRender() {
             }
     
 } 
-
+void FRender::drawPatterns(std::vector<pattern_render> listPatterns,int sizeX, int sizeY,sf::RenderTarget& window) {
+    int drawX = sizeX - sizeX/10 ;
+    int drawY = sizeY*45/100 - sizeY/20;
+    int radius;
+    if (drawX/10>drawY/4) {radius =drawY/4;}
+    else {radius = drawX/10;}
+    for (unsigned int i=0; i<listPatterns.size(); i++) {
+        listPatterns[i].SetPosition((2*radius+radius/5)*(i+1),radius + sizeY/20,radius);
+        window.draw(listPatterns[i]);
+        
+    }
+    
+}
 
 /*
  *
@@ -191,7 +217,18 @@ void FRender::ask_for_container(int contId){
   std::cout << "RENDER >>> SEND CONTAINER : " << contId << " TO CORE" << std::endl;
   _m_push_queue_core->push(std::make_shared<FMessages>(msg_send) );
 }
-
+/*
+ *
+ * METHODS USED TO ASK THE CORE FOR A CONTAINER LIST BY ITS contId
+ *
+ */
+void FRender::ask_for_list_container(){
+    std::shared_ptr<void> list_ask;
+  auto content_send = list_ask;
+  FMessages msg_send(LIST_ID, list_ask);
+  std::cout << "RENDER >>> SEND LIST_ID  TO CORE" << std::endl;
+  _m_push_queue_core->push(std::make_shared<FMessages>(msg_send) );
+}
 /*
  *
  * METHODS USED TO GET A MESSAGE FROM THE CORE
@@ -242,7 +279,8 @@ void FRender::receive_message(){
       } /* switch */
     } /* if */
 } /* void */
-
+FRender::~FRender(){
+}
 //Je ne sais pas comment vous comptez récupérer les messages mais sinon la méthode c'est:
 //  auto msg = *( _m_pop_queue_core->try_and_pop() ); on récupère le message sous la forme d'un std::shared_ptr<FMessages>
 //  auto received = std::static_pointer_cast<DEFINIR_LE_TYPE_SELON_LE_HEADER>( msg->getContent() ); on récupère un shared_ptr sur l'objet récupéré (dont le type dépend du HEADER : FContainer pour CONTAINER, FPattern pour PATTERN, std::vector<patternStruct> pour TIMESTAMP ou FOccurrence pour OCCURRENCE)

@@ -53,7 +53,7 @@ sf::VertexArray subDiv;
       
 public : 
 pattern_render();
-pattern_render(int id, std::vector<float> meanTimeStamps, occurrence_render occurrence,int posX, int posY, float Radius);
+pattern_render(int id, std::vector<float> meanTimeStamps, occurrence_render occurrence);
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
 void calculatePoints() ;
 void SetPosition(int posX, int posY, float Radius);
