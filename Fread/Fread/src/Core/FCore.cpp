@@ -171,11 +171,11 @@ void FCore::thr_timestamps_manager(){
         	 */
 	        std::cout << "CORE >>> CONTAINERS Size : " << m_containers.size() << std::endl;
 	        if(m_containers.size() > 0){
-	         	for(auto it = m_containers.begin(); it != m_containers.end(); ++it){
-	          		std::cout << "CORE >>> M_CONTAINERS ID : " << (*it)->getId() << std::endl;
-	          		std::cout << "                    Size : " << (*it)->getPatternList().size() << std::endl;
+	         	for(auto it = m_containers.getMap().begin(); it != m_containers.getMap().end(); ++it){
+	          		std::cout << "CORE >>> M_CONTAINERS ID : " << it->second->getId() << std::endl;
+	          		std::cout << "                    Size : " << it->second->getPatternList().size() << std::endl;
 	          		std::cout << "                  Values : ";
-	          		for(auto it2 = ( (*it)->getPatternList() ).begin(); it2 != ( (*it)->getPatternList() ).end(); ++it2 ){
+	          		for(auto it2 = ( it->second->getPatternList() ).begin(); it2 != ( it->second->getPatternList() ).end(); ++it2 ){
 	          	 		std::cout << "id : " << it2->id << " begin : " << it2->tBegin << "end : " << it2->tEnd; 
 	          		}
 	          			std::cout << std::endl;
@@ -223,11 +223,11 @@ void FCore::thr_timestamps_manager(){
         	 */
 	        std::cout << "CORE >>> CONTAINERS Size : " << m_containers.size() << std::endl;
 	        if(m_containers.size() > 0){
-	         	for(auto it = m_containers.begin(); it != m_containers.end(); ++it){
-	          		std::cout << "CORE >>> M_CONTAINERS ID : " << (*it)->getId() << std::endl;
-	          		std::cout << "                    Size : " << (*it)->getPatternList().size() << std::endl;
+	         	for(auto it = m_containers.getMap().begin(); it != m_containers.getMap().end(); ++it){
+	          		std::cout << "CORE >>> M_CONTAINERS ID : " << it->second->getId() << std::endl;
+	          		std::cout << "                    Size : " << it->second->getPatternList().size() << std::endl;
 	          		std::cout << "                  Values : ";
-	          		for(auto it2 = ( (*it)->getPatternList() ).begin(); it2 != ( (*it)->getPatternList() ).end(); ++it2 ){
+	          		for(auto it2 = ( it->second->getPatternList() ).begin(); it2 != ( it->second->getPatternList() ).end(); ++it2 ){
 	          	 		std::cout << " | id : " << it2->id << " begin : " << it2->tBegin << ", end : " << it2->tEnd; 
 	          		}
 	          			std::cout << std::endl;
@@ -239,16 +239,16 @@ void FCore::thr_timestamps_manager(){
  			 * END
         	 */
 
-            for(auto it = m_containers.begin(); it != m_containers.end(); ++it ){
+            for(auto it = m_containers.getMap().begin(); it != m_containers.getMap().end(); ++it ){
            	   /*
 			 	*
 			 	* SORTING TIMESTAMPS FOR EACH CONTAINERS
 			 	*
 	         	*/ 	
-	         	std::cout << "CORE >>> M_CONTAINERS ID : " << (*it)->getId() << std::endl;
-            	if(!(*it)->getPatternList().empty()){
+	         	std::cout << "CORE >>> M_CONTAINERS ID : " << it->second->getId() << std::endl;
+            	if(!it->second->getPatternList().empty()){
             		std::cout << "CORE >>> BEFORE SORT" << std::endl;
- 					std::sort((*it)->getPatternList().begin() + 1,  (*it)->getPatternList().end() /*[](patternStruct a, patternStruct b){ return (a.tBegin < b.tBegin && a.tEnd < b.tEnd); }*/ );
+ 					std::sort(it->second->getPatternList().begin() + 1,  it->second->getPatternList().end() /*[](patternStruct a, patternStruct b){ return (a.tBegin < b.tBegin && a.tEnd < b.tEnd); }*/ );
 
         		} /* if(!it->second->getPatternList().empty()) */
 
@@ -462,15 +462,18 @@ void FCore::thr_messages_handler_parser(){
                 case(INITDONE):
                 {
                     std::cout << "CORE >>> INITDONE MESSAGE RECEIVED FROM PARSER" << std::endl;
+                    std::vector<int> containers_id = get_containers_id();
+                    auto content_send = std::static_pointer_cast<void>( std::make_shared<std::vector<int>>(containers_id) );
+                    FMessages msg_send( LIST_ID, content_send );
+                    _m_push_queue_render->push( std::make_shared<FMessages>(msg_send) );
                     break;
                 }
                 case(CONTAINER):
                 {
                     std::cout << "CORE >>> CONTAINER MESSAGE RECEIVED FROM PARSER" << std::endl;
                     std::shared_ptr<FContainer> received = std::static_pointer_cast<FContainer>(msg->getContent());
-                    //std::pair<int, std::shared_ptr<FContainer> > my_pair(received->getId() , received);
-                    m_containers.push_back( received );
-                    std::sort(m_containers.begin(), m_containers.end(), [](std::shared_ptr<FContainer> a, std::shared_ptr<FContainer> b){ return ( a->getId() < b->getId() ); } );
+                    std::pair<int, std::shared_ptr<FContainer> > my_pair(received->getId() , received);
+                    m_containers.insert( my_pair );
                     std::cout << "M_CONTAINERS SIZE IS NOW : " << m_containers.size() << std::endl;
                     std::cout << "M_CONTAINERS IS NOW : ";
                     for(unsigned int i = 0; i < m_containers.size(); ++i){
@@ -597,16 +600,16 @@ void FCore::thr_FCore(){
     std::cout << "start message_handler_render_" << std::endl;
     std::thread message_handler_render_( [this]{thr_messages_handler_render();} );
     FThread_guard mhpr_g( message_handler_render_ );
-/*
-    while(awake){
-            
-    } 
-   */ 
+
     std::cout << "AWAKE DONE" <<std::endl;
 
     std::cout << "start check_memory_" << std::endl;
     std::thread check_memory_( [this]{thr_check_memory();} );
     FThread_guard mem_g( check_memory_ );
+
+    std::shared_ptr<void> content_send;
+    FMessages msg_send(START, content_send );
+    _m_push_queue_parser->push( std::make_shared<FMessages>(msg_send) );
 }
 
 
@@ -727,4 +730,12 @@ std::shared_ptr<FOccurrence> FCore::find_occurrence(int idPattern, int idOccurre
 		}
 	}	
 	return NULL;
+}
+
+std::vector<int> FCore::get_containers_id(){
+	std::vector<int> result;
+	for(auto it = m_containers.getMap().begin() ; it != m_containers.getMap().end(); ++it){
+		result.push_back( it->second->getId() );
+	}
+	return result;
 }
