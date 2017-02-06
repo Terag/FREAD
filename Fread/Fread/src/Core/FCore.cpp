@@ -613,17 +613,16 @@ void FCore::thr_FCore(){
 
 
 
-void start(std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_parser, 
+void start_core(std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_parser, 
            std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_parser,
            std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_render,
            std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_render){
 
-	core FCore(_pop_queue_parser, _push_queue_parser, _pop_queue_render, _push_queue_render);
+	FCore core(_pop_queue_parser, _push_queue_parser, _pop_queue_render, _push_queue_render);
 
     std::cout << "start FCore" << std::endl;
 
-    std::thread fCore_( core.thr_FCore() );
-	FThread_guard fc_g( fCore_ );
+    core.thr_FCore();
 }
 
 

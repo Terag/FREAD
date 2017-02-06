@@ -64,12 +64,8 @@ public:
     FCore(const FCore& orig);
     
     virtual ~FCore();
-    
-    //function start that will launch the threads
-    void start( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_parser, 
-                std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_parser,
-                std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_render,
-                std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_render);
+
+    void thr_FCore();
 
     //static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b);
     //static std::shared_ptr<FPattern> view_patterns(int a);
@@ -93,7 +89,7 @@ private:
 
     bool awake; //is in awake phase
     
-    void thr_FCore();
+
 
     void thr_timestamps_manager();
     void thr_occurrences_manager();
@@ -114,5 +110,10 @@ private:
     patternStruct get_next_pattern( patternStruct current_pattern );
 };
 
+//function start that will launch the threads
+void start_core( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_parser, 
+                 std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_parser,
+                 std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_render,
+                 std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_render);
 
 #endif /* FCORE_HPP */
