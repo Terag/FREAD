@@ -100,7 +100,7 @@ void FCore::timestamps_from_render(){
 
 			std::cout << "CORE >>> TIMESTAMPS RECEIVED FROM RENDER in container : " << containerId << ", beginning at : " << beginTime << " and ending at : " << endTime << std::endl;
 
-			//if( m_containers.key_exists( containerId )){
+			if( m_containers.key_exists( containerId )){
    			   /* 
             	* THERE ARE TIMESTAMPS IN THE SAME CONTAINER AS THE DEMANDED ONES IN MEMORY 
             	*/
@@ -170,7 +170,7 @@ void FCore::timestamps_from_render(){
 
 	            } /* else if( m_containers.at( received.contId )->contains( received ) ) */
 			
-			//}/* if( m_containers.key_exists( received.contId )) */
+			}/* if( m_containers.key_exists( received.contId )) */
 
         	/*
  			 * BEGIN
@@ -730,6 +730,8 @@ void FCore::get_total_time(){
 		if( it->second->getEndTime() > result )
 			result = it->second->getEndTime() > result ;
 	}
+
+	std::cout << "absolute time = " << result << std::endl;
 
 	auto end_time_send = std::static_pointer_cast<void>( std::make_shared<int>(result) );
     FMessages msg_send( START, end_time_send );
