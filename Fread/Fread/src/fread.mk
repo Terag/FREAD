@@ -1,8 +1,7 @@
 SRC = $(wildcard *.cpp)
 OBJ = $(SRC:.cpp=.o)
 
-FREAD_LIB = $(OBJ_DIR)/render.so $(OBJ_DIR)/core.so
-			##$(OBJ_DIR)/parser.so $(OBJ_DIR)/$(PARSER).so
+FREAD_LIB = $(OBJ_DIR)/render.so $(OBJ_DIR)/core.so $(OBJ_DIR)/parser.so $(OBJ_DIR)/$(PARSER).so
  
 $(EXEC): $(OBJ) $(FREAD_LIB)
 	$(CXX) -o $(EXEC) $(OBJ) $(FREAD_LIB) $(LIBS)

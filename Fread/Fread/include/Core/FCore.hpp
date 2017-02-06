@@ -69,9 +69,7 @@ public:
 
     //static std::vector<std::shared_ptr<FContainer> > view_containers(int a, int b);
     static std::shared_ptr<FPattern> view_patterns(int a);
-    
 
-    FMap<int, FPattern > m_patterns;
 
 private:   
     std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _m_pop_queue_parser;
@@ -84,12 +82,14 @@ private:
     FQueue< std::shared_ptr< FMessages > > m_render_occurrences;
     FQueue< std::shared_ptr< FMessages > > m_render_timestamps;
 
+    FMap< int, FPattern > m_patterns;
     FMap< int, FContainer > m_containers;
     FMap< int, std::vector< std::shared_ptr<FOccurrence > > > m_occurrences;
 
     bool awake; //is in awake phase
     
     std::vector<int> get_containers_id();
+    std::vector<int> get_patterns_id();
 
     void thr_timestamps_manager();
     void thr_occurrences_manager();
@@ -108,12 +108,21 @@ private:
 
     patternStruct get_first_pattern(int contId, float beginTime);
     patternStruct get_next_pattern( patternStruct current_pattern );
+
+    void get_total_time();
+
+    void occurrences_from_parser();
+    void occurrences_from_render();
+
+    void timestamps_from_parser();
+    void timestamps_from_render();
 };
 
 //function start that will launch the threads
-void start_core( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_parser, 
+void core_thread( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_parser, 
                  std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_parser,
                  std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_render,
-                 std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_render);
+                 std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_render
+                );
 
 #endif /* FCORE_HPP */

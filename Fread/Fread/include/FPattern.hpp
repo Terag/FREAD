@@ -35,6 +35,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class FPattern : public FObjet
 {
+private :
+
+	int m_id;
+	std::vector<eventType> m_eventTypes;
+	std::vector<float> m_meanTimeStamps;
+	std::vector<FOccurrence> m_occurrences;
+        
 public:
 	FPattern();
 	FPattern(int i);
@@ -43,14 +50,11 @@ public:
 
 	std::vector<eventType> getEventTypes();
 	std::vector<float> getMeanTimeStamps();
+        
+        void setEventTypes(std::vector<eventType> const& events){m_eventTypes = events;}
+        void setMeanTimeStamps(std::vector<float> const& timeStamps){m_meanTimeStamps = timeStamps;}
 	//std::vector<FOccurrence> getOccurrences();
 
-private :
-
-	int m_id;
-	std::vector<eventType> m_eventTypes;
-	std::vector<float> m_meanTimeStamps;
-	std::vector<FOccurrence> m_occurrences;
 
 };
 bool operator==(FPattern A, FPattern B);

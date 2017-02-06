@@ -332,3 +332,15 @@ void FRender::receive_message(){
       } /* switch */
     } /* if */
 } /* void */
+
+
+void render_thread( std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_queue_core, 
+                    std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _push_queue_core, 
+                    float absoluteTime){
+
+  FRender render(_pop_queue_core, _push_queue_core, absoluteTime);
+
+  std::cout << "start FRender" << std::endl;
+
+  render.thr_FRender();
+}
