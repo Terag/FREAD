@@ -71,9 +71,9 @@ int main(int argc, char* argv[]){
                                         _queue_render_core,
                                         _queue_core_render);
 
-    std::cout << "starting false parser" << std::endl;
+    /*std::cout << "starting false parser" << std::endl;
     std::thread false_parser_thr_(false_parser, _queue_core_parser, _queue_parser_core);
-    FThread_guard lock2(false_parser_thr_);
+    FThread_guard lock2(false_parser_thr_);*/
 
 	std::cout << "starting false render" << std::endl;
     std::thread false_render_thr_(false_render, _queue_core_render, _queue_render_core);

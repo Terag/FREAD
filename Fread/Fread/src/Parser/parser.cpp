@@ -88,12 +88,19 @@ void sendContainerToCore(FContainer const& container) {
     auto content = make_shared<FContainer>(container);
     auto content_void = static_pointer_cast<void>(content);
     auto msg = make_shared<FMessages>(CONTAINER, content_void);
+    parser.send(msg);
 }
 
 void sendPatternToCore(FPattern const& pattern) {
-    
+    auto content = make_shared<FPattern>(pattern);
+    auto content_void = static_pointer_cast<void>(content);
+    auto msg = make_shared<FMessages>(PATTERN, content_void);
+    parser.send(msg);
 }
 
 void sendOccurenceToCore(FOccurrence const& occurrence) {
-    
+    auto content = make_shared<FOccurrence>(occurrence);
+    auto content_void = static_pointer_cast<void>(content);
+    auto msg = make_shared<FMessages>(OCCURRENCE, content_void);
+    parser.send(msg);
 }
