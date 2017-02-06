@@ -70,7 +70,7 @@ void FCore::thr_timestamps_manager(){
     float beginTime;
     float endTime; 
     int containerId;
-    std::std::vector<patternStruct> vector_to_send;
+    std::vector<patternStruct> vector_to_send;
     bool hasSend = false;
     while(1){
     	/*
@@ -150,14 +150,14 @@ void FCore::thr_timestamps_manager(){
             if(received->contId == containerId){
             	if(vector_to_send.empty()){
             		if(received->tEnd > beginTime && received->tBegin < beginTime){
-            			vector_to_send.push_back(received.get());
+            			vector_to_send.push_back(*(received));
             		}
             	}
             	if(received->tBegin < endTime && received->tEnd > beginTime ){
-            		vector_to_send.push_back(received.get());
+            		vector_to_send.push_back(*(received));
             	}
             	if(received->tBegin > endTime){
-            		auto content_send = std::static_pointer_cast<void>( vector_to_send );
+            		auto content_send = std::static_pointer_cast<void>( std::make_shared<std::vector<patternStruct> >(vector_to_send) );
             		FMessages msg_send(TIMESTAMP, content_send);
             		_m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
             		hasSend = true;
