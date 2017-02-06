@@ -63,6 +63,8 @@ FRender::~FRender()
 {
     ask_for_pattern(id);
      auto msg = *( _m_pop_queue_core->wait_and_pop() );
+            std::cout << "RENDER <<< PATTERN FROM CORE" << std::endl;
+
      auto received = std::static_pointer_cast<FPattern>( msg->getContent() ); 
      FPattern content = *received;
      return content;
@@ -72,6 +74,8 @@ FRender::~FRender()
 {
     ask_for_occurrence( patternId,  occId);
     auto msg = *( _m_pop_queue_core->wait_and_pop() );
+        std::cout << "RENDER <<< OCCURENCE FROM CORE" << std::endl;
+
     auto received = std::static_pointer_cast<FOccurrence>( msg->getContent() ); 
      
     FOccurrence content = *received;
@@ -81,7 +85,10 @@ FRender::~FRender()
  }
   std::vector<int> FRender::getContainerID(){
       ask_for_list_container();
+        
     auto msg = *( _m_pop_queue_core->wait_and_pop() );
+    std::cout << "RENDER <<< LIST_ID FROM CORE" << std::endl;
+
     auto received = std::static_pointer_cast<std::vector<int>>( msg->getContent() ); 
      
     std::vector<int> content = *received;
@@ -89,12 +96,14 @@ FRender::~FRender()
      return content;
       
   }
-  std::vector<container_render> FRender::ContainerToDrawBetween(int firstContID, int lastContID,float begin_time, float end_time, scale scale,std::vector<pattern_render> listPatterns)
+  std::vector<container_render> FRender::ContainerToDrawBetween(std::vector<int>listContainer,float begin_time, float end_time, scale scale,std::vector<pattern_render> listPatterns)
   {
        std::vector<container_render> renderContainers;
-       for( int i = firstContID; i < lastContID; i++) {
-       ask_for_timestamps( i,  begin_time,  end_time);
+       for( int i = 0; i < listContainer.size(); i++) {
+       ask_for_timestamps(listContainer[i] ,  begin_time,  end_time);
        auto msg = *( _m_pop_queue_core->wait_and_pop());
+        std::cout << "RENDER <<< CONTAINERS FROM CORE" << std::endl;
+
      auto received = std::static_pointer_cast<FContainer>( msg->getContent() ); 
      FContainer content = *received;
      container_render container(content.getId(), content.getAlias(), 1000, scale.getContainerOffsetX(),scale.getContainerOffsetY(),scale.getWindowContainerOffsetY());
@@ -143,7 +152,7 @@ void FRender::thr_FRender() {
     
     scale scale(absoluteTime, nbContainer, (sizeX - sizeX/10), sizeX/10, sizeX/20 ,(sizeY*3)/100, sizeY/100, (sizeY*45)/100);
 
-    std::vector<container_render> renderContainers = ContainerToDrawBetween(1,nbContainer,0.0,0.5,scale,listPattern);
+    std::vector<container_render> renderContainers = ContainerToDrawBetween(listContainer,0.0,0.5,scale,listPattern);
     float barreSize =(sizeX - sizeX/10);
     sf::RectangleShape barre(sf::Vector2f(barreSize, 10));
     barre.setPosition(100,sizeY-20);
@@ -196,7 +205,7 @@ void FRender::thr_FRender() {
                     {
                     barre2.setPosition(event.mouseMove.x-startclic/2,sizeY-20);
                     float timeS =((barreSize)-(barre2.getPosition().x-100))/barreSize*absoluteTime;
-                    renderContainers = ContainerToDrawBetween(1,nbContainer,timeS,timeS+0.5,scale,listPattern);
+                    renderContainers = ContainerToDrawBetween(listContainer,timeS,timeS+0.5,scale,listPattern);
                     
                     
                     }
@@ -299,7 +308,7 @@ void FRender::ask_for_list_container(){
     std::shared_ptr<void> list_ask;
   auto content_send = list_ask;
   FMessages msg_send(LIST_ID, list_ask);
-  std::cout << "RENDER >>> SEND LIST_ID  TO CORE" << std::endl;
+  std::cout << "RENDER >>> SEND ASK LIST_ID  TO CORE" << std::endl;
   _m_push_queue_core->push(std::make_shared<FMessages>(msg_send) );
 }
 /*
