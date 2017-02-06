@@ -6,7 +6,7 @@
 
 /* 
  * File:   scale.hpp
- * Author: emma
+ * Author: Emma et Jerome 
  *
  * Created on 6 février 2017, 18:42
  */
