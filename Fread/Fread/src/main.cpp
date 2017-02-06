@@ -679,9 +679,9 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
  int main(void)
 {
  sf::ContextSettings settings;
- settings.antialiasingLevel = 8;
- settings.minorVersion =0;
-  settings.majorVersion =4;
+ // settings.antialiasingLevel = 8;
+ //settings.minorVersion =0;
+ // settings.majorVersion =4;
 sf::RenderWindow window(sf::VideoMode(1500,800), "Container and occurrences test",sf::Style::Default, settings);
 
 int sizeX =window.getSize().x;
