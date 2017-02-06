@@ -26,7 +26,7 @@ LIBS := -lsfml-graphics -lsfml-window -lsfml-system -pthread
 export MAKE_DIR CXX CXXFLAGS LIBS INCLUDE_DIR EXEC OBJ_DIR EXEC PARSER
 
 all:
-	@$(MAKE) -C $(RENDER_DIR) -f render.mk
+##	@$(MAKE) -C $(RENDER_DIR) -f render.mk
 	@$(MAKE) -C $(CORE_DIR) -f core.mk
 	@$(MAKE) -C $(PARSER_DIR) -f parser.mk
 	@$(MAKE) -C $(PARSER_DIR)/$(PARSER) -f $(PARSER).mk
