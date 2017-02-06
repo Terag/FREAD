@@ -70,8 +70,8 @@ void FCore::thr_timestamps_manager(){
     float beginTime;
     float endTime; 
     int containerId;
+    std::std::vector<patternStruct> vector_to_send;
     bool hasSend = false;
-    bool vectorComplete = false;
     while(1){
     	/*
   		 * COMPUTING LOOP
@@ -84,20 +84,25 @@ void FCore::thr_timestamps_manager(){
             std::shared_ptr<FMessages> msg_render =  *(m_render_timestamps.try_pop()) ;
             
             auto received = std::static_pointer_cast<patternStruct>(msg_render->getContent() ) ;
-            beginTime = received->tBegin;
-            endTime = received->tEnd;
-            containerId = received->contId;
+            if(hasSend){
+                beginTime = received->tBegin;
+            	endTime = received->tEnd;
+            	containerId = received->contId;
 
-			std::cout << "CORE >>> TIMESTAMPS RECEIVED FROM RENDER in container : " << containerId << ", beginning at : " << beginTime << " and ending at : " << endTime << std::endl;
+				std::cout << "CORE >>> TIMESTAMPS RECEIVED FROM RENDER in container : " << containerId << ", beginning at : " << beginTime << " and ending at : " << endTime << std::endl;
+	
+				/* 
+            	 * NONE OF THE TIMESTAMPS DEMANDED ARE IN MEMORY 
+            	 */
+				std::cout << "CORE >>> NONE OF THE DEMANDED TIMESTAMPS ARE IN MEMORY" << std::endl;
+	        	_m_push_queue_parser->push( msg_render );
+	        	std::cout << "CORE >>> send timestamps demand to parser" << std::endl;
 
-			/* 
-             * NONE OF THE TIMESTAMPS DEMANDED ARE IN MEMORY 
-             */
-			std::cout << "CORE >>> NONE OF THE DEMANDED TIMESTAMPS ARE IN MEMORY" << std::endl;
-	        _m_push_queue_parser->push( msg_render );
-	        std::cout << "CORE >>> send timestamps demand to parser" << std::endl;
+	        	hasSend = false;
 
-	        hasSend = false;
+            }
+
+
 
         	/*
  			 * BEGIN
@@ -142,12 +147,24 @@ void FCore::thr_timestamps_manager(){
             }
             */
 
-            //if(received->)
+            if(received->contId == containerId){
+            	if(vector_to_send.empty()){
+            		if(received->tEnd > beginTime && received->tBegin < beginTime){
+            			vector_to_send.push_back(received.get());
+            		}
+            	}
+            	if(received->tBegin < endTime && received->tEnd > beginTime ){
+            		vector_to_send.push_back(received.get());
+            	}
+            	if(received->tBegin > endTime){
+            		auto content_send = std::static_pointer_cast<void>( vector_to_send );
+            		FMessages msg_send(TIMESTAMP, content_send);
+            		_m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
+            		hasSend = true;
 
-            auto content_send = std::static_pointer_cast<void>( received );
-            FMessages msg_send(TIMESTAMP, content_send);
-            _m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
-            std::cout << "CORE >>> send timestamps in container : " << received->begin()->contId << ", beginning at : " << received->begin()->tBegin << ", and ending at : " << (--received->end())->tEnd << std::endl;
+            	}
+        	}
+            //std::cout << "CORE >>> send timestamps in container : " << received->contId << ", beginning at : " << received->begin()->tBegin << ", and ending at : " << (--received->end())->tEnd << std::endl;
 
 
         	/*
