@@ -35,7 +35,7 @@ Parser::Parser()
 {    
 }
 
-Parser::Parser(std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue) :
+Parser::Parser(std::shared_ptr<FQueue<std::shared_ptr<FMessages>>> popQueue, std::shared_ptr<FQueue<std::shared_ptr<FMessages>>> pushQueue) :
     initDone(false), pop_queue(popQueue), push_queue(pushQueue)
 {
 }
@@ -46,16 +46,15 @@ void Parser::awake(const std::string& path) {
 }
 
 void Parser::start() {
-    auto msg = *(pop_queue->wait_and_pop());
-    if(msg.header == H_START){
+    std::shared_ptr<FMessages> msg = *(pop_queue->wait_and_pop());
+    if(msg->getHeader() == START){
         cout << "go parse" << endl;
         initDone = PARSER::start();
     } else {
-        cout << "wrong start message : " << *msg.content << endl;
+        cout << "wrong start message" << endl;
     }
-    msg_parserToCore msg_send;
-    msg_send.header = H_INITDONE;
-    msg_send.content = make_shared<string>("Init Done");
+    std::shared_ptr<FMessages> msg_send = make_shared<FMessages>();
+    msg_send->setHeader(INITDONE);
     push_queue->push(msg_send);
 }
 
@@ -63,12 +62,17 @@ void Parser::listenAndProcess() {
     
 }
 
+void Parser::send(std::shared_ptr<FMessages> msg) {
+    push_queue->push(msg);
+}
+
+
 Parser::~Parser() {
     
 }
 
 //TO DO : ajouter des retoure d'erreurs sur les fonction awake et start
-void parser_thread(std::string path, std::shared_ptr<FQueue<msg_coreToParser>> popQueue, std::shared_ptr<FQueue<msg_parserToCore>> pushQueue) {
+void parser_thread(std::string path, std::shared_ptr<FQueue<std::shared_ptr<FMessages>>> popQueue, std::shared_ptr<FQueue<std::shared_ptr<FMessages>>> pushQueue) {
     cout << "thread launched" << endl;
     
     parser = Parser(popQueue, pushQueue);
@@ -77,13 +81,13 @@ void parser_thread(std::string path, std::shared_ptr<FQueue<msg_coreToParser>> p
     
     parser.start();
     
-    paje::getEventsBetweenTwoTimesInContainer(2, 0.f, 1.f);
-    
     parser.listenAndProcess();
 }
 
 void sendContainerToCore(FContainer const& container) {
-    
+    auto content = make_shared<FContainer>(container);
+    auto content_void = static_pointer_cast<void>(content);
+    auto msg = make_shared<FMessages>(CONTAINER, content_void);
 }
 
 void sendPatternToCore(FPattern const& pattern) {
