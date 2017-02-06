@@ -57,7 +57,7 @@ int main(int argc, char* argv[]){
 
     std::cout << "start" << std::endl;
 
-    auto _queue_parser_core = std::make_shared<FQueue<std::shared_ptr<FMessages>>>();
+    auto _queue_parser_core = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
     auto _queue_core_parser = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
     auto _queue_render_core = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
     auto _queue_core_render = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
@@ -66,14 +66,11 @@ int main(int argc, char* argv[]){
     FThread_guard lock1(parserThread);
     
     std::cout << "starting fcore" << std::endl;
-    std::thread fcore_thr_( start_core, _queue_parser_core,    
+    std::thread fcore_thr_( core_thread, _queue_parser_core,    
                                         _queue_core_parser,
                                         _queue_render_core,
                                         _queue_core_render);
-
-    /*std::cout << "starting false parser" << std::endl;
-    std::thread false_parser_thr_(false_parser, _queue_core_parser, _queue_parser_core);
-    FThread_guard lock2(false_parser_thr_);*/
+    FThread_guard lock2(fcore_thr_);
 
 	std::cout << "starting false render" << std::endl;
     std::thread false_render_thr_(false_render, _queue_core_render, _queue_render_core);
@@ -81,6 +78,7 @@ int main(int argc, char* argv[]){
 
     return 0;
 }
+
 
 void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core){
     
@@ -141,13 +139,6 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
 
 void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core ){
     std::cout << "in false render " << std::endl;
-
-
-    FMessages init(INITDONE, NULL);
-    FMessages start(START, NULL);
-
-    _push_queue_core->push(std::make_shared<FMessages>(init));
-    _push_queue_core->push(std::make_shared<FMessages>(start));
     
     int i = 0;
     int minId = 0;
@@ -155,7 +146,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
     
 
 	std::this_thread::sleep_for (std::chrono::seconds(1));
-
+/*
     while(i < 10 && minId != -10){
         FMessages pattern(PATTERN, std::make_shared< int >(i) );
         std::cout << "RENDER >>> SEND PATTERN " << i << " TO CORE" << std::endl;
@@ -208,7 +199,7 @@ void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
     std::cout << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;
-
+*/
     std::this_thread::sleep_for (std::chrono::milliseconds(1000));
 
     std::vector<int> to_render_occurrences0;
@@ -871,3 +862,56 @@ int main(void){
     pusher.join();
     poper.join();
 }*/
+
+/*
+int main(int argc, char* argv[]){
+    
+    if(argc != 2){
+        std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
+        return -1;
+    }
+    
+    std::string path = argv[1];
+            
+    if(path.substr(path.size()-6, 6) != ".trace"){
+        std::cout << "invalid trace format, need *.trace" << std::endl;
+        return -1;
+    } 
+
+    std::cout << "start" << std::endl;
+
+    auto _queue_parser_core = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    auto _queue_core_parser = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    auto _queue_render_core = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    auto _queue_core_render = std::make_shared<FQueue<std::shared_ptr<FMessages>>>() ;
+    
+    std::cout << "starting fparser" << std::endl;
+    std::thread parser_thr_(parser_thread, path, 
+                                            _queue_core_parser, 
+                                            _queue_parser_core
+                                            );
+    FThread_guard lock1(parser_thr_);
+    
+    std::cout << "starting fcore" << std::endl;
+    std::thread fcore_thr_( core_thread, _queue_parser_core,    
+                                         _queue_core_parser,
+                                         _queue_render_core,
+                                         _queue_core_render
+                                         );
+    FThread_guard lock2(fcore_thr_);
+
+    auto msg = *(_queue_core_render->wait_and_pop() );
+    if( msg->getHeader() == START ){
+       float absolute_time = *(msg->getContent); 
+    }
+
+    std::cout << "starting frender" << std::endl;
+    std::thread frender_thr_(render_thread, absolute_time, 
+                                            _queue_core_render, 
+                                            _queue_render_core
+                                            );
+    FThread_guard lock3(frender_thr_);
+
+    return 0;
+}
+*/
