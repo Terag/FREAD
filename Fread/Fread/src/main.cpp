@@ -48,16 +48,11 @@ int main(){
     std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_render_core(new FQueue< std::shared_ptr<FMessages > >) ;
     std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _queue_core_render(new FQueue< std::shared_ptr<FMessages > >) ;
 
-    std::cout << "creating fcore" << std::endl;
-
-    FCore fcore(_queue_parser_core,    
-                _queue_core_parser,
-                _queue_render_core,
-                _queue_core_render
-                );
-
     std::cout << "starting fcore" << std::endl;
-    fcore.start();
+    std::thread fcore_thr_( start_core, _queue_parser_core,    
+                                        _queue_core_parser,
+                                        _queue_render_core,
+                                        _queue_core_render);
 
     std::cout << "starting false parser" << std::endl;
     std::thread false_parser_thr_(false_parser, _queue_core_parser, _queue_parser_core);
