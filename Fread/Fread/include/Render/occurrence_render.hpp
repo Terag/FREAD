@@ -6,7 +6,7 @@
 
 /* 
  * File:   occurrence_render.hpp
- * Author: emma
+ * Author: Emma et Jerome 
  *
  * Created on 6 février 2017, 18:35
  */
@@ -40,4 +40,3 @@ void updatePosition(int newScale, int containerOffsetY, int offsetX, int offsetY
 //draw
 void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
 };
-

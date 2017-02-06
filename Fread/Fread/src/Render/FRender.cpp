@@ -14,6 +14,9 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
                 absoluteTime(absoluteTime)
 {}
 
+FRender::~FRender()
+{}
+
  std::vector<container_render> FRender::transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale) 
 {
     std::vector<container_render> renderContainers;
@@ -66,7 +69,7 @@ FRender::FRender(std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_que
      return content;
       
   }
-  std::vector<container_render> FRender::ContainerToDrawBettewen(int firstContID, int lastContID,float begin_time, float end_time, scale scale,std::vector<pattern_render> listPatterns)
+  std::vector<container_render> FRender::ContainerToDrawBetween(int firstContID, int lastContID,float begin_time, float end_time, scale scale,std::vector<pattern_render> listPatterns)
   {
        std::vector<container_render> renderContainers;
        for( int i = firstContID; i < lastContID; i++) {
@@ -118,7 +121,7 @@ void FRender::thr_FRender() {
     std::vector<int> listContainer;
     int nbContainer = listContainer.size();
     scale scale(absoluteTime, nbContainer, (sizeX - sizeX/10), sizeX/10, sizeX/20 ,(sizeY*3)/100, sizeY/100, (sizeY*45)/100);
-    std::vector<container_render> renderContainers = ContainerToDrawBettewen(1,nbContainer,0.0,1.0,scale,listPattern);
+    std::vector<container_render> renderContainers = ContainerToDrawBetween(1,nbContainer,0.0,1.0,scale,listPattern);
     
     // window loop
         while (window.isOpen())
@@ -280,9 +283,3 @@ void FRender::receive_message(){
       } /* switch */
     } /* if */
 } /* void */
-FRender::~FRender(){
-}
-//Je ne sais pas comment vous comptez récupérer les messages mais sinon la méthode c'est:
-//  auto msg = *( _m_pop_queue_core->try_and_pop() ); on récupère le message sous la forme d'un std::shared_ptr<FMessages>
-//  auto received = std::static_pointer_cast<DEFINIR_LE_TYPE_SELON_LE_HEADER>( msg->getContent() ); on récupère un shared_ptr sur l'objet récupéré (dont le type dépend du HEADER : FContainer pour CONTAINER, FPattern pour PATTERN, std::vector<patternStruct> pour TIMESTAMP ou FOccurrence pour OCCURRENCE)
-//  auto content = *received; pour avoir le contenu du shared_ptr

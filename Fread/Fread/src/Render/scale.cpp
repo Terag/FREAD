@@ -80,8 +80,10 @@ scale::scale(float absoluteTime, int nbContainer, int containerSize,
     time.setPosition(containerOffsetX + spacing*(i),windowContainerOffsetY + containerOffsetY - eventOffsetY - 20);
     times.push_back(time);
     sf::VertexArray timeLine = sf::VertexArray(sf::Lines, 2);
-    timeLine[0].position = sf::Vector2f(containerOffsetX + spacing*(i), windowContainerOffsetY + containerOffsetY - eventOffsetY); 
-    timeLine[1].position = sf::Vector2f(containerOffsetX + spacing*(i), windowContainerOffsetY + containerOffsetY*nbContainer + eventOffsetY);
+    timeLine[0].position = sf::Vector2f(containerOffsetX + spacing*(i),
+                                        windowContainerOffsetY + containerOffsetY - eventOffsetY); 
+    timeLine[1].position = sf::Vector2f(containerOffsetX + spacing*(i),
+                                        windowContainerOffsetY + containerOffsetY*nbContainer + eventOffsetY);
     timeLine[0].color = sf::Color(231,231,231);
     timeLine[1].color = sf::Color(231,231,231); 
     timeLines.push_back(timeLine);
@@ -160,7 +162,8 @@ void scale::setWindowContainerOffsetY(int windowContainerOffsetY)
 
 //update 
 
-void scale::updateScale(int containerSize, int spacing, int containerOffsetX, int containerOffsetY, int eventOffsetY, int windowContainerOffsetY, int nbContainer)
+void scale::updateScale(int containerSize, int spacing, int containerOffsetX, int containerOffsetY, 
+                        int eventOffsetY, int windowContainerOffsetY, int nbContainer)
 {
     scale::setContainerSize(containerSize);
     scale::setSpacing(spacing);
@@ -176,12 +179,15 @@ void scale::updatePosition(int nbContainer)
     for (unsigned int i = 0; i < times.size(); i ++) 
     {
         times[i].setCharacterSize(10);
-        times[i].setPosition(containerOffsetX + spacing*(i),windowContainerOffsetY + containerOffsetY - eventOffsetY - 15);
+        times[i].setPosition(containerOffsetX + spacing*(i),
+                             windowContainerOffsetY + containerOffsetY - eventOffsetY - 15);
     }
     for (unsigned int j = 0; j < timeLines.size(); j ++)
     {
-        timeLines[j][0].position = sf::Vector2f(containerOffsetX + spacing*(j), windowContainerOffsetY + containerOffsetY - eventOffsetY); 
-        timeLines[j][1].position = sf::Vector2f(containerOffsetX + spacing*(j), windowContainerOffsetY + containerOffsetY*nbContainer + eventOffsetY);
+        timeLines[j][0].position = sf::Vector2f(containerOffsetX + spacing*(j), 
+                                                windowContainerOffsetY + containerOffsetY - eventOffsetY); 
+        timeLines[j][1].position = sf::Vector2f(containerOffsetX + spacing*(j), 
+                                                windowContainerOffsetY + containerOffsetY*nbContainer + eventOffsetY);
     }
 }
 

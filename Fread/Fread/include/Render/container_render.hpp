@@ -26,7 +26,7 @@
 
 /* 
  * File:   container_render.hpp
- * Author: emma
+ * Author: Emma et Jerome 
  *
  * Created on 24 janvier 2017, 10:25
  */

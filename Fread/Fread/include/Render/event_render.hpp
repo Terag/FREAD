@@ -6,7 +6,7 @@
 
 /* 
  * File:   event_render.hpp
- * Author: emma
+ * Author: Emma et Jerome 
  *
  * Created on 6 février 2017, 18:25
  */
@@ -46,4 +46,3 @@ public:
     //draw
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
 };
-
