@@ -6,7 +6,7 @@
 
 /* 
  * File:   FRender.hpp
- * Author: emma
+ * Author: Emma et Jerome 
  *
  * Created on 30 janvier 2017, 17:15
  */
@@ -18,6 +18,7 @@
 #include <thread>
 #include <SFML/Graphics.hpp>
 #include "Render/container_render.hpp"
+#include "Render/scale.hpp"
 #include "Render/pattern_render.hpp"
 
 #include "FQueue.hpp" //template
@@ -32,17 +33,24 @@
 
 class FRender {
 
+private: 
+    bool awake;
+    std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _m_pop_queue_core;
+    std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _m_push_queue_core;
+    float absoluteTime; 
+
 public: 
     FRender(std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _pop_queue_core,
             std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _push_queue_core,
             float absoluteTime);
+    ~FRender();   
     std::vector<container_render> transformContainer(std::vector<std::shared_ptr<FContainer>> listContainer, scale scale);
     void thr_FRender();
     float getAbsoluteTime();
     void drawPatterns(std::vector<pattern_render> listPatterns,int sizeX, int sizeY,sf::RenderTarget& window);
     FPattern viewPatternById(int id) ;
     FOccurrence viewOccurenceById(int patternId,int occId) ;
-    std::vector<container_render> ContainerToDrawBettewen(int firstContID, int lastContID,float begin_time, float end_time, scale scale,std::vector<pattern_render> listPatterns);
+    std::vector<container_render> ContainerToDrawBetween(int firstContID, int lastContID,float begin_time, float end_time, scale scale,std::vector<pattern_render> listPatterns);
     std::vector<int> getContainerID();
     
     void ask_for_occurrence(int patternId, int occId);
@@ -51,14 +59,4 @@ public:
     void ask_for_container(int contId);
     void ask_for_list_container();
     void receive_message();
-    
-        ~FRender();
-
-    
-private: 
-    bool awake;
-    std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _m_pop_queue_core;
-    std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _m_push_queue_core;
-    float absoluteTime;
-    
 };

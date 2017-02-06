@@ -26,7 +26,7 @@
 
 /* 
  * File:   container_render.hpp
- * Author: emma
+ * Author: Emma et Jerome 
  *
  * Created on 24 janvier 2017, 10:25
  */
@@ -36,106 +36,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "../FObjet.hpp"
-
-class scale {
-private : 
-    float absoluteTime = 1.f;
-    int containerSize = 1000;
-    int spacing = 100;
-    unsigned int subdTimeLine;
-    int containerOffsetX = 50;
-    int containerOffsetY = 30;
-    int eventOffsetY = 8;
-    float constScale = 1.f;
-    int windowContainerOffsetY;
-    //variable related to the text of the timeline
-    sf::Font font;
-    std::vector<sf::Text> times;
-    std::vector<sf::VertexArray> timeLines;
-    
-public : 
-    scale();
-    scale(float absoluteTime, int nbContainer, int containerSize, int windowContainerOffsetY);
-    scale(float absoluteTime, int nbContainer, int containerSize,
-          int spacing, int containerOffsetX, int containerOffsetY,
-          int eventOffsetY, int windowContainerOffsetY);
-    // getters
-    float getScale();
-    int getContainerSize();
-    int getContainerOffsetX();
-    int getContainerOffsetY();
-    int getEventOffsetY();
-    int getWindowContainerOffsetY();
-    int getSpacing();
-    // setters
-    void setContainerSize(int containerSize);
-    void setSpacing(int spacing);
-    void setContainerOffsetX(int containerOffsetX);
-    void setContainerOffsetY(int containerOffsetY);
-    void setEventOffsetY(int eventOffsetY);
-    void setWindowContainerOffsetY(int windowContainerOffsetY);
-    //update
-    void updateScale(int containerSize, int spacing, int containerOffsetX, 
-                     int containerOffsetY, int eventOffsetY, int windowContainerOffsetY, int nbContainer);
-    void updatePosition(int nbContainer);
-    // draw
-    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
-
-};
-
-class event_render : public sf::Drawable {
-    
-private:
-    sf::Color eventColor = sf::Color(60,60,60);
-    eventType type;
-    float ftStart, ftEnd = 0;
-    int offsetY = 6;
-    int offsetX;
-    int  containerOffsetY, containerID, windowContainerOffsetY = 0;
-    sf::VertexArray rectangles = sf::VertexArray(sf::Quads, 4);
-    
-public:
-    //constructor & destructor
-    event_render();
-    event_render(eventType type, float tSStart, float tSEnd,
-                 float scale, int containerOffsetY, int containerID,
-                 int offsetY, int containerOffsetX, int windowContainerOffsetY);
-    ~event_render();
-    //setters
-    void setColor();
-    //getters
-    eventType getType();
-    sf::Color getColor();
-    std::string getTypeString();
-    //update
-    void updatePosition(int newScale, int containerOffsetY, int offsetX,int offsetY);
-    //draw
-    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
-};
-
-class occurrence_render : public sf::Drawable {
- 
-private : 
-int id;
-std::vector<float> timeStamps;
-std::vector<eventType> eventTypes;
-std::vector<event_render> events; 
-
-public : 
-//constructors & destructors
-occurrence_render();
-occurrence_render(int id, int containerID, int containerOffsetY, 
-                  int containerOffsetX, int eventOffsetY, int windowContainerOffsetY, float scale, std::vector<float> timeStamps,
-                  std::vector<eventType> event);
-~occurrence_render();
-//getters
-std::vector<event_render> getEvents();
-int getId();
-//update
-void updatePosition(int newScale, int containerOffsetY, int offsetX, int offsetY);
-//draw
-void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
-};
+#include "event_render.hpp"
+#include "occurrence_render.hpp"
 
 class container_render : public sf::Drawable
 {
