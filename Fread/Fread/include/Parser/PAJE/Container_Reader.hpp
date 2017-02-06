@@ -42,9 +42,9 @@ namespace paje
 {   
     class Container_Reader {
     private:
+        std::string alias;
         int id;
         int curseur_line;
-        std::string alias;
         std::pair<float, float> timestamps_begin_end;
         
         bool readyToRead;
@@ -57,7 +57,7 @@ namespace paje
         
     public:
 
-        Container_Reader(std::string const& c_alias, int c_idl);
+        Container_Reader(std::string const& c_alias, int c_id);
         
         void init(std::string const& path, int const& c_id);
         //FContainer start();
