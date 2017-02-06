@@ -52,19 +52,26 @@ int y;
 int radius;
 // the vector of the timestamps of the pattern 
 std::vector<float> meanTimeStamps;
-//
+//occurence represented by the pattern
 occurrence_render occurrences;
+//list of event in the pattern
 std::vector<event_render> events;
+//Points to draw the pattern
 sf::VertexArray patternPoints;
+//Lines of subdivision to draw
 sf::VertexArray subDiv;
 
       
 public : 
-    
+//constructors & destructors    
 pattern_render();
 pattern_render(int id, std::vector<float> meanTimeStamps, occurrence_render occurrence);
-void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
-void calculatePoints() ;
-void SetPosition(int posX, int posY, float Radius);
 ~pattern_render();
+//draw of th render
+void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const;
+// Calculate the points for drawing 
+void calculatePoints() ;
+// Place the pattern in the windows 
+void SetPosition(int posX, int posY, float Radius);
+
 };
