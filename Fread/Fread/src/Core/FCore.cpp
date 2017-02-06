@@ -69,15 +69,27 @@ void FCore::thr_timestamps_manager(){
     std::cout << "in thr_timestamps_manager" << std::endl;
     while(1){
     	/*
-  		 *
   		 * COMPUTING LOOP
-  		 *
   		 */
+    	//getting and processing messages from render
+    	timestamps_from_render();
+
+    	//getting and processing messages from parser
+    	timestamps_from_parser();
+
+    } /* while(1) */
+
+}/* void FCore::thr_timestamps_manager() */
+
+
+
+
+
+void FCore::timestamps_from_render(){
+
         if(!m_render_timestamps.empty()){
-   	   	   /*
-         	* 
+   	   	   /* 
          	* MESSAGE FROM RENDER
-		 	*
 		 	*/
             std::shared_ptr<FMessages> msg_render =  *(m_render_timestamps.try_pop()) ;
             
@@ -90,21 +102,15 @@ void FCore::thr_timestamps_manager(){
 
 			//if( m_containers.key_exists( containerId )){
    			   /* 
-            	* 
             	* THERE ARE TIMESTAMPS IN THE SAME CONTAINER AS THE DEMANDED ONES IN MEMORY 
-				*
             	*/
 	            if( m_containers.at( containerId )->contains( *received ) ){
 	            	/*
-					 *
 					 * TIMESTAMPS IN THE SAME CONTAINER AS DEMANDED TIMESTAMPS ARE IN MEMORY
-					 *
 	            	 */
 	                if(is_container_full(containerId, beginTime, endTime)){
 	                   /*
-					 	*
 					 	* ALL DEMANDED TIMESTAMPS ARE IN MEMORY
-					 	*
 	            	    */
 
 
@@ -124,9 +130,7 @@ void FCore::thr_timestamps_manager(){
 	                    patternStruct current_pattern = first_pattern;
 	                    while(current_pattern.tBegin <= endTime){
 	                       /*
-						 	*
 						 	* ADDING ALL PATTERNS FROM MEMORY TO THE VECTOR TO BE SENT
-						 	*
 		            	    *
 	                    	current_pattern = get_next_pattern( current_pattern );
 	                    	pattern_send.push_back( current_pattern );
@@ -139,9 +143,7 @@ void FCore::thr_timestamps_manager(){
 
 	                }else{
 	                   /*
-					 	*
 					 	* SOME OF THE DEMANDED TIMESTAMPS ARE IN MEMORY
-					 	*
 	            	    */
 	            	    /* 
 
@@ -160,9 +162,7 @@ void FCore::thr_timestamps_manager(){
 
 	            }else{
 	               /* 
-            	 	* 
             	 	* NONE OF THE TIMESTAMPS DEMANDED ARE IN MEMORY 
-				 	*
             	 	*/
 					std::cout << "CORE >>> NONE OF THE DEMANDED TIMESTAMPS ARE IN MEMORY" << std::endl;
 	                _m_push_queue_parser->push( msg_render );
@@ -197,12 +197,16 @@ void FCore::thr_timestamps_manager(){
 
         } /* if(!m_render_timestamps.empty()) */
 
-        
+}
+
+
+
+
+void FCore::timestamps_from_parser(){
+
         if(!m_parser_timestamps.empty()){
    	       /*
-         	* 
          	* MESSAGE FROM PARSER
-		 	*
 		 	*/
             std::shared_ptr<FMessages> msg_parser = *(m_parser_timestamps.try_pop() );
 
@@ -211,9 +215,7 @@ void FCore::thr_timestamps_manager(){
 
             for(auto it = received->begin(); it != received->end(); ++it ){
             	/*
-            	 *
             	 * ADDING ALL PATTERN RECEIVED FROM PARSER TO CORRESPONDING CONTAINER
-            	 *
             	 */
             	m_containers.at( received->begin()->contId )->add_pattern( *it );
             }
@@ -249,9 +251,7 @@ void FCore::thr_timestamps_manager(){
 
             for(auto it = m_containers.getMap().begin(); it != m_containers.getMap().end(); ++it ){
            	   /*
-			 	*
 			 	* SORTING TIMESTAMPS FOR EACH CONTAINERS
-			 	*
 	         	*/ 	
 	         	std::cout << "CORE >>> M_CONTAINERS ID : " << it->second->getId() << std::endl;
             	if(!it->second->getPatternList().empty()){
@@ -262,15 +262,10 @@ void FCore::thr_timestamps_manager(){
 
             } /* for(auto it = m_containers.getMap().begin(); it != m_occurrences.getMap().end(); ++it ) */
 
- 					std::cout << "CORE >>> AFTER SORT" << std::endl;
-
 
         } /* if(!m_parser_timestamps.empty()) */
 
-    } /* while(1) */
-
-}/* void FCore::thr_timestamps_manager() */
-
+}
 
 
 
@@ -284,15 +279,31 @@ void FCore::thr_occurrences_manager(){
     std::cout << "in thr_occurrences_manager" << std::endl;
     while(1){
   		/*
-  		 *
   		 * COMPUTING LOOP
-  		 *
   		 */
+    	//getting and processing messages from render
+    	occurrences_from_render();
+        
+        //getting and processing messages from parser
+        occurrences_from_parser();
+
+    } /* while(1) */
+
+} /* void FCore::thr_occurrences_manager() */
+
+
+
+
+
+/*
+ * OCCURRENCES MANAGER
+ * THIS THREAD WILL COMPUTE THE MESSAGE FROM THE RENDER
+ */
+void FCore::occurrences_from_render(){
+
         if(!m_render_occurrences.empty()){
     	   /*
-         	* 
          	* MESSAGE FROM RENDER
-		 	*
 		 	*/
             std::shared_ptr<FMessages> msg_render = *(m_render_occurrences.try_pop());
 
@@ -301,15 +312,11 @@ void FCore::thr_occurrences_manager(){
 
             if( m_occurrences.key_exists(received.first)){
    			   /* 
-            	* 
             	* THERE ARE OCCURRENCES FROM THE SAME PATTERN AS THE DEMANDED ONE IN MEMORY 
-				*
             	*/
             	if( contains_occurrence(received.first, received.second) ){
             	   /* 
-            	 	* 
             	 	* THE DEMANDED OCCURRENCE IS IN MEMORY 
-				 	*
             	    */
 					std::cout << "CORE >>> IS IN MEMORY" << std::endl;
                 	std::shared_ptr<FOccurrence> occurrence_send = find_occurrence(received.first, received.second );
@@ -320,9 +327,7 @@ void FCore::thr_occurrences_manager(){
            
                 }else{
                    /* 
-            	 	* 
             	 	* THE DEMANDED OCCURRENCE IS NOT IN MEMORY 
-				 	*
             	 	*/
 					std::cout << "CORE >>> OCCURRENCE IS NOT IN MEMORY 1" << std::endl;            	
                 	_m_push_queue_parser->push( msg_render );
@@ -332,9 +337,7 @@ void FCore::thr_occurrences_manager(){
       
             }else{ 
             	/* 
-            	 * 
             	 * THE DEMANDED OCCURRENCE IS NOT IN MEMORY 
-				 *
             	 */
 				std::cout << "CORE >>> OCCURRENCE IS NOT IN MEMORY 2" << std::endl;            	
                 _m_push_queue_parser->push( msg_render );
@@ -343,62 +346,68 @@ void FCore::thr_occurrences_manager(){
             } /* else if( m_occurrences.key_exists(received.first)) */
     
         } /* if(!m_render_occurrences.empty()) */
-        
-        if(!m_parser_occurrences.empty()){
-			/*
+}
+
+
+
+
+
+/*
+ * OCCURRENCES MANAGER
+ * THIS THREAD WILL COMPUTE THE MESSAGE FROM THE PARSER
+ */
+void FCore::occurrences_from_parser(){
+
+    if(!m_parser_occurrences.empty()){
+		/*
+		 *
+	     * MESSAGE FROM PARSER
+		 *
+		 */
+        std::shared_ptr<FMessages> msg_parser = *(m_parser_occurrences.try_pop() );
+
+        auto received = std::static_pointer_cast< FOccurrence >(msg_parser->getContent() ) ;
+        std::cout << "CORE >>> OCCURRENCE RECEIVED FROM PARSER n°" << received->getPatternId() << ":" << received->getId() << std::endl;
+
+        std::pair<int, int> key = std::make_pair( received->getPatternId(), received->getId() );
+
+        if( m_occurrences.key_exists(key.first)){
+         	/* 
+         	 * 
+         	 * THERE ARE STILL OCCURRENCES IN MEMORY FROM THE SAME PATTERN AS THE RECEIVED'S ONE 
 			 *
-	         * MESSAGE FROM PARSER
-			 *
-			 */
-            std::shared_ptr<FMessages> msg_parser = *(m_parser_occurrences.try_pop() );
-
-            auto received = std::static_pointer_cast< FOccurrence >(msg_parser->getContent() ) ;
-            std::cout << "CORE >>> OCCURRENCE RECEIVED FROM PARSER n°" << received->getPatternId() << ":" << received->getId() << std::endl;
-
-            std::pair<int, int> key = std::make_pair( received->getPatternId(), received->getId() );
-
-            if( m_occurrences.key_exists(key.first)){
-            	/* 
-            	 * 
-            	 * THERE ARE STILL OCCURRENCES IN MEMORY FROM THE SAME PATTERN AS THE RECEIVED'S ONE 
-				 *
-            	 */
-            	m_occurrences.at(key.first)->push_back( received );
+         	 */
+         	m_occurrences.at(key.first)->push_back( received );
    
-            }else{
-            	/* 
-            	 * 
-            	 * THERE IS NO OTHER OCCURRENCES IN MEMORY FROM THE SAME PATTERN AS THE RECEIVED'S ONE
-				 *
-            	 */
-            	auto pair_to_insert = std::make_pair(key.first, std::make_shared< std::vector< std::shared_ptr<FOccurrence> > >() );
-            	m_occurrences.insert( pair_to_insert ); 
-            	m_occurrences.at(key.first)->push_back( received );
+	    }else{
+	        /* 
+	         * 
+	         * THERE IS NO OTHER OCCURRENCES IN MEMORY FROM THE SAME PATTERN AS THE RECEIVED'S ONE
+			 *
+	         */
+	         auto pair_to_insert = std::make_pair(key.first, std::make_shared< std::vector< std::shared_ptr<FOccurrence> > >() );
+	         m_occurrences.insert( pair_to_insert ); 
+	         m_occurrences.at(key.first)->push_back( received );
+	  
+	    } /* if( m_occurrences.key_exists(key.first)) */
+
+	    std::cout << "CORE >>> send occurrence " << received->getPatternId() << ":" << received->getId() << " to render" << std::endl;
+	    _m_push_queue_render->push(msg_parser);
+	     
+	    if(!m_occurrences.empty()){
+		    /*
+			 *
+			 * SORTING OCCURRENCES FOR EACH PATTERN
+			 *
+		     */
+			for(auto it = m_occurrences.getMap().begin(); it != m_occurrences.getMap().end(); ++it){
+				std::sort(it->second->begin(), it->second->end(), []( std::shared_ptr<FOccurrence> occ1 , std::shared_ptr<FOccurrence> occ2 ){ return (occ1->getId() < occ2->getId() ); });    		
+	   		} /* for(auto it = m_occurrences.getMap().begin(); it != m_occurrences.getMap().end(); ++it) */ 	
   
-            } /* if( m_occurrences.key_exists(key.first)) */
+    	} /* if(!m_occurrences.empty()) */
 
-            std::cout << "CORE >>> send occurrence " << received->getPatternId() << ":" << received->getId() << " to render" << std::endl;
-            _m_push_queue_render->push(msg_parser);
-            
-
-            if(!m_occurrences.empty()){
-	            /*
-				 *
-				 * SORTING OCCURRENCES FOR EACH PATTERN
-				 *
-	             */
-	        	for(auto it = m_occurrences.getMap().begin(); it != m_occurrences.getMap().end(); ++it){
-					std::sort(it->second->begin(), it->second->end(), []( std::shared_ptr<FOccurrence> occ1 , std::shared_ptr<FOccurrence> occ2 ){ return (occ1->getId() < occ2->getId() ); });    		
-        		}   	
-  
-        	} /* if(!m_occurrences.empty()) */
-
-        } /* if(!m_parser_occurrences.empty()) */
-
-    } /* while(1) */
-
-} /* void FCore::thr_occurrences_manager() */
-
+    } /* if(!m_parser_occurrences.empty()) */
+}
 
 
 
@@ -471,6 +480,8 @@ void FCore::thr_messages_handler_parser(){
 
 
 
+
+
 /*
  * MESSAGE HANDLER RENDER
  * THIS THREAD TAKE MESSAGES FROM THE RENDER AND CHECK WHAT IT MUST WITH THEM
@@ -534,11 +545,16 @@ void FCore::thr_messages_handler_render(){
 
 
 
+
+
 void  FCore::thr_check_memory(){
     if(m_occurrences.size() > MAX_SIZE){
         !m_occurrences.erase();
     }
 }
+
+
+
 
     
 void FCore::thr_FCore(){
@@ -584,6 +600,9 @@ void core_thread(std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_
 
     core.thr_FCore();
 }
+
+
+
 
 
 float FCore::get_container_content(int id, float t1){

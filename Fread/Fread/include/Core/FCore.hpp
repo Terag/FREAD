@@ -110,6 +110,12 @@ private:
     patternStruct get_next_pattern( patternStruct current_pattern );
 
     void get_total_time();
+
+    void occurrences_from_parser();
+    void occurrences_from_render();
+
+    void timestamps_from_parser();
+    void timestamps_from_render();
 };
 
 //function start that will launch the threads
