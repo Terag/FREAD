@@ -15,6 +15,7 @@
 #include "Parser/PAJE/Reader_MainTrace.hpp"
 #include "Parser/statesConfig.hpp"
 #include "Parser/PAJE/Container_Reader.hpp"
+#include "Parser/PAJE/Pattern_Reader.hpp"
 
 using namespace std;
 
@@ -67,6 +68,8 @@ namespace paje
     void initType(PajeTypeDef& newPJT);
     void defineType(string const& line, EventDef const& event, PajeType type);
     string getNextParamInLine(string const& line, int &spacePos);
+    //Event Functions
+    void pushEventInCurrentOccurrence(string const& line, EventDef const& event);
 
 /*---------------------------------Internal variables --------------------------------------------------------*/
 
@@ -111,8 +114,11 @@ namespace paje
                                                 EndPattern,             //PEF_PajeEndPattern
                                              };
    
+    static int current_container_id;
     static vector<Container_Buffer> containers;
+    static shared_ptr<Occurrence_Buffer> current_occurrence;
     
+    static int current_pattern_id;
     static vector<Pattern_Buffer> patterns;
     
     static vector<EventDef> eventDefs;
@@ -196,7 +202,7 @@ namespace paje
                 cout << "function call : " << eventDefs[id].id << " ";
                 eventFunctions[eventDefs[id].name](line, eventDefs[id]);
             } 
-            else if(eventDefs[id].name == PEF_PajeCreateContainer || eventDefs[id].name == PEF_PajeDestroyContainer || eventDefs[id].name == PEF_IncludeContainerFile){
+            else if(eventDefs[id].name == PEF_PajeCreateContainer || eventDefs[id].name == PEF_PajeDestroyContainer || eventDefs[id].name == PEF_IncludeContainerFile || eventDefs[id].name == PEF_IncludePatternFile){
                 cout << "function call : " << eventDefs[id].id << " ";
                 eventFunctions[eventDefs[id].name](line, eventDefs[id]);
             }
@@ -347,49 +353,59 @@ namespace paje
 /*----------State events---------------*/
     
     void SetState(std::string line, EventDef const& event){
-        
+        cout << "SetState function called with : " << event.name_str << " " << event.name << endl;
+        pushEventInCurrentOccurrence(line, event);
     }
     
     void PushState(std::string line, EventDef const& event){
-        
+        cout << "PushState function called with : " << event.name_str << " " << event.name << endl;
+        pushEventInCurrentOccurrence(line, event);
     }
     
     void PopState(std::string line, EventDef const& event){
-        
+        cout << "PopState function called with : " << event.name_str << " " << event.name << endl;
+        pushEventInCurrentOccurrence(line, event);
     }
     
     void ResetState(std::string line, EventDef const& event) {
-        
+        cout << "ResetState function called with : " << event.name_str << " " << event.name << endl;
+        pushEventInCurrentOccurrence(line, event);
     }
    
 /*----------Event events---------------*/
     
     void NewEvent(std::string line, EventDef const& event){
-        
+        cout << "NewEvent function called with : " << event.name_str << " " << event.name << endl;
+        pushEventInCurrentOccurrence(line, event);
     }
     
 /*----------Variable events------------*/
     
     void SetVariable(std::string line, EventDef const& event){
-        
+        cout << "SetVariable function called with : " << event.name_str << " " << event.name << endl;
+        pushEventInCurrentOccurrence(line, event);
     }
     
     void AddVariable(std::string line, EventDef const& event){
-        
+        cout << "AddVariable function called with : " << event.name_str << " " << event.name << endl;
+        pushEventInCurrentOccurrence(line, event);
     }
     
     void SubVariable(std::string line, EventDef const& event){
-        
+        cout << "SubVariable function called with : " << event.name_str << " " << event.name << endl;
+        pushEventInCurrentOccurrence(line, event);
     }
     
 /*----------Link events----------------*/
     
     void StartLink(std::string line, EventDef const& event){
-        
+        cout << "StartLink function called with : " << event.name_str << " " << event.name << endl;
+        pushEventInCurrentOccurrence(line, event);
     }
     
     void EndLink(std::string line, EventDef const& event){
-        
+        cout << "EndLink function called with : " << event.name_str << " " << event.name << endl;
+        pushEventInCurrentOccurrence(line, event);
     }
     
 /*----------Include events-------------*/
@@ -403,7 +419,15 @@ namespace paje
         int spacePos;
         int id = -1;
         string sub_str;
-        string path;
+        string path = "";
+        
+        sub_str = mainTrace.getPath();
+        int path_cutter = sub_str.find_last_of('/')+1;
+        for(int i=0; i<path_cutter; i++) {
+            path.push_back(sub_str[i]);
+        } 
+        
+        spacePos = line.find(' ');
         
         for (auto it : event.fieldDefs){
             sub_str = getNextParamInLine(line, spacePos);
@@ -420,7 +444,7 @@ namespace paje
                     cout << "Type define to define" << endl;
                     break;
                 case FN_FILE :
-                    path = sub_str;
+                    path += sub_str;
                     break;
                 default :
                     cout << "error, unexpected FieldName : " << it.name << endl;
@@ -434,18 +458,62 @@ namespace paje
         containers[id].reader->init(path, id);
         containers[id].reader->checkIfReady();
         
-        cout << "Send container : " << containers[id].alias << " to core" << endl;
+        cout << "Send container : " << containers[id].alias << " path : " << path << " to core" << endl;
         sendContainerToCore(FContainer(id, containers[id].alias, pair<float,float>(containers[id].beginTime,containers[id].endTime)));
     }
     
     void IncludePatternFile(std::string line, EventDef const& event){
+        cout << "IncludePatternFile function called with : " << event.name_str << " " << event.name << endl;
+        int spacePos;
+        int id = patterns.size();
+        string sub_str;
+        string path = "";
+        patterns.push_back(Pattern_Buffer());
+        patterns[id].id = id;
         
+        sub_str = mainTrace.getPath();
+        int path_cutter = sub_str.find_last_of('/')+1;
+        for(int i=0; i<path_cutter; i++) {
+            path.push_back(sub_str[i]);
+        }
+        
+        spacePos = line.find(' ');
+        
+        for (auto it : event.fieldDefs){
+            sub_str = getNextParamInLine(line, spacePos);
+            switch(it.name){
+                case FN_ALIAS :
+                    patterns[id].alias = sub_str;
+                    break;
+                case FN_TYPE :
+                    cout << "Type define to define" << endl;
+                    break;
+                case FN_FILE :
+                    path += sub_str;
+                    break;
+                default :
+                    cout << "error, unexpected FieldName : " << it.name << endl;
+                    break;
+            }
+        }
+        
+        current_pattern_id = id;
+        patterns[id].reader = make_unique<Pattern_Reader>(patterns[id].alias, id);
+        patterns[id].occurrence_buffer = make_shared<Occurrence_Buffer>();
+        patterns[id].reader->init(path, id);
+        patterns[id].reader->parseHeader(eventDefs);
+
+        cout << "Send pattern to core " << patterns[id].alias << " events  : " << endl;
+        for(int i=0; i<patterns[id].occurrence_buffer->alias.size(); i++) {
+            cout << patterns[id].occurrence_buffer->alias[i] << " type : " << patterns[id].occurrence_buffer->states[i] << " time : " << patterns[id].occurrence_buffer->timeStamps[i] << endl;
+        }
+        current_pattern_id = -1;
     }
     
 /*----------Pattern events-------------*/
     
     void StartPattern(std::string line, EventDef const& event){
-        
+
     }
     
     void EndPattern(std::string line, EventDef const& event){
@@ -638,4 +706,48 @@ namespace paje
         newPJT.color = FColor(r, g, b, 255);
     }
     
+/*---------------------------------Event functions --------------------------------------------------------------*/
+    
+    void pushEventInCurrentOccurrence(string const& line, EventDef const& event) {
+        int spacePos;
+        float time;
+        string sub_str;
+        string name, alias;
+        string type, value;
+        
+        spacePos = line.find(' ');
+        
+        for (auto it : event.fieldDefs){
+            sub_str = getNextParamInLine(line, spacePos);
+            switch(it.name){
+                case FN_TYPE :
+                    type = sub_str;
+                    break;
+                case FN_TIME :
+                    time = stof(sub_str);
+                    //cout << "----------------------------event time :" << time << endl;
+                    patterns[current_pattern_id].occurrence_buffer->timeStamps.push_back(time);
+                    break;
+                case FN_VALUE :
+                    value = sub_str;
+                    break;
+                default :
+                    cout << "error, unexpected FieldName : " << it.name << endl;
+                    break;
+            }
+        }
+        for(auto& it : typeDefs) {
+            if(type == it.type_str && value == it.alias_str) {
+                type = alias = it.alias_str;
+                name = it.name_str;
+            }
+        }
+        StateType state = stateConf.getState(name, alias);
+        patterns[current_pattern_id].occurrence_buffer->states.push_back(state);         
+        patterns[current_pattern_id].occurrence_buffer->alias.push_back(type);
+    }
+    
+    void PajeEventCall(std::string line, EventDef& event) {
+        eventFunctions[event.name](line, event);
+    }
 }

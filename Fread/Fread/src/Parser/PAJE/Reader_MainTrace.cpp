@@ -259,7 +259,7 @@ namespace paje
     }
     
     void Reader_MainTrace::closeStream(){
-        mainTrace_Stream.open(mainTrace_Path);
+        mainTrace_Stream.close();
     }
     
     string Reader_MainTrace::getLine(){

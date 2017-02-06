@@ -29,8 +29,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "Parser/statesConfig.hpp"
 #include "FColor.hpp"
-#include "Container_Reader.hpp"
-#include "Pattern_Reader.hpp"
 #include "FOccurrence.hpp"
 
 #include <vector>
@@ -153,34 +151,7 @@ namespace paje
         std::string name_str;
         PajeEventFunction name;
         std::vector<FieldDef> fieldDefs;
-    } EventDef;
-    
-    typedef struct {
-        std::vector<std::string> alias;
-        std::vector<StateType> states;
-        std::vector<float> timeStamps;
-        float t_begin;
-        float t_end;
-    } Occurrence_Buffer;
-    
-    typedef struct {
-        int id;
-        std::string name;
-        std::string alias;
-        PajeTypeDef type;
-        float beginTime;
-        float endTime;
-        std::unique_ptr<Container_Reader> reader;
-    } Container_Buffer;
-    
-    typedef struct {
-        int id;
-        std::string name;
-        std::string alias;
-        std::unique_ptr<Occurrence_Buffer> occurrence_buffer;
-        std::unique_ptr<Pattern_Reader> reader;
-    } Pattern_Buffer;
-    
+    } EventDef;  
 }
 
 #endif /* PAJE_TYPEDEFS_HPP */
