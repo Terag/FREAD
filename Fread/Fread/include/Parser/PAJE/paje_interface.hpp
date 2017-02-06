@@ -24,6 +24,14 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
+/*
+ * This file is use to be call by parser. He creates a context with some statics elements.
+ * When you crate a parser the following functions have to be implemented :
+ * - awake
+ * - start
+ * - getEventsBetweenTwoTimesInContainer
+ */
+
 #ifndef PAJE_NAMESPACE_HPP
 #define PAJE_NAMESPACE_HPP
 
@@ -33,11 +41,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace paje
 {
+    //Call to awake parser and begin parsing of configuration files
     void awake(std::string const& path);
+    //Call to launch parser, now he can send messages to core with parser
     bool start();
-    
-    void PajeEventCall(std::string line, EventDef &event);
+    //Ask event between two times. It will call send functions in Parser.hpp
     void getEventsBetweenTwoTimesInContainer(int container_id, float t_begin, float t_end);
+    
+    //use in PAJE context
+    void PajeEventCall(std::string line, EventDef &event);
 }
 
 

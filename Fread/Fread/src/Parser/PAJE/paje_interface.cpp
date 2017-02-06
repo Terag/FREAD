@@ -73,11 +73,12 @@ namespace paje
 
 /*---------------------------------Internal variables --------------------------------------------------------*/
 
+    //Reader for main.trace file
     static Reader_MainTrace mainTrace;
-    
+    //Reader for states.conf file
     static StatesConfig stateConf;
     
-    // Table of functions use when a pajeEvent is read
+    // Table of functions uses when a pajeEvent is read
     static PAJE_EventFunc eventFunctions[25] = { //PajeTypeDef events
                                                 DefineContainerType,    //PEF_PajeDefineContainerType
                                                 DefineStateType,        //PEF_PajeDefineStateType
@@ -114,15 +115,21 @@ namespace paje
                                                 EndPattern,             //PEF_PajeEndPattern
                                              };
    
+    //Current working container_id for paje functions
     static int current_container_id;
-    static vector<Container_Buffer> containers;
-    static shared_ptr<Occurrence_Buffer> current_occurrence;
-    
+    //Current working pattern_id for paje functions
     static int current_pattern_id;
+    
+    //Existing containers in context
+    static vector<Container_Buffer> containers;
+    //Existing patterns in context
     static vector<Pattern_Buffer> patterns;
+    //A occurrence buffer TO DO : will be use for occurrence out of patterns context
+    //static shared_ptr<Occurrence_Buffer> current_occurrence;
     
+    //Event definitions, uses to read a line and identify elements of line
     static vector<EventDef> eventDefs;
-    
+    //Paje type which are defined in main.trace
     static vector<PajeTypeDef> typeDefs;
     
     
@@ -225,6 +232,7 @@ namespace paje
     void getEventsBetweenTwoTimesInContainer(int container_id, float t_begin, float t_end) {
         int fpos;
         int id;
+        current_container_id = container_id;
         cout << "Request between t1=" << t_begin << " and t2=" << t_end << " in container : " << container_id << endl;
         
         vector<string> lines = containers[container_id].reader->getLinesBetweenTwoTimes(t_begin, t_end);
@@ -497,7 +505,7 @@ namespace paje
         sendContainerToCore(FContainer(id, containers[id].alias, pair<float,float>(containers[id].beginTime,containers[id].endTime)));
     }
     
-    //This function is not a definitive function, it will be delete in futur
+    //This function is not a definitive function, it will be delete
     eventType convertState(StateType state) {
         switch(state) {
             case STATE_COMPUTE :
@@ -565,7 +573,7 @@ namespace paje
         times.push_back(patterns[id].occurrence_buffer->timeStamps[0]);
         cout << patterns[id].occurrence_buffer->alias[0] << " type : " << patterns[id].occurrence_buffer->states[0] << " time : " << patterns[id].occurrence_buffer->timeStamps[0] << endl;
         
-        for(int i=1; i<patterns[id].occurrence_buffer->alias.size(); i++) {
+        for(int i=1; i<(int)patterns[id].occurrence_buffer->alias.size(); i++) {
             if(patterns[id].occurrence_buffer->timeStamps[i] != patterns[id].occurrence_buffer->timeStamps[i-1]){
                 events.push_back(convertState(patterns[id].occurrence_buffer->states[i]));
                 times.push_back(patterns[id].occurrence_buffer->timeStamps[i]);
@@ -604,7 +612,7 @@ namespace paje
             }
         }
         
-        for(int i=0; i<patterns.size(); i++) {
+        for(int i=0; i<(int)patterns.size(); i++) {
             if(patterns[i].alias == alias) {
                 current_pattern_id = i;
                 break;

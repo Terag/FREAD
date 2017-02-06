@@ -25,6 +25,11 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
  */
 
+/*
+ * Queues use for threads communications.
+ * Based on existing code.
+ */
+
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
 

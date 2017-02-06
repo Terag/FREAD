@@ -24,6 +24,10 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
+/*
+ * This file is use to define structures use in PAJE parser
+ */
+
 #ifndef PAJE_TYPEDEFS_HPP
 #define PAJE_TYPEDEFS_HPP
 
@@ -37,6 +41,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace paje
 {
+    //Field type that can be use in PAJE format
     typedef enum {
         FT_INT,
         FT_STRING,
@@ -47,6 +52,7 @@ namespace paje
         FT_UNDEFINED
     } FieldType;
 
+    //Field name that can be use in PAJE format
     typedef enum {
         FN_NAME,
         FN_TYPE,
@@ -64,6 +70,7 @@ namespace paje
         FN_UNDEFINED
     } FieldName;
 
+    //Paje functions, use with tab of this functions
     typedef enum {
         //PajeTypeDef events
         PEF_PajeDefineContainerType,    //0
@@ -103,6 +110,7 @@ namespace paje
         PEF_Undefined                   //25
     } PajeEventFunction;
     
+    //Paje type, with this type we will define our own types
     typedef enum {
         PT_CONTAINER    = 0x1,
         PT_STATE        = 0x2,
@@ -113,6 +121,7 @@ namespace paje
         PT_UNDEFINED    = 0x40
     } PajeType;
     
+    //Definition of our own types
     typedef struct {
         PajeType type;
 
@@ -141,11 +150,13 @@ namespace paje
         FColor color;
     } PajeTypeDef;
 
+    //A field definition
     typedef struct {
         FieldName name;
         FieldType type;
     } FieldDef;
 
+    //Event definition associates with paje function to use
     typedef struct {
         int id;
         std::string name_str;
