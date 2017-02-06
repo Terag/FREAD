@@ -32,6 +32,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class FOccurrence : public FObjet
 {
+private :
+	int m_patternId;
+	int m_id;
+	std::vector<float> m_timeStamps;
+	bool m_isLoaded;
+        int m_containerId;        
+
 public:
 	FOccurrence();
 	FOccurrence(int p, int i);
@@ -41,14 +48,13 @@ public:
 	std::vector<float> getTimeStamps();
 	bool getIsLoaded();
 	int getPatternId();
-    int getContainerId();
+        int getContainerId();
 
-private :
-	int m_patternId;
-	int m_id;
-	std::vector<float> m_timeStamps;
-	bool m_isLoaded;
-    int m_containerId;
+        void setId(int const& newID){m_id = newID;}
+        void pushTime(float const& time){m_timeStamps.push_back(time);}
+        void setPatternId(int const& newID){m_patternId = newID;}
+        void setContainerId(int const& newID){m_containerId = newID;}
+        
 };
 
 bool operator==(FOccurrence A, FOccurrence B);

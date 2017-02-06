@@ -497,6 +497,24 @@ namespace paje
         sendContainerToCore(FContainer(id, containers[id].alias, pair<float,float>(containers[id].beginTime,containers[id].endTime)));
     }
     
+    //This function is not a definitive function, it will be delete in futur
+    eventType convertState(StateType state) {
+        switch(state) {
+            case STATE_COMPUTE :
+                return COMPUTE;
+                break;
+            case STATE_WAIT :
+                return WAIT;
+                break;
+            case STATE_SEND :
+                return SEND;
+                break;
+            default :
+                return WAIT;
+                break;
+        }
+    }
+    
     void IncludePatternFile(std::string line, EventDef const& event){
         cout << "IncludePatternFile function called with : " << event.name_str << " " << event.name << endl;
         int spacePos;
@@ -539,11 +557,25 @@ namespace paje
         patterns[id].reader->parseHeader(eventDefs);
 
         cout << "Send pattern to core " << patterns[id].alias << " events  : " << endl;
-        for(int i=0; i<patterns[id].occurrence_buffer->alias.size(); i++) {
-            cout << patterns[id].occurrence_buffer->alias[i] << " type : " << patterns[id].occurrence_buffer->states[i] << " time : " << patterns[id].occurrence_buffer->timeStamps[i] << endl;
+        FPattern newPattern = FPattern(id);
+        vector<eventType> events;
+        vector<float> times;
+        
+        events.push_back(convertState(patterns[id].occurrence_buffer->states[0]));
+        times.push_back(patterns[id].occurrence_buffer->timeStamps[0]);
+        cout << patterns[id].occurrence_buffer->alias[0] << " type : " << patterns[id].occurrence_buffer->states[0] << " time : " << patterns[id].occurrence_buffer->timeStamps[0] << endl;
+        
+        for(int i=1; i<patterns[id].occurrence_buffer->alias.size(); i++) {
+            if(patterns[id].occurrence_buffer->timeStamps[i] != patterns[id].occurrence_buffer->timeStamps[i-1]){
+                events.push_back(convertState(patterns[id].occurrence_buffer->states[i]));
+                times.push_back(patterns[id].occurrence_buffer->timeStamps[i]);
+                cout << patterns[id].occurrence_buffer->alias[i] << " type : " << patterns[id].occurrence_buffer->states[i] << " time : " << patterns[id].occurrence_buffer->timeStamps[i] << endl;
+            }
         }
+        newPattern.setEventTypes(events);
+        newPattern.setMeanTimeStamps(times);
+        sendPatternToCore(newPattern);
         current_pattern_id = -1;
-        sendPatternToCore(FPattern());
     }
     
 /*----------Pattern events-------------*/
@@ -614,8 +646,14 @@ namespace paje
         
         if(patterns[current_pattern_id].alias == alias) {
             patterns[current_pattern_id].occurrence_buffer->t_end = time;
+            FOccurrence occurrence;
+            occurrence.setContainerId(current_pattern_id);
+            occurrence.setId(key);
+            occurrence.setPatternId(current_pattern_id);
+            occurrence.pushTime(patterns[current_pattern_id].occurrence_buffer->t_begin);
+            occurrence.pushTime(patterns[current_pattern_id].occurrence_buffer->t_end);
             cout << "--------- Occurrence sended to core pattern alias : " << alias << " key : " << key << " t1=" << patterns[current_pattern_id].occurrence_buffer->t_begin << " t2=" << patterns[current_pattern_id].occurrence_buffer->t_end << endl;
-            sendOccurenceToCore(FOccurrence());
+            sendOccurenceToCore(occurrence);
         }
     }
     
