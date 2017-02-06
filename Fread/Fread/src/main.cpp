@@ -16,6 +16,8 @@
 #include "Render/FBezierCurve.hpp"
 #include "Render/container_render.hpp"
 #include "Render/pattern_render.hpp"
+#include "Render/FRender.hpp"
+
 //Includes for queue tests
 #include "FQueue.hpp"
 #include <thread>
@@ -35,7 +37,7 @@ using namespace std;
 /*
  * Core main function test
  */
-
+/*
 void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _push_queue_core);
 void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core );
 
@@ -127,6 +129,7 @@ void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _po
 }
 
 
+*/
 
 void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core ){
     std::cout << "in false render " << std::endl;
@@ -643,9 +646,7 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
 /*
  * Parser main function test
  */
-/*
-int main(int argc, char* argv[])
->>>>>>> core
+ /* int main(int argc, char* argv[])
 {
     if(argc != 2){
         std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
@@ -675,24 +676,21 @@ int main(int argc, char* argv[])
     parserThread.join();
     
     return 0;
-<<<<<<< HEAD
-} 
+} */
 
-=======
-}
-*/
 /*
  * Render main function test
  */
-/* int main(void)
+ int main(void)
 {
  sf::ContextSettings settings;
  settings.antialiasingLevel = 8;
+ settings.minorVersion =0;
+  settings.majorVersion =4;
+sf::RenderWindow window(sf::VideoMode(1500,800), "Container and occurrences test",sf::Style::Default, settings);
 
- int sizeX = 1500;
- int sizeY = 1000;
- 
-    sf::RenderWindow window(sf::VideoMode(sizeX, sizeY), "Container and occurrences test",sf::Style::Default, settings);
+int sizeX =window.getSize().x;
+int sizeY =window.getSize().y;
 
     FBezierCurve bezierCurve1(sf::Vector2f(50,50), sf::Vector2f(350,350), 20, 2.f, sf::Color::Cyan);
     FBezierCurve bezierCurve2(sf::Vector2f(100,100), sf::Vector2f(300,300), 20, 2.f, sf::Color::Magenta);
@@ -739,12 +737,15 @@ int main(int argc, char* argv[])
     eventType3.push_back(SEND);
 
     //definition of the scalling we want
-    scale scale1(0.1847, 3, (sizeX - 100), 100, 50, 30, 8, (sizeY*45)/100);
+    scale scale1(0.1847, 3, (sizeX - 100), 100, 50,(sizeY*3)/100, sizeY/100, (sizeY*45)/100);
+    
+    //definition of a container_render vector
+    std::vector<container_render> containers;
     
     container_render container1(1,"coucou",scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY(), scale1.getWindowContainerOffsetY());
     container_render container2(2,"ça va ?", scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY(), scale1.getWindowContainerOffsetY());
     container_render container3(3,"Oui et toi ?", scale1.getContainerSize(), scale1.getContainerOffsetX(), scale1.getContainerOffsetY(), scale1.getWindowContainerOffsetY());
-
+    
     occurrence_render occurrence1(1, container1.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(),scale1.getWindowContainerOffsetY(), scale1.getScale(), timeStamps1, eventType1);
     occurrence_render occurrence2(2, container2.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(),scale1.getWindowContainerOffsetY(), scale1.getScale(), timeStamps2, eventType2);
     occurrence_render occurrence3(3, container3.getId(), scale1.getContainerOffsetY(), scale1.getContainerOffsetX(), scale1.getEventOffsetY(),scale1.getWindowContainerOffsetY(), scale1.getScale(), timeStamps3, eventType3);
@@ -752,28 +753,70 @@ int main(int argc, char* argv[])
     container1.addOccurrence(occurrence1);
     container2.addOccurrence(occurrence2);
     container3.addOccurrence(occurrence3);
-
-    pattern_render pattern(1,timeStamps3,occurrence3);
+    
+    containers.push_back(container1);
+    containers.push_back(container2);
+    containers.push_back(container3);
+    std::vector<pattern_render> lp;
+    pattern_render pattern(1, timeStamps3, occurrence3);
+    lp.push_back(pattern);
+ //  pattern.SetPosition(200, 200,100.0);
+    pattern_render pattern2(2, timeStamps2, occurrence2);
+       lp.push_back(pattern2);
+  // pattern2.SetPosition(410, 200,100.0);
+       FMessages init(INITDONE, NULL);
+    FMessages start(START, NULL);
+std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _pop_queue_core;
+std::shared_ptr< FQueue< std::shared_ptr<FMessages> > > _push_queue_core;
+ //   _push_queue_core->push(std::make_shared<FMessages>(init));
+           FRender render(_pop_queue_core,_push_queue_core,0.7);
 
     while (window.isOpen())
     {
+        int spacing =100;
             sf::Event event;
             while (window.pollEvent(event))
             {
                 if (event.type == sf::Event::Closed)
                     window.close();
+                if (event.type == sf::Event::Resized)
+                    {
+                        std::cout << "new width: " << event.size.width << std::endl;
+                        std::cout << "new height: " << event.size.height << std::endl;
+                        
+                        sizeX =window.getSize().x;
+                        sizeY =window.getSize().y;
+                        
+                        scale1.updateScale((sizeX - spacing),spacing,scale1.getContainerOffsetX(),(sizeY*3)/100,sizeY/100,(sizeY*45)/100,3);
+                        
+                        container1.updatePosition(scale1.getContainerSize(),scale1.getContainerOffsetX(),scale1.getContainerOffsetY(),scale1.getWindowContainerOffsetY());
+                        container2.updatePosition(scale1.getContainerSize(),scale1.getContainerOffsetX(),scale1.getContainerOffsetY(),scale1.getWindowContainerOffsetY());                       
+                        container3.updatePosition(scale1.getContainerSize(),scale1.getContainerOffsetX(),scale1.getContainerOffsetY(),scale1.getWindowContainerOffsetY());
+                        
+                        occurrence1.updatePosition(scale1.getScale(),scale1.getContainerOffsetY(),scale1.getContainerOffsetX(),scale1.getEventOffsetY());
+                        occurrence2.updatePosition(scale1.getScale(),scale1.getContainerOffsetY(),scale1.getContainerOffsetX(),scale1.getEventOffsetY());
+                        occurrence3.updatePosition(scale1.getScale(),scale1.getContainerOffsetY(),scale1.getContainerOffsetX(),scale1.getEventOffsetY());
+
+                    }
+                
             }
+            
             window.clear(sf::Color(255,255,255));
             scale1.draw(window);
-            window.draw(container1);
-            window.draw(container2);
-            window.draw(container3);
-           pattern.draw(window);
+            for (unsigned int i =0; i < containers.size(); i++)
+            {
+                window.draw(containers[i]); 
+            }
+            
+            render.drawPatterns(lp,sizeX,sizeY,window);
+            //pattern.draw(window);
+           // window.draw(pattern2);
             window.display();
     }
     
     return 0;
-}*/
+ 
+}
 
 /*
  * FQueue main function test

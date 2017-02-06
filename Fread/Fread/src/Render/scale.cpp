@@ -33,17 +33,17 @@ scale::scale()
 scale::scale(float absoluteTime, int nbContainer, int containerSize, int windowContainerOffsetY):
 absoluteTime(absoluteTime), containerSize(containerSize), windowContainerOffsetY(windowContainerOffsetY)
 {
-    int subdTimeLine = containerSize/spacing;
+    subdTimeLine = containerSize/spacing;
     constScale = containerSize/absoluteTime;
     if (!font.loadFromFile("Arimo-Regular.ttf")) 
     {
         // error
     }
-    for (int i = 0; i < subdTimeLine + 1; i++) 
+    for (unsigned int i = 0; i < subdTimeLine + 1; i++) 
     {
     sf::Text time;
     time.setFont(font);
-    time.setColor(sf::Color(60,60,60));
+    time.setFillColor(sf::Color(60,60,60));
     time.setCharacterSize(10);
     time.setString(std::to_string(spacing*i/constScale));
     time.setPosition(containerOffsetX + spacing*(i), containerOffsetY - eventOffsetY - 15);
@@ -64,20 +64,20 @@ scale::scale(float absoluteTime, int nbContainer, int containerSize,
             containerOffsetX(containerOffsetX), containerOffsetY(containerOffsetY),
             eventOffsetY(eventOffsetY), windowContainerOffsetY(windowContainerOffsetY)
 {   
-    int subdTimeLine = containerSize/spacing;
+    subdTimeLine = containerSize/spacing;
     constScale = containerSize/absoluteTime;
     if (!font.loadFromFile("Arimo-Regular.ttf")) 
     {
         // error
     }
-    for (int i = 0; i < subdTimeLine + 1; i++) 
+    for (unsigned int i = 0; i < subdTimeLine + 1; i++) 
     {
     sf::Text time;
     time.setFont(font);
-    time.setColor(sf::Color(60,60,60));
+    time.setFillColor(sf::Color(60,60,60));
     time.setCharacterSize(10);
     time.setString(std::to_string(spacing*i/constScale));
-    time.setPosition(containerOffsetX + spacing*(i),windowContainerOffsetY + containerOffsetY - eventOffsetY - 15);
+    time.setPosition(containerOffsetX + spacing*(i),windowContainerOffsetY + containerOffsetY - eventOffsetY - 20);
     times.push_back(time);
     sf::VertexArray timeLine = sf::VertexArray(sf::Lines, 2);
     timeLine[0].position = sf::Vector2f(containerOffsetX + spacing*(i), windowContainerOffsetY + containerOffsetY - eventOffsetY); 
@@ -88,6 +88,7 @@ scale::scale(float absoluteTime, int nbContainer, int containerSize,
     }
 }
 
+//getters
 int scale::getContainerSize()
 {
     return containerSize;
@@ -113,11 +114,17 @@ int scale::getWindowContainerOffsetY()
     return windowContainerOffsetY;
 }
 
+int scale::getSpacing() 
+{
+    return spacing;
+}
+
 float scale::getScale() 
 {
     return constScale;
 }
 
+//setters
 void scale::setContainerOffsetX(int containerOffsetX) 
 {
     containerOffsetX = containerOffsetX;
@@ -131,6 +138,8 @@ void scale::setContainerOffsetY(int containerOffsetY)
 void scale::setContainerSize(int containerSize) 
 {
     containerSize = containerSize;
+    constScale = containerSize/absoluteTime;
+    subdTimeLine = containerSize/spacing;
 }
 
 void scale::setEventOffsetY(int eventOffsetY) 
@@ -141,15 +150,48 @@ void scale::setEventOffsetY(int eventOffsetY)
 void scale::setSpacing(int spacing) 
 {
     spacing = spacing;
+    subdTimeLine = containerSize/spacing;
 }
 
+void scale::setWindowContainerOffsetY(int windowContainerOffsetY)
+{
+    windowContainerOffsetY = windowContainerOffsetY;
+}
+
+//update 
+
+void scale::updateScale(int containerSize, int spacing, int containerOffsetX, int containerOffsetY, int eventOffsetY, int windowContainerOffsetY, int nbContainer)
+{
+    scale::setContainerSize(containerSize);
+    scale::setSpacing(spacing);
+    scale::setContainerOffsetX(containerOffsetX);
+    scale::setContainerOffsetY(containerOffsetY);
+    scale::setEventOffsetY(eventOffsetY);
+    scale::setWindowContainerOffsetY(windowContainerOffsetY);
+    scale::updatePosition(nbContainer);
+}
+
+void scale::updatePosition(int nbContainer)
+{
+    for (unsigned int i = 0; i < times.size(); i ++) 
+    {
+        times[i].setCharacterSize(10);
+        times[i].setPosition(containerOffsetX + spacing*(i),windowContainerOffsetY + containerOffsetY - eventOffsetY - 15);
+    }
+    for (unsigned int j = 0; j < timeLines.size(); j ++)
+    {
+        timeLines[j][0].position = sf::Vector2f(containerOffsetX + spacing*(j), windowContainerOffsetY + containerOffsetY - eventOffsetY); 
+        timeLines[j][1].position = sf::Vector2f(containerOffsetX + spacing*(j), windowContainerOffsetY + containerOffsetY*nbContainer + eventOffsetY);
+    }
+}
+
+//draw
  void scale::draw(sf::RenderTarget& target, sf::RenderStates states) const 
  {
      for (unsigned int i = 0; i < timeLines.size(); i++) 
      {
         target.draw(times[i], states);    
         target.draw(timeLines[i], states);
- 
      }
  }
 
