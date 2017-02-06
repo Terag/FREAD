@@ -21,14 +21,14 @@ namespace paje
     Pattern_Reader::Pattern_Reader() {
     }
 
-    Pattern_Reader::Pattern_Reader(const std::string& c_alias, int c_id) :
+    Pattern_Reader::Pattern_Reader(std::string const& c_alias, int c_id) :
         alias(c_alias), id(c_id)
     {
     }
 
     void Pattern_Reader::init(const std::string& path, const int& c_id) {
         pattern_Path = path;
-        id = id;
+        id = c_id;
 
 
     }
