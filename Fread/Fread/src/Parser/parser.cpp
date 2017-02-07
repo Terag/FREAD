@@ -63,6 +63,7 @@ void Parser::listenAndProcess() {
     while(1){
         std::shared_ptr<FMessages> msg = *(pop_queue->wait_and_pop());
         if(msg->getHeader() == TIMESTAMP) {
+            std::cout << ">>>> PARSER <<<< MESSAGE RECEIVED FROM CORE" << std::endl;
             auto content_void = msg->getContent();
             auto content = static_pointer_cast<patternStruct>(content_void);
             PARSER::getEventsBetweenTwoTimesInContainer(content->contId, content->tBegin, content->tEnd);
@@ -110,5 +111,12 @@ void sendOccurenceToCore(FOccurrence const& occurrence) {
     auto content = make_shared<FOccurrence>(occurrence);
     auto content_void = static_pointer_cast<void>(content);
     auto msg = make_shared<FMessages>(OCCURRENCE, content_void);
+    parser.send(msg);
+}
+
+void sendPatternStructToCore(patternStruct const& patternS) {
+    auto content = make_shared<patternStruct>(patternS);
+    auto content_void = static_pointer_cast<void>(content);
+    auto msg = make_shared<FMessages>(TIMESTAMP, content_void);
     parser.send(msg);
 }

@@ -46,6 +46,7 @@ namespace paje
         string line;
         float time;
         int line_number = 0;
+        int spacePos;
         if(curseur_line < 0) {
             container_Stream.open(container_Path);
             curseur_line = 0;
@@ -65,6 +66,11 @@ namespace paje
         }
         do {
             if(time > t2) {
+                spacePos = line.find( " " );
+                int functionId = stoi( line.substr(0, spacePos) );
+                if( getEventType( functionId ) == PEF_PajeEndPattern ){
+                    lines.push_back(line);
+                }
                 break;
             }
             if(time >= t1 && time <= t2) {

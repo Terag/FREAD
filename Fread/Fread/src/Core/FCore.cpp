@@ -137,7 +137,8 @@ void FCore::thr_timestamps_manager(){
             std::shared_ptr<FMessages> msg_parser = *(m_parser_timestamps.try_pop() );
 
             auto received = std::static_pointer_cast<patternStruct >(msg_parser->getContent() );
-            //std::cout << "CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : " << received->begin()->contId << ", beginning at : " << received->begin()->tBegin << std::endl;
+            std::cout << "CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : " << received->contId << ", beginning at : " << received->tBegin << ", ending at : " << received->tEnd << std::endl;
+            std::cout << "containerId : " << containerId << std::endl;
             /*
             for(auto it = received->begin(); it != received->end(); ++it ){
             	 *
@@ -150,17 +151,22 @@ void FCore::thr_timestamps_manager(){
             if(received->contId == containerId){
             	if(vector_to_send.empty()){
             		if(received->tEnd > beginTime && received->tBegin < beginTime){
+                        std::cout << "First PatternStruct" << std::endl;
             			vector_to_send.push_back(*(received));
             		}
             	}
-            	if(received->tBegin < endTime && received->tEnd > beginTime ){
+            	if( received->tBegin < endTime && received->tEnd > beginTime ){
+                    std::cout << "Inside PatternStruct" << std::endl;
             		vector_to_send.push_back(*(received));
             	}
-            	if(received->tBegin > endTime){
+            	if(received->tBegin > endTime || received->tEnd + 0.002 > endTime){
+                    std::cout << "Last PatternStruct" << std::endl;
             		auto content_send = std::static_pointer_cast<void>( std::make_shared<std::vector<patternStruct> >(vector_to_send) );
             		FMessages msg_send(TIMESTAMP, content_send);
             		_m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
+                    vector_to_send.clear();
             		hasSend = true;
+                    std::cout << "send std::vector<patternStruct> to render" << std::endl;
 
             	}
         	}
@@ -399,14 +405,18 @@ void FCore::thr_messages_handler_parser(){
                 }
                 case(TIMESTAMP):
                 {
-                    std::cout << "CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER" << std::endl;
-                    m_parser_timestamps.push( msg );
+                    if(initdone){
+                        std::cout << "CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER" << std::endl;
+                        m_parser_timestamps.push( msg );
+                    }
                     break;
                 }
                 case(OCCURRENCE):
                 {
-                    std::cout << "CORE >>> OCCURRENCE MESSAGE RECEIVED FROM PARSER" << std::endl;
-                    m_parser_occurrences.push( msg );
+                    if(initdone){
+                        std::cout << "CORE >>> OCCURRENCE MESSAGE RECEIVED FROM PARSER" << std::endl;
+                        m_parser_occurrences.push( msg );
+                    }
                     break;
                 }
                 default:
@@ -675,10 +685,12 @@ std::vector<int> FCore::get_patterns_id(){
 }
 
 void FCore::get_total_time(){
-	float result = 0;
+	float result = 0.0f;
 	for(auto it = m_containers.getMap().begin() ; it != m_containers.getMap().end(); ++it){
-		if( it->second->getEndTime() > result )
-			result = it->second->getEndTime() > result ;
+		if( it->second->getEndTime() > result ){
+            result = it->second->getEndTime();
+            std::cout << "Container : " << it->second->getId() << " begintime : " << it->second->getBeginTime() << ", endtime :" << it->second->getEndTime() << std::endl;
+        }
 	}
 
 	std::cout << "absolute time = " << result << std::endl;

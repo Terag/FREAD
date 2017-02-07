@@ -50,6 +50,9 @@ namespace paje
     
     //use in PAJE context
     void PajeEventCall(std::string line, EventDef &event);
+
+    //use in Container Reader
+    PajeEventFunction getEventType( const int& eventId );
 }
 
 

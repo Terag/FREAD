@@ -40,7 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "FContainer.hpp"
 #include "paje_typedefs.hpp"
-#include "Container_Reader.hpp"
+
 
 namespace paje
 {   

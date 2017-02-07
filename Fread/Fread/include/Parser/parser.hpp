@@ -79,5 +79,7 @@ void sendPatternToCore(FPattern const& pattern);
 
 void sendOccurenceToCore(FOccurrence const& occurrence);
 
+void sendPatternStructToCore(patternStruct const& patternS);
+
 #endif /* PARSER_HPP */
 

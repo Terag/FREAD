@@ -35,7 +35,7 @@ absoluteTime(absoluteTime), containerSize(containerSize), windowContainerOffsetY
 {
     subdTimeLine = containerSize/spacing;
     constScale = containerSize/absoluteTime;
-    if (!font.loadFromFile("Arimo-Regular.ttf")) 
+    if (!font.loadFromFile("../Arimo-Regular.ttf")) 
     {
         // error
     }
@@ -43,7 +43,7 @@ absoluteTime(absoluteTime), containerSize(containerSize), windowContainerOffsetY
     {
     sf::Text time;
     time.setFont(font);
-    time.setFillColor(sf::Color(60,60,60));
+    time.setColor(sf::Color(60,60,60));
     time.setCharacterSize(10);
     time.setString(std::to_string(spacing*i/constScale));
     time.setPosition(containerOffsetX + spacing*(i), containerOffsetY - eventOffsetY - 15);
@@ -66,7 +66,7 @@ scale::scale(float absoluteTime, int nbContainer, int containerSize,
 {   
     subdTimeLine = containerSize/spacing;
     constScale = containerSize/absoluteTime;
-    if (!font.loadFromFile("Arimo-Regular.ttf")) 
+    if (!font.loadFromFile("../Arimo-Regular.ttf")) 
     {
         // error
     }
@@ -74,7 +74,7 @@ scale::scale(float absoluteTime, int nbContainer, int containerSize,
     {
     sf::Text time;
     time.setFont(font);
-    time.setFillColor(sf::Color(60,60,60));
+    time.setColor(sf::Color(60,60,60));
     time.setCharacterSize(10);
     time.setString(std::to_string(spacing*i/constScale));
     time.setPosition(containerOffsetX + spacing*(i),windowContainerOffsetY + containerOffsetY - eventOffsetY - 20);

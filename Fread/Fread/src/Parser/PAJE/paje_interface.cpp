@@ -653,6 +653,7 @@ namespace paje
         }
         
         if(patterns[current_pattern_id].alias == alias) {
+            /*
             patterns[current_pattern_id].occurrence_buffer->t_end = time;
             FOccurrence occurrence;
             occurrence.setContainerId(current_pattern_id);
@@ -662,6 +663,12 @@ namespace paje
             occurrence.pushTime(patterns[current_pattern_id].occurrence_buffer->t_end);
             cout << "--------- Occurrence sended to core pattern alias : " << alias << " key : " << key << " t1=" << patterns[current_pattern_id].occurrence_buffer->t_begin << " t2=" << patterns[current_pattern_id].occurrence_buffer->t_end << endl;
             sendOccurenceToCore(occurrence);
+            */
+            //recollage au gaffeur
+            patterns[current_pattern_id].occurrence_buffer->t_end = time;
+            patternStruct patternS(current_pattern_id, current_container_id, patterns[current_pattern_id].occurrence_buffer->t_begin, patterns[current_pattern_id].occurrence_buffer->t_end);
+            cout << "--------- PatternStruct sended to core pattern contId : " << current_container_id << " pattern_id : " << current_pattern_id << " t1=" << patterns[current_pattern_id].occurrence_buffer->t_begin << " t2=" << patterns[current_pattern_id].occurrence_buffer->t_end << endl;
+            sendPatternStructToCore(patternS);
         }
     }
     
@@ -891,4 +898,10 @@ namespace paje
         patterns[current_pattern_id].occurrence_buffer->states.push_back(state);         
         patterns[current_pattern_id].occurrence_buffer->alias.push_back(type);
     }
+
+
+    PajeEventFunction getEventType( const int& eventId ){
+        return eventDefs[eventId].name;
+    }
+
 }

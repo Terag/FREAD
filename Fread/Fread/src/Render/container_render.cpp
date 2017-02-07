@@ -43,7 +43,7 @@ id(id), name(name)
        std::cout << "error while loading the font" << std::endl;
     }
     textId.setFont(font);
-    textId.setFillColor(Color(40,40,40));
+    textId.setColor(Color(40,40,40));
     textId.setCharacterSize(10);
     textId.setString(std::to_string(id));
     textId.setPosition(20, windowContainerOffsetY + offsetY*id - 5);

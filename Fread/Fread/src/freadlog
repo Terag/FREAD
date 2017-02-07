@@ -1,0 +1,1821 @@
+start
+starting fparser
+starting fcore
+thread launched
+0 Event : PajeDefineContainerType 0
+   0 and type 1
+   1 and type 1
+   2 and type 1
+1 Event : PajeDefineStateType 1
+   0 and type 1
+   1 and type 1
+   2 and type 1
+2 Event : PajeDefineEventType 2
+   0 and type 1
+   1 and type 1
+   2 and type 1
+3 Event : PajeDefineVariableType 3
+   0 and type 1
+   1 and type 1
+   3 and type 2
+   2 and type 1
+4 Event : PajeDefineLinkType 4
+   0 and type 1
+   1 and type 1
+   9 and type 1
+   10 and type 1
+   2 and type 1
+5 Event : PajeDefineEntityValue 5
+   1 and type 1
+   0 and type 1
+   3 and type 2
+   2 and type 1
+6 Event : PajeStartDefinePattern 6
+   2 and type 1
+   5 and type 1
+7 Event : PajeCreateContainer 8
+   4 and type 3
+   0 and type 1
+   1 and type 1
+   5 and type 1
+   2 and type 1
+8 Event : PajeDestroyContainer 9
+   4 and type 3
+   0 and type 1
+   1 and type 1
+9 Event : PajeEndDefinePattern 7
+   2 and type 1
+   5 and type 1
+10 Event : PajeSetState 10
+   4 and type 3
+   1 and type 1
+   5 and type 1
+   6 and type 1
+11 Event : PajePushState 11
+   4 and type 3
+   1 and type 1
+   5 and type 1
+   6 and type 1
+12 Event : PajePopState 12
+   4 and type 3
+   1 and type 1
+   5 and type 1
+13 Event : PajeResetState 13
+   4 and type 3
+   1 and type 1
+   5 and type 1
+14 Event : PajeStartPattern 23
+   4 and type 3
+   2 and type 1
+   11 and type 0
+   5 and type 1
+15 Event : PajeEndPattern 24
+   4 and type 3
+   2 and type 1
+   11 and type 0
+   5 and type 1
+16 Event : IncludeFile 20
+   12 and type 1
+17 Event : IncludeContainerFile 21
+   12 and type 1
+   0 and type 1
+   1 and type 1
+18 Event : IncludePatternFile 22
+   12 and type 1
+   2 and type 1
+   5 and type 1
+20 Event : PajeNewEvent 14
+   4 and type 3
+   1 and type 1
+   5 and type 1
+   6 and type 1
+30 Event : PajeSetVariable 15
+   4 and type 3
+   1 and type 1
+   5 and type 1
+   6 and type 4
+31 Event : PajeAddVariable 16
+   4 and type 3
+   1 and type 1
+   5 and type 1
+   6 and type 4
+32 Event : PajeSubVariable 17
+   4 and type 3
+   1 and type 1
+   5 and type 1
+   6 and type 4
+40 Event : PajeStartLink 18
+   4 and type 3
+   1 and type 1
+   5 and type 1
+   7 and type 1
+   6 and type 1
+   11 and type 1
+41 Event : PajeEndLink 19
+   4 and type 3
+   1 and type 1
+   5 and type 1
+   8 and type 1
+   6 and type 1
+   11 and type 1
+Opening : ./states.conf
+State : 0 Name : EZTrace Flush Alias : STV_FLUSH
+State : 0 Name : EZTrace synchronization Alias : STV_EZTRACE_SYNC
+State : 0 Name : Blocked Alias : STV_Blocked
+State : 0 Name : stdio_read Alias : stdio_read
+State : 0 Name : stdio_pread Alias : stdio_pread
+State : 0 Name : stdio_readv Alias : stdio_readv
+State : 0 Name : stdio_fread Alias : stdio_fread
+State : 0 Name : stdio_write Alias : stdio_write
+State : 0 Name : stdio_pwrite Alias : stdio_pwrite
+State : 0 Name : stdio_writev Alias : stdio_writev
+State : 0 Name : stdio_fwrite Alias : stdio_fwrite
+State : 0 Name : stdio_select Alias : stdio_select
+State : 0 Name : stdio_pselect Alias : stdio_pselect
+State : 0 Name : stdio_lseek Alias : stdio_lseek
+start FCore
+start message_handler_parser_
+start timestamps_manager_
+start occurrences_manager_
+start message_handler_render_
+start check_memory_
+SENDING START DONE
+in message_handler_parser
+State : 0 Name : stdio_poll Alias : stdio_poll
+in thr_occurrences_manager
+State : 0 Name : stdio_ppoll Alias : stdio_ppoll
+State : 0 Name : Blocked on a semaphore Alias : STV_Blocked_sem
+State : 0 Name : Blocked on a spinlock Alias : STV_Blocked_spin
+State : 0 Name : Blocked on a mutex Alias : STV_Blocked_mutex
+State : 0 Name : Blocked on a condition Alias : STV_Blocked_condition
+State : 0 Name : Blocked on a rwlock Alias : STV_Blocked_rwlock
+State : 0 Name : Blocked on a barrier Alias : STV_Blocked_barrier
+State : 0 Name : GOMP_Barrier Alias : GOMP_Barrier
+State : 0 Name : GOMP_Implicit_Barrier Alias : GOMP_Implicit_Barrier
+State : 0 Name : Blocked on an OpenMP lock Alias : STV_GOMP_Lock
+State : 0 Name : Blocked on an OpenMP nested lock Alias : STV_GOMP_NLock
+State : 0 Name : GOMP_TaskWait Alias : GOMP_TaskWait
+State : 0 Name : SendRecv Alias : STV_MPI_Sendrecv
+State : 0 Name : Receiving Alias : STV_MPI_Recv
+State : 0 Name : MPI_Wait Alias : STV_MPI_Wait
+State : 0 Name : MPI_Barrier Alias : STV_MPI_Barrier
+State : 0 Name : MPI_BCast Alias : STV_MPI_BCast
+State : 0 Name : MPI_Gather Alias : STV_MPI_Gather
+State : 0 Name : MPI_Scatter Alias : STV_MPI_Scatter
+State : 0 Name : MPI_Allgather Alias : STV_MPI_Allgather
+State : 0 Name : MPI_Alltoall Alias : STV_MPI_Alltoall
+State : 0 Name : MPI_Reduce Alias : STV_MPI_Reduce
+State : 0 Name : MPI_Allreduce Alias : STV_MPI_Allreduce
+State : 0 Name : MPI_Reduce_scatter Alias : STV_MPI_reduce_scatter
+State : 0 Name : MPI_Scan Alias : STV_MPI_Scan
+State : 0 Name : MPI_Probe Alias : STV_MPI_Probe
+in thr_timestamps_managerState : 
+1 Name : Working Alias : STV_Working
+State : 1 Name : Critical Section Alias : STV_Critical
+State : 1 Name : Critical Section (semaphore) Alias : STV_Critical_sem
+State : 1 Name : Critical Section (spinlock) Alias : STV_Critical_spin
+State : 1 Name : Critical Section (mutex) Alias : STV_Critical_mutex
+State : 1 Name : Critical Section (condition) Alias : STV_Critical_condition
+State : 1 Name : Critical Section (rwlock) Alias : STV_Critical_rwlock
+State : 1 Name : GOMP_Section_State Alias : GOMP_Section_State
+State : 1 Name : GOMP_Critical Alias : GOMP_Critical
+State : 1 Name : GOMP_Atomic Alias : GOMP_Atomic
+State : 1 Name : GOMP_For Alias : GOMP_For
+State : 1 Name : GOMP_Master Alias : GOMP_Master
+State : 1 Name : Holding an OpenMP lock Alias : STV_GOMP_Locked
+State : 1 Name : Holding an OpenMP nested lock Alias : STV_GOMP_NLocked
+State : 1 Name : GOMP_Task Alias : GOMP_Task
+State : 1 Name : GOMP_Task Alias : GOMP_Untied_Task
+State : 1 Name : Creating an OpenMP Task Alias : GOMP_Task_Create
+State : 1 Name : Creating an OpenMP Task Alias : GOMP_Untied_Task_Create
+State : 1 Name : MPI_Irecv Alias : STV_MPI_Irecv
+State : 2 Name : Sending Alias : STV_MPI_Send
+State : 2 Name : MPI_Isend Alias : STV_MPI_Isend
+State : 2 Name : MPI_Ibsend Alias : STV_MPI_Ibsend
+State : 2 Name : MPI_Issend Alias : STV_MPI_Issend
+State : 2 Name : MPI_Irsend Alias : STV_MPI_Irsend
+State : 2 Name : MPI_Ibarrier Alias : STV_MPI_Ibarrier
+State : 2 Name : MPI_Ibcast Alias : STV_MPI_Ibcast
+State : 2 Name : MPI_Igather Alias : STV_MPI_Igather
+State : 2 Name : MPI_Iscatter Alias : STV_MPI_Iscatter
+State : 2 Name : MPI_Iallgather Alias : STV_MPI_Iallgather
+State : 2 Name : MPI_Ialltoall Alias : STV_MPI_Ialltoall
+State : 2 Name : MPI_Ireduce Alias : STV_MPI_Ireduce
+State : 2 Name : MPI_Iallreduce Alias : STV_MPI_Iallreduce
+State : 2 Name : MPI_Ireduce_scatter Alias : STV_MPI_Ireduce_scatter
+State : 2 Name : MPI_Iscan Alias : STV_MPI_Iscan
+go parse
+Begin parse main.trace
+function call : 0 DefineContainerType function called with : PajeDefineContainerType 0
+function call : 0 DefineContainerType function called with : PajeDefineContainerType 0
+function call : 0 DefineContainerType function called with : PajeDefineContainerType 0
+function call : 1 DefineStateType function called with : PajeDefineStateType 1
+function call : 1 DefineStateType function called with : PajeDefineStateType 1
+function call : 1 DefineStateType function called with : PajeDefineStateType 1
+function call : 1 DefineStateType function called with : PajeDefineStateType 1
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 3 DefineVariableType function called with : PajeDefineVariableType 3
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 4 DefineLinkType function called with : PajeDefineLinkType 4
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+in thr_messages_handler_render
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 5 DefineEntityValue function called with : PajeDefineEntityValue 5
+function call : 4 DefineLinkType function called with : PajeDefineLinkType 4
+function call : 4 DefineLinkType function called with : PajeDefineLinkType 4
+function call : 4 DefineLinkType function called with : PajeDefineLinkType 4
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 2 DefineEventType function called with : PajeDefineEventType 2
+function call : 3 DefineVariableType function called with : PajeDefineVariableType 3
+function call : 7 CreateContainer function called with : PajeCreateContainer 8
+Type define to define
+Parent define to define
+function call : 7 CreateContainer function called with : PajeCreateContainer 8
+Type define to define
+Parent define to define
+function call : 7 CreateContainer function called with : PajeCreateContainer 8
+Type define to define
+Parent define to define
+function call : 7 CreateContainer function called with : PajeCreateContainer 8
+Type define to define
+Parent define to define
+function call : 7 CreateContainer function called with : PajeCreateContainer 8
+Type define to define
+Parent define to define
+function call : 8 DestroyContainer function called with : PajeDestroyContainer 9
+Type define to define
+function call : 8 DestroyContainer function called with : PajeDestroyContainer 9
+Type define to define
+function call : 17 IncludeContainerFile function called with : IncludeContainerFile 21
+Type define to define
+Send container : P#0_T#3635772224 path : ../../mpi_ping_compressed/container_2.ept to core
+CORE >>> CONTAINER MESSAGE RECEIVED FROM PARSER
+M_CONTAINERS SIZE IS NOW : 1
+function call : 17 IncludeContainerFile function called with : IncludeContainerFile 21
+Type define to define
+Send container : P#1_T#989457216 path : ../../mpi_ping_compressed/container_4.ept to core
+CORE >>> CONTAINER MESSAGE RECEIVED FROM PARSER
+M_CONTAINERS SIZE IS NOW : 2
+function call : 18 IncludePatternFile function called with : IncludePatternFile 22
+error, unexpected FieldName : 5
+DefinePatternStart function called with : PajeStartDefinePattern 6
+PushState function called with : PajePushState 11
+error, unexpected FieldName : 5
+StartLink function called with : PajeStartLink 18
+error, unexpected FieldName : 5
+error, unexpected FieldName : 7
+error, unexpected FieldName : 11
+PopState function called with : PajePopState 12
+error, unexpected FieldName : 5
+PushState function called with : PajePushState 11
+error, unexpected FieldName : 5
+EndLink function called with : PajeEndLink 19
+error, unexpected FieldName : 5
+error, unexpected FieldName : 8
+error, unexpected FieldName : 11
+NewEvent function called with : PajeNewEvent 14
+error, unexpected FieldName : 5
+PopState function called with : PajePopState 12
+error, unexpected FieldName : 5
+DefinePatternEnd function called with : PajeEndDefinePattern 7
+Send pattern to core 0 events  : 
+STV_MPI_Send type : 2 time : 0.020891
+ST_Thread type : 3 time : 0.022463
+STV_MPI_Recv type : 0 time : 0.023645
+L_MPI_P2P type : 3 time : 0.047842
+CORE >>> PATTERN MESSAGE RECEIVED FROM PARSER
+M_PATTERNS SIZE IS NOW : 1
+function call : 18 IncludePatternFile function called with : IncludePatternFile 22
+error, unexpected FieldName : 5
+DefinePatternStart function called with : PajeStartDefinePattern 6
+PopState function called with : PajePopState 12
+error, unexpected FieldName : 5
+EndLink function called with : PajeEndLink 19
+error, unexpected FieldName : 5
+error, unexpected FieldName : 8
+error, unexpected FieldName : 11
+DefinePatternEnd function called with : PajeEndDefinePattern 7
+Send pattern to core 4 events  : 
+ST_Thread type : 3 time : 0.317443
+CORE >>> PATTERN MESSAGE RECEIVED FROM PARSER
+M_PATTERNS SIZE IS NOW : 2
+function call : 18 IncludePatternFile function called with : IncludePatternFile 22
+error, unexpected FieldName : 5
+DefinePatternStart function called with : PajeStartDefinePattern 6
+PushState function called with : PajePushState 11
+error, unexpected FieldName : 5
+EndLink function called with : PajeEndLink 19
+error, unexpected FieldName : 5
+error, unexpected FieldName : 8
+error, unexpected FieldName : 11
+NewEvent function called with : PajeNewEvent 14
+error, unexpected FieldName : 5
+PopState function called with : PajePopState 12
+error, unexpected FieldName : 5
+PushState function called with : PajePushState 11
+error, unexpected FieldName : 5
+StartLink function called with : PajeStartLink 18
+error, unexpected FieldName : 5
+error, unexpected FieldName : 7
+error, unexpected FieldName : 11
+PopState function called with : PajePopState 12
+error, unexpected FieldName : 5
+DefinePatternEnd function called with : PajeEndDefinePattern 7
+Send pattern to core 5 events  : 
+STV_MPI_Recv type : 0 time : 0.020653
+L_MPI_P2P type : 3 time : 0.029649
+STV_MPI_Send type : 2 time : 0.03495
+ST_Thread type : 3 time : 0.039583
+CORE >>> PATTERN MESSAGE RECEIVED FROM PARSER
+M_PATTERNS SIZE IS NOW : 3
+function call : 18 IncludePatternFile function called with : IncludePatternFile 22
+error, unexpected FieldName : 5
+DefinePatternStart function called with : PajeStartDefinePattern 6
+EndLink function called with : PajeEndLink 19
+error, unexpected FieldName : 5
+error, unexpected FieldName : 8
+error, unexpected FieldName : 11
+PopState function called with : PajePopState 12
+error, unexpected FieldName : 5
+DefinePatternEnd function called with : PajeEndDefinePattern 7
+Send pattern to core 9 events  : 
+L_MPI_Coll type : 3 time : 0.317888
+CORE >>> PATTERN MESSAGE RECEIVED FROM PARSER
+M_PATTERNS SIZE IS NOW : 4
+1 name : Program - type : 0 - alias : CT_Program - state : 3
+1 name : Process - type : CT_Program - alias : CT_Process - state : 3
+1 name : Thread - type : CT_Process - alias : CT_Thread - state : 3
+2 name : Program state - type : CT_Program - alias : ST_Program - state : 3
+2 name : Process state - type : CT_Process - alias : ST_Process - state : 3
+2 name : Thread state - type : CT_Thread - alias : ST_Thread - state : 3
+2 name : User state - type : CT_Thread - alias : ST_User - state : 3
+32 name : EZTrace Flush - type : ST_Thread - color : 255 255 255 - alias : STV_FLUSH - state : 0
+32 name : Blocked - type : ST_Thread - color : 255 0 0 - alias : STV_Blocked - state : 0
+32 name : Working - type : ST_Thread - color : 0 0 255 - alias : STV_Working - state : 1
+32 name : Critical Section - type : ST_Thread - color : 0 255 0 - alias : STV_Critical - state : 1
+32 name : User Event - type : ST_User - color : 0 255 0 - alias : STV_User_Event_Green - state : 3
+32 name : User Event - type : ST_User - color : 255 0 0 - alias : STV_User_Event_Red - state : 3
+32 name : User Event - type : ST_User - color : 25 127 204 - alias : STV_User_Event_Blue - state : 3
+32 name : User Event - type : ST_User - color : 255 255 0 - alias : STV_User_Event_Yellow - state : 3
+32 name : User Event - type : ST_User - color : 255 0 255 - alias : STV_User_Event_Pink - state : 3
+32 name : EZTrace synchronization - type : ST_Thread - color : 255 255 255 - alias : STV_EZTRACE_SYNC - state : 0
+4 name : User Event - type : CT_Thread - alias : E_UserEvent - state : 3
+4 name : SIGNAL Received - type : CT_Thread - alias : E_SigSegv - state : 3
+8 name : Current CPU - type : CT_Thread - color : 0 0 0 - alias : V_CURCPU - state : 3
+32 name : stdio_read - type : ST_Thread - color : 0 0 0 - alias : stdio_read - state : 0
+32 name : stdio_pread - type : ST_Thread - color : 0 0 0 - alias : stdio_pread - state : 0
+32 name : stdio_readv - type : ST_Thread - color : 0 0 0 - alias : stdio_readv - state : 0
+32 name : stdio_fread - type : ST_Thread - color : 0 0 0 - alias : stdio_fread - state : 0
+32 name : stdio_write - type : ST_Thread - color : 0 0 0 - alias : stdio_write - state : 0
+32 name : stdio_pwrite - type : ST_Thread - color : 0 0 0 - alias : stdio_pwrite - state : 0
+32 name : stdio_writev - type : ST_Thread - color : 0 0 0 - alias : stdio_writev - state : 0
+32 name : stdio_fwrite - type : ST_Thread - color : 0 0 0 - alias : stdio_fwrite - state : 0
+32 name : stdio_select - type : ST_Thread - color : 0 0 0 - alias : stdio_select - state : 0
+32 name : stdio_pselect - type : ST_Thread - color : 0 0 0 - alias : stdio_pselect - state : 0
+32 name : stdio_lseek - type : ST_Thread - color : 0 0 0 - alias : stdio_lseek - state : 0
+32 name : stdio_poll - type : ST_Thread - color : 0 0 0 - alias : stdio_poll - state : 0
+32 name : stdio_ppoll - type : ST_Thread - color : 0 0 0 - alias : stdio_ppoll - state : 0
+4 name : SemPost - type : CT_Thread - alias : E_SemPost - state : 3
+4 name : SemWait done - type : CT_Thread - alias : E_SemWait_Done - state : 3
+4 name : Mutex Lock - type : CT_Thread - alias : E_Mutex_Lock - state : 3
+4 name : Mutex Unlock - type : CT_Thread - alias : E_Mutex_Unlock - state : 3
+4 name : Cond Signal - type : CT_Thread - alias : E_CondSignal - state : 3
+4 name : Waiting for a lock - type : CT_Thread - alias : E_LockStart - state : 3
+4 name : Lock acquired - type : CT_Thread - alias : E_LockStop - state : 3
+32 name : Blocked on a semaphore - type : ST_Thread - color : 255 0 0 - alias : STV_Blocked_sem - state : 0
+32 name : Blocked on a spinlock - type : ST_Thread - color : 255 0 0 - alias : STV_Blocked_spin - state : 0
+32 name : Blocked on a mutex - type : ST_Thread - color : 255 0 0 - alias : STV_Blocked_mutex - state : 0
+32 name : Blocked on a condition - type : ST_Thread - color : 255 0 0 - alias : STV_Blocked_condition - state : 0
+32 name : Blocked on a rwlock - type : ST_Thread - color : 255 0 0 - alias : STV_Blocked_rwlock - state : 0
+32 name : Blocked on a barrier - type : ST_Thread - color : 255 0 0 - alias : STV_Blocked_barrier - state : 0
+32 name : Critical Section (semaphore) - type : ST_Thread - color : 0 255 0 - alias : STV_Critical_sem - state : 1
+32 name : Critical Section (spinlock) - type : ST_Thread - color : 0 255 0 - alias : STV_Critical_spin - state : 1
+32 name : Critical Section (mutex) - type : ST_Thread - color : 0 255 0 - alias : STV_Critical_mutex - state : 1
+32 name : Critical Section (condition) - type : ST_Thread - color : 0 255 0 - alias : STV_Critical_condition - state : 1
+32 name : Critical Section (rwlock) - type : ST_Thread - color : 0 255 0 - alias : STV_Critical_rwlock - state : 1
+16 name : OpenMP Parallel Section - type : CT_Program - alias : GOMP_Section_Link - state : 3
+32 name : GOMP_Section_State - type : ST_Thread - color : 255 0 255 - alias : GOMP_Section_State - state : 1
+32 name : GOMP_Critical - type : ST_Thread - color : 0 255 0 - alias : GOMP_Critical - state : 1
+32 name : GOMP_Atomic - type : ST_Thread - color : 0 255 0 - alias : GOMP_Atomic - state : 1
+32 name : GOMP_Barrier - type : ST_Thread - color : 255 153 0 - alias : GOMP_Barrier - state : 0
+32 name : GOMP_Implicit_Barrier - type : ST_Thread - color : 255 0 0 - alias : GOMP_Implicit_Barrier - state : 0
+32 name : GOMP_For - type : ST_Thread - color : 204 204 204 - alias : GOMP_For - state : 1
+32 name : GOMP_Master - type : ST_Thread - color : 255 255 255 - alias : GOMP_Master - state : 1
+32 name : Blocked on an OpenMP lock - type : ST_Thread - color : 255 0 0 - alias : STV_GOMP_Lock - state : 0
+32 name : Holding an OpenMP lock - type : ST_Thread - color : 0 255 0 - alias : STV_GOMP_Locked - state : 1
+32 name : Blocked on an OpenMP nested lock - type : ST_Thread - color : 255 0 0 - alias : STV_GOMP_NLock - state : 0
+32 name : Holding an OpenMP nested lock - type : ST_Thread - color : 0 255 0 - alias : STV_GOMP_NLocked - state : 1
+32 name : GOMP_TaskWait - type : ST_Thread - color : 255 153 0 - alias : GOMP_TaskWait - state : 0
+32 name : GOMP_Task - type : ST_Thread - color : 255 255 255 - alias : GOMP_Task - state : 1
+32 name : GOMP_Task - type : ST_Thread - color : 0 255 255 - alias : GOMP_Untied_Task - state : 1
+32 name : Creating an OpenMP Task - type : ST_Thread - color : 76 102 25 - alias : GOMP_Task_Create - state : 1
+32 name : Creating an OpenMP Task - type : ST_Thread - color : 25 127 204 - alias : GOMP_Untied_Task_Create - state : 1
+32 name : Sending - type : ST_Thread - color : 255 153 0 - alias : STV_MPI_Send - state : 2
+32 name : MPI_Isend - type : ST_Thread - color : 255 153 0 - alias : STV_MPI_Isend - state : 2
+32 name : MPI_Ibsend - type : ST_Thread - color : 255 153 0 - alias : STV_MPI_Ibsend - state : 2
+32 name : MPI_Issend - type : ST_Thread - color : 255 153 0 - alias : STV_MPI_Issend - state : 2
+32 name : MPI_Irsend - type : ST_Thread - color : 255 153 0 - alias : STV_MPI_Irsend - state : 2
+32 name : SendRecv - type : ST_Thread - color : 255 153 0 - alias : STV_MPI_Sendrecv - state : 0
+32 name : Receiving - type : ST_Thread - color : 153 25 229 - alias : STV_MPI_Recv - state : 0
+32 name : MPI_Irecv - type : ST_Thread - color : 153 25 229 - alias : STV_MPI_Irecv - state : 1
+32 name : MPI_Wait - type : ST_Thread - color : 255 0 0 - alias : STV_MPI_Wait - state : 0
+32 name : MPI_Barrier - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Barrier - state : 0
+32 name : MPI_BCast - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_BCast - state : 0
+32 name : MPI_Gather - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Gather - state : 0
+32 name : MPI_Scatter - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Scatter - state : 0
+32 name : MPI_Allgather - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Allgather - state : 0
+32 name : MPI_Alltoall - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Alltoall - state : 0
+32 name : MPI_Reduce - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Reduce - state : 0
+32 name : MPI_Allreduce - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Allreduce - state : 0
+32 name : MPI_Reduce_scatter - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_reduce_scatter - state : 0
+32 name : MPI_Scan - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Scan - state : 0
+32 name : MPI_Ibarrier - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Ibarrier - state : 2
+32 name : MPI_Ibcast - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Ibcast - state : 2
+32 name : MPI_Igather - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Igather - state : 2
+32 name : MPI_Iscatter - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Iscatter - state : 2
+32 name : MPI_Iallgather - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Iallgather - state : 2
+32 name : MPI_Ialltoall - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Ialltoall - state : 2
+32 name : MPI_Ireduce - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Ireduce - state : 2
+32 name : MPI_Iallreduce - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Iallreduce - state : 2
+32 name : MPI_Ireduce_scatter - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Ireduce_scatter - state : 2
+32 name : MPI_Iscan - type : ST_Thread - color : 255 0 255 - alias : STV_MPI_Iscan - state : 2
+32 name : MPI_Overlap - type : ST_Thread - color : 255 255 0 - alias : STV_MPI_Overlap - state : 3
+32 name : MPI_Probe - type : ST_Thread - color : 153 25 229 - alias : STV_MPI_Probe - state : 0
+16 name : MPI collective communication - type : CT_Program - alias : L_MPI_Coll - state : 3
+16 name : MPI point to point communication - type : CT_Program - alias : L_MPI_P2P - state : 3
+16 name : MPI SPAWN - type : CT_Program - alias : L_MPI_SPAWN - state : 3
+4 name : MPI Send - type : CT_Thread - alias : E_MPI_CommSend - state : 3
+4 name : MPI Recv - type : CT_Thread - alias : E_MPI_CommRecv - state : 3
+4 name : End of an MPI communication - type : CT_Thread - alias : E_MPI_EndComm - state : 3
+4 name : MPI_Probe - type : CT_Thread - alias : E_MPI_Probe_success - state : 3
+4 name : MPI_IProbe success - type : CT_Thread - alias : E_MPI_Iprobe_success - state : 3
+4 name : MPI_IProbe failed - type : CT_Thread - alias : E_MPI_Iprobe_failed - state : 3
+8 name : Memory used - type : CT_Process - color : 0 0 0 - alias : V_Mem - state : 3
+Container 0 name : C_Prog t1=0.000000 t2=0.000000
+Container 1 name : P#0 t1=0.000000 t2=0.000000
+Container 2 name : P#0_T#3635772224 t1=0.000000 t2=27.399834
+Container 3 name : P#1 t1=0.000000 t2=0.000000
+Container 4 name : P#1_T#989457216 t1=0.000000 t2=27.527800
+CORE >>> INITDONE MESSAGE RECEIVED FROM PARSER
+Container : 2 begintime : 0, endtime :27.3998
+Container : 4 begintime : 0, endtime :27.5278
+absolute time = 27.5278
+starting frender
+start FRender
+RENDER >>> SEND ASK LIST_ID  TO CORE
+CORE >>> LIST_ID MESSAGE RECEIVED FROM RENDER
+RENDER <<< LIST_ID FROM CORE
+RENDER >>> SEND TIMESTAMPS ON CONTAINER : 2 FROM : 0 UNTIL : 0.5 TO CORE
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM RENDER
+CORE >>> TIMESTAMPS RECEIVED FROM RENDER in container : 2, beginning at : 0 and ending at : 0.5
+CORE >>> NONE OF THE DEMANDED TIMESTAMPS ARE IN MEMORY
+>>>> PARSER <<<< MESSAGE RECEIVED FROM CORE
+Request between t1=0 and t2=0.5 in container : 2
+lines get
+unexpected function during Container parsing : 10 PajeSetState
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.020891 t2=0.047842
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.048388 t2=0.051574
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.051902 t2=0.054479
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.0548 t2=0.057326
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.057702 t2=0.06013
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.060456 t2=0.062997
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.063318 t2=0.065843
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.06617 t2=0.068733
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.069054 t2=0.07166
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.071991 t2=0.074434
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.07476 t2=0.077323
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.077647 t2=0.079969
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.08029 t2=0.082433
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.08276 t2=0.085024
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.085351 t2=0.087651
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.087975 t2=0.090371
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.090692 t2=0.093054
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.093372 t2=0.095683
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.095999 t2=0.098275
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.098593 t2=0.100841
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.101165 t2=0.103544
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.103868 t2=0.106285
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.106603 t2=0.108953
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.10927 t2=0.111657
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.111978 t2=0.114266
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.114584 t2=0.117135
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.117459 t2=0.119862
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.120179 t2=0.122646
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.123041 t2=0.125567
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.126019 t2=0.128663
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.129089 t2=0.135922
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.136343 t2=0.138954
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.139272 t2=0.14197
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.142294 t2=0.144719
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.145037 t2=0.147408
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.147726 t2=0.150069
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.15039 t2=0.152681
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.152999 t2=0.155685
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.156006 t2=0.158689
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.159013 t2=0.161481
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.161795 t2=0.164401
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.164718 t2=0.167269
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> send timestamps demand to parser
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.020891, ending at : 0.047842
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.048388, ending at : 0.051574
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.051902, ending at : 0.054479
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.0548, ending at : 0.057326
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.167589 t2=0.169952
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.170273 t2=0.172853
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.173225 t2=0.175559
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.175938 t2=0.178211
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.178532 t2=0.180983
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.181301 t2=0.183753
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.184076 t2=0.186507
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.186834 t2=0.189277
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.1896 t2=0.19194
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.192306 t2=0.194735
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.195056 t2=0.197616
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.197934 t2=0.19979
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.20011 t2=0.201955
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.057702, ending at : 0.06013
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.060456, ending at : 0.062997
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.063318, ending at : 0.065843
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.06617, ending at : 0.068733
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.069054, ending at : 0.07166
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.202272 t2=0.20416
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.204481 t2=0.206359
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.206677 t2=0.208555
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.208873 t2=0.210729
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.21105 t2=0.212906
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.213221 t2=0.215068
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.215395 t2=0.219491
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.219824 t2=0.221763
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.222081 t2=0.224
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.22432 t2=0.226184
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.226508 t2=0.22837
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.228685 t2=0.230757
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.231087 t2=0.23302
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.071991, ending at : 0.074434
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.07476, ending at : 0.077323
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.077647, ending at : 0.079969
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.08029, ending at : 0.082433
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.233338 t2=0.235231
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.235566 t2=0.237443
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.237757 t2=0.23961
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.239931 t2=0.241823
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.242153 t2=0.247032
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.247356 t2=0.249332
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.249656 t2=0.251632
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.251953 t2=0.253814
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.254137 t2=0.256031
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.256351 t2=0.258267
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.258588 t2=0.260441
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.260765 t2=0.262674
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.263004 t2=0.264882
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.2652 t2=0.267059
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.267377 t2=0.269224
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.269545 t2=0.271426
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.08276, ending at : 0.085024
+containerId : 2
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.271747 t2=0.273671
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.085351, ending at : 0.087651
+containerId : 2
+Inside PatternStruct
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.273989 t2=0.275848
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.276166 t2=0.278044
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.278359 t2=0.280209
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.087975, ending at : 0.090371
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.090692, ending at : 0.093054
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.093372, ending at : 0.095683
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.095999, ending at : 0.098275
+containerId : 2
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.28053 t2=0.282394
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.282714 t2=0.284585
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.284903 t2=0.286767
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.287093 t2=0.289005
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.289325 t2=0.29311
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.29344 t2=0.29535
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.295673 t2=0.297535
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.297853 t2=0.29972
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.300043 t2=0.301911
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.302239 t2=0.304116
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.304434 t2=0.306284
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.306605 t2=0.308521
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+unexpected function during Container parsing : 11 PajePushState
+unexpected function during Container parsing : 18 PajeStartLink
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 1 t1=0.317443 t2=0.317443
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.31798 t2=0.320998
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.098593, ending at : 0.100841
+containerId : 2
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.321376 t2=0.323423
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.323796 t2=0.326017
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.101165, ending at : 0.103544
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.103868, ending at : 0.106285
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.106603, ending at : 0.108953
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.10927, ending at : 0.111657
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.111978, ending at : 0.114266
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.114584, ending at : 0.117135
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.326347 t2=0.328349
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.328672 t2=0.330606
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.330932 t2=0.332888
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.333215 t2=0.335124
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.335445 t2=0.337361
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.337687 t2=0.339673
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.339999 t2=0.341912
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.342233 t2=0.344163
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.34449 t2=0.346414
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.346742 t2=0.348656
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.348977 t2=0.350875
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.351204 t2=0.353157
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.353487 t2=0.355432
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.355753 t2=0.357665
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.357992 t2=0.359925
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.360253 t2=0.362202
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.362522 t2=0.364459
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.36479 t2=0.366717
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.367047 t2=0.368994
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.117459, ending at : 0.119862
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.120179, ending at : 0.122646
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.123041, ending at : 0.125567
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.126019, ending at : 0.128663
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.129089, ending at : 0.135922
+containerId : 2
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.369314 t2=0.371279
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.373505 t2=0.375472
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.375793 t2=0.377734
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.378054 t2=0.380019
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.380346 t2=0.382264
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.382591 t2=0.384502
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.384823 t2=0.386729
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.387056 t2=0.389061
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.38939 t2=0.391312
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.391638 t2=0.393551
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.393878 t2=0.395824
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.396145 t2=0.398078
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.398405 t2=0.400339
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.400667 t2=0.402618
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.136343, ending at : 0.138954
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.139272, ending at : 0.14197
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.142294, ending at : 0.144719
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.145037, ending at : 0.147408
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.147726, ending at : 0.150069
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.402939 t2=0.4049
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.40523 t2=0.407162
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.407488 t2=0.409428
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.409748 t2=0.411655
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.411982 t2=0.413937
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.414264 t2=0.416175
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.416496 t2=0.418423
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.418751 t2=0.420737
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.421063 t2=0.423004
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.423325 t2=0.425319
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.42565 t2=0.427618
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.427944 t2=0.429887
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.430207 t2=0.432132
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.43246 t2=0.434377
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.434705 t2=0.436705
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.437031 t2=0.438958
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.439285 t2=0.441267
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.441594 t2=0.4435
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.445754 t2=0.447691
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.15039, ending at : 0.152681
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.448022 t2=0.449986
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.450313 t2=0.452269
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.452589 t2=0.454526
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.152999, ending at : 0.155685
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.156006, ending at : 0.158689
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.159013, ending at : 0.161481
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.161795, ending at : 0.164401
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.164718, ending at : 0.167269
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.167589, ending at : 0.169952
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.454855 t2=0.456805
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.457132 t2=0.459053
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.459374 t2=0.461327
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.461653 t2=0.463572
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.463893 t2=0.465924
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.466254 t2=0.468203
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.46853 t2=0.470495
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.470821 t2=0.472771
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.473092 t2=0.474994
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.475325 t2=0.477261
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.477591 t2=0.479524
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.479845 t2=0.481746
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.482075 t2=0.484022
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.484352 t2=0.486267
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.486588 t2=0.488533
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.48886 t2=0.490781
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.491108 t2=0.493043
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.493364 t2=0.495272
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.170273, ending at : 0.172853
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.173225, ending at : 0.175559
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.175938, ending at : 0.178211
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.178532, ending at : 0.180983
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.181301, ending at : 0.183753
+containerId : 2
+Inside PatternStruct
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.495601 t2=0.497566
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+--------- PatternStruct sended to core pattern contId : 2 pattern_id : 0 t1=0.497897 t2=0.499818
+CORE >>> TIMESTAMP MESSAGE RECEIVED FROM PARSER
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.184076, ending at : 0.186507
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.186834, ending at : 0.189277
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.1896, ending at : 0.19194
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.192306, ending at : 0.194735
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.195056, ending at : 0.197616
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.197934, ending at : 0.19979
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.20011, ending at : 0.201955
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.202272, ending at : 0.20416
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.204481, ending at : 0.206359
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.206677, ending at : 0.208555
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.208873, ending at : 0.210729
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.21105, ending at : 0.212906
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.213221, ending at : 0.215068
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.215395, ending at : 0.219491
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.219824, ending at : 0.221763
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.222081, ending at : 0.224
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.22432, ending at : 0.226184
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.226508, ending at : 0.22837
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.228685, ending at : 0.230757
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.231087, ending at : 0.23302
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.233338, ending at : 0.235231
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.235566, ending at : 0.237443
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.237757, ending at : 0.23961
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.239931, ending at : 0.241823
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.242153, ending at : 0.247032
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.247356, ending at : 0.249332
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.249656, ending at : 0.251632
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.251953, ending at : 0.253814
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.254137, ending at : 0.256031
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.256351, ending at : 0.258267
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.258588, ending at : 0.260441
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.260765, ending at : 0.262674
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.263004, ending at : 0.264882
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.2652, ending at : 0.267059
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.267377, ending at : 0.269224
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.269545, ending at : 0.271426
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.271747, ending at : 0.273671
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.273989, ending at : 0.275848
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.276166, ending at : 0.278044
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.278359, ending at : 0.280209
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.28053, ending at : 0.282394
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.282714, ending at : 0.284585
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.284903, ending at : 0.286767
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.287093, ending at : 0.289005
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.289325, ending at : 0.29311
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.29344, ending at : 0.29535
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.295673, ending at : 0.297535
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.297853, ending at : 0.29972
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.300043, ending at : 0.301911
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.302239, ending at : 0.304116
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.304434, ending at : 0.306284
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.306605, ending at : 0.308521
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.317443, ending at : 0.317443
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.31798, ending at : 0.320998
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.321376, ending at : 0.323423
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.323796, ending at : 0.326017
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.326347, ending at : 0.328349
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.328672, ending at : 0.330606
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.330932, ending at : 0.332888
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.333215, ending at : 0.335124
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.335445, ending at : 0.337361
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.337687, ending at : 0.339673
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.339999, ending at : 0.341912
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.342233, ending at : 0.344163
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.34449, ending at : 0.346414
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.346742, ending at : 0.348656
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.348977, ending at : 0.350875
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.351204, ending at : 0.353157
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.353487, ending at : 0.355432
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.355753, ending at : 0.357665
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.357992, ending at : 0.359925
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.360253, ending at : 0.362202
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.362522, ending at : 0.364459
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.36479, ending at : 0.366717
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.367047, ending at : 0.368994
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.369314, ending at : 0.371279
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.373505, ending at : 0.375472
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.375793, ending at : 0.377734
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.378054, ending at : 0.380019
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.380346, ending at : 0.382264
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.382591, ending at : 0.384502
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.384823, ending at : 0.386729
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.387056, ending at : 0.389061
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.38939, ending at : 0.391312
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.391638, ending at : 0.393551
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.393878, ending at : 0.395824
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.396145, ending at : 0.398078
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.398405, ending at : 0.400339
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.400667, ending at : 0.402618
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.402939, ending at : 0.4049
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.40523, ending at : 0.407162
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.407488, ending at : 0.409428
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.409748, ending at : 0.411655
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.411982, ending at : 0.413937
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.414264, ending at : 0.416175
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.416496, ending at : 0.418423
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.418751, ending at : 0.420737
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.421063, ending at : 0.423004
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.423325, ending at : 0.425319
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.42565, ending at : 0.427618
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.427944, ending at : 0.429887
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.430207, ending at : 0.432132
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.43246, ending at : 0.434377
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.434705, ending at : 0.436705
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.437031, ending at : 0.438958
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.439285, ending at : 0.441267
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.441594, ending at : 0.4435
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.445754, ending at : 0.447691
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.448022, ending at : 0.449986
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.450313, ending at : 0.452269
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.452589, ending at : 0.454526
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.454855, ending at : 0.456805
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.457132, ending at : 0.459053
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.459374, ending at : 0.461327
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.461653, ending at : 0.463572
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.463893, ending at : 0.465924
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.466254, ending at : 0.468203
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.46853, ending at : 0.470495
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.470821, ending at : 0.472771
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.473092, ending at : 0.474994
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.475325, ending at : 0.477261
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.477591, ending at : 0.479524
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.479845, ending at : 0.481746
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.482075, ending at : 0.484022
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.484352, ending at : 0.486267
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.486588, ending at : 0.488533
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.48886, ending at : 0.490781
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.491108, ending at : 0.493043
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.493364, ending at : 0.495272
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.495601, ending at : 0.497566
+containerId : 2
+Inside PatternStruct
+CORE >>> M_CONTAINERS ID : 2
+CORE >>> M_CONTAINERS ID : 4
+CORE >>> TIMESTAMPS RECEIVED FROM PARSER in container : 2, beginning at : 0.497897, ending at : 0.499818
+containerId : 2
+Inside PatternStruct
+Last PatternStruct
+RENDER <<< CONTAINERS FROM CORE
+RENDER <<< CONTAINERS RECEIVED

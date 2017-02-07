@@ -105,7 +105,7 @@ FRender::~FRender()
         std::cout << "RENDER <<< CONTAINERS FROM CORE" << std::endl;
 
      auto received = std::static_pointer_cast<FContainer>( msg->getContent() ); 
-     std::cout << "RENDER <<< CONTAINERS RECEVIED" << std::endl;
+     std::cout << "RENDER <<< CONTAINERS RECEIVED" << std::endl;
      FContainer content = *received;
      std::cout << "RENDER <<< CONTAINERS TAKEN" << std::endl;
      container_render container(content.getId(), content.getAlias(), 1000, scale.getContainerOffsetX(),scale.getContainerOffsetY(),scale.getWindowContainerOffsetY());
