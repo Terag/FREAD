@@ -681,14 +681,14 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
 /*
  * Render main function test
  */
-/*
+
  int main(void)
 {
  sf::ContextSettings settings;
  // settings.antialiasingLevel = 8;
  //settings.minorVersion =0;
  // settings.majorVersion =4;
-sf::RenderWindow window(sf::VideoMode(1500,800), "Container and occurrences test",sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Container and occurrences test",sf::Style::Default, settings);
 
 int sizeX =window.getSize().x;
 int sizeY =window.getSize().y;
@@ -911,6 +911,7 @@ int main(void){
  * TRUE MAIN FONCTION
  *
  */
+ /*
 int main(int argc, char* argv[]){
     
     if(argc != 2){
@@ -963,3 +964,4 @@ int main(int argc, char* argv[]){
 
     return 0;
 }
+*/
