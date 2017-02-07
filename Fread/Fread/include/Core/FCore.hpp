@@ -82,7 +82,7 @@ private:
     FQueue< std::shared_ptr< FMessages > > m_render_occurrences;
     FQueue< std::shared_ptr< FMessages > > m_render_timestamps;
 
-    FMap< int, FPattern > m_patterns;
+    std::vector< std::shared_ptr<FPattern> > m_patterns;
     FMap< int, FContainer > m_containers;
     FMap< int, std::vector< std::shared_ptr<FOccurrence > > > m_occurrences;
 

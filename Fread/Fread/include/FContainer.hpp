@@ -76,6 +76,8 @@ public:
     float getEndTime() const {return timestamp_begin_end.second;}
     std::pair<float, float> getTimelapse() {return timestamp_begin_end;}
 
+    void setPatternList( std::vector<patternStruct> var ){ patternList = var; };
+
     void add_pattern(patternStruct element);
     void remove_pattern();
     bool contains( patternStruct element );

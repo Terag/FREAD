@@ -62,12 +62,13 @@ FRender::~FRender()
  FPattern FRender::viewPatternById(int id) 
 {
     ask_for_pattern(id);
-     auto msg = *( _m_pop_queue_core->wait_and_pop() );
-            std::cout << "RENDER <<< PATTERN FROM CORE" << std::endl;
+    auto msg = *( _m_pop_queue_core->wait_and_pop() );
+    std::cout << "RENDER <<< PATTERN FROM CORE" << std::endl;
 
-     auto received = std::static_pointer_cast<FPattern>( msg->getContent() ); 
-     FPattern content = *received;
-     return content;
+    auto received = std::static_pointer_cast<FPattern>( msg->getContent() ); 
+    FPattern content = *received;
+    std::cout << "RENDER <<< PATTERN RECEIVED FROM CORE" << std::endl;
+    return content;
  }
  
   FOccurrence FRender::viewOccurenceById(int patternId,int occId) 
@@ -98,19 +99,31 @@ FRender::~FRender()
   }
   std::vector<container_render> FRender::ContainerToDrawBetween(std::vector<int>listContainer,float begin_time, float end_time, scale scale,std::vector<pattern_render> listPatterns)
   {
-       std::vector<container_render> renderContainers;
-       for( int i = 0; i < listContainer.size(); i++) {
-       ask_for_timestamps(listContainer[i] ,  begin_time,  end_time);
-       auto msg = *( _m_pop_queue_core->wait_and_pop());
-        std::cout << "RENDER <<< CONTAINERS FROM CORE" << std::endl;
+    std::vector<container_render> renderContainers;
+    for( unsigned int i = 0; i < listContainer.size(); i++) {
+            ask_for_timestamps(listContainer[i] ,  begin_time,  end_time);
+            auto msg_timestamps = *( _m_pop_queue_core->wait_and_pop());
+            std::cout << "RENDER <<< TIMESTAMPS FROM CORE" << std::endl;
 
-     auto received = std::static_pointer_cast<FContainer>( msg->getContent() ); 
-     std::cout << "RENDER <<< CONTAINERS RECEIVED" << std::endl;
-     FContainer content = *received;
-     std::cout << "RENDER <<< CONTAINERS TAKEN" << std::endl;
-     container_render container(content.getId(), content.getAlias(), 1000, scale.getContainerOffsetX(),scale.getContainerOffsetY(),scale.getWindowContainerOffsetY());
-     std::cout << "RENDER <<< CONTAINER_RENDER CREATE" << std::endl;
-     std::vector <patternStruct> listPattern = content.getPatternList();
+            auto received_timestamps = std::static_pointer_cast< std::vector<patternStruct> >( msg_timestamps->getContent() ); 
+            std::cout << "RENDER <<< TIMESTAMPS RECEIVED" << std::endl;
+            std::vector<patternStruct> listPattern = *received_timestamps;
+            std::cout << "RENDER <<< TIMESTAMPS TAKEN" << std::endl;
+
+            ask_for_container(listContainer[i]);
+            auto msg_container = *( _m_pop_queue_core->wait_and_pop());
+            std::cout << "RENDER <<< CONTAINER FROM CORE" << std::endl;
+
+            auto received_container = std::static_pointer_cast< FContainer >( msg_container->getContent() ); 
+            std::cout << "RENDER <<< CONTAINER RECEIVED" << std::endl;
+            FContainer content = *received_container;
+            std::cout << "RENDER <<< CONTAINER TAKEN" << std::endl;
+
+            content.setPatternList( listPattern );
+
+            container_render container(content.getId(), content.getAlias(), 1000, scale.getContainerOffsetX(),scale.getContainerOffsetY(),scale.getWindowContainerOffsetY());
+            std::cout << "RENDER <<< CONTAINER_RENDER CREATE" << std::endl;
+            
      
         for (unsigned int j = 0; j < listPattern.size(); j ++) {
             FPattern fPat = viewPatternById(listPattern[j].id);
@@ -145,18 +158,18 @@ void FRender::thr_FRender() {
     settings.antialiasingLevel = 8;
 
     //define the window
-    sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Container and occurrences test",sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "FREAD",sf::Style::Default, settings);
     int sizeX =window.getSize().x;
     int sizeY =window.getSize().y;
       
     //transform a list of FContainers in a list of container_renders + define the scaling 
-    std::vector<pattern_render> listPattern;
+    std::vector<pattern_render> listPatterns;
     std::vector<int> listContainer = getContainerID() ;
     int nbContainer = listContainer.size();
     
     scale scale(absoluteTime, nbContainer, (sizeX - sizeX/10), sizeX/10, sizeX/20 ,(sizeY*3)/100, sizeY/100, (sizeY*45)/100);
 
-    std::vector<container_render> renderContainers = ContainerToDrawBetween(listContainer,0.0,0.5,scale,listPattern);
+    std::vector<container_render> renderContainers = ContainerToDrawBetween(listContainer,0.0,0.5,scale,listPatterns);
     float barreSize =(sizeX - sizeX/10);
     sf::RectangleShape barre(sf::Vector2f(barreSize, 10));
     barre.setPosition(100,sizeY-20);
@@ -209,7 +222,7 @@ void FRender::thr_FRender() {
                     {
                     barre2.setPosition(event.mouseMove.x-startclic/2,sizeY-20);
                     float timeS =((barreSize)-(barre2.getPosition().x-100))/barreSize*absoluteTime;
-                    renderContainers = ContainerToDrawBetween(listContainer,timeS,timeS+0.5,scale,listPattern);
+                    renderContainers = ContainerToDrawBetween(listContainer,timeS,timeS+0.5,scale,listPatterns);
                     
                     
                     }
@@ -229,7 +242,7 @@ void FRender::thr_FRender() {
             window.draw(renderContainers[i]);
         }
         
-        drawPatterns(listPattern,sizeX,sizeY,window);
+        drawPatterns(listPatterns,sizeX,sizeY,window);
         window.draw(barre);
         window.draw(barre2);
         window.display();

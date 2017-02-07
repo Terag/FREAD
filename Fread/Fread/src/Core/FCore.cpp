@@ -152,6 +152,8 @@ void FCore::thr_timestamps_manager(){
             	if(vector_to_send.empty()){
             		if(received->tEnd > beginTime && received->tBegin < beginTime){
                         std::cout << "First PatternStruct" << std::endl;
+                        std::cout << "adding pattern to the container" << std::endl;
+                        m_containers.at(containerId)->add_pattern( *(received) );
             			vector_to_send.push_back(*(received));
             		}
             	}
@@ -196,19 +198,19 @@ void FCore::thr_timestamps_manager(){
  			 * DEBUGGING MESSAGE
  			 * END
         	 */
-
+/*
             for(auto it = m_containers.getMap().begin(); it != m_containers.getMap().end(); ++it ){
            	   /*
 			 	* SORTING TIMESTAMPS FOR EACH CONTAINERS
-	         	*/ 	
+	         	* 	
 	         	std::cout << "CORE >>> M_CONTAINERS ID : " << it->second->getId() << std::endl;
             	if(!it->second->getPatternList().empty()){
             		std::cout << "CORE >>> BEFORE SORT" << std::endl;
- 					std::sort(it->second->getPatternList().begin() + 1,  it->second->getPatternList().end() /*[](patternStruct a, patternStruct b){ return (a.tBegin < b.tBegin && a.tEnd < b.tEnd); }*/ );
+ 					std::sort(it->second->getPatternList().begin() + 1,  it->second->getPatternList().end() /*[](patternStruct a, patternStruct b){ return (a.tBegin < b.tBegin && a.tEnd < b.tEnd); }* );
 
-        		} /* if(!it->second->getPatternList().empty()) */
+        		} /* if(!it->second->getPatternList().empty()) *
 
-            } /* for(auto it = m_containers.getMap().begin(); it != m_occurrences.getMap().end(); ++it ) */
+            }*/ /* for(auto it = m_containers.getMap().begin(); it != m_occurrences.getMap().end(); ++it ) */
 
 
         } /* if(!m_parser_timestamps.empty()) */
@@ -398,9 +400,12 @@ void FCore::thr_messages_handler_parser(){
                 {
                     std::cout << "CORE >>> PATTERN MESSAGE RECEIVED FROM PARSER" << std::endl;
                     std::shared_ptr<FPattern> received = std::static_pointer_cast<FPattern>(msg->getContent());
-                    std::pair<int, std::shared_ptr<FPattern> > my_pair(received->getId() , received);
-                    m_patterns.insert( my_pair );
+                    m_patterns.push_back( received );
                     std::cout << "M_PATTERNS SIZE IS NOW : " << m_patterns.size() << std::endl;
+                    for(auto it = m_patterns.begin(); it != m_patterns.end(); ++it){
+                        std::cout << it->getId();
+                    }
+                    std::cout << std::endl;
                     break;
                 }
                 case(TIMESTAMP):
@@ -454,6 +459,12 @@ void FCore::thr_messages_handler_render(){
                 case(CONTAINER):
                 {
                 	std::cout << "CORE >>> CONTAINER MESSAGE RECEIVED FROM RENDER" << std::endl;
+                    std::shared_ptr<int> container_received = std::static_pointer_cast<int>(msg->getContent());
+                    std::shared_ptr<FContainer> container_to_send = m_containers[ *(container_received) ];
+                    auto content_send = std::static_pointer_cast<void>( container_to_send );
+                    FMessages msg_send(CONTAINER, content_send);
+                    _m_push_queue_render->push( std::make_shared<FMessages>(msg_send) );
+                    std::cout << "CORE >>> CONTAINER MESSAGE RETURNED FROM RENDER" << std::endl;
 
                     break;
                 }
@@ -465,6 +476,7 @@ void FCore::thr_messages_handler_render(){
                     std::shared_ptr<FPattern> pattern_to_send = m_patterns[ *(pattern_received) ];
                     auto content_send = std::static_pointer_cast<void>( pattern_to_send );
                 	FMessages msg_send(PATTERN, content_send);
+                    std::cout << "pattern :" << pattern_to_send->getId() << std::endl;
                 	_m_push_queue_render->push( std::make_shared<FMessages>(msg_send) );
                 	std::cout << "CORE >>> PATTERN MESSAGE RETURNED FROM RENDER" << std::endl;
                     
@@ -678,8 +690,8 @@ std::vector<int> FCore::get_containers_id(){
 
 std::vector<int> FCore::get_patterns_id(){
 	std::vector<int> result;
-	for(auto it = m_patterns.getMap().begin() ; it != m_patterns.getMap().end(); ++it){
-		result.push_back( it->second->getId() );
+	for(auto it = m_patterns.begin() ; it != m_patterns.end(); ++it){
+		result.push_back( it->getId() );
 	}
 	return result;
 }
