@@ -119,24 +119,32 @@ FRender::~FRender()
             FContainer content = *received_container;
             std::cout << "RENDER <<< CONTAINER TAKEN" << std::endl;
 
-            content.setPatternList( listPattern );
+            //content.setPatternList( listPattern );
 
             container_render container(content.getId(), content.getAlias(), 1000, scale.getContainerOffsetX(),scale.getContainerOffsetY(),scale.getWindowContainerOffsetY());
             std::cout << "RENDER <<< CONTAINER_RENDER CREATE" << std::endl;
             
      
         for (unsigned int j = 0; j < listPattern.size(); j ++) {
-            FPattern fPat = viewPatternById(listPattern[j].id);
+            if( isInPatternsToRender(i, listPatterns) ){
+                for(auto it = listPatterns.begin(); it != listPatterns.end(); ++it){
+                    if( it->getId() == i ){
+                        listPatterns.push_back( *it );
+                        break;
+                    }
+                }
+            }else{
+                FPattern fPat = viewPatternById(listPattern[j].id);
             
-            occurrence_render occ(
-                                  fPat.getId(),listPattern[j].contId,
-                                  scale.getContainerOffsetY(), scale.getContainerOffsetX(),
-                                  scale.getEventOffsetY(), scale.getWindowContainerOffsetY(),scale.getScale(), fPat.getMeanTimeStamps(),
-                                  fPat.getEventTypes()
-                                  );
-            container.addOccurrence(occ);
-            pattern_render pat(fPat.getId(),fPat.getMeanTimeStamps(),occ);
-            listPatterns.push_back(pat);
+                occurrence_render occ(
+                                      fPat.getId(),listPattern[j].contId,
+                                      scale.getContainerOffsetY(), scale.getContainerOffsetX(),
+                                      scale.getEventOffsetY(), scale.getWindowContainerOffsetY(),scale.getScale(), fPat.getMeanTimeStamps(),
+                                      fPat.getEventTypes()
+                                      );
+                container.addOccurrence(occ);
+                pattern_render pat(fPat.getId(),fPat.getMeanTimeStamps(),occ);
+                listPatterns.push_back(pat);
             
         }
         renderContainers.push_back(container);
@@ -145,8 +153,18 @@ FRender::~FRender()
        return renderContainers;
        
   }
+}
+
+bool FRender::isInPatternsToRender(int i , std::vector< pattern_render > my_vector){
+    for(auto it = my_vector.begin(); it != my_vector.end(); ++it){
+        if( it->getId() == i ){
+            return true;
+        }
+    }
+    return false;
+}
  
- float FRender::getAbsoluteTime() 
+float FRender::getAbsoluteTime() 
 {
     return absoluteTime;
 } 

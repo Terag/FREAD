@@ -74,4 +74,6 @@ void calculatePoints() ;
 // Place the pattern in the windows 
 void SetPosition(int posX, int posY, float Radius);
 
+int getId(){ return id; }
+
 };

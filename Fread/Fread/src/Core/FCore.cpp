@@ -159,6 +159,8 @@ void FCore::thr_timestamps_manager(){
             	}
             	if( received->tBegin < endTime && received->tEnd > beginTime ){
                     std::cout << "Inside PatternStruct" << std::endl;
+                    std::cout << "adding pattern to the container" << std::endl;
+                    m_containers.at(containerId)->add_pattern( *(received) );
             		vector_to_send.push_back(*(received));
             	}
             	if(received->tBegin > endTime || received->tEnd + 0.002 > endTime){
@@ -166,6 +168,8 @@ void FCore::thr_timestamps_manager(){
             		auto content_send = std::static_pointer_cast<void>( std::make_shared<std::vector<patternStruct> >(vector_to_send) );
             		FMessages msg_send(TIMESTAMP, content_send);
             		_m_push_queue_render->push( std::make_shared< FMessages >(msg_send) );
+                    std::cout << "adding pattern to the container" << std::endl;
+                    m_containers.at(containerId)->add_pattern( *(received) );
                     vector_to_send.clear();
             		hasSend = true;
                     std::cout << "send std::vector<patternStruct> to render" << std::endl;
@@ -403,7 +407,7 @@ void FCore::thr_messages_handler_parser(){
                     m_patterns.push_back( received );
                     std::cout << "M_PATTERNS SIZE IS NOW : " << m_patterns.size() << std::endl;
                     for(auto it = m_patterns.begin(); it != m_patterns.end(); ++it){
-                        std::cout << it->getId();
+                        std::cout << (*it)->getId();
                     }
                     std::cout << std::endl;
                     break;
@@ -473,12 +477,19 @@ void FCore::thr_messages_handler_render(){
                 	std::cout << "CORE >>> PATTERN MESSAGE RECEIVED FROM RENDER" << std::endl;
                     
                     std::shared_ptr<int> pattern_received = std::static_pointer_cast<int>(msg->getContent());
-                    std::shared_ptr<FPattern> pattern_to_send = m_patterns[ *(pattern_received) ];
-                    auto content_send = std::static_pointer_cast<void>( pattern_to_send );
-                	FMessages msg_send(PATTERN, content_send);
-                    std::cout << "pattern :" << pattern_to_send->getId() << std::endl;
-                	_m_push_queue_render->push( std::make_shared<FMessages>(msg_send) );
-                	std::cout << "CORE >>> PATTERN MESSAGE RETURNED FROM RENDER" << std::endl;
+                    for(auto it = m_patterns.begin(); it != m_patterns.end(); ++it){
+                        if( (*it)->getId() == *(pattern_received) ){
+                            std::shared_ptr<FPattern> pattern_to_send = *it;
+                            auto content_send = std::static_pointer_cast<void>( pattern_to_send );
+                            FMessages msg_send(PATTERN, content_send);
+                            std::cout << "pattern :" << pattern_to_send->getId() << std::endl;
+                            _m_push_queue_render->push( std::make_shared<FMessages>(msg_send) );
+                            std::cout << "CORE >>> PATTERN MESSAGE RETURNED FROM RENDER" << std::endl;
+                            break;
+                        }
+                    }
+
+
                     
                     break;
                 }
@@ -691,7 +702,7 @@ std::vector<int> FCore::get_containers_id(){
 std::vector<int> FCore::get_patterns_id(){
 	std::vector<int> result;
 	for(auto it = m_patterns.begin() ; it != m_patterns.end(); ++it){
-		result.push_back( it->getId() );
+		result.push_back( (*it)->getId() );
 	}
 	return result;
 }

@@ -62,6 +62,7 @@ public:
     void ask_for_container(int contId);
     void ask_for_list_container();
     void receive_message();
+    bool isInPatternsToRender(int i, std::vector<pattern_render> my_vector);
 };
 
 void render_thread( std::shared_ptr<FQueue< std::shared_ptr<FMessages> > > _pop_queue_core, 
