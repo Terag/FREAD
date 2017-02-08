@@ -81,6 +81,10 @@ void parser_thread(std::string path, std::shared_ptr<FQueue<std::shared_ptr<FMes
     
     parser.start();
     
+    cout << ">>> ASK events between 0.0 and 0.05s" << endl;
+    
+    paje::getEventsBetweenTwoTimesInContainer(2, 0.f, 0.1f);
+    
     parser.listenAndProcess();
 }
 

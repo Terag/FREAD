@@ -37,7 +37,7 @@ using namespace std;
 /*
  * Core main function test
  */
-
+/*
 void false_parser( std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages> > > _push_queue_core);
 void false_render( std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _pop_queue_core, std::shared_ptr< FQueue< std::shared_ptr< FMessages > > > _push_queue_core );
 
@@ -70,10 +70,10 @@ int main(int argc, char* argv[]){
                                         _queue_core_parser,
                                         _queue_render_core,
                                         _queue_core_render);
-
+*/
     /*std::cout << "starting false parser" << std::endl;
     std::thread false_parser_thr_(false_parser, _queue_core_parser, _queue_parser_core);
-    FThread_guard lock2(false_parser_thr_);*/
+    FThread_guard lock2(false_parser_thr_);*//*
 
 	std::cout << "starting false render" << std::endl;
     std::thread false_render_thr_(false_render, _queue_core_render, _queue_render_core);
@@ -530,7 +530,7 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     FMessages old_timestamps0(TIMESTAMP, std::shared_ptr< patternStruct >(new patternStruct(-1, 0, 0.0f, 1.0f)));
     std::cout << "RENDER >>> SEND TIMESTAMPS  on container : 0, from : 0.0, to : 1.0" << std::endl;
     _push_queue_core->push(std::make_shared<FMessages>(old_timestamps0));
-/*
+*//*
     FMessages old_timestamps1(TIMESTAMP, std::shared_ptr< patternStruct >(new patternStruct(-1, 1, 0.0f, 1.0f)));
     std::cout << "RENDER >>> SEND TIMESTAMPS  on container : 1, from : 0.0, to : 1.0" << std::endl;
     _push_queue_core->push(std::make_shared<FMessages>(old_timestamps1));
@@ -538,7 +538,7 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     FMessages old_timestamps2(TIMESTAMP, std::shared_ptr< patternStruct >(new patternStruct(-1, 2, 0.0f, 1.0f)));
     std::cout << "RENDER >>> SEND TIMESTAMPS  on container : 2, from : 0.0, to : 1.0" << std::endl;
     _push_queue_core->push(std::make_shared<FMessages>(old_timestamps2));
-*/
+*//*
     while(i < 10 && minId != -10){
 
 
@@ -625,7 +625,7 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
         std::cout << " " << *it0 ;
     }
     std::cout << std::endl;
-/*
+*//*
     std::cout << "RENDERING TIMESTAMPS 1: " ;
     for(auto it1 = to_render_old_timestamps1.begin(); it1 != to_render_old_timestamps1.end(); ++it1){
         std::cout << " " << *it1 ;
@@ -636,7 +636,7 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     for(auto it2 = to_render_old_timestamps2.begin(); it2 != to_render_old_timestamps2.end(); ++it2){
         std::cout << " " << *it2 ;
     }
-    */
+    *//*
     std::cout << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;
@@ -649,12 +649,12 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     std::this_thread::sleep_for (std::chrono::milliseconds(1000));
 
 }
-
+*/
 
 /*
  * Parser main function test
  */
- /* int main(int argc, char* argv[])
+  int main(int argc, char* argv[])
 {
     if(argc != 2){
         std::cout << "invalid format\n valid format : Fread trace_path" << std::endl;
@@ -668,23 +668,20 @@ std::this_thread::sleep_for (std::chrono::milliseconds(1000));
         return -1;
     }
     
-    auto coreToParserQueue = make_shared<FQueue<msg_coreToParser>>();
-    auto parserToCoreQueue = make_shared<FQueue<msg_parserToCore>>();
+    auto coreToParserQueue = std::make_shared<FQueue<std::shared_ptr<FMessages>>>();
+    auto parserToCoreQueue = std::make_shared<FQueue<std::shared_ptr<FMessages>>>();
     
     thread parserThread(parser_thread, path, coreToParserQueue, parserToCoreQueue);
     
     sleep(2);
-    msg_coreToParser msg;
-    msg.header = H_START;
-    msg.content = make_shared<string>("Start");
+    auto msg = std::make_shared<FMessages>();
+    msg->setHeader(START);
     coreToParserQueue->push(msg);
-    shared_ptr<msg_parserToCore> str_msg = parserToCoreQueue->wait_and_pop();
-    cout << *(str_msg->content) << endl;
     
     parserThread.join();
     
     return 0;
-} */
+} 
 
 /*
  * Render main function test
